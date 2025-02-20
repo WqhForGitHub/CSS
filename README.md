@@ -267,6 +267,292 @@
 
 
 
+## 二、垂直居中
+
+
+
+### 1. 单行内联元素垂直居中
+
+```html
+<div id="box">
+    <span>单行内联元素垂直居中</span>
+</div>
+
+<style>
+    #box {
+        height: 120px;
+        line-height: 120px;
+        border: 2px dashed #f69c55;
+    }
+</style>
+```
+
+
+
+### 2. 多行内联元素垂直居中
+
+**`1. 利用 flex 布局`**
+
+**`利用 flex 布局实现垂直居中，其中 flex-direction: column 定义主轴方向为纵向。这种方式在较老的浏览器存在兼容性问题。`**
+
+```html
+<div class="parent">
+    <p>
+        Dance like nobody is watching, code like everybody is.
+        Dance like nobody is watching, code like everybody is.
+        Dance like nobody is watching, code like everybody is.
+    </p>
+</div>
+
+<style>
+    .parent {
+        height: 140px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border: 2px dashed #f69c55;
+    }
+</style>
+```
+
+
+
+**`2. 利用表布局（table）`**
+
+**`利用表布局的 vertical-align: middle 可以实现子元素的垂直居中`**
+
+```html
+<div class="parent">
+    <p class="child">
+        The more technology you learn, the more you realize how little you know.
+        The more technology you learn, the more you realize how little you know.
+        The more technology you learn, the more you realize how little you know.
+    </p>
+</div>
+
+<style>
+    .parent {
+        display: table;
+        height: 140px;
+        border: 2px dashed #f69c55;
+    }
+    
+    .child {
+        display: table-cell;
+        vertical-align: middle;
+    }
+</style>
+```
+
+
+
+
+
+### 3. 块级元素垂直居中
+
+**`1. 使用 absolute + 负 margin（已知高度宽度）`**
+
+**`通过绝对定位元素距离顶部 50%，并设置 margin-top 向上偏移元素高度的一半，就可以实现了。`**
+
+```html
+<div class="parent">
+    <div class="child">固定高度的块级元素垂直居中</div>
+</div>
+
+<style>
+    .parent {
+        position: relative;
+    }
+    
+    .child {
+        position: absolute;
+        top: 50%;
+        height: 100px;
+        margin-top: -50px;
+    }
+</style>
+```
+
+
+
+**`2. 使用 absolute + transform`**
+
+**`当垂直居中的元素的高度和宽度未知时，可以借助 CSS3 中的 transform 属性向 Y 轴反向偏移 50% 的方法实现垂直居中。但是部分浏览器存在兼容性的问题。`**
+
+```html
+<div class="parent">
+    <div class="child">未知高度的块级元素垂直居中</div>
+</div>
+
+<style>
+    .parent {
+        position: relative;
+    }
+    
+    .child {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+</style>
+```
+
+
+
+**`3. 使用 flex + align-items`**
+
+**`通过设置 flex 布局中的属性 align-items，使子元素垂直居中`**
+
+```html
+<div class="parent">
+    <div class="child">未知高度的块级元素垂直居中</div>
+</div>
+
+<style>
+    .parent {
+        display: flex;
+        align-items: center;
+    }
+</style>
+```
+
+
+
+**`4. 使用 table-cell + vertical-align`**
+
+**`通过将父元素转化为一个表格单元格显示（类似 <td> 和 <th>），再通过设置 vertical-align 属性，使表格单元格内容垂直居中。`**
+
+```html
+<div class="parent">
+    <div class="child">Demo</div>
+</div>
+
+<style>
+    .parent {
+        display: table-cell;
+        vertical-align: middle;
+    }
+</style>
+```
+
+
+
+
+
+## 三、水平垂直居中
+
+
+
+```html
+// 下面例子直接共用
+<body>
+    <div id="container">
+        <div id="center" style="width: 100px;height: 100px;background-color: #666">center</div>
+    </div>
+</body>
+```
+
+
+
+### 方法1：绝对定位与负边距实现（已知高度宽度）
+
+**`这种方式需要知道被垂直居中元素的高和宽，才能计算出 margin 值，兼容所有浏览器。`**
+
+```css
+#container {
+    position: relative;
+}
+
+#center {
+    postition: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+}
+```
+
+
+
+### 方法2：绝对定位与 margin: auto（已知高度宽度）
+
+**`这种方式无需知道被垂直居中元素的高和宽，但不能兼容低版本的 IE 浏览器。`**
+
+```css
+#container {
+    position: relative;
+    height: 100px;
+}
+
+#center {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+```
+
+
+
+### 方法3：绝对定位 + CSS3（未知元素的高宽）
+
+**`利用 css3 的transform，可以轻松的在未知元素的高宽的情况下实现元素的垂直居中。`**
+
+```css
+#container {
+    position: relative;
+}
+
+#center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+```
+
+
+
+
+
+### 方法4：flex 布局
+
+**`利用 flex 布局，其中 justify-content 用于设置或检索弹性盒子元素在主轴方向上的对齐方式，而 align-items 属性定义 flex 子项在 flex 容器的当前行的侧轴方向上的对齐方式。不能兼容低版本的 IE 浏览器。`**
+
+```css
+#container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+```
+
+
+
+
+
+### 方法5：flex/grid 与 margin: auto（最简单写法）
+
+**`容器元素设为 flex 布局或是 grid 布局，子元素只要写 margin: auto 即可。不能兼容低版本的 IE 浏览器。`**
+
+```css
+#container {
+    height: 100vh;
+    display: grid;
+}
+
+#center {
+    margin: auto;
+}
+```
+
+
+
+
+
 
 
 # 深入理解 BFC
