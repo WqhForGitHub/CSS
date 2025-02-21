@@ -751,6 +751,226 @@
 
 
 
+# 如何清除浮动
+
+
+
+## 一、浮动到底是什么？
+
+**`浮动的框可以向左或向右移动，直到它的外边缘碰到包含框或另一个浮动框的边框为止。由于浮动框脱离文档的普通流中，所以文档的普通流中的块框表现得就像浮动框不存在一样。`** 
+
+
+
+## 二、浮动有什么特点？
+
+**`浮动的特点，可以用八个字总结：脱标、贴边、字围和收缩。`** 
+
+**`一个浮动的内联元素（比如 span img 标签）不需要设置 display: block 就可以设置宽度。`** 
+
+```html
+<div>
+    这是一段文字
+</div>
+
+<style>
+    div {
+        float: left;
+        background: greenyellow;
+    }
+</style>
+```
+
+**`得到以下的效果：`** 
+
+**`我们都知道 div 标签是块级元素，会独占一行，然而上面的例子中将 div 设置为左浮后，其宽度不再是占满一行，而是收紧为内部元素的宽度，这就是浮动第四个特征的含义。`** 
+
+
+
+## 三、浮动有什么缺点？
+
+**`先看下面这段代码：`** 
+
+```html
+<style>
+    .parent {
+        border: solid 5px;
+        width: 300px;
+    }
+    
+    .child:nth-child(1) {
+        height: 100px;
+        width: 100px;
+        background-color: yellow;
+        float: left;
+    }
+    
+    .child:nth-child(2) {
+        height: 100px;
+        width: 100px;
+        background-color: red;
+        float: left;
+    }
+    
+    .child:nth-child(3) {
+        height: 100px;
+        width: 100px;
+        background-color: greenyellow;
+        float: left;
+    }
+</style>
+
+<body>
+    <div class="parent"> 
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+    </div>
+</body>
+```
+
+**`我们想让父容器包裹着三个浮动元素，然而事与愿违，得到却是这样的结果，这就是浮动带来副作用，父容器高度塌陷，于是清理浮动就显得至关重要。`** 
+
+
+
+## 四、如何清理浮动？
+
+**`清除浮动不是不用浮动，清除浮动产生的父容器高度塌陷。`** 
+
+
+
+### 1. clear: both
+
+**`在最后一个子元素新添加最后一个冗余元素，然后将其设置 clear: both，这样就可以清除浮动。这里强调一点，即在父元素末尾添加的元素必须是一个块级元素，否则无法撑起父级元素高度。`** 
+
+```html
+<div id="wrap">
+    <div id="inner"></div>
+    <div style="clear: both;"></div>
+</div>
+```
+
+```css
+#wrap {
+    border: 1px solid;
+}
+
+#inner {
+    float: left;
+    width: 200px;
+    height: 200px;
+    background: pink;
+}
+```
+
+
+
+
+
+### 2. 伪元素清除浮动
+
+**`上面那种方法固然可以清除浮动，但是我们不想在页面中添加这些没有意义的冗余元素，此时如何清除浮动吗？结合 :after 伪元素和 IEhack，可以兼容当前主流的各大浏览器，这里的 IEhack 指的是触发 hasLayout。`** 
+
+```html
+<div id="wrap" class="clearfix">
+    <div id="inner"></div>
+</div>
+```
+
+
+
+```css
+#wrap {
+    border: 1px solid;
+}
+
+#inner {
+    float: left;
+    width: 200px;
+    height: 200px;
+    background: pink;
+}
+
+.clearfix:after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+}
+```
+
+**`给浮动元素的父容器添加一个 clearfix 的 class，然后给这个 class 添加一个 :after 伪元素，实现元素末尾添加一个看不见的块元素来清理浮动。这是通用的清理浮动方案，推荐使用。`** 
+
+
+
+
+
+### 3. 给父元素使用 overflow: hidden
+
+**`这种方案让父容器形成了 BFC（块级格式上下文），而 BFC 可以包含浮动，通常用来解决浮动父元素高度塌陷的问题。`** 
+
+
+
+#### BFC 的触发方式
+
+**`我们可以给父元素添加以下属性来触发 BFC：`** 
+
+* **`float 为 left | right`** 
+* **`overflow 为 hidden | auto | scroll`** 
+* **`display 为 table-cell | table-caption | inline-block`** 
+* **`position 为 absolute | fixed`** 
+
+**`这里可以给父元素设置 overflow: auto，但是为了兼容 IE 最好使用 overflow: hidden。`** 
+
+**`但这种方法有个缺陷：如果有内容出了盒子，用这种方法就会把多的部分裁切掉，所以这时候不能使用。`** 
+
+
+
+#### BFC 的主要特征：
+
+* **`BFC 容器是一个隔离的容器，和其他元素互不干扰，所以我们可以用触发两个元素的 BFC 来解决垂直边距折叠问题。`** 
+* **`BFC 不会重叠浮动元素`** 
+* **`BFC 可以包含浮动，这可以清除浮动。`** 
+
+
+
+
+
+### 4. br 标签清除浮动
+
+**`br 标签存在一个属性：clear。这个属性就是能够清除浮动的利器，在 br 标签中设置属性 clear，并赋值 all。即能清除掉浮动`**
+
+```html
+<div id="wrap">
+	<div id="inner"></div>
+    <br clear="all" />
+</div>
+```
+
+```css
+#wrap {
+    border: 1px solid;
+}
+
+#inner {
+    float: left;
+    width: 200px;
+    height: 200px;
+    background: pink;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
 # display: none 
