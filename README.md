@@ -965,6 +965,260 @@
 
 
 
+# 实现三栏布局
+
+
+
+## 前言
+
+**`三栏布局。顾名思义就是两边固定，中间自适应。三栏布局在实际的开发十分常见，比如淘宝网首页，就是个典型的三栏布局：即左边商品导航和右边导航固定宽度，中间的主要内容随浏览器宽度自适应。`** 
+
+**`我们不妨假定这样一个布局：高度已知，其中左栏、右栏宽度为 300px，可以通过几种方法来实现？以及各自的优缺点是什么？`** 
+
+
+
+## 一、浮动布局
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Layout</title>
+  <style>
+    .left {
+      width: 300px;
+      height: 300px;
+      background: red;
+      float: left;
+    }
+
+    .right {
+      width: 300px;
+      height: 300px;
+      float: right;
+      background: blue;
+    }
+
+    .center {
+      height: 300px;
+      background: #666;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>三栏布局</h1>
+  <div class="left"></div>
+  <div class="right"></div>
+  <div class="center"></div>
+</body>
+
+</html>
+```
+
+
+
+
+
+## 二、绝对布局
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Layout</title>
+  <style>
+    .left {
+      left: 0;
+      width: 300px;
+      height: 300px;
+      background: red;
+      position: absolute;
+    }
+
+    .right {
+      right: 0;
+      width: 300px;
+      height: 300px;
+      background: blue;
+      position: absolute;
+    }
+
+    .center {
+      left: 300px;
+      right: 300px;
+      height: 300px;
+      background: yellow;
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>三栏布局</h1>
+  <div class="left"></div>
+  <div class="center"></div>
+  <div class="right"></div>
+</body>
+
+</html>
+```
+
+
+
+
+
+## 三、flexbox 布局
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Layout</title>
+  <style>
+    .flex {
+      display: flex;
+    }
+
+    .left {
+      width: 300px;
+      height: 300px;
+      background: red;
+    }
+
+    .right {
+      width: 300px;
+      height: 300px;
+      background: yellow;
+    }
+
+    .center {
+      width: 300px;
+      background: blue;
+      flex: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>三栏布局</h1>
+  <div class="flex">
+    <div class="left"></div>
+    <div class="center"></div>
+    <div class="right"></div>
+  </div>
+</body>
+
+</html>
+```
+
+**`flexbox 布局是 css3 里新出的一个，它就是为了解决上述两种方式的不足出现的，是比较完美的一个。目前移动端的布局也都是用 flexbox。`**
+
+
+
+## 四、表格布局
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Layout</title>
+  <style>
+    .table {
+      display: table;
+      height: 300px;
+      width: 100%;
+    }
+
+    .left {
+      display: table-cell;
+      width: 300px;
+      background: red;
+    }
+
+    .center {
+      display: table-cell;
+      background: yellow;
+    }
+
+    .right {
+      display: table-cell;
+      width: 300px;
+      background: blue;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>三栏布局</h1>
+  <div class="table">
+    <div class="left"></div>
+    <div class="center"></div>
+    <div class="right"></div>
+  </div>
+</body>
+
+</html>
+```
+
+
+
+
+
+## 五、网格布局
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Layout</title>
+  <style>
+    .grid {
+      display: grid;
+      grid-template-columns: 300px auto 300px;
+      grid-template-rows: 300px;
+      height: 300px;
+      width: 100%;
+    }
+
+    .left {
+      background: red;
+    }
+
+    .center {
+      background: yellow;
+    }
+
+    .right {
+      background: blue;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>三栏布局</h1>
+  <div class="grid">
+    <div class="left"></div>
+    <div class="center"></div>
+    <div class="right"></div>
+  </div>
+</body>
+
+</html>
+```
+
+
+
 
 
 
