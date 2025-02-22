@@ -1227,6 +1227,10 @@
 
 
 
+
+
+
+
 # display: none 
 
 **`display: none 不会从 DOM 树中移除。它只是将元素设置为不可见，但元素仍然存在于 DOM 中。`**
