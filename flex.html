@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Layout</title>
+  <style>
+    .flex {
+      display: flex;
+    }
+
+    .left {
+      width: 300px;
+      height: 300px;
+      background: red;
+    }
+
+    .right {
+      width: 300px;
+      height: 300px;
+      background: yellow;
+    }
+
+    .center {
+      width: 300px;
+      background: blue;
+      flex: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>三栏布局</h1>
+  <div class="flex">
+    <div class="left"></div>
+    <div class="center"></div>
+    <div class="right"></div>
+  </div>
+</body>
+
+</html>
