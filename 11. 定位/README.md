@@ -1,4 +1,4 @@
-# 11.1 基本概念
+# 1 基本概念
 
 
 
@@ -43,7 +43,7 @@ position
 
 
 
-# 11.2 偏移属性
+# 2 偏移属性
 
 ```css
 top, right, bottom, left
@@ -81,7 +81,7 @@ right: -7em;
 
 
 
-# 11.3 宽度和高度
+# 3 宽度和高度
 
 
 
@@ -117,7 +117,7 @@ max-width, max-height
 
 
 
-# 11.4 内容溢出和裁剪
+# 4 内容溢出和裁剪
 
 
 
@@ -138,7 +138,7 @@ overflow
 
 
 
-# 11.5 元素的可见性
+# 5 元素的可见性
 
 ```css
 visibility
@@ -255,7 +255,7 @@ th, td {
 
 
 
-# 11.6 绝对定位
+# 6 绝对定位
 
 
 
@@ -782,7 +782,7 @@ z-index
 
 
 
-# 11.7 固定定位
+# 7 固定定位
 
 **`固定定位元素的容纳块是视区。固定定位的元素完全从文档流中移除，其位置与文档中的任何一部分都没关系。`**
 
@@ -796,7 +796,7 @@ z-index
 
 
 
-# 11.8 相对定位
+# 8 相对定位
 
 
 
@@ -834,7 +834,146 @@ strong {
 
 
 
-# 11.9 粘滞定位
+# 9. 粘滞定位
+
+1. CSS 新增了一种定位方式：粘滞定位。如果你在移动设备上用过优秀的音乐应用，或许记得这样的操作：滚动浏览按字母顺序排列的艺人时，当前字母始终停留在窗口的顶部，直到进入一个新的字母，新字母取而代之，显示在窗口顶部。在纸上很难展示这种效果，不过如下图展示了滚动过程中的三个瞬间，希望能让你明白。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC11%E7%AB%A0%EF%BC%9A%E5%AE%9A%E4%BD%8D/%E7%B2%98%E6%BB%9E%E5%AE%9A%E4%BD%8D.gif)
+
+<br>
+
+2. 使用 CSS 便能实现这种效果，为元素声明 position: sticky 即可，但是（一如往常）情况没有这么简单。
+
+首先，偏移属性（top、left 等）用于定义相对容纳块的粘滞定位矩形。以下述样式为例，得到的结果如下图所示。图中的虚线是粘滞定位矩形。
+
+```css
+#scrollbox {
+    overflow: scroll;
+    width: 15em;
+    height: 18em;
+}
+
+#scrollbox h2 {
+    position: sticky;
+    top: 2em;
+    bottom: auto;
+    left: auto;
+    right: auto;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC11%E7%AB%A0%EF%BC%9A%E5%AE%9A%E4%BD%8D/%E7%B2%98%E6%BB%9E%E5%AE%9A%E4%BD%8D%E7%9F%A9%E5%BD%A2.gif)
+
+<br>
+
+3. 注意，上图中的 h2 元素其实在矩形的中间。这是常规文本流中 h2 在包含内容的 #scrollbox 元素中的位置。若想把 h2 粘滞在顶部，要滚动内容，让 h2 的顶边接触粘滞定位矩形的顶边，h2 就粘滞在那里。这个过程如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC11%E7%AB%A0%EF%BC%9A%E5%AE%9A%E4%BD%8D/%E7%B2%98%E6%BB%9E%E5%9C%A8%E7%B2%98%E6%BB%9E%E5%AE%9A%E4%BD%8D%E7%9F%A9%E5%BD%A2%E7%9A%84%E9%A1%B6%E9%83%A8.gif)
+
+也就是说，在 h2 的粘滞边界与矩形的粘滞边界接触之前，h2 一直在常规文档流中。当两个边界接触时，h2 粘滞在那里，就像是绝对定位了一样，不过 h2 在常规文档流中占据的空间会保留下来。
+
+你可能注意到了，scrollbox 元素没有声明 position 属性。而且我们也没做什么其他设置，只是使用 overflow: scroll 为粘滞定位的 h2 元素创建一个容纳块。这是不使用 position 创建容纳块的一例。
+
+<br>
+
+4. 如果向相反的方向滚动，把 h2 在常规文档流中的位置移到矩形顶边以下，h2 将与矩形分离，回到原本在常规文档流中的位置。这个过程如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC11%E7%AB%A0%EF%BC%9A%E5%AE%9A%E4%BD%8D/%E4%B8%8E%E7%B2%98%E6%BB%9E%E5%AE%9A%E4%BD%8D%E7%9F%A9%E5%BD%A2%E7%9A%84%E9%A1%B6%E8%BE%B9%E5%88%86%E7%A6%BB.gif)
+
+<br>
+
+5. 注意，h2 之所以粘滞在矩形的顶部，是因为我们把 h2（即粘滞定位的元素）的 top 属性设为了 auto 以外的其他值。你可以使用任何一个偏移边。例如，可以在向下滚动内容的过程中把元素粘滞在矩形的底部，如下图所示。
+
+```css
+#scrollbox {
+    overflow: scroll;
+    position: relative;
+    width: 15em;
+    height: 10em;
+}
+
+#scrollbox h2 {
+    position: sticky;
+    top: auto;
+    bottom: 0;
+    left: auto;
+    right: auto;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC11%E7%AB%A0%EF%BC%9A%E5%AE%9A%E4%BD%8D/%E7%B2%98%E6%BB%9E%E5%9C%A8%E7%B2%98%E6%BB%9E%E5%AE%9A%E4%BD%8D%E7%9F%A9%E5%BD%A2%E7%9A%84%E5%BA%95%E9%83%A8.gif)
+
+可以利用这一点显示某个段落的脚注或评论，当滚动超过那个段落时，粘滞的脚注或评论将上移。这些规则也适用于左右两边，在横向滚动内容时用得到。
+
+<br>
+
+5. 如果定义多个偏移属性，而且值都不是 auto，那么各边都将变成粘滞边界。例如，下述样式把 h2 限制在滚动框中，无论内容如何滚动，都不超出，如下图。
+
+```css
+#scrollbox {
+    overflow: scroll;
+    width: 15em;
+    height: 10em;
+}
+
+#scrollbox h2 {
+    position: sticky;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC11%E7%AB%A0%EF%BC%9A%E5%AE%9A%E4%BD%8D/%E6%AF%8F%E4%B8%80%E8%BE%B9%E9%83%BD%E6%98%AF%E7%B2%98%E6%BB%9E%E8%BE%B9.gif)
+
+<br>
+
+6. 你可能会问，如果滚动到某一位置触发了多个粘滞定位的元素会得到什么结果？答案是，多个粘滞定位的元素将堆在一起。
+
+```css
+#scrollbox {
+    overflow: scroll;
+    width: 15em;
+    height: 18em;
+}
+
+#scrollbox h2 {
+    position: sticky;
+    top: 0;
+    width: 40%;
+}
+
+h2#h01 {
+    margin-right: 60%;
+    background: hsla(0, 100%, 50%, 0.75);
+}
+
+h2#h02 {
+    margin-left: 60%;
+    background: hsla(120, 100%, 50%, 0.75);
+}
+
+h2#h03 {
+    margin-left: auto;
+    margin-right: auto;
+    background: hsla(240, 100%, 50%, 0.75);
+}
+```
+
+将几个标题在堆在一起，在源文件中靠后的标题离观看的人更近，不过在下图这样的静态图像中不那么容易看清楚。这就是 z-index 的常规行为，因此你可以明确设置 z-index，决定哪个粘滞元素显示在其他粘滞元素之上。假如我们想让第一个粘滞元素显示在其他所有粘滞元素之上。此时，声明 z-index: 1000，或者其他足够大的值便可以让第一个粘滞元素显示在同一位置上的其他所有粘滞元素之上。得到的效果看起来像是其他元素滑入最顶层的元素背后一样。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC11%E7%AB%A0%EF%BC%9A%E5%AE%9A%E4%BD%8D/%E5%A0%86%E5%9C%A8%E4%B8%80%E8%B5%B7%E7%9A%84%E7%B2%98%E6%BB%9E%E6%A0%87%E9%A2%98.gif)
+
+>截至 2017 年年末，只有微软 IE 和 Edge，以及 Opera Mini 不支持 position: sticky。在 Safari 中，要在值前加上 -webkit-，即 position: -webkit-sticky。
+
+
+
+
+
+
+
+
 
 ​                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 
