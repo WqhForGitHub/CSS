@@ -1,8 +1,34 @@
 
 
-# 12.1 弹性盒基础
+CSS Flexible Box Module Level 1（简称 Flexbox，弹性盒）把以往艰巨的布局任务变得极为简单，例如很多类型的页面、小组件、应用和图库。有了弹性盒，通常不再需要使用 CSS 框架。本章将教你如何使用少数几行 CSS 实现网站需要的几乎所有布局方式。
+
+# 1. 弹性盒基础
+
+弹性盒是一种简单而强大的布局方式，我们通过弹性盒指明空间的分布方式、内容的对齐方式和元素的视觉顺序，把不同的组件放置在页面中。内容可以轻易横向或纵向排布，还可以沿着一个轴布局，或者折断成多行。这只是几个例子，可以实现的布局还有很多很多。
+
+使用弹性盒，内容的呈现顺序不再受源码顺序的限制。然而，这只是视觉上的调整，弹性盒相关的属性不会改变屏幕阅读器堆内容的读取顺序。
+
+>规范指定，屏幕阅读器应采用源码顺序，但是 Firebox 目前采用的是视觉顺序。辅助功能社区对此有讨论，结论是 Firebox 的这一缺陷可能是正确的行为，因此将来规范可能会做修改。
+
+弹性盒模型布局最突出一个特点可能是，能让元素堆不同的屏幕尺寸和不同的显示设备做好适应准备。弹性盒在响应式网站中表现极好，因为内容能根据可用空间的大小增减尺寸。
+
+弹性盒依赖父子关系。在元素上声明 display: flex 或 display: inline-flex 便激活弹性盒布局，而这个元素随之称为弹性容器，负责在所占的空间内布置子元素，控制子元素的布局。弹性容器的子元素称为弹性元素。以下述样式和标记为例，结果如下图所示。
 
 ```html
+<div id="one">
+    <p>flex item with <br> two longer lines</p>
+    <span>flex item</span>
+    <p>flex item</p>
+</div>
+
+<div id="two">
+    <span>flex item with <br> two longer lines</span>
+    <span>flex item</span>
+    <p>flex item</p>
+</div>
+```
+
+```css
 div#one {
     display: flex;
 }
@@ -12,7 +38,7 @@ div#two {
 }
 
 div {
-    border: 1px dashed;
+    border: 1px dashed; 
     background: silver;
 }
 
@@ -24,29 +50,128 @@ div > * {
 div p {
     margin: 0;
 }
-
-<div id="one">
-    <p>flex item with <br>two longer lines</p>
-    <span>flex item</span>
-    <p>flex item</p>
-</div>
-
-<div id="two">
-	<span>flex item with<br>two longer lines</span>
-    <span>flex item</span>
-    <p>flex item</p>
-</div>
 ```
 
- 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E5%BC%B9%E6%80%A7%E5%AE%B9%E5%99%A8%E7%9A%84%E4%B8%A4%E7%A7%8D%E7%B1%BB%E5%9E%8B.png)
 
+注意，div 的每个子元素都变成一个弹性元素，而且是以相同方式布局的。不管是段落还是 span 元素，都变成弹性元素（如果不把段落的外边距去掉，会有一些区别）。
 
+上面两个弹性容器之间唯一的区别是，一个使用 display: flex 得到，另一个使用 display: inline-flex 得到。第一个 div 元素生成的是块级框，弹性元素在其中布局。而第二个 div 元素生成的是行内块级框，弹性元素在其中布局。
 
-# 12.2 弹性容器
+>写作本书时，CSS 正在引进新的模式，把 display: flex 的值分为单个的关键字。在这个新系统中，上面两种弹性容器要使用 display: flex block 和 display: flex inline 声明。flex 和 inline-flex 这两个旧值仍能正常使用，无需担心。不过，遇到 inline flex 或 flex inline 这样的值时你要知道是什么意思。
 
+记住，把一个元素设为弹性容器之后，例如上图中那两个 div 元素，只有直接子元素使用弹性盒布局，其他后代元素不受影响，这一点十分重要。然而，你也可以把后代元素也设为弹性容器，实现特别复杂的布局。
 
+在弹性容器中，各元素在主轴上排列。主轴可以是横向的，也可以是纵向的，因此可以把元素布置为列或行。主轴采用书写模式设置的方向，深入讨论见本章后面深入理解各种轴一节。
+
+如上图中的第一个 div 元素所示，如果弹性元素没有占满容器的整个主轴（这里指宽度），将出现一些空白。这些空白的具体处理方式可由几个属性控制，详情参见后文。子元素可以全部靠左、全部靠右、全部居中，也可以均匀分布，把多出的空间平均分配在子元素之间或四周。
+
+除了均匀分布空白之外，还可以增加部分弹性元素的尺寸，把多出的空间分给一个、多个或全部弹性元素。如果容器的空间不足以放下所有弹性元素，可以通过相关属性指明缩减弹性元素的尺寸，或者允许换行。
+
+此外，子元素可以相对容器或其他子元素对齐，可以靠容器底部对齐，可以靠容器顶部对齐，也可以在容器中居中对齐。此外还可以拉伸，占满整个容器。不管同辈元素之间的内容长度相差多少，使用一个声明就可以让所有同辈元素具有相同的尺寸。
+
+<br>
+
+## 1. 一个简单的例子
+
+假设我们想创建一个导航栏，显示一组链接。这正是弹性盒能处理的问题。代码如下：
+
+```html
+<nav>
+	<a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/blog">Blog</a>
+    <a href="/jobs">Careers</a>
+    <a href="/contact">Contact Us</a>
+</nav>
+```
+
+```css
+nav {
+    display: flex;
+}
+```
+
+在上述代码中，我们把 nav 元素的 display 属性设为 flex，把它变成一个弹性容器，而它的子元素，即那些链接，变成弹性元素。链接还是链接，不过在呈现方式上变成了弹性元素。现在，那些链接不再是行内框了，它们身处容器的弹性格式化上下文中。因此，布局时，a 元素之间的空白将被完全忽略。如果你曾使用 HTML 注释抑制链接、列表项目等元素之间的空白，你便知道这是多么重要的一点。
+
+下面为链接添加一些 CSS：
+
+```css
+nav {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+}
+
+a {
+    margin: 0 5px;
+    padding: 5px 15px;
+    border-radius: 3px 3px 0 0;
+    background-color: #ddaa00;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+a:hover, a:focus, a:active {
+    background-color: #ffcc22;
+    color: black;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%A0%87%E7%AD%BE%E5%BC%8F%E5%AF%BC%E8%88%AA%E6%A0%8F.gif)
+
+目前来看，这也没什么大不了的，因为使用以前的 CSS 技术也能实现这种效果。但是仔细观察一下，你会发现使用弹性盒更简洁。
+
+在设计上，弹性盒对方向是没有认识的。而块级元素和行内元素则不同，前者纵向移动，而后者横向移动。Web 的设计初衷是为了在显示器上显示网页，因此对横向尺寸有限制，而纵向则可以无限滚动。纵向移动的布局不再适应现代的应用，不同的用户代理和不同的视区方向可能改变浏览方向，或者增减尺寸，而且不同的语言有不同的书写模式。
+
+多年以来，纵向居中和多栏布局始终没有得到重视。而有些布局是不应该被忽视的，例如确保并排放置的多个框体构成一个等高的栅格，按钮或详情链接固定在各框体的底部，而且按钮的内容完美地纵向居中，如下图所示。或者确保内容长度不等的图库中每个框体的高度都一样，而且两行图片完美对齐，如下图所示。有了弹性盒，这些要求都能轻易实现。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E4%BD%BF%E7%94%A8%E5%BC%B9%E6%80%A7%E7%9B%92%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80%EF%BC%8C%E6%8C%89%E9%92%AE%E9%9D%A0%E5%BA%95%E9%83%A8%E5%AF%B9%E9%BD%90.png)
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E4%BD%BF%E7%94%A8%E5%BC%B9%E6%80%A7%E7%9B%92%E5%AE%8C%E7%BE%8E%E5%AF%B9%E9%BD%90%E5%9B%BE%E5%BA%93%E4%B8%AD%E7%9A%84%E5%90%84%E5%88%97.png)
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E7%94%B1%E5%A4%9A%E4%B8%AA%E7%BB%84%E4%BB%B6%E6%9E%84%E6%88%90%E7%9A%84%E5%B0%8F%E7%BB%84%E4%BB%B6%EF%BC%8C%E5%85%A8%E9%83%BD%E7%BA%B5%E5%90%91%E5%B1%85%E4%B8%AD.png)
+
+>在使用浮动实现布局之前，经常使用表格布局。表格不应该用于布局，原因由很多：表格布局没有语义，难以更新布局，可访问性不好，代码过多，难以复制文本。鉴于此，表格适合显示表格类数据。
+
+<br>
+
+经典的 Holy Grail 布局，即一个页头、三个宽度不同但高度相等的分栏、再加一个页脚，可以使用多种方式实现，但都不简单，除非使用弹性盒。这种布局可以使用下述 HTML 表示：
+
+```html
+<header>Header</header>
+<main>
+	<nav>Links</nav>
+    <aside>Aside content</aside>
+    <article>Document content</article>
+</main>
+<footer>Footer</footer>
+```
+
+多数设计方式得到的分栏高度看起来是相等的，但是为 aside、article 和 nav 加上背景后，便会发现，其实高度并不相同。为了得到表面傻瓜等高的分栏，我们通常会根据 CSS 中为各栏声明的宽度，精心制作一个图像，添加到父元素的背景中，而且要设定特别大的内边距和负外边距，再插入清除浮动的生成内容，使尽各种技巧。
+
+这些小伎俩把 CSS 搞得乱七八糟（HTML 也受到一定影响），旧的布局方法让人晕头转向。很多人开始使用 YUI grids、Bootstrap、Foundation、960 grid 等 CSS 布局库，只为在开发过程中多一丝清净。希望本书能让你认识到，不使用 CSS 框架也能让布局样式简洁名了。
+
+在阅读本章的过程中谨记一点：弹性盒的目的是实现一种特定的布局，即一维内容分布。也就是说，弹性盒最适合沿一个方向（或轴）布置内容。虽然可以使用弹性盒实现栅格式的布局（二维排列），但这不是弹性盒的最初目的。如果你需要的是二维布局，请阅读第 13 章。
+
+<br>
+
+# 2. 弹性容器
+
+首先要完全理解的概念是弹性容器，也叫容器框。display: flex 或 display: inline-flex 声明的目标元素变成弹性容器，为其元素生成弹性格式化上下文。
+
+这些子元素不论是 DOM 节点、文本节点，还是生成的内容，都称为弹性元素。弹性容器中的绝对定位子元素也是弹性元素，不过确定其尺寸和位置时，将其视作弹性容器中唯一的弹性元素。
+
+先来学习能应用到弹性容器上的 CSS 属性，包括对弹性元素的布局有影响的几个属性。弹性元素本身也是一个重要的概念，必须理解，我们将在 12.9 节讨论。
+
+图一中的示例使用 display 属性把三个弹性元素并排显示，从左至右，在一行里。再声明几个属性，我们还可以让它们靠容器的底部对齐、重新排列它们的显示顺序，或者让它们从左至右或从上到下排列。甚至，还可以把它们分成多行。
+
+有时只有一个弹性元素，有时却有很多个。有时我们知道一个节点有多少子元素，有时子元素的数量却不在我们的掌控之中。即便知道元素的数量，可能也不知道容器的宽度。我们需要适应性强的 CSS，即便不知道有多少弹性元素，不知道弹性容器有多宽（比如响应式布局），也能正确处理布局。这些问题看起来棘手，但是使用弹性盒都能轻易解决，只需使用一些新属性。
+
+<br>
 
 ## 1. flex-direction 属性
+
+如果你想要的布局是从上到下、从左至右、从右至左的，抑或是从下到上的，可以使用 flex-direction 属性控制排布弹性元素的主轴。
 
 ```css
 flex-direction
@@ -59,11 +184,166 @@ flex-direction
 动画性：否
 ```
 
+flex-direction 属性指定在弹性容器中如何摆放弹性元素，即定义弹性容器的主轴，弹性元素就沿这个轴排布（详情参见本章后面深入理解各种轴一节）。
 
+以下述简单的标记为例：
 
+```html
+<ol>
+	<li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+</ol>
+```
 
+假设语言的书写方向是从左至右，在这个简单的列表上分别应用 flex-direction 属性的四个值得到的结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/flex-direction%20%E5%B1%9E%E6%80%A7%E7%9A%84%E5%9B%9B%E4%B8%AA%E5%80%BC.png)
+
+默认值 row 的效果看起来与一堆行内元素或浮动元素没有什么区别。你是被表象迷惑了，稍后具体讲解。现在请注意 flex-direction 属性的其他几个值对列表项目布置方式的影响。
+
+例如，可以使用 flex-direction: row-reverse 反向排布各列表项目，设为 flex-direction: column 时，弹性元素从上到下排布，而设为 flex-direction: column-reverse 时，弹性元素从下到上排布，如上图所示。
+
+前面说过，我们假设语言是从左至右书写的，因为对 row 来说，主轴的方向（排布弹性元素的方向）就是当前书写模式的方向。稍后讨论书写模式对弹性方向和布局的影响。
+
+>不要使用 flex-direction 修改从右至左书写语言的布局。正确的做法是使用 dir 属性，或者 6.10.1 节介绍过的 CSS writing-mode 属性。writing-mode 能在横向和纵向之间切换，指明语言的方向。如果想进一步了解语言方向对弹性盒的影响，请翻到 12.2.2 节。
+
+<br>
+
+在英语这样的语言中，column 值把弹性容器的主轴方向设为当前书写模式下块级元素的移动方向。在横向书写模式中，如英语，指的是纵轴，在纵向书写模式中，如传统日语，指的是横轴。
+
+因此，方向声明为 column 时，弹性元素按它们在源文档中的顺序显示，不过是从上到下显示，而不是从左至右显示，也就是一个弹性元素显示在另一个弹性元素下方，而不是并排显示。来看下述样式：
+
+```css
+nav {
+	display: flex;
+    flex-direction: column;
+    border-right: 1px solid #ccc;
+}
+
+a {
+	margin: 5px;
+    padding: 5px 15px;
+    border-radius: 3px;
+    background-color: #ccc;
+    text-decoration: none;
+    color: black;
+}
+
+a:hover, a:focus, a:active {
+	background-color: #aaa;
+    text-decoration: underline;
+}
+```
+
+标记不变，与前面那个横排的标签式导航链接一样，只改几个 CSS 属性就能变成侧边栏式导航。我们把 flex-direction 的值由默认的 row 改成了 column，把边框从底边移到了右边，还修改了颜色，以及 border-radius 和 margin 的值，得到的新布局如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E6%94%B9%E5%8F%98%E5%BC%B9%E6%80%A7%E6%96%B9%E5%90%91%E5%8F%AF%E8%83%BD%E5%AE%8C%E5%85%A8%E6%94%B9%E5%8F%98%E5%B8%83%E5%B1%80.gif)
+
+column-reverse 值的效果与 column 类似，不过主轴的方向式相反的，起点是下方、终点在上方，由下向上指，如上两个图所示。这个值只颠倒外观，阅读顺序和 Tab 键顺序保持不变，与底层标记一样。
+
+目前所学的知识异常强大，不费吹灰之力就能实现各种布局。如果把前面那个导航放在一个完整的文档中，你会发现，只使用几个弹性盒属性便能轻易改变布局。
+
+下面在前面的 HTML 标记中添加一些内容，把导航作为一个组件，放到首页中：
+
+```css
+* {
+  outline: 1px #ccc solid;
+  margin: 10px;
+  padding: 10px;
+}
+
+body, nav, main, article {
+  display: flex;
+}
+
+body, article {
+  flex-direction: column;
+}
+```
+
+```html
+<body>
+  <header><h1>My Page's title!</h1></header>
+  <nav>
+  <a href="#1">Home</a>
+  <a href="#2">About</a>
+  <a href="#3">Blog</a>
+  <a href="#4">Careers</a>
+  <a href="#5">Contact Us</a>
+  </nav>
+  <main>
+  <article>
+  <img alt="" src="img1.jpg">
+  <p>This is some awesome content that is on the page.</p>
+  <button>Go Somewhere</button>
+  </article>
+  <article>
+  <img alt="" src="img2.jpg">
+  <p>This is more content than the previous box, but less than the next.</p>
+  <button>Click Me</button>
+  </article>
+  <article>
+  <img alt="" src="img3.jpg">
+  <p>We have lots of content here to show that content can grow, and everything can be the same size if you use flexbox. Even if this has tons of text, it will line up with the other sections.</p>
+  <button>Do Something</button>
+  </article>
+  </main>
+  <footer>Copyright &copy; 2018</footer>
+</body>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E9%A6%96%E9%A1%B5%E5%B8%83%E5%B1%80.png)
+
+是的，弹性容器也可以是弹性元素，如这里的导航、主内容区和文章所示。body 和 article 的弹性方向是 column，而 nav 和 main 使用默认值 row。就那么两行 CSS。
+
+别误会，其实上图使用的样式不止这两行。我们为所有元素设置了边框、外边距和内边距，以便清除地分清哪些是弹性元素（我可不会把这个不太好看的网站放到网上）。除了这些样式之外，我们只是把 body、nav、main 和 article 声明为弹性容器，从而把所有导航链接、主内容区中的文章、图像、段落和按钮等变成弹性元素。
+
+<br>
+
+## 2. 其他书写方向
+
+如果你的网站使用的是英语等从左至右书写的语言，可能希望弹性元素从左至右、从上到下排布。此时，使用默认值或者设为 row 即可。然而，如果使用的是阿拉伯语等从右至左书写的语言，可能想从右至左、从上到下排布弹性元素。此时，也是使用默认值或者设为 row 即可。
+
+flex-direction: row 按照文本方向（即书写模式）布置弹性元素，不管语言是从左至右书写的，还是从右至左书写的。多数网站用的是从左至右书写的语言，不过也有一些网站使用从右至左书写的语言，甚至还有的网站使用从上到下书写的语言。弹性盒定义的是单向布局。修改书写模式后，弹性盒能自动转换弹性方向。
+
+书写模式由 writing-mode、direction 和 text-orientation 属性设定，也可以使用 HTML 的 dir 属性设置（详情参见第 6 章）。如果书写模式是从右至左，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E4%B9%A6%E5%86%99%E6%96%B9%E5%90%91%E4%B8%BA%E4%BB%8E%E5%8F%B3%E8%87%B3%E5%B7%A6%E6%97%B6.png)
+
+>如果 CSS direction 属性的值与元素上 dir 属性的值不同，CSS 属性的值比 HTML 属性优先级高。规范强烈建议使用 HTML 属性设置书写模式。
+
+<br>
+
+世界上还有纵向书写的语言，例如汉语拼音字母、埃及象形文字、平假名、片假名、汉语、韩语、麦罗埃草书和象形文字、蒙古语、欧甘文字、古土耳其语、八思语及其部分日语。这些语言仅在指定纵向书写模式时才纵向排列。否则，这些语言都横向排列。如果指定纵向的书写模式，所有内容都是纵向的，不管是上面列举的某种竖写语言，还是英语。
+
+从上到下书写的语言，writing-mode 属性的值是 horizontal-tb，此时主轴由从左至右的方向顺时针旋转 90 度，因此 flex-direction: row 从上到下，而 flex-direction: column。从右至左，把 flex-direction 属性的各个值应用到下述标记上得到的结果如下图所示。
+
+```html
+<ol lang="jp">
+	<li>一</li>
+    <li>二</li>
+    <li>三</li>
+    <li>四</li>
+    <li>五</li>
+</ol>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E4%B9%A6%E5%86%99%E6%A8%A1%E5%BC%8F%E4%B8%BA%E7%AB%96%E5%90%91%E5%9B%9B%E4%B8%AA%E5%80%BC%E7%9A%84%E6%95%88%E6%9E%9C.png)
+
+你没看错，行是竖的，列是横的。不仅如此，column 的方向是从右至左，而 column-reverse 是从左至右。把这些值应用到从上到下、从右至左书写的语言上就是这样的效果。
+
+好的，我们已经讲了弹性方向与书写模式之间的关系。但是目前所举的例子都只有一行或一列弹性元素，如果弹性元素的主维度（row 时的宽度之和，column 时的高度之和）在弹性容器中放不下怎么？我们可以让放不下的元素溢出，也可以换行。后文还会说明缩减弹性元素的尺寸，以便放得下。
+
+<br>
 
 ## 3. 换行
+
+如果弹性元素在弹性容器得主轴傻瓜放不下，默认情况下弹性元素不会换行，也不会自行调整尺寸。如果通过 flex 属性设定允许弹性元素缩减尺寸（见 12.12 节），那就缩减尺寸，否则，弹性元素将从容器框的边界溢出。
+
+这个行为受我们的控制。我们可以在容器上设置 flex-wrap 属性，允许弹性元素换行，变成多行或多列。而不让弹性元素从容器中溢出，或者缩减尺寸，挤在同一行。
 
 ```css
 flex-wrap
@@ -76,22 +356,43 @@ flex-wrap
 动画性：否
 ```
 
+flex-wrap 属性的作用是限制弹性容器只能显示一行，或者允许弹性元素在必要时显示多行。允许换行时，wrap 和 wrap-reverse 决定多出的行显示在第一行之前还是之后。
+
+默认情况下，不管有多少弹性元素，全部在一行里绘制。这往往不是我们想要的效果。遇到这种情况就要请出 flex-wrap 属性了。设为 wrap 或 wrap-reverse 时，如果弹性元素超出了弹性容器的边界，将换行显示放不下的弹性元素。
+
+下图展示 flex-direction 的值为 row 时（而且语言是从左至右书写的）flex-wrap 属性三个值的效果。图中的示例有两行弹性元素，可以看出，后续的行添加在垂轴上（这里是纵轴）。
+
+一般情况下，换行时，对 row 和 row-reverse 来说垂轴从上指向下方。对 column 和 column-reverse 来说，垂轴与语言的横排方向一样。wrap-reverse 值得作用与 wrap 类似，不过额外得行添加在第一行前面，而不是后面。
+
+设为 wrap-reverse 时，垂轴的方向相反：对 row 和 row-reverse 来说，后续的行在上方绘制。对 column 和 column-reverse 来说，后续的行在前一列的左侧绘制。类似地，在从右至左书写的语言中，设为 row wrap-reverse 和 row-reverse wrap-reverse 时，新行也添加到上方，但是设为 column wrap-reverse 和 column-reverse wrap-reverse 时，新行添加到右侧，即与语言的书写方向和垂轴的方向相反。
+
+这些轴稍后再讨论，下面先来看能同时设置弹性方向和换行方式的简写属性。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E6%A8%AA%E6%8E%92%E6%97%B6flex-wrap%E5%B1%9E%E6%80%A7%E4%B8%89%E4%B8%AA%E5%80%BC%E7%9A%84%E6%95%88%E6%9E%9C.png)
+
+<br>
 
 
 
 
-## 4. 定义弹性流
 
-```css
-flex-flow
 
-取值：<flex-direction> || <flex-wrap>
-初始值：row nowrap
-适用于：弹性容器
-计算值：指定的值
-继承性：否
-动画性：否
-```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
