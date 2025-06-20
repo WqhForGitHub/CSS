@@ -552,70 +552,17 @@ justify-content 属性定义如何把弹性容器的空间分配给弹性元素�
 
 ![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E5%A3%B0%E6%98%8Eflex%20initial%E6%97%B6%20%E5%BC%B9%E6%80%A7%E5%85%83%E7%B4%A0%E8%83%BD%E7%BC%A9%E5%B0%8F%20%E4%BD%86%E6%98%AF%E4%B8%8D%E4%BC%9A%E5%A2%9E%E5%A4%A7.png)
 
+设为默认值 flex-start 时，弹性元素紧靠主轴起边。设为 flex-end 时，弹性元素紧靠主轴终边。center 把弹性元素作为一个整体，居中显式在主轴尺寸的中点。
 
+space-between 值把每一行里的每一个弹性元素放在主轴起边，把每一行里最后一个弹性元素放在主轴终边，然后在余下的每一对相邻的弹性元素之间放置等量的空白。space-around 把余下的空间拆分开，把各部分的一半分配给每个弹性元素，看起来就像每个元素四周都有等量的不折叠外边距。注意，这意味着任何两个弹性元素之间的距离是第一个弹性元素与主轴起边之间以及最后一个弹性元素与主轴终边之间距离的两倍。space-evenly 也把余下的空间拆分开，不过每个间距的长度是相等的。这意味着，到主轴起边和终边之间的距离，与弹性元素之间的距离是一样的。
 
+justify-content 属性不仅影响一行中弹性元素的位置。如果禁止弹性元素换行，而且弹性元素将溢出，那么 justify-content 的值还影响弹性元素如何从弹性容器中溢出，如下图所示。
 
+<br>
 
+# 6. 对齐元素
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 12.4 弹性容器
-
-
-
-
-
-
-
-# 12.5 调整内容
-
-**`justify-content 属性指明在弹性容器的主轴上如何分布各行里的弹性元素。这个属性应用于弹性容器上，不能用到单个弹性元素上。`**
-
-```css
-justify-content
-
-取值：flex-start | flex-end | center | space-between | space-around | space-evenly
-初始值：flex-start
-适用于：弹性容器
-计算值：指定的值
-继承性：否
-动画性：否
-```
-
-
-
-
-
-# 12.6 对齐元素
+justify-content 定义弹性元素在弹性容器主轴方向上的对齐方式，而 align-items 属性定义的是弹性元素在垂轴方向上的对齐方式。与 justify-content 一样，align-items 应用在弹性容器上，而不能应用到单个弹性元素上。
 
 ```css
 align-items
@@ -628,15 +575,110 @@ align-items
 动画性：否
 ```
 
+使用 align-items 属性，可以把所有弹性元素都向垂轴的起边、终边或中线对齐。align-items 属性的作用与 justify-content 类似，不过影响的是垂向，设置所有弹性元素（包括匿名弹性元素）在垂轴上的对齐方式。
 
+使用 align-items 属性，可以把所有元素都向垂轴起边或终边靠拢，也可以拉伸元素，同时靠拢起边和终边。此外，还可以把所有弹性元素都居中显式在垂向上。这个属性有五个可选值，包括 flex-start、flex-end、center、baseline 和默认的 stretch，如下图所示。
 
+>align-items 设置的是弹性容器中全部弹性元素的对齐方式，而 align-self 属性能重设单个弹性元素的对齐方式，参见 12.7 节。
 
+从下图可以看到，弹性元素可以向垂轴起边或终边靠拢，也可以居中，或者经过拉伸，同时靠拢起边和终边。不过 baseline 有点特殊。此时，弹性元素向基线对齐，基线与垂轴起边那一侧的边之间的距离最远的弹性元素将与弹性元素行垂轴起边那一侧的边对齐。
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E6%A8%AA%E6%8E%92%E5%92%8C%E7%AB%96%E6%8E%92%E6%97%B6align-items%E4%BA%94%E4%B8%AA%E5%80%BC%E7%9A%84%E6%95%88%E6%9E%9C.png)
 
+从上图可以窥见这些值的作用，不过这只是不换行时的情况。下面以下述样式为例，说明多行时的情况。
 
-# 12.7 align-self 属性
+<br>
 
-**`这个属性在单个元素上覆盖 align-items 属性的值`**
+```css
+flex-container {
+    display: inline-flex;
+    flex-flow: row wrap;
+    border: 1px dashed;
+}
+
+flex-item {
+    border: 1px solid;
+    margin: 0 10px;
+}
+
+.C, .H {
+    margin-top: 10px;
+}
+
+.D, .I {
+    margin-top: 20px;
+}
+
+.J {
+    font-size: 3rem;
+}
+```
+
+在每个弹性元素行中，红线是垂轴起边，蓝线是垂轴终边。相邻两行之间的线看起来是紫色的。C、H、D 和 I 的上下外边距与其他弹性元素不同。为了便于区分各个弹性元素。我们在每个弹性元素两侧添加了一些外边距，但这对 align-items 属性的作用没有影响，J 的字号更大，因此行高随之增加。讨论 baseline 值时将体现这么做的目的。
+
+默认值 align-items: stretch 的效果如下图所示。
+
+stretch 这个名称表明，所有可拉伸的弹性元素将与所在行中最高或最宽的弹性元素一样高或一样宽。可拉伸是什么意思？默认情况下，弹性元素将被拉伸，占据整个垂轴尺寸。但是，如果设置了 min-height、min-width、max-height、max-width、width 或 height，这些属性的优先级更高。也就是说，如果为弹性元素显式设置了垂轴方向上的尺寸，那么弹性元素就是不可拉伸的，stretch 对其尺寸没有影响。
+
+否则，弹性元素的垂轴起边将向弹性元素行的垂轴起边靠拢，弹性元素的垂轴终边将向弹性元素行的垂轴终边靠拢。垂向尺寸最大的弹性元素保持当前尺寸，其他弹性元素的尺寸则增大，变成与最大那个弹性元素一样。
+
+拉伸后的弹性元素的尺寸包含垂轴起边和垂轴终边那一侧的外边距，此时是弹性元素外边距的外边界与垂轴起边和垂轴终边靠拢。如下图中的 C、D、H 和 I 所示。C、D、H 和 I 之所以看上去比行中的其他弹性元素小，就是因为它们有外边距。其实，它们并不小。它们占据的空间是从上下外边距的外边界开始算起的，也与弹性元素行的垂轴起边和垂轴终边靠拢。每一个弹性元素行的高度都与行中的最高的弹性元素一样高，如果垂轴是横向的，则与行中最宽的弹性元素一样宽。
+
+弹性元素行的高度或宽度是正好能放下弹性元素的尺寸。在展示 align-items 属性五个值的效果那张插图中，只有 K 所在的弹性元素行比其他两行明显小一些。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E5%AF%B9%E9%BD%90%E6%96%B9%E5%BC%8F%E4%B8%BA%20stretch.png)
+
+<br>
+
+## 1. 起边、终边和居中对齐
+
+起边、终边和居中对齐所用的值及其效果相对简单，因此放在一起讲。
+
+flex-start 值把各弹性元素垂轴起边那一侧的边对齐，统一向弹性元素垂轴起边那一侧靠拢。弹性元素垂轴起边那一侧的边在外边距外部，因此，如果弹性元素的外边距大于 0，它将不与弹性元素行垂轴起边那一侧的边紧靠在一起，如下图中第一个例子里的弹性元素 C、D、H 和 I 所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E5%AF%B9%E9%BD%90%E6%96%B9%E5%BC%8Fflex-start%E3%80%81flex-end%E5%92%8Ccenter.png)
+
+设为 align-items: flex-end 时，每个弹性元素垂轴终边那一侧的边将向弹性元素行垂轴终边那一侧的边靠拢，如上图中的第二个例子所示。示例中的弹性元素，没有一个的下外边距大于 0 像素，因此与其他例子不同的是，这些弹性元素不会显得参差不齐，所有弹性元素垂轴终边那一侧的边都与弹性元素行垂轴终边那一侧的边紧靠在一起。
+
+上图中的第三个例子所示，设为 align-items: center 时，弹性元素的中点将与所在行的垂轴中点对齐。弹性元素的中点指外边距外边界之间的中点。别忘了，弹性元素的外边距不折叠。因为 C、D、H 和 I 在垂轴方向上的两个外边距是不对称的，所以视觉上看，它们在垂轴上是不居中的。其实，这几个弹性元素在垂轴上是居中的，因为上下外边距边界之间的中点正好与弹性元素行上下边界之间的中点对齐。
+
+在从左至右和从右至左书写的语言中，对 flex-direction: row 和 row-reverse 来说，弹性元素上对齐用的中点是上下外边距边界之间的中间点。对 flex-direction: column 和 column-reverse 来说，弹性元素上对齐用的中点是左右外边距边界之间的中间点。
+
+>如果对弹性容器的垂轴尺寸有限制，内容可能会从弹性容器的垂轴起边和垂轴终边那一侧溢出。从哪边溢出不由 align-items 属性决定，而受 align-content 属性的控制（见 12.8 节）。align-items 属性定义弹性元素行中各弹性元素的对齐方式，对弹性元素溢出弹性容器的方向没有直接影响。
+
+<br>
+
+## 2. 基线对齐
+
+baseline 值有点复杂。设为 baseline 时，一行中的弹性元素向第一条基线对齐。弹性元素行中，基线与垂轴起边那一侧外边距边界之间距离最远的弹性元素，其外边距的外边界与弹性元素行垂轴起边那一侧的边对齐，其他弹性元素的基线与那个弹性元素的基线对齐。
+
+请看下图中的第二行，这里 J 起主导作用。我们把 J 的字号增大为 3rem，为的是把弹性元素中第一行文本变得更高。可见，J 的顶边（垂轴起边那一侧的边）与弹性元素行的顶边（垂轴起边那一侧的边）是对齐的。行中的其他弹性元素将下移，直到第一行文本的基线与 J 的第一条基线对齐为止（这条基线的为止在图中用绿色表示）。
+
+现在看一下第一行，即以 A 开头的那一行。可以看出，A、B、C、D 和 E 都向顶边对齐，但是仔细观察之后你会发现，它们并没有紧靠弹性元素行的顶边。这是因为 D 有 20 像素的上外边距，上外边距（垂轴起边那一侧）的外边界是与弹性元素行垂轴起边那一侧的边对齐的。前面说过，垂轴起边与基线之间的距离由行中垂轴起边那一侧的外边距边界与基线之间的最大的距离决定。因此，D 的位置决定了它的基线将作为其他弹性元素对齐的基准（因为它由上外边距）。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E5%AF%B9%E9%BD%90%E6%96%B9%E5%BC%8F%E4%B8%BAbaseline.png)
+
+很多情况下，baseline 的效果看起来与 flex-start 类似。例如，倘若 D 没有上外边距，那么第一行中的所有弹性元素在视觉上都将紧靠弹性元素行的顶边，效果就跟使用 flex-start 一样。只要弹性元素在垂轴起边一侧的外边距、边框、内边距，或者字号或行高不同，flex-start 和 baseline 之间就会出现差异。
+
+有一种情况能把 baseline 的效果变成与 flex-start 一模一样，即基线与垂轴平时时。例如，上图中的弹性容器设置 flex-direction: column，此时垂轴与英语文本的基线一样，是横向的。因为没有办法从列在垂轴起边那一侧的边（左边）向里偏移，所以 baseline 的效果就像使用 flex-start 一样。
+
+<br>
+
+## 3. 补充说明
+
+如果想改变某个或某些弹性元素的对齐方式，而不是全部修改，为相应的元素设置 align-self 属性。这个属性的取值与 align-items 一样，参见 12.9 节。
+
+匿名弹性元素（弹性容器中非空的文本节点子元素）的对齐方式无法覆盖，其 align-self 值始终与父级弹性容器的 align-items 值一致。
+
+在上述 align-items 示例中，弹性容器的垂轴尺寸要多高有多高。因为没有为弹性容器设置 height，所以默认为 height: auto。因此，弹性容器的尺寸将根据内容而变。你可能注意到了，在所有示例中，弹性容器的高度都是一样的，而且弹性元素行的高度也是一样的。
+
+如果指定了垂轴尺寸（对上述示例来说是高度），在垂轴终边一侧可能有额外的空白，也可能空间不足，放不下内容。为了控制弹性元素行的对齐方式，弹性盒规范提供了 align-content 属性。这是我们要讨论的最后一个应用在弹性容器（而非弹性元素）上的属性。align-content 属性只影响分为多行的弹性容器中的弹性元素行的对齐方式。
+
+<br>
+
+# 7. align-self 属性
+
+看着有点早，但现在讨论 align-self 属性的最佳时刻。这个属性在单个弹性元素上覆盖 align-items 属性的值。
 
 ```css
 align-self
@@ -648,41 +690,22 @@ align-self
 百分数：不适用
 动画性：否
 ```
-```html
-<section>
-    <div>Item #1</div>
-    <div>Item #2</div>
-    <div>Item #3</div>
-</section>
-```
 
-```css
-.section {
-    display: flex;
-    align-items: center;
-    height: 120px;
-    background: beige;
-}
+align-items 属性在弹性容器上设置，定义弹性容器中所有弹性元素的对齐方式。但是，单个弹性元素的对齐方式可以使用 align-self 属性覆盖。align-items 的默认值是 stretch，因此在下图中的五个示例里，除第二个弹性元素之外，其他弹性元素的高度都与所在的行一样高。
 
+对所有 align-self 属性为默认值 auto 的弹性元素来说，其对齐方式继承自容器的 align-items 属性。但是每个示例中的第二个弹性元素例外，它的 align-self 值标在每个示例的下方。
 
-div {
-    height: 60px;
-    background: cyan;
-    margin: 5px;
-}
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E4%BF%AE%E6%94%B9%E5%BC%B9%E6%80%A7%E5%85%83%E7%B4%A0%E7%9A%84%E5%AF%B9%E9%BD%90%E6%96%B9%E5%BC%8F.png)
 
+与 align-items 属性的值一样，flex-start 值把弹性元素放在垂轴起边，flex-end 把弹性元素放在垂轴终边，center 把元素与垂轴的中点对齐，baseline 把弹性元素的基线与所在行中最低的基线对齐。最后，auto 和 stretch 都拉伸弹性元素，效果与 align-items 的默认值 stretch 一样（类似地，align-self: inherit 得到的也是拉伸对齐）。
 
-div:nth-child(3) {
-    align-self: flex-end;
-    background: pink;
-}
-```
+如果想进一步了解 flex-start、flex-end、center、baseline 和 stretch 等值的效果，参阅 12.6 节。
 
+<br>
 
+# 8. 对齐内容
 
-
-
-# 12.8 对齐内容
+align-content 属性定义弹性容器有额外的空间时在垂轴方向上如何对齐各弹性元素行，以及空间不足以放下所有弹性元素行时从哪个方向溢出。
 
 ```css
 align-content
@@ -695,70 +718,256 @@ align-content
 动画性：否
 ```
 
+align-content 属性指定弹性容器中垂轴方向上的额外空间如何分配到弹性元素行之间和周围。虽然 align-content 与前面讨论的 align-items 属性在取值和相关概念上是一样的，但是二者的作用不同，后者指定的是每一行中弹性元素的定位方式。
 
+align-content 的作用与 justify-content 类似，后者在弹性容器的主轴方向上对齐各个弹性元素，而前者在弹性容器的垂轴方向上对齐各弹性元素行。align-content 属性只适用于分为多行显示的弹性容器，对禁止换行及只有一行的弹性容器没有影响。
 
-```html
-<section>
-    <div class="olive">Olive</div>
-    <div class="coral">Coral</div>
-    <div class="deepskyblue">
-        Deep
-        <br />
-        sky
-        <br />
-        blue
-    </div>
-    <div class="orchid">Orchid</div>
-    <div class="slateblue">Slateblue</div>
-    <div class="maroon">Maroon</div>
-</section>
-```
-
-
+以下述 CSS 为例，假设弹性元素没有外边距：
 
 ```css
-section {
-    border: solid 1.5px tomato;
-    height: 300px;
-    width: 300px;
-    flex-wrap: wrap;
-    gap: 0.2rem;
-    display: block;
-    align-content: center;
+.flex-container {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    border: 1px dashed;
+    height: 480px;
+    background-image: url(banded.svg);
 }
 
-.olive {
-    background-color: olive;
-}
-
-.coral {
-    background-color: coral;
-}
-
-.deepskyblue {
-    background: deepskyblue;
-}
-
-.orchid {
-    background-color: orchid;
-}
-
-.slateblue {
-    background-color: slateblue;
-    color: white;
-}
-
-.maroon {
-    background-color: maroon;
-    color: white;
+.flex-items {
+    margin: 0;
+    flow: 1;
 }
 ```
 
+在上述 CSS 的基础上分别使用 align-content 属性的七个值，得到的结果如下图所示。每个示例中都有三个弹性元素行，各行在垂轴起边和垂轴终边一侧的边分别使用红线和蓝线表示。弹性容器中余下的空间，即弹性元素行之间或周围的空间以条纹区域表示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/align-content%E5%B1%9E%E6%80%A7%E7%9A%84%E5%90%84%E4%B8%AA%E5%80%BC%E5%AF%B9%E9%A2%9D%E5%A4%96%E7%A9%BA%E9%97%B4%E7%9A%84%E5%88%86%E9%85%8D%E6%83%85%E5%86%B5.png)
+
+<br>
+
+## 间隔、周围和平均分配
+
+space-between 和 space-around 对弹性元素行对齐方式的影响需要深入讨论一下。
+
+设为 align-content: space-between 时，弹性元素行在弹性容器中均为分布。这里所说的均匀分配是针对可用空间，而不是行的尺寸。如果有多个弹性元素行，第一行将向弹性容器的垂轴起边靠拢，最后一行将向弹性容器的垂轴终边靠拢，余下的可用空间（如果有的话）则均匀分布在其他行之间。额外的空间是平均分布的，而不是按比例分布。弹性容器中任何两个弹性元素之间的空间都是等量的，即使弹性元素行在垂轴方向上的尺寸不同也是如此。此外，如果行数为奇数，中间那行不一定居中在弹性容器中，因为不是所有行在垂轴方向上的尺寸都一样。
+
+>仅当弹性容器中有多行弹性元素时，垂轴上的额外空间才会按一定方式分配。如果只有一行，align-content 属性对内容的分布没有影响。如果弹性容器中只有一行弹性元素，那一行的尺寸将被拉伸，占满全部可用空间。
+
+<br>
+
+任何两个相邻的行之间的空间其实是相等的。假设与前一节一样，有 3 行，额外空间总计 120 像素。第一个弹性元素行向垂轴起边一侧靠拢，第三个弹性元素行向垂轴终边一侧靠拢。因为二者之间还有一行，所以共有两处间隙。余下的 120 像素空间分成两等份，均为 60 像素。一份 60 像素的空间放在第一行和第二行之间，另一份则放在第二行和第三行之间，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E9%A2%9D%E5%A4%96%E7%A9%BA%E9%97%B4%E5%9C%A8%20space-between%E3%80%81space-around%E5%92%8Cspace-evenly%E4%B8%8B%E7%9A%84%E5%88%86%E5%B8%83%E6%83%85%E5%86%B5.png)
+
+space-aound 值均匀分布多行弹性容器中的各个弹性容器行，好似垂轴起边和垂轴终边两侧都有不折叠的等量外边距一样。因为额外的空间的是等量分配到每一行周围的，因此容器边界与第一行和最后一行之间的空间是行与行之间空间的一半。额外空间的分布情况如上图所示。
+
+>从 2017 年年末开始，flex-start、flex-end 等对齐值变得更一般性了，改成了 start、end 等等。这样改的目的是为了让 CSS 更多地考虑书写方向和布局方向。比如，这次改变增加了 margin-start 和 padding-end 等属性。这些变化还没定案（也没得到广泛支持），因此本书这一版没有讨论，不过要留意一下。
+
+目前，我们所讲的属性大多用于弹性容器（align-self 除外），现在该介绍直接应用于弹性元素上的属性了。
+
+<br>
+
+# 9. 弹性元素
+
+前面几节介绍了任何通过弹性容器的样式整体排布弹性元素。此外，弹性盒布局规范还提供了几个直接应用于弹性元素的属性。利用这些专门针对弹性元素的属性，可以更加细致地控制弹性容器中的单个子元素。
+
+<br>
+
+## 1. 弹性元素是什么
+
+为有子节点的元素声明 display: flex 或 display: inline-flex 即可创建弹性容器。弹性容器的子代称为弹性元素，不管是子元素，还是元素之间非空的文本节点，或是生成的内容。在下图中，各元素中只有一个字母，单词之间还有空格，因此字母和空格都是弹性元素。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/%E5%AD%90%E8%8A%82%E7%82%B9%E6%98%AF%E5%BC%B9%E6%80%A7%E5%85%83%E7%B4%A0%EF%BC%8C%E7%88%B6%E8%8A%82%E7%82%B9%E6%98%AF%E5%BC%B9%E6%80%A7%E5%AE%B9%E5%99%A8.png)
+
+对弹性容器中的文本子节点来说，如果文本节点不是空的（内容不是空白），将放在一个匿名弹性元素中，其行为与其他同辈弹性元素一样。虽然匿名弹性元素与同辈 DOM 节点一样，将继承在弹性容器上设置的相关弹性属性，但是不能直接使用 CSS 装饰。因此，不能直接在匿名弹性元素上设置针对弹性元素的属性。所以，在下述标记中，两个元素（`<strong>` 和 `<em>`）及文本 they're what's for 都是弹性元素，共有三个弹性元素：
+
+```html
+<p style="display: flex">
+    <strong>Flex items: </strong> they're what's for <em>&lt;br&gt;fast!</em>
+</p>
+```
+
+生成的内容可以直接装饰（通过 ::before 和 ::after），因此本节讨论的全部属性都能应用到生成的内容上。
+
+弹性容器中只有空白的文本节点将被忽略，就像把 display 属性设为 none 一样，如下述代码示例所示：
+
+```css
+nav ul {
+    display: flex;
+}
+```
+
+```html
+<nav>
+	<ul>
+        <li><a href="#1">Link 1</a></li>
+        <li><a href="#2">Link 2</a></li>
+        <li><a href="#3">Link 3</a></li>
+        <li><a href="#4">Link 4</a></li>
+        <li><a href="#5">Link 5</a></li>
+    </ul>
+</nav>
+```
+
+在上述代码中，因为 display 属性的值是 flex，所以无序列表是弹性容器，而它的子元素，即那些列表项目是弹性元素。作为弹性元素，列表项目是弹性块框体，虽然看起来不像列表项目，但是语义上仍是。那些列表项目不再是块级框了，因为它们现在身处容器的弹性格式化上下文中。li 元素之间及两侧的空白（换行符及缩进用的制表符和 / 或空格）将完全被忽略。链接不是弹性元素，而是变成弹性元素的列表项目的后代元素。
+
+<br>
+
+## 2. 弹性元素的特性
+
+弹性元素的外边距不折叠。float 和 clear 属性对弹性元素不起作用，不会把弹性元素移出文档流。其实，应用到弹性元素上的 float 和 clear 将被忽略（然而， float 属性对框体的生成仍有影响，因为 display 属性的计算值受它影响）。来看下述代码：
+
+```css
+aside {
+    display: flex;
+}
+
+img {
+    float: left;
+}
+```
+
+```html
+<aside>
+	<!-- 一条注释 -->
+    <h1>Header</h1>
+    
+    <img src="images/foo.jpg" alt="Foo Master" />
+    Some text
+</aside>
+```
+
+在这个示例中，aside 是弹性容器。注释和只有空白的文本节点被忽略。内容为 some text 的文本节点将放在一个匿名弹性元素中。标题、图像和内容为 some text 的文本节点都是弹性元素。因为图像是弹性元素，应用其上的 float 属性将被忽略。
+
+虽然图像和文本节点是行内节点，但是变成弹性元素后，只要没有绝对定位，就是块级的。
+
+```css
+aside {
+    display: flex;
+    align-items: center;
+}
+```
+
+```html
+<aside>
+	<!-- 一条注释 -->
+    <h1>Header</h1>
+    
+    <img src="images/foo.jpg" alt="foo master">
+    Some text <a href="foo.html">with a link</a> and more text
+</aside>
+```
+
+上述示例中的标记与第二个示例类似，不过非空的文本节点中多了个链接。此时，得到的弹性元素有 5个。注释和只有空白的文本节点被忽略。标题、图像、链接之前的文本节点、链接，以及链接之后的文本节点都是弹性元素，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC12%E7%AB%A0%EF%BC%9A%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/aside%E4%B8%AD%E7%9A%845%E4%B8%AA%E5%BC%B9%E6%80%A7%E5%85%83%E7%B4%A0.png)
+
+内容为 some text 和 and more text 的文本节点将放在匿名弹性元素中，在上图中以没有背景的虚线框表示（加上虚线是为了告诉你匿名弹性元素在哪里）。标题、图像和链接是真正的 DOM 节点，可以直接使用 CSS 装饰。匿名弹性元素不能直接选择，因此只能从弹性容器上继承样式。
+
+此外，vertical-align 对弹性元素没有影响，只用于设定弹性元素中文本的对齐方式。也就是说，应用在弹性元素上的 vertical-align: bottom 将把弹性元素中的文本对齐到行框底部，但是不会把弹性元素推向所在容器的底部（align-items 和 align-self 才有这样的效果）。
+
+<br>
+
+### 绝对定位
+
+我们知道 float 不会浮动弹性元素，但是 position: absolute 则不一样。如果绝对定位弹性容器的子元素，与绝对定位普通元素一样，将从文档流中移除。
+
+除此之外，绝对定位的弹性元素不再参与弹性布局，因为它们已经不在文档流中。然而，这些元素将受应用在弹性容器上的样式影响，就像子元素受普通父元素（非弹性容器）的样式影响一样。除了可继承的属性被继承之外，应用到弹性容器上的属性可能还会影响定位原点。
+
+绝对定位的弹性容器的子元素既受弹性容器的 justify-content 值影响，也受自身 align-self 值（如果设定了）的影响。例如，如果在绝对定位的子元素上设定 align-self: center，元素将相对弹性容器的垂轴居中，然后再使用 top、bottom、外边距等属性移动其位置。
+
+order 属性（12.16 节说明）对弹性容器中绝对定位的子元素的位置没有影响，但是对同辈元素的绘制顺序有影响。
+
+<br>
+
+## 3. 最小宽度
+
+在下图中可以看到，设为默认值 nowrap 的弹性元素行从弹性容器中溢出了。这是因为对弹性元素来说，未设定 min-width 时，默认为 auto，而不是 0。最初，规范指定，如果弹性元素在唯一的主轴上放不下，其尺寸将缩减。然而，出现弹性元素后，min-width 的规范改了（以前，min-width 的默认值是 0）。
+
+如果设置的 min-width 值比 auto 的计算值小，例如声明 min-width: 0，那么不换行那个示例中的弹性元素（在某些情况下）将比实际内容的宽度小。如果允许换行，弹性元素的宽度将正好能放下内容，不会比这更窄。这两种情况如图所示。
 
 
 
 
-# 12.9 弹性元素
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
