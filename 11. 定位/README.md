@@ -1010,358 +1010,112 @@ z-index 还有一个值需要说明。CSS 规范是这样规定默认值 auto �
 
 >尽管弹性布局和栅格布局中的元素不使用 position 属性定位，但是它们也受 z-index 的控制。相关的规则本质上是一样的。
 
+<br>
 
+# 7. 固定定位
 
+前一节暗示过，固定定位与绝对定位类似，只不过固定定位元素的容纳块是视区。固定定位的元素完全从文档流中移除，其位置与文档中的任何一部分都没关系。
 
+利用固定定位可以实现很多有趣的效果。首先，可以使用固定定位实现框架式界面。以下图为例，这是一种十分常见的布局方式。
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC11%E7%AB%A0%EF%BC%9A%E5%AE%9A%E4%BD%8D/%E4%BD%BF%E7%94%A8%E5%9B%BA%E5%AE%9A%E5%AE%9A%E4%BD%8D%E6%A8%A1%E6%8B%9F%E6%A1%86%E6%9E%B6.png)
 
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-​            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-​                                                                                                         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### 3. 示例
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-<title>CSS Positioning</title>
-<style>
-  .container {
-    position: relative;
-    width: 500px;
-    height: 300px;
-    border: 1px solid black;
-  }
-
-  .box {
-    position: absolute;
-    top: 20px;
-    height: 200px;
-    bottom: 20px;
-    margin-bottom: 50px; /* 这个值会导致过约束 */
-    left: 50px;
-    width: 400px;
-    background-color: lightblue;
-  }
-</style>
-</head>
-<body>
-
-<div class="container">
-  <div class="box">
-    This is an absolutely positioned element with over-constrained height.
-  </div>
-</div>
-
-</body>
-</html>
-```
-
-
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC11%E7%AB%A0%EF%BC%9A%E5%AE%9A%E4%BD%8D/11-12.png)
-
-
-
-**`在这个例子中，.box 元素的 top 为 20px，height 为 200px，bottom 为 20px，margin-bottom 为 50px。由于这些值的总和超过了包含块的高度，浏览器会首先将 margin-bottom 调整为 auto，并重新计算其值，margin-bottom 的值已经被浏览器调整为 10px，以满足等式：20px + 0 + 0 + 0 + 200px + 0 + 0 + 10px + 20px = 300px。`**
-
-
-
-
-
-
-
-## 5. 置换元素的位置和尺寸
-
-
-
-### 1.  横向布局
-
-1. **`如果把 width 设为 auto，width 的具体值由元素内容的内在宽度确定。因此，如果图像自身的宽度是 50 像素，那么计算得到的值是 50px。如果明确声明了 width（例如 100px 或 50%），那就使用设定的值。`** 
-2. **`在从左至右书写的语言中，如果 left 的值是 auto，auto 将替换为静态位置。在从右至左书写的语言中，right 属性的 auto 值将被替换为静态位置。`** 
-3. **`如果 left 或 right 的值仍是 auto（也就是说，在前一步中没有被替换），把margin-left 或 margin-right 的 auto 值替换为 0。`** 
-4. **`如果此时 margin-left 和 margin-right 的值仍为 auto，把二者设为相等的值，即让元素居中显示在容纳块中。`** 
-5. **`最后，如果还有一个属性的值为 auto，修改为满足等式所需的值。`** 
-
-
-
-
-
-#### 1. 过约束条件
-
-**`与非置换元素一样，如果导致过约束，用户代理将忽略 right（从左至右书写的语言）或 left（从右至左书写的语言）的值。因此，在下述示例中，为 right 声明的值将被计算得到的 50px 覆盖：`**
-
-```html
-<div style="position: relative; width: 300px;">
-    <img src="frown.gif" alt="a frowny face" style="position: absolute; top: 0; left: 50px; right: 125px; width: 200px; margin: 0;">
-</div>
-```
-
-
-
-
-
-
-
-
-
-
-
-### 2. 纵向布局
-
-1. **`如果把 height 设为 auto，height 的具体值由元素内容的内在高度确定。因此，如果图像自身的高度是 50 像素，那么计算得到的值是 50px。如果明确声明了  height（例如 100px 或 50%），那就使用设定的值。`** 
-2. **`如果 top 的值是 auto，替换为置换元素的静态位置。`** 
-3. **`如果 bottom 的值是 auto，把值为 auto 的 margin-top 或 margin-bottom 替换为 0。`** 
-4. **`如果此时 margin-top 和 margin-bottom 的值仍为 auto，把二者设为相等的值，即让元素居中显示在容纳块中。`** 
-5. **`最后，如果还有一个属性的值为 auto，修改为满足等式所需的值。`** 
-
-
-
-
-
-#### 1. 过约束条件  
-
-**`与非置换元素一样，如果过约束了，用户代理将忽略 bottom 的值。`**
-
-​                                                                                                          
-
-
-
-
-
-
-
-## 6. Z 轴上的位置
+这个布局可以使用下述样式实现：
 
 ```css
-z-index
+div#header {
+    position: fixed;
+    top: 0;
+    bottom: 80%;
+    left: 20%;
+    right: 0;
+    background: gray;
+}
 
-取值：<integer> | auto
-初始值：auto
-适用于：定位元素
-计算值：指定的值
-继承性：否
-动画性：是
+div#sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 80%;
+    background: silver;
+}
 ```
 
+这段样式把页头固定在视区顶部，把侧边栏固定在视区一侧，不论如何滚动文档，位置始终不变。然而，这样做的后果是，文档的其他部分会被这些固定元素遮盖。因此，余下的内容或许应该放在一个 div 容器中，并应用下述样式：
 
-
-
-
-### 1. 值是 auto
-
-**`盒子不会创建一个新的局部层叠上下文。盒子在当前层叠上下文的层叠等级是 0。`** 
-
-
-
-
-
-
-
-### 2. 值是 `<integer>`
-
-
-
-**`盒子在当前层叠上下文的层叠等级就是 <integer> 的值。盒子还会创建一个局部层叠上下文。这意味着该元素的后代元素不会和该元素的外部元素比较 z-index。`**
-
-
-
-**`当一个元素满足创建堆叠上下文的条件（例如，position: relative; 和 z-index: <integer> ），它会发生以下两件事：`** 
-
-1. **`层叠等级：该元素在当前堆叠上下文中的层叠等级由 <integer> 值决定。这意味着该元素会根据其 z-index 值，相对于同一堆叠上下文中的其他元素进行堆叠。`** 
-2. **`局部堆叠上下文：该元素会创建一个新的局部堆叠上下文。这意味着该元素的所有后代元素都将位于这个新的堆叠上下文中。关键在于，这些后台元素的 z-index 值只与该堆叠上下文中的其他元素进行比较，而不会与该元素外部的元素进行比较。`** 
-
-
-
-**`重点总结：`**
-
-* **`z-index 的值只在同一个堆叠上下文中才有意义。`** 
-* **`创建堆叠上下文的元素就像一个容器，其后代元素的堆叠顺序被限制在该容器内。`** 
-* **`这允许你创建模块化的 UI 组件，而不用担心组件内部的 z-index 值会影响到页面上的其他元素。`** 
-
- 
-
-```html
-<div class="container" style="position: relative; z-index: 1;">
-    <div class="box" style="position: absolute; z-index: 10;">Box inside container</div>
-</div>
-
-<div class="sibling" style="position: relative; z-index: 2;">Sibling</div>
+```css
+div#main {
+    position: absolute;
+    top: 20%;
+    bottom: 0;
+    left: 20%;
+    right: 0;
+    overflow: scroll;
+    background: white;
+}
 ```
 
+为这三个定位的 div 元素添加适当的外边距可以增加一点间隙。例如：
 
+```css
+body {
+    background: black;
+    color: silver;
+}
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC11%E7%AB%A0%EF%BC%9A%E5%AE%9A%E4%BD%8D/11-13.png)
+div#header {
+    position: fixed;
+    top: 0;
+    bottom: 80%;
+    left: 20%;
+    right: 0;
+    background: gray;
+    margin-bottom: 2px;
+    color: yellow;
+}
 
+div#sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 80%;
+    background: silver;
+    margin-right: 2px;
+    color: maroon;
+}
 
+div#main {
+    position: absolute;
+    top: 20%;
+    bottom: 0;
+    left: 20%;
+    right: 0;
+    overflow: auto;
+    background: white;
+    color: black;
+}
+```
 
-**`在这个例子中：`** 
+此时，可以为 body 元素添加平铺的背景图。背景图透过外边距创建的间隙能看到，如果创作人员觉得合适，当然还可以增大间隙。
 
-* **`.container 创建了一个堆叠上下文，因为它的 position 是 relative 并且 z-index: 1。`** 
-* **`.box 的 z-index 是 10，但这意味着它在 .container 内部的堆叠顺序。`** 
-* **`.sibling 的 z-index 是 2，它与 .container 在根堆叠上下文中进行比较。`** 
+利用固定定位还可以在界面中放一个始终可见的元素，例如一个小的链接列表。我们可以像下面这样创建一个始终可见的页脚，显示版权等信息：
 
-**`因此，.sibling 会覆盖 .container，即使 .box 的 z-index 值更高。这是因为 .box 的 z-index 只在其父元素 .container 创建的局部堆叠上下文中有效。`** 
+```css
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+}
+```
 
+这个样式把 footer 元素放在视区的底部，不管如何滚动文档，始终显示在那里。
 
+>除了始终可见的元素之外，其他很多通过固定定位实现的效果都能使用栅格布局（详情参见第 13 章）实现，而且有时可能更方便。
 
-​                                                                                                                                                                                                                 
-
-
-
- 
-
-
-
-# 7 固定定位
-
-**`固定定位元素的容纳块是视区。固定定位的元素完全从文档流中移除，其位置与文档中的任何一部分都没关系。`**
-
-
-
-
-
-
-
-
-
-
+<br>
 
 # 8. 相对定位
 
@@ -1377,19 +1131,70 @@ img {
 }
 ```
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC11%E7%AB%A0%EF%BC%9A%E5%AE%9A%E4%BD%8D/%E4%B8%80%E4%B8%AA%E7%9B%B8%E5%AF%B9%E5%AE%9A%E4%BD%8D%E7%9A%84%E5%85%83%E7%B4%A0.png)
 
+这里，我们把图像的上边界向上移动 20 像素，把左边界向左移动 20 像素。然而请注意，图像原本所在的位置出现了空白。这是因为，在相对定位中，元素从常规的位置移开了，但是其占据的空间并没有消失。来看下述样式，得到的结果如下图所示：
 
+```css
+em {
+    position: relative;
+    top: 10em;
+    color: red;
+}
+```
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC11%E7%AB%A0%EF%BC%9A%E5%AE%9A%E4%BD%8D/%E5%8F%A6%E4%B8%80%E4%B8%AA%E7%9B%B8%E5%AF%B9%E5%AE%9A%E4%BD%8D%E7%9A%84%E5%85%83%E7%B4%A0.png)
 
+可以看到，段落中有一些空白。这是 em 元素原本占据的空间，而且新位置上的 em 元素与原位置的布局方式完全一样。
 
+相对定位的元素还可能与其他元素重叠。例如，下述样式和标记得到的结果如下图所示：
 
-​                                            
+```css
+img.slide {
+    position: relative;
+    left: 30px;
+}
+```
 
+```html
+<p>
+    In this paragraph, we will find that there is an image that has been pushed to
+    the right.  It will therefore <img src="i/star.gif" alt="A star!"class="slide">
+    overlap content nearby, assuming that it is not the last element in its line box.
+</p>
+```
 
-
-
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC11%E7%AB%A0%EF%BC%9A%E5%AE%9A%E4%BD%8D/%E7%9B%B8%E5%AF%B9%E5%AE%9A%E4%BD%8D%E7%9A%84%E5%85%83%E7%B4%A0%E5%8F%AF%E8%83%BD%E4%B8%8E%E5%85%B6%E4%BB%96%E5%86%85%E5%AE%B9%E9%87%8D%E5%8F%A0.png)
 
 <br>
+
+相对定位有个有意思的小问题。试想，如果相对定位的元素过约束了会怎样？例如：
+
+```css
+strong {
+    position: relative;
+    top: 10px;
+    bottom: 20px;
+}
+```
+
+这里提供的两个值可能得到差别很大的结果。如果只考虑 top: 10px，元素将向下移动 10 像素，但是 bottom: 20px 显然会应用到元素上，把元素向上移动 20 像素。
+
+CSS2 规范没有明确规定如何处理这种情况。但是 CSS 2.1 规定，如果相对定位出现过约束，把其中一个值设为另一个值得相反数。因此，bottom 始终等于 -top。这意味着，上例将被视作：
+
+```css
+strong {
+    position: relative;
+    top: 10px;
+    bottom: -10px;
+}
+```
+
+因此，strong 元素将向下移动 10 像素。规范还考虑了书写方向。对相对定位来说，在从左至右书写的语言中，right 始终等于 -left。在从右至左书写的语言中，反过来，left 始终等于 -right。
+
+>前面几节说过，相对定位的元素为其子元素确立新的容纳块。这个容纳块相对元素的新位置而言。
+
+ <br>
 
 # 9. 粘滞定位
 

@@ -1,22 +1,97 @@
-# 13.1 创建栅格容器
+# 1. 创建栅格容器
 
-​          
+创建栅格的第一步是定义栅格容器。这与定位所用的容纳块和弹性盒布局中的弹性容器的作用很像：栅格容器为其中的内容定义一个栅格格式化上下文。
 
+从这一点上看，栅格布局从弹性盒布局上沿袭了相当多的概念。例如，栅格容器的子元素是栅格元素，就像弹性容器的子元素是弹性元素一样。子元素的子元素不是栅格元素，不过栅格元素自身也可以变作栅格容器，因此它的子元素将变成嵌套栅格的栅格元素。栅格之中可以嵌套栅格，而且层级不限（栅格布局还有子栅格这个概念， 它与嵌套的栅格容器不是一回事，稍后讨论）。
 
+栅格有两种：常规栅格和行内栅格。这两种栅格使用 display 属性的特殊值创建：grid 和 inline-grid。前者生成块级框，后者生成行内框。二者之间的区别如下图所示。
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E5%B8%B8%E8%A7%84%E6%A0%85%E6%A0%BC%E5%92%8C%E8%A1%8C%E5%86%85%E6%A0%85%E6%A0%BC.png)
 
+这与 display 属性的 block 和 inline-block 值十分相似。多数栅格都是块级的，不过你要知道也有创建行内栅格这一选择。
 
+虽然 display: grid 创建的是块级栅格，但是严谨的规范明确指出，栅格容器不是块级容器。意思就是，栅格框在布局中的行为与块级容器很像，但是二者之间仍有诸多区别。
 
+首先，浮动的元素不会打乱栅格容器。这意味着，栅格不会移到浮动元素的下方，而块级容器会。这一差异如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%B5%AE%E5%8A%A8%E5%85%83%E7%B4%A0%E5%AF%B9%E5%9D%97%E7%BA%A7%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A0%85%E6%A0%BC%E5%AE%B9%E5%99%A8%E7%9A%84%E5%BD%B1%E5%93%8D%E4%B8%8D%E4%B8%80%E6%A0%B7.png)
+
+其次，栅格容器的外边距不与其后代的外边距折叠。而块级框的外边距（默认）与其后代的外边距折叠，这是栅格容器与块级框的又一区别。例如，有序列表的第一个列表项目可能有上外边距，但这个外边距将与列表元素的上外边距折叠。然而，栅格元素的上外边距不会与栅格容器的上外边距折叠。这一差异如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E5%A4%96%E8%BE%B9%E8%B7%9D%E4%B8%8D%E6%8A%98%E5%8F%A0.png)
+
+有些 CSS 属性和功能不能用在栅格容器和栅格元素上，如下：
+
+* 栅格容器上的所有 solumn 属性（例如 column-count、columns 等）都被忽略。
+* 栅格容器没有 ::first-line 和 ::first-letter 伪元素，如果使用，将被忽略。
+* 栅格元素（而非栅格容器）上的 float 和 clear 属性将被忽略。尽管如此，float 属性对栅格容器中子元素的 display 属性的计算值是有影响的，因为栅格元素的 display 值在变成栅格元素之前计算。
+* vertical-align 属性对栅格元素不起作用，不过可能会影响栅格元素中的内容（别担心，对齐栅格元素有其他更强大的方式）。
+
+最后，如果为栅格容器声明的 display 值是 inline=grid，而目标元素的浮动的或绝对定位的，那么 display 的计算值将变为 grid（取代 inline-grid）。
+
+定义好栅格容器后，接下来要在容器中设置栅格。讨论具体方式之前，有必要说明几个术语。
 
 <br>
 
+# 2. 基本的栅格术语
+
+前面已经讨论过栅格容器和栅格元素，下面为其做个更准确的定义。如前所述，栅格容器是确立栅格格式化上下文的框体，即定义一个栅格区域，其中的元素根据栅格布局（而非块级布局）规则排布。这一点可以与通过 display: table 创建表格格式化上下文类比。表格自身就是一种栅格系统，因此这样类比还是相当合适的，但是不要以为栅格只是另一种形式的表格。栅格比表格强大得多。
+
+栅格元素是在栅格格式化上下文中参与栅格布局的东西。这通常是栅格容器的子元素，但也可以是元素内容中的匿名文本（即不再元素中的文本）。来看下述代码，得到的结果如下图所示：
+
+```          css
+#warning {
+    display: grid;
+    background: #FCC;
+    padding: 0.5em;
+    grid-template-rows: 1fr;
+    grid-template-columns: repeat(7, 1fr);
+}
+```
+
+```html
+<p id="warning">
+    <img src="warning.svg" >
+    <strong>Note: </strong>
+    This element is a 
+    <em>grid container</em>
+    with several
+    <em>grid items</em>
+    inside it.
+</p>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%A0%85%E6%A0%BC%E5%85%83%E7%B4%A0.png)
+
+注意，各元素及元素之间的文本都变成栅格元素了。图像是栅格元素，其他元素和文本块也是栅格元素，一共有 7 个，这些栅格元素都参与栅格布局，然而匿名文本块难以（或无法）使用下文将讨论的栅格属性控制。
+
+>你可能想知道 grid-template-rows 和 grid-template-columns 的作用，别急，下一节讨论。
+
 <br>
 
-# 13.3 放置栅格线
+在使用栅格属性的过程中，可能会创建或引用栅格布局的多个核心组件，如下图所示。
 
-**`放置栅格线可不是一件简单的事情。不是说这个概念有多难，而是因为栅格线的放置方式太多了，而且不同的方式使用的句法有细微的差别。`** 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%A0%85%E6%A0%BC%E7%BB%84%E4%BB%B6.png)
 
-**`先看两个联系紧密的属性：`** 
+最重要的组件是栅格线。栅格线的位置定义好之后，其他栅格组件也就随之而现了：
+
+* 栅格轨道（grid track）指两条相邻的栅格线之间夹住的整个区域，从栅格容器的一边延伸到对边，即栅格列或栅格行。栅格轨道的尺寸由栅格线的位置决定。可以对比表格中的列和行理解。用适用性更广的语言来说，可以称之为块级轴和行内轴轨道，（对西方语言来说）列轨道在块级轴上，行轨道在行内轴上。
+* 栅格单元（grid cell）指四条栅格线限定的区域，内部没有其他栅格线贯穿，类似于单元格。这是栅格布局中区域的最小单位。栅格单元不能直接使用 CSS 栅格属性处理，即没有属性能把一个栅格元素放在指定的栅格单元里（详情参见下一点）。
+* 栅格区域（grid area）指任何四条栅格线限定的矩形区域，由一个或多个栅格单元构成。最小的栅格区域是一个栅格单元，最大的栅格区域是栅格中所有的栅格单元。栅格区域能使用 CSS 栅格属性直接处理，定义好栅格区域后即可在其中放置栅格元素。
+
+特别注意，栅格轨道、栅格单元和栅格区域都完全由栅格线建构，不一定非要有相应的栅格元素存在。栅格区域中不一定充满栅格元素，完全可以让部分甚至多数栅格单元空着。此外，栅格元素还可以重叠，方法是定义重叠的栅格区域，或者把栅格线重叠起来。
+
+另外要注意的一点是，栅格线的数量不限，想定义多少就可以定义多少。你可以只定义一系列纵向的栅格线，创建一行多列布局。你也可以反过来，创建多个行轨道但不创建列轨道（当然还是会有一个列轨道，从栅格容器的一边延伸到对边）。
+
+然而，如果栅格元素无法放入你定义的列或行轨道中，或者你明确指定把栅格元素放在轨道的外部，那么栅格系统将自动添加栅格线和轨道。
+
+<br>
+
+# 3. 放置栅格线
+
+放置栅格线可不是一件简单的事。不是说这个概念有多难，而是因为栅格线的放置方式太多了，而且不同的方式使用的句法有细微的差别。
+
+先看两个联系紧密的属性：
 
 ```css
 grid-template-rows, grid-template-columns
@@ -30,15 +105,29 @@ grid-template-rows, grid-template-columns
 动画性：否
 ```
 
+使用着两个属性可以大致定义栅格模板（grid template, CSS 规范称之为 explicit grid, 显式栅格）中的栅格线。栅格中的一切都依赖栅格线，如果放置不当，整个布局轻易就会垮掉。
 
+>刚接触 CSS 栅格布局时，建议先在纸上或其他电子工具上把自己的想法画出来。有了参考，在使用 CSS 实现栅格时便能轻易看出栅格线的位置及其之间的关系。
 
+`<track-list>` 和 `<auto-track-list>` 的具体句法十分复杂，而且可以嵌套很多层，若想说清要用大量时间和篇幅，因此最好着重讨论涉及的理论。指定栅格线的位置有很多方式，学习具体的方法之前有必要了解一些基础知识。
 
+首先，栅格线始终可以使用数字引用，此外创作人员也可以为其命名。以下图中的栅格为例。在 CSS 中可以使用数字引用栅格线，也可以使用为其指定的名称，又或者二者混用。因此，你可以说一个栅格元素从竖线 3 延伸到线 steve，或者从横线 skylight 延伸到线 2。
 
-<br>
+注意，一条栅格线可以有多个名称。你可以使用栅格线的任何一个名称引用它，但是不能像类名那样连在一起使用。你可能以为这意味着最好重复使用相同的名称命名栅格线，但稍后你将看到，其实并非全然如此。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%A0%85%E6%A0%BC%E7%BA%BF%E7%9A%84%E7%BC%96%E5%8F%B7%E5%92%8C%E5%90%8D%E7%A7%B0.png)
+
+在上图中，我故意用了看起来傻傻的名称，这是为了表明你可以选择自己喜欢的任何名称，也是为了指出栅格线没有所谓的默认名称。倘若我把第一条栅格线命名为 start，你有可能以为第一条栅格线始终要用这个名称。事实并非如此，如果你想让一个栅格元素从 start 线延伸到 end 线，你要自己定义哪两条栅格线使用这两个名称。幸好，这并不难。
+
+前文说过，定义栅格模板的值有很多模式。下面从易到难逐一讨论。
 
 <br>
 
 ## 1. 宽度固定的栅格轨道
+
+首先说明如何创建栅格轨道的宽度是固定的栅格。这里所说的固定，不单指固定的像素或 em 长度，百分数也算固定宽度。宽度固定的栅格线指栅格线之间的距离不随栅格轨道中内容的变化而变。
+
+下面举个例子。以下声明定义的是三个宽度固定的栅格列：
 
 ```css
 #grid {
@@ -47,50 +136,66 @@ grid-template-rows, grid-template-columns
 }
 ```
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-1.png)
+第一条栅格线在距栅格容器起边（默认为左边）200 像素的位置，第二条栅格线距第一条栅格线的距离为栅格容器宽度的一半，第三条栅格线距第二条栅格线 100 像素，如下图所示。
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%A0%85%E6%A0%BC%E7%BA%BF%E7%9A%84%E4%BD%8D%E7%BD%AE.png)
 
+虽然第二列的尺寸会随栅格容器的尺寸变化，但是不会随这一列中栅格元素的内容而变。不管第二列中的内容多宽多窄，列的宽度始终为栅格容器宽度的一半。
+
+此外，最后一条栅格线没有接触栅格容器的右边界。这没关系，没有规定必须接触。然而，如果你想让它们接触，稍后会介绍多种方法。
 
 <br>
 
-<br>
-
-### 1. 栅格线命名
+很好，我们得到了所需的栅格，但是如果想为栅格线命名？只需把想用的名称放在值中的恰当位置，并在两侧加上方括号。名称的数量不限，想要多少个都可以。下面再前例的基础上为栅格线添加一些名称，结果如下图所示：
 
 ```css
 #grid {
-	display: grid;
+    display: grid;
     grid-template-columns: [start col-a] 200px [col-b] 50% [col-c] 100px [stop end last];
 }
 ```
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-2.png)    
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%A0%85%E6%A0%BC%E7%BA%BF%E7%9A%84%E5%90%8D%E7%A7%B0.png)
 
+添加名称后，值的句法更清晰了：带数字的值设定的是栅格轨道的宽度，而栅格线两侧始终有个宽度值。因此，宽度值为 3 个时，得到的栅格线有 4 条。
 
+<br>
+
+行栅格线的放置方式与列完全一样，如下图所示：
 
 ```css
 #grid {
-	display: grid;
+    display: grid;
     grid-template-columns: [start col-a] 200px [col-b] 50% [col-c] 100px [stop end last];
     grid-template-rows: [start masthead] 3em [content] 80% [footer] 2em [stop end];
 }
 ```
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-3.png)
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%A0%85%E6%A0%BC.png)
 
+这里有几点要注意。首先，列和行中都有名为 start 和 end 的栅格线。这完全没问题。行和列不共用命名空间，因此可以像这样再两个上下文中重用名称。
 
+其次，注意 content 行轨道的百分数值，它相对栅格容器的高度计算。因此，对高度为 500 像素的容器来说，content 行的高度为 400 像素。当然，你要事先知道栅格容器的高度，但实际情况并非总是如此。
 
 <br>
 
+你可能以为使用 100% 能让一行占满全部空间，其实不然，如下图所示：content 行轨道的高度与弹性容器相等，因此 footer 行轨道将被完全推到容器外部。
+
+```css
+#grid {
+    dispaly: grid;
+    grid-template-columns: [start col-a] 200px [col-b] 50% [col-c] 100px [stop end last];
+    grid-template-rows: [start masthead] 3em [content] 100% [footer] 2em [stop end];
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E8%B6%85%E5%87%BA%E6%A0%85%E6%A0%BC%E5%AE%B9%E5%99%A8.png)
+
 <br>
 
-### 2. 超出栅格容器
+这种问题的处理方式之一是（可能不是最好的方式），为行的尺寸设定极值，指明行的高度不能小于一个值，也不能大于一个值，让浏览器计算具体的值。这种方法所用的句法是 minmax(a,b)，其中 a 是最小尺寸、b 是最大尺寸。
 
-##### 1. minmax
-
-**`这种问题的处理方式之一是（可能不是最好的方式），为行的尺寸设定极值，指明行的高度不能小于一个值，也不能大于一个值，让浏览器计算具体的值。这种方法所用的句法是 minmax(a, b)，其中 a 是最小尺寸、b 是最大尺寸。`**
-
-```                                     css
+```css
 #grid {
     display: grid;
     grid-template-columns: [start col-a] 200px [col-b] 50% [col-c] 100px [stop end last];
@@ -98,925 +203,190 @@ grid-template-rows, grid-template-columns
 }
 ```
 
+这样做的意思是，content 行的高度不能小于 3em，而且不能大于栅格容器的高度。此时，浏览器会增加 content 行的高度，直到占满 masthead 和 footer 轨道以外的空间为止。如有必要，浏览器也会减少 content 行的高度，但不会小于 3em。也就是说，具体高度视情况而定。下图展示的是其中一种可能的结果。
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E9%80%82%E5%BA%94%E6%A0%85%E6%A0%BC%E5%AE%B9%E5%99%A8%E7%9A%84%E5%B0%BA%E5%AF%B8.png)
+
+类似地，可以使用 minmax() 让 col-b 列占满栅格容器的横向空间。注意，如果 minmax() 中指定的最大值比最小值小，最大值将被忽略，最小值将用于设定宽度固定的轨道长度。因此，minmax(100px, 2em) 在字号小于 50px 时将解析为 100px。
 
 <br>
 
-<br>
-
-##### 2. calc
+如果 minmax() 含糊的行为让你不安，可以使用其他替代方式。轨道的高度（或宽度）还可以使用 calc() 计算。例如：
 
 ```css
-#grid {
-    grid-template-rows: [start masthead] 3em [content] calc(100% - 5em) [footer] 2em [stop end];
-}
+trid-template-rows: [start masthead] 3em [content] calc(100% - 5em) [footer] 2em [stop end];
 ```
 
+此时，content 行的高度等于栅格容器的高度减去 masthead 和 footer 两行的高度，如前面那张插图所示。
 
-
-<br>
+calc() 用着不错，但有时不那么牢靠，因为修改 masthead 或 footer 行的高度后，要调整算式。此外，如果想让一列弹性变形，使用 calc() 很难实现（有时不可能实现）。当然，这种问题有更可靠的处理方式，具体参见下文。
 
 <br>
 
 ## 2. 弹性栅格轨道
 
-**`目前所见的栅格轨道都不具有弹性，其尺寸由长度值或栅格容器的尺寸确定，不受其他因素的影响。与之相比，弹性栅格轨道的尺寸基于弹性容器中非弹性轨道以外的空间确定，或者基于整个轨道中的具体内容而定。`** 
+目前所见的栅格轨道都不具有弹性，其尺寸由长度值或栅格容器的尺寸确定，不受其他因素的影响。与之相比，弹性栅格轨道的尺寸基于弹性容器中非弹性轨道以外的空间确定，或者基于整个轨道中的具体内容而定。
 
 <br>
 
-<br>
+### 份数单位
 
-### 1. 份数单位
+如果想把余下的空间分成一定份数，分配给各栏，可以使用 fr 单位。
 
-**`如果想把余下的空间分成一定份数，分配给各栏，可以使用 fr 单位。`** 
-
-**`最简单的情况是，把整个容器平均分成几等份。例如，如果想要四列，可以这样声明：`** 
+最简单的情况是，把整个容器平均分成几等份。例如，如果想要四列，可以这样声明：
 
 ```css
 grid-template-columns: 1fr 1fr 1fr 1fr;
 ```
 
-**`就这个示例而言，它等效于：`** 
+就这个示例而言，它等效于：
 
 ```css
 grid-template-columns: 25% 25% 25% 25%;
 ```
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-4.png)
+得到的结果如下图所示。
 
-
-
-<br>
-
-<br>
-
-## 3. 根据轨道中的内容适配
-
-<br>
-
-<br>
-
-## 4. 重复栅格线
-
-<br>
-
-<br>
-
-### 1. repeat
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%8A%8A%E5%AE%B9%E5%99%A8%E5%88%86%E6%88%90%E5%9B%9B%E5%88%97.png)
 
 ```css
-#grid {
-    grid-template-columns: repeat(10, 5em);
-}
+grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 ```
 
-**`就这样，我们创建了 10 个列轨道，每个轨道的宽度为 5em，共计 50em。显然，这比输入 10 次 5em 节省时间。`**
+处理 fr 单位的方式是，拿可用空间除以 fr 值之和，各轨道的尺寸等于 fr 值所对应的份数。
+
+因此，对第一个例子来说，四个 fr 值相加等于 4，可用空间除以 4，所以每一列的宽度为总空间的四分之一。添加一个 1fr 后，可用空间要除以 5，那么每一列的宽度为总空间的五分之一。
 
 <br>
 
-<br>
-
-**`假设我们想定义的列结构为 2em-1fr-1fr，然后重复三次。样式的写法如下`**
+当然，fr 单位前的数字不一定总是 1。假如你想得到三列，中间一列的宽度为其他两列的两倍。那么，可以这样声明：
 
 ```css
-#grid {
-    grid-template-columns: repeat(3, 2em 1fr 1fr);
-}                                                                                                     
+grid-template-columns: 1fr 2fr 1fr;
 ```
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-5.png)
+同样，还是拿总空间除以总和，因此一个 fr 单位占空间的 0.25。如此以来，第一个和第三个轨道的宽度为容器宽度的 25%，而中间一列的宽度为容器宽度的一半，因为那一列的值为 2fr，即 0.25 的两倍，等于 0.5。
 
 <br>
 
-<br>
+此外，不使用整数也可以。苹果派的食谱可能会像下面这样划分各列：
 
 ```css
-#grid {
+grid-template-columns: 1fr 3.14159fr 1fr;
+```
+
+计算过程留给你完成（这是个锻炼的好机会，万事开头难，但只要记住，先计算 1 + 3.14159 + 1）。
+
+<br>
+
+这样划分容器十分方便，但 fr 可不只是百分数的替代品这么简单，它还有更强大的功能。在某些列的尺寸固定，而部分空间弹性伸缩时，份数单位特别有用。请看下述声明，其结果如下图所示：
+
+```css
+grid-template-columns: 15em 1fr 10%;
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E4%B8%8D%E7%AE%A1%E4%BD%99%E4%B8%8B%E5%A4%9A%E5%B0%91%E7%A9%BA%E9%97%B4%EF%BC%8C%E9%83%BD%E5%88%86%E7%BB%99%E4%B8%AD%E9%97%B4%E4%B8%80%E5%88%97.png)
+
+这里，浏览器会为第一个和第三个轨道分配固定的宽度，而栅格容器中余下的空间，不管有多少，都分给中间那个轨道。因此，在 font-size 为浏览器通常的默认值 16px 时，对一个 1000 像素宽的栅格容器来说，第一列的宽度为 240 像素，第三列的宽度为 100 像素。二者之和为 340 像素，因此有 660 像素没有分配出去。份数单位总和为一，即 660 除以 1，得到 660 像素。这 660 像素都分给那个尺寸为 1fr 的轨道。如果栅格容器的宽度增加到 1400 像素，第三列的宽度将变成 140 像素，而中间一列的宽度为 1020 像素。
+
+<br>
+
+就这样，得到的栅格既有宽度固定的列，也有弹性伸缩的列。我们可以更进一步，把可用空间分成任意多份。例如：
+
+```css
+width: 100em;
+grid-template-columns: 15em 4.5fr 3fr 10%;
+```
+
+此时，各列的宽度如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E5%88%97%E7%9A%84%E5%B0%BA%E5%AF%B8%E5%BC%B9%E6%80%A7%E5%8F%98%E5%8C%96.png)
+
+从左至右，各列的宽度分别为 15em、45em、30em 和 10em。第一列的宽度是固定的，为 15em。最后一列的宽度是 100em 的 10%，即 10em。因此，有 75em 的空间要分给弹性变形的列。这两列的尺寸值相加为 7.5fr。对较宽的那一列来说，4.5 ÷ 7.5 等于 0.6，因此其宽度为 0.6 乘以 75em，等于 45em。类似地，3 ÷ 7.5 = 0.4，75em 的 0.4 倍等于 30em。
+
+我承认，准备这个例子时我事先算好了，确保 fr 之和及 width 的值正好能得到整数宽度。这么做纯粹是为了便于你理解。如果你不想使用这么巧合的数字，可以考虑把 width 的值改为 92.5 em 或 1234px。
+
+<br>
+
+如果想为轨道指定最小尺寸或最大尺寸，可以使用 minmax()。在前例的基础上，如果想确保第三列的宽度不小于 5em，可以把 CSS 声明改为：
+
+```css
+grid-template-columns: 15em 4.5fr minmax(5em, 3fr) 10%;
+```
+
+现在，布局的中间两列是弹性变形的，第三列的最小宽度为 5em。如果再变小，布局中将有三个宽度固定的列（宽度分别为 15em、5em 和 10%），以及一系列尺寸弹性变化的列，其尺寸等于余下的空间（如果有余的话）。经过计算可以得知，弹性变形的那一列最宽为 30.5556em。超过这一宽度，布局中便会出现两个弹性变形的列。
+
+<br>
+
+为了限制列轨道的宽度最大能为多少，而超过那个值就变成固定宽度，你可能会想使用 fr 值声明最小值，但这样做并不能得到预期的结果，因为 minmax() 表达式的最小值部分不允许使用 fr 单位。因此，使用 fr 设定最小值将导致整个声明失效。
+
+下面来看把最小值显式设为 0 的情况：
+
+```css
+grid-template-columns: 15em 1fr minmax(0, 500px) 10%;
+```
+
+如下图展示的是第三列能为 500 像素宽的情况下栅格的最小宽度。如果栅格再变窄。设定极值那一列的宽度将小于 500 像素。栅格变宽的话，第二列（尺寸为 fr 值得那一列）的宽度将大于零，而第三列的宽度仍是 500 像素。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E4%BD%BF%E7%94%A8%E6%9E%81%E5%80%BC%E8%AE%BE%E5%AE%9A%E5%88%97%E7%9A%84%E5%B0%BA%E5%AF%B8.png)
+
+仔细观察，你会在 15em 和 minmax(0, 500px) 两列的交界处看到 1fr 标注。它之所以在那个位置，是由于 1fr 列的左边界在第二条列栅格线上，而那一列没有宽度，因为没有多余的空间可分配了。类似地，minmax 列在第三条列栅格线上。只是，在这个例子中，第二条列栅格线与第三条列栅格线在同一位置上（因而 1fr 列的宽度才是零）。
+
+<br>
+
+倘若最小值比最大值大，那么整个值将替换为最小值。因此，minmax(500px, 200px) 将视为只有 500px 一个值。显然，你不会这么做，但是保不住混用百分数和份数时会出现这种情况。因此，你可以使用 minmax(10%, 1fr) 设定一列的尺寸，当其宽度小于弹性容器宽度的 10% 时，将固定在 10%。
+
+<br>
+
+份数单位和极值也能用在行上，只是行的尺寸很少这样设定。假设有这样一个布局，首行和尾行的尺寸是固定的，而中间放置内容的行是弹性变形的，而且有下限，例如下面这样：
+
+```css
+grid-template-rows: 3em minmax(5em, 1fr) 2em;
+```
+
+这样完全可行，但是更多的时候，你会想根据行中的内容的高度设定行的尺寸，而不是弹性容器高度的几分之几。下一节说明具体做法。
+
+<br>
+
+### 根据内容设定轨道尺寸
+
+能设置栅格轨道的尺寸为可用空间的几分之几，或者占据固定的空间的确不错，但是如果想把页面中的某些部分对齐起来，而无法确定各部分有多宽或多高？这时可以使用 min-content 和 max-content。
+
+这两个关键字的字面意思够简单，但是却不那么容器准确说明其作用。其实，max-content 的意思是占据内容所需的最大空间。对大段文本来说（例如博客文章），这个值一般意味着尽量多占据可用空间，为内容提供最大的空间。max-content 也可以指宽度尽量大，以防换行。对常规的文本段落而言，这可能导致列轨道特别宽。
+
+与之相比，min-content 的意思是尽量少占据空间，够显式内容即可。对文本来说，这意味着宽度会尽量收窄，只保证最长的单词（如果有图像或表单输入框的话，指宽度最大的行内元素）能在一行里完整显示。这个值会导致栅格元素中有大量断行，而且特别窄特别高。
+
+这两个关键字的强大之处在于，它们将应用于整个栅格轨道上。例如，如果把一列的尺寸设为 max-content，那么整个列轨道的宽度都与列中最宽的内容一样。下面通过一个显示图像的栅格（12 个）说明这一点，栅格的声明如下，结果如下图所示：
+
+```css
+#gallery {
     display: grid;
-    grid-template-columns: repeat(4, 10px [col-start] 250px [col-end]) 10px;
+    grid-template-columns: max-content max-content max-content max-content;
+    grid-template-rows: max-content max-content max-content;
 }
 ```
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-6.png)
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E7%94%B1%E5%86%85%E5%AE%B9%E7%A1%AE%E5%AE%9A%E6%A0%85%E6%A0%BC%E8%BD%A8%E9%81%93%E7%9A%84%E5%B0%BA%E5%AF%B8.png)
+
+先看各列。可以看到，每个列轨道的宽度都与轨道上最宽的图像相等。竖放的图像恰好对齐的那一列，其宽度较窄。如果横放图像，列的宽度将变大。各行也是如此。每一行的高度都与行中最高的图像相等。如果行中的图像都矮，那么整行都矮。
 
 <br>
 
-<br>
+这样做的好处是，内容可以是任何类型。如果为照片加上描述文字，所有行和列的尺寸都会调整，以便放下文本和图像，如下图所示。
 
-**`重复具名栅格线时注意一点，即相邻的两条具名栅格线将合并为一条具有两个名称的栅格线。也就是说，下面两个声明是等效的：`**
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%9C%89%E5%A4%9A%E7%A7%8D%E5%86%85%E5%AE%B9%E7%B1%BB%E5%9E%8B%E6%97%B6%E6%A0%85%E6%A0%BC%E8%BD%A8%E9%81%93%E7%9A%84%E5%B0%BA%E5%AF%B8.png)
 
-```css
-grid-template-rows: repeat(3, [top] 5em [bottom]);
-grid-template-rows: [top] 5em [bottom top] 5em [top bottom] 5em [bottom];
-```
+图中的设计不完整，图像与文本不协调，而且没有限制描述文字的宽度。其实，使用 max-content 值时，列的宽度就应该这样，因为 max-content 的意思是让列的宽度尽量大，以便放下全部内容。
 
-<br>
 
-<br>
 
-### 2. 自动填充的轨道
 
-```css
-grid-template-rows: repeat(auto-fill, [top] 5em [bottom]);
-```
 
-在三个不同高度的栅格容器中，上述自动填充行的示例得到的结果如图所示。
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-7.png)
 
-<br>
 
-<br>
 
-## 5. 栅格区域
 
-```css
-grid-template-areas
-
-取值：none | <string>
-初始值：none
-适用于：栅格容器
-计算值：声明的值
-继承性：否
-动画性：否                    
-```
-
-```html
-<div class="container">
-    <header class="header">Header</header>
-    <nav class="sidebar">Sidebar</nav>
-    <main class="main">Main Content</main>
-    <footer class="footer">Footer</footer>
-</div>
-```
-
-```css
-.container {
-    display: grid;
-    grid-template-areas: 
-        "header header header"
-        "sidebar main main"
-        "footer footer footer";
-    grid-template-columns: 1fr 3fr 1fr;
-    grid-template-rows: auto 1fr auto;
-    gap: 10px;
-    height: 500px;
-    width: 800px;
-    border: 1px solid black;
-}
-
-.header {
-    grid-area: header;
-    background-color: #eee;
-    border: 1px solid #333;
-    padding: 10px;
-    text-align: center;
-}
-
-.sidebar {
-    grid-area: sidebar;
-    background-color: #eee;
-    border: 1px solid #333;
-    padding: 10px;
-    text-align: center;
-}
-
-.main {
-    grid-area: main;
-    background-color: #eee;
-    border: 1px solid #333;
-    padding: 10px;
-    text-align: center;
-}
-
-.footer {
-    grid-area: footer;
-    background-color: #eee;
-    border: 1px solid #333;
-    padding: 10px;
-    text-align: center;
-}
-```
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-11.png)
-
-
-
-
-
-<br>
-
-<br>
-
-# 13.4 在栅格中附加元素
-
-<br>
-
-## 1. 使用列线和行线
-
-<br>
-
-### `1. <line-number>`
-
-**`网格线的数字索引，从 1 开始`** 
-
-```css
-grid-row-start，grid-row-end，grid-column-start，grid-column-end
-
-取值：auto | <custom-ident> | [ <integer> && <custom-ident>? ] | [ span && [ <integer> || <custom-ident> ]]
-初始值：auto
-适用于：栅格元素和绝对定位的元素（前提是容纳块为栅格容器）
-计算值：声明的值
-继承性：否
-动画性：否
-```
-
-
-
-```html
-<div class="container">
-    <div class="item item1">Item 1</div>
-    <div class="item item2">Item 2</div>
-    <div class="item item3">Item 3</div>
-</div>
-```
-
-```css
-.container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 100px);
-    gap: 10px;
-    width: 500px;
-    height: 400px;
-    border: 1px solid black;
-}
-
-
-.item {
-    background-color: #eee;
-    border: 1px solid #333;
-    padding: 10px;
-    text-align: center;
-}
-
-,item1 {
-    grid-column-start: 1;
-    grid-column-end: 3;
-    grid-row-start: 1;
-    grid-row-end: 2;
-}
-
-.item2 {
-    grid-column-start: 3;
-    grid-column-end: 4;
-    grid-row-start: 1;
-    grid-row-end: 4;
-}
-
-.item3 {
-    grid-column-start: 1;
-    grid-column-end: 3;
-    grid-row-start: 2;
-    grid-row-end: 4;
-}
-```
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-8.png)
-
-<br>
-
-<br>
-
-### `2. span <number>`
-
-**`项目跨越指定数量的网格轨道`** 
-
-```html
-<div class="container">
-    <div class="item item1">Item 1（跨越两列两行）</div>
-    <div class="item item2">Item 2（跨越三行）</div>
-    <div class="item item3">Item 3（跨越三列）</div>
-</div>
-```
-
-```css
-.container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 100px);
-    gap: 10px;
-    width: 500px;
-    height: 400px;
-    border: 1px solid black;
-}
-
-.item {
-    background-color: #eee;
-    border: 1px solid #333;
-    padding: 10px;
-    text-align: center;
-}
-
-.item1 {
-    grid-column-start: 1;
-    grid-column-end: span 2;
-    grid-row-start: 1;
-    grid-row-end: span 2;
-}
-
-.item2 {
-    grid-column-start: 3;
-    grid-row-start: 1;
-    grid-row-end: span 3;
-}
-
-.item3 {
-    grid-column-start: 1;
-    grid-column-end: span 3;
-    grid-row-start: 3;
-}
-```
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-9.png)
-
-<br>
-
-<br>
-
-### `3. <line-name>`
-
-**`使用命名的网格线`**
-
-```html
-<div class="container">
-    <div class="item item1">Item 1（占据两列一行）</div>
-    <div class="item item2">Item 2 （占据一列三行）</div>
-    <div class="item item3">Item 3（占据两列两行）</div>
-</div>
-```
-
-```css
-.container {
-    display: grid;
-    grid-template-columns: [col-start] 1fr [col-mid] 1fr [col-end];
-    grid-template-row: [row-start] 100px [row-mid] 100px [row-end];
-    gap: 10px;
-    width: 500px;
-    height: 300px;
-    border: 1px solid black;
-}
-
-.item {
-    background-color: #eee;
-    border: 1px solid #333;
-    padding: 10px;
-    text-align: center;
-}
-
-.item1 {
-    grid-column-start: col-start;
-    grid-column-end: col-mid;
-    grid-row-start: row-start;  
-    grid-row-end: row-mid;
-}
-
-.item2 {
-    grid-column-start: col-mid;
-    grid-column-end: col-end;
-    grid-row-start: row-mid;
-    grid-row-end: row-end;
-}
-
-.item3 {
-    grid-column-start: col-start;
-    grid-column-end: col-end;
-    grid-row-start: row-mid;
-    grid-row-end: row-end;
-}
-```
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-10.png)
-
-
-
-<br>
-
-<br>
-
-## 2. 行和列的简写属性
-
-```                           css
-grid-row, grid-column
-
-取值：<grid-line> [/ <grid-line> ]?                                                             
-初始值：auto
-适用于：栅格元素和绝对定位的元素（前提是容纳块为栅格容器）
-计算值：声明的值
-继承性：否
-动画性：否
-```
-
-```html
-<div class="container">
-    <div class="item item1">Item 1（占据两行两列）</div>
-    <div class="item item2">Item 2（占据两行一列）</div>
-    <div class="item item3">Item 3（占据一行三列）</div>
-</div>
-```
-
-```css
-.container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 100px);
-    gap: 10px;
-    width: 500px;
-    height: 400px;
-    border: 1px solid black;
-}
-
-.item {
-    background-color: #eee;
-    border: 1px solid #333;
-    padding: 10px;
-    text-align: center;
-}    
-
-.item1 {
-    grid-row: 1 / 3;
-    grid-column: 1 / 3;
-}
-
-.item2 {
-    grid-row: 1 / span 2;
-    grid-column: 3 / 4;
-}
-
-.item3 {
-    grid-row: 3;
-    grid-column: 1 / span 3;
-}
-```
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-12.png)
-
-
-
-## 3. 隐式栅格
-
-<br>
-
-
-
-## 4. 错误处理
-
-<br>
-
-
-
-## 5. 使用区域
-
-```css
-grid-area
-
-取值：<grid-line> [/ <grid-line> ]{0,3}
-初始值：参见各单独属性
-适用于：栅格元素和绝对定位元素（前提是容纳块为栅格容器）
-计算值：声明的值
-继承性：否
-动画性：否
-```
-
-<br>
-
-### 1. 使用 grid-template-area 配合 grid-area
-
-```html
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>grid-template-areas 示例</title>
-    <style>
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 100px);
-            grid-gap: 10px;
-            width: 500px;
-            height: 400px;
-            background-color: #f0f0f0;
-            padding: 10px;
-            grid-template-areas:
-                "header header header"
-                "sidebar content content"
-                "footer footer footer"
-        }
-        
-        .grid-item {
-            background-color: #ddd;
-            padding: 20px;
-            text-align: center;
-            font-size: 20px;
-        }
-        
-        .header {
-            grid-area: header;
-        }
-        
-        .sidebar {
-            grid-area: sidebar;
-        }
-        
-        .content {
-            grid-area: content;
-        }
-        
-        .footer {
-            grid-area: footer;
-        }
-    </style>
-</head>
-<body>
-    <div class="grid-container">
-        <div class="grid-item header">Header</div>
-        <div class="grid-item sidebar">Sidebar</div>
-        <div class="grid-item content">Content</div>
-        <div class="grid-item footer">Footer</div>
-    </div>
-</body>
-</html>
-```
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-13.png)
-
-
-
-<br>
-
-<br>
-
-# 13.5 栅格流
-
-```css
-grid-auto-flow
-
-取值：[ row | column ] || dense
-初始值：row
-适用于：栅格容器
-计算值：声明的值
-继承性：否
-动画性：否
-```
-
-<br>
-
-**`grid-auto-flow: row`**
-
-```html
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>grid-auto-flow: row 示例</title>
-    <style>
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(2, 50px);
-            grid-gap: 10px;
-            grid-auto-flow: row; /* 默认值，按行放置 */
-        }
-
-        .grid-item {
-            background-color: #ddd;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .item1 {
-            grid-column: auto / span 2; /* 占据两列 */
-        }
-    </style>
-</head>
-<body>
-    <div class="grid-container">
-        <div class="grid-item item1">1</div>
-        <div class="grid-item">2</div>
-        <div class="grid-item">3</div>
-        <div class="grid-item">4</div>
-        <div class="grid-item">5</div>
-    </div>
-</body>
-</html>
-```
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-14.png)
-
-
-
-**`grid-auto-flow: column`**
-
-```html
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>grid-auto-flow: column 示例</title>
-    <style>
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(2, 50px);
-            grid-gap: 10px;
-            grid-auto-flow: column; /* 按列放置 */
-        }
-
-        .grid-item {
-            background-color: #ddd;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .item1 {
-            grid-row: auto / span 2; /* 占据两行 */
-        }
-    </style>
-</head>
-<body>
-    <div class="grid-container">
-        <div class="grid-item item1">1</div>
-        <div class="grid-item">2</div>
-        <div class="grid-item">3</div>
-        <div class="grid-item">4</div>
-        <div class="grid-item">5</div>
-    </div>
-</body>
-</html>
-```
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-15.png)
-
-
-
-<br>
-
-<br>
-
-# 13.6 自动增加栅格线
-
-```html
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>grid-auto-rows 和 grid-auto-columns 示例</title>
-    <style>
-        .grid-container {
-            display: grid;
-            grid-template-columns: 100px 100px;
-            grid-template-rows: 50px 50px;
-            grid-gap: 10px;
-            grid-auto-rows: 80px; /* 设置隐式行高为 80px */
-            grid-auto-columns: 120px; /* 设置隐式列宽为 120px */
-        }
-
-        .grid-item {
-            background-color: #ddd;
-            padding: 10px;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <div class="grid-container">
-        <div class="grid-item">1</div>
-        <div class="grid-item">2</div>
-        <div class="grid-item">3</div>
-        <div class="grid-item">4</div>
-        <div class="grid-item">5</div>
-        <div class="grid-item">6</div>
-    </div>
-</body>
-</html>
-```
-
-**`在这个例子中，我们定义了一个 2x2 的显式栅格，但是有 6 个栅格项目。因此，隐式栅格会自动创建额外的行来容纳剩余的项目。grid-auto-rows: 80px; 设置了这些隐式创建的行的高度为 80px，grid-auto-columns: 120px; 设置了隐式创建的列的宽度为 120px。`** 
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-16.png)
-
-
-
-<br>
-
-<br>
-
-# 13.7 grid 简写属性
-
-```css
-grid
-
-取值：
-初始值：参见各单独属性
-适用于：栅格容器
-计算值：参见各单独属性
-继承性：否
-动画性：否
-```
-
-
-
-<br>
-
-<br>
-
-# 13.8 释放栅格空间
-
-<br>
-
-## 1. 栏距
-
-```css
-grid-row-gap, grid-column-gap
-
-取值：<length> | <percentage>
-初始值：0
-适用于：栅格容器
-计算值：一个绝对长度
-继承性：否
-动画性：是
-```
-
-```html
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>grid-row-gap 和 grid-column-gap 示例</title>
-    <style>
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
-            /* 设置行间距为 20px */
-            grid-row-gap: 20px;
-            /* 设置列间距为 10px */
-            grid-column-gap: 10px;
-        }
-
-        .grid-item {
-            background-color: #ddd;
-            padding: 20px;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <div class="grid-container">
-        <div class="grid-item">1</div>
-        <div class="grid-item">2</div>
-        <div class="grid-item">3</div>
-        <div class="grid-item">4</div>
-        <div class="grid-item">5</div>
-        <div class="grid-item">6</div>
-        <div class="grid-item">7</div>
-        <div class="grid-item">8</div>
-        <div class="grid-item">9</div>
-    </div>
-</body>
-</html>
-```
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-17.png)
-
-<br>
-
-```css
-gap
-
-取值：<grid-row-gap> <grid-column-gap>
-初始值：0 0
-适用于：栅格容器
-计算值：声明的值
-继承性：否
-动画性：是
-```
-
-```html
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gap 示例</title>
-    <style>
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
-            /* 设置行间距为 20px，列间距为 10px */
-            gap: 20px 10px;
-        }
-
-        .grid-item {
-            background-color: #ddd;
-            padding: 20px;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <div class="grid-container">
-        <div class="grid-item">1</div>
-        <div class="grid-item">2</div>
-        <div class="grid-item">3</div>
-        <div class="grid-item">4</div>
-        <div class="grid-item">5</div>
-        <div class="grid-item">6</div>
-        <div class="grid-item">7</div>
-        <div class="grid-item">8</div>
-        <div class="grid-item">9</div>
-    </div>
-</body>
-</html>
-```
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-18.png)
-
-<br>
-
-<br>
-
-# 13.9 栅格的对齐方式
-
-| 属性                  | 对齐的目标                             | 适用于         |
-| --------------------- | -------------------------------------- | -------------- |
-| **`justify-self`**    | **`行内方向（横向）上的一个栅格元素`** | **`栅格元素`** |
-| **`justify-items`**   | **`行内方向（横向）上的全部栅格元素`** | **`栅格容器`** |
-| **`justify-content`** | **`行内方向（横向）上的整个栅格`**     | **`栅格容器`** |
-| **`align-self`**      | **`块级方向（纵向）上的一个栅格元素`** | **`栅格元素`** |
-| **`align-items`**     | **`块级方向（纵向）上的全部栅格元素`** | **`栅格容器`** |
-| **`align-content`**   | **`块级方向（纵向）上的整个栅格`**     | **`栅格容器`** |
-
-```html
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS Grid 对齐示例</title>
-    <style>
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
-            height: 400px; /* 设置栅格容器的高度 */
-            width: 400px; /* 设置栅格容器的宽度 */
-            background-color: #eee;
-            /* 设置内容对齐方式 */
-            align-content: center;
-            justify-content: center;
-            /* 设置项目对齐方式 */
-            align-items: center;
-            justify-items: center;
-        }
-
-        .grid-item {
-            background-color: #ddd;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .item1 {
-            /* 设置单个项目的对齐方式 */
-            align-self: start;
-            justify-self: start;
-        }
-    </style>
-</head>
-<body>
-    <div class="grid-container">
-        <div class="grid-item item1">1</div>
-        <div class="grid-item">2</div>
-        <div class="grid-item">3</div>
-        <div class="grid-item">4</div>
-        <div class="grid-item">5</div>
-        <div class="grid-item">6</div>
-        <div class="grid-item">7</div>
-        <div class="grid-item">8</div>
-        <div class="grid-item">9</div>
-    </div>
-</body>
-</html>
-```
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/13-19.png)
 
 
 
