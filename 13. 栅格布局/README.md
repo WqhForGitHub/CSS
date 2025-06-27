@@ -1138,6 +1138,841 @@ grid-row, grid-column
 
 老实说，这比一个一个声明开始和结束线简洁多了。除了变简洁之外，这两个属性的行为大都与前面所说的一样。在以斜线分隔的两部分中，前一部分定义的是开始栅格线，后一部分定义的是结束栅格线。
 
+如果值中没有斜线，那么定义的是开始栅格线，结束栅格线取决于开始栅格线的值。如果开始栅格线是用名称引用的，那么结束栅格线也使用那个名称引用。因此，下面两个声明是等效的：
+
+```css
+grid-column: col-B;
+grid-column: col-B / col-B;
+```
+
+即，栅格元素将从指定名称的栅格线开始一直延伸到下一条同名栅格线，不管中间有多少栅格单元。
+
+<br>
+
+如果只提供一个数字，那么第二个数字（即结束线的编号）被设为 auto。因此，下面两对声明是等效的：
+
+```css
+grid-row: 2;
+grid-row: 2 / auto;
+
+grid-column: header;
+grid-column: header / header;
+```
+
+使用 grid-row 和 grid-column 指定栅格线的名称有个鲜为人知的行为，事关隐式命名的栅格线。你应该记得，定义具名栅格区域时将创建名称为 -start 和 -end 形式的栅格线。也就是，对名为 footer 的栅格区域来说，顶边和左边两条栅格线的名称是 footer-start，底边和右边两条栅格线的名称是 footer-end。
+
+此时通过区域的名称引用栅格线，也能把元素放在正确的位置上。因此，下述样式将得到如下图所示的结果：
+
+```css
+#grid {
+    display: grid;
+    grid-template-areas:
+        "header header"
+        "sidebar content"
+        "footer footer";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 25% 75%;
+}
+
+#header {
+    grid-rows: header / header;
+    grid-column: header;
+}
+
+#footer {
+    grid-row: footer;
+    grid-column: footer-start / footer-end;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E9%80%9A%E8%BF%87%E6%A0%85%E6%A0%BC%E5%8C%BA%E5%9F%9F%E9%9A%90%E5%BC%8F%E5%88%9B%E5%BB%BA%E7%9A%84%E5%90%8D%E7%A7%B0%E6%8A%8A%E5%85%83%E7%B4%A0%E9%99%84%E5%8A%A0%E5%88%B0%E6%A0%85%E6%A0%BC%E7%BA%BF%E4%B8%8A.png)
+
+<br>
+
+隐式创建的栅格线名称始终可以直接引用，但是如果只引用栅格区域的名称，也不会出错。如果引用的栅格线名称不属于任何栅格区域，那就回落到前面讨论的行为。即，相当于使用 line-name 1。因此，下面两个声明是等效的：
+
+```css
+grid-column: jane / doe;
+grid-column: jane 1 / doe 1;
+```
+
+正因为如此，使用相同的名称命名栅格线和栅格区域是有一定风险的。请看下面的声明：
+
+```css
+grid-template-areas:
+	"header header"
+	"sidebar content"
+	"footer footer"
+	"legal legal";
+grid-template-rows: auto 1fr [footer] auto [footer];
+grid-template-columns: 25% 75%;
+```
+
+这里，显式把 footer 行上面和 legal 行下面两条栅格线命名为 footer。那么，问题也随着而来了。假如我们声明了下述样式：
+
+```css
+#footer {
+    grid-column: footer;
+    grid-row: footer;
+}
+```
+
+列线没什么问题。footer 扩展为 footer / footer。浏览器查找同名的栅格区域，如果找到，把 footer / footer 变成 footer-start / footer-end。因此，#footer 元素附加在这两条隐式创建的栅格线上。
+
+对 grid-row 来说，一开始都是一样的。footer 变成 footer / footer。然后再变成 footer-start / footer-end。但是，这意味着 #footer 元素将与 footer 行一样高。这个元素不会延伸到 legal 行下面那条显示命名为 footer 的栅格线，因为 footer 到 footer-end 的转换优先级高（由于栅格线和栅格区域同名了）。
+
+综上，一般来说最好不要使用相同的名称命名栅格区域和栅格线。有些情况下可能不会受到这一问题的影响，但是最好始终把线和区域的名称区分开，以免导致命名解析冲突。
+
+<br>
+
+## 3. 隐式栅格
+
+目前我们关注的都是显式定义的栅格，我们讨论了如何通过 grid-template-columns 等属性定义行和列轨道，以及如何把栅格元素附加到轨道中的单元里。
+
+但是，如果栅格元素（或其一部分）超出了显式定义的栅格？以下述栅格为例：
+
+```css
+#grid {
+    display: grid;
+    grid-template-rows: 2em 2em;
+    grid-template-columns: repeat(6, 4em);
+}
+```
+
+这个栅格十分简单，有两行六列。但是，如果我们把一个栅格元素放在第一列中，而且从第一条行线一直延伸到第四条行线，那么情况如何？
+
+```css
+.box01 {
+    grid-column: 1;
+    grid-row: 1 / 4;
+}
+```
+
+三条栅格线只能界定两行，但是我们让浏览器从行线 1 延伸到行线 4。
+
+<br>遇到这种情况，浏览器会再创建一条行线。这条栅格线，以及由此而生的一个行轨道都是隐式栅格的一部分。下面几个栅格元素都会创建隐式栅格线（和轨道），在栅格中的排布方式如下图所示：
+
+```css
+.box01 {
+    grid-column: 1;
+    grid-row: 1 / 4;
+}
+
+.box02 {
+    grid-column: 2;
+    grid-row: 3 / span 2;
+}
+
+.box03 {
+    grid-column: 3;
+    grid-row: span 2 / 3;
+}
+
+.box04 {
+    grid-column: 4;
+    grid-row: span 2 / 5;
+}
+
+.box05 {
+    grid-column: 5;
+    grid-row: span 4 / 5;
+}
+
+.box06 {
+    grid-colkumn: 6;
+    grid-row: -1 / span 3;
+}
+
+.box07 {
+    grid-column: 7;
+    grid-row: span 3 / -1;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E5%88%9B%E5%BB%BA%E9%9A%90%E5%BC%8F%E6%A0%85%E6%A0%BC%E7%BA%BF%E5%92%8C%E8%BD%A8%E9%81%93.png)
+
+图中的内容很多，下面详细说明。首先，各数字框背后的浅灰色表示显式栅格，虚线表示隐式栅格。
+
+再看那些数字框。前面说过，box1 在显式栅格的后面添加一条栅格线。box2 从显式栅格的最后一条栅格线开始，向下延伸两条线，因此它还会添加一条隐式栅格线。box3 在最后一条显式栅格线（线3）结束，向上跨两条线，因此从第一条显式栅格线开始。
+
+box4 就有趣了，它在第五条行线（即第二条隐式栅格线）结束，向上跨三条线，因此开始栅格线与box3 一样，这是因为，跨度是从显式栅格开始计数的，然后向隐式栅格延伸（box2 就是这样），但是不能从隐式栅格开始计数。
+
+因此，box4 在第五条行线结束，但是它从栅格线 3 开始反向延伸两条线（span 2）到达行线 1。类似地，box5 在行线 5 处结束，而且反向延伸四条线，因此从行线 2 开始。记住，跨度必定从显式栅格内部开始计数，但是不一定在显式栅格中结束。
+
+box6 从最后一条显式行线（线 3）开始，一直跨到第六条行线，因此又会增加一条隐式行线。这个数字框的目的是说明引用栅格线的负数是相对显式栅格而言向结束端的反向计数的，而不是反向引用位于显式栅格开始端前面的隐式栅格线。
+
+如果想让元素从显式栅格开始端前面的隐式栅格线开始，请看 box7：把结束线放在显式栅格的某个位置，然后反向跨越显式栅格的起端。你可能注意到了，box7 占着一个隐式列轨道。一开始，栅格有六列，因此有七条列线，所以显式栅格在第七条列线处结束。在 box7 上声明的 grid-column: 7 等效于 grid-column: 7 / span 1（因为缺少的结束线始终假定为 span 1），为了在第七个隐式列轨道中放置栅格元素，必然要创建一个隐式列线。
+
+<br>下面在此基础上加入具名栅格线。请看下面的样式，得到的结果如下图所示：
+
+```css
+#grid {
+    display: grid;
+    grid-template-rows: [begin] 2em [middle] 2em [end];
+    grid-template-columns: repeat(5, 5em);
+}
+
+.box01 {
+    grid-column: 1;
+    grid-row: 2 / span end 2;
+}
+
+.box02 {
+    grid-column: 2;
+    grid-row: 2 / span final;
+}
+
+.box03 {
+    grid-colun: 3;
+    grid-row: 1 / span 3 middle;
+}
+
+.box04 {
+    grid-column: 4;
+    grid-row: span begin 2 / end;
+}
+
+.box05 {
+    grid-column: 5;
+    grid-row: span 2 middle / begin;
+}
+```
+
+可以看出，每条隐式创建的栅格线都有名称。以 box2 为例。我们指定的结束线名为 final，但是显式栅格中没有这条线，一直搜索到显式栅格的尾端也没有找到，因此新建一条栅格线，将其命名为 final（在下图中，隐式创建的栅格线名称以浅色的斜体字表示）。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E5%85%B7%E5%90%8D%E9%9A%90%E5%BC%8F%E6%A0%85%E6%A0%BC%E7%BA%BF%E5%92%8C%E8%BD%A8%E9%81%93.png)
+
+类似地，box3 从第一条显式行线开始，而且要跨三条名为 middle 的线。向前搜索，在显式栅格中找到一条，然后继续寻找下两条。在显式栅格中找不到，把第一条隐式栅格线的名称设为 middle。第二条隐式栅格线以同样的方式处理。因此，box3 在显式栅格后面的第二条隐式栅格线处结束。
+
+box4 和 box5 也是这样处理的，只不过是向终点的反方向搜索的。box4 在 end 线（线 3）结束，反向跨到找到的第二条 begin 线。因此，在第一条栅格线前面会创建一条隐式栅格线，名为 begin。box5 从 begin 线（显式命名为 begin 的线）开始反向跨到找到的第二条 middle 线。因为在那个方向上找不到名为 middle 的栅格线，所以会创建两条名为 middle 的隐式栅格线，在离起点最远的那一条线处结束。
+
+完全掌握原理后你会发现，隐式栅格是十分优雅的回落机制。但是，一般而言最好始终使用显式栅格，确保显式栅格能放得下全部元素，如果缺少一行，不要让元素从栅格的边界溢出，而应该调整栅格模板的值。
+
+<br>
+
+## 4. 错误处理
+
+有些异常情况处理，以防出现奇形怪状的栅格。
+
+首先，如果不小心把开始线放在结束线后面，结果如何？比如下面这样：
+
+```css
+grid-row-start: 5;
+grid-row-end: 2;
+```
+
+结果可能与我们一开始想表达的一样：对调两个值。因此，得到的将是：
+
+```css
+grid-row-start: 2;
+grid-row-end: 5;
+```
+
+<br>其次，如果开始线和结束线都声明为跨度，该怎么处理？例如：
+
+```css
+grid-column-start: span;
+grid-column-end: span 3;
+```
+
+这种情况下，结束线的值将被丢弃，替换为 auto。因此，得到的将是：
+
+```css
+grid-column-start: span; /* 'span' 等同于 'span 1' */
+grid-column-end: auto;
+```
+
+此时，栅格元素的结束边界根据当前栅格流（稍后讨论这个话题）自动放置，而开始边界则放在前一条栅格线上。
+
+<br>最后，如果只用具名跨度指明栅格元素的位置，该如何处理？比如说：
+
+```css
+grid-row-start: span footer;
+grid-row-end: auto;
+```
+
+规范不允许这么做，因此 span footer 将替换为 span 1。
+
+<br>
+
+## 5. 使用区域
+
+通过行线和列线附加元素是不错，但是能不能只用一个属性引用栅格区域？当然可以 grid-area。
+
+```css
+grid-area
+
+取值：<grid-line> [/ <grid-line>]{0,3}
+初始值：参见各单独属性
+适用于：栅格元素和绝对定位的元素（前提是容纳块为栅格容器）
+计算值：声明的值
+继承性：否
+动画性：否
+```
+
+先讲 grid-area 较为简单的用法：把元素指定给定义好的栅格区域。没什么难理解的。把前文用过的 grid-template-areas 声明拿过来，加上 grid-area 声明和一些标记，得到的结果如下图所示：
+
+```css
+#grid {
+    display: grid;
+    grid-template-areas:
+        "header header header header"
+        "leftside content content rightside"
+        "leftside footer footer footer";
+}
+
+#masthead {
+    grid-area: header;
+}
+
+#sidebar {
+    grid-area: leftside;
+}
+
+#main {
+    grid-area: content;
+}
+
+#navbar {
+    grid-area: rightside;
+}
+
+#footer {
+    grid-area: footer;
+}
+```
+
+```html
+<div id="grid">
+    <div id="masthead">...</div>
+    <div id="main">...</div>
+    <div id="navbar">...</div>
+    <div id="sidebar">...</div>
+    <div id="footer">...</div>
+</div>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%8A%8A%E5%85%83%E7%B4%A0%E5%88%86%E5%88%B0%E5%90%84%E4%B8%AA%E6%A0%85%E6%A0%BC%E5%8C%BA%E5%9F%9F%E4%B8%AD.png)
+
+就是这么简单：先设置一些具名栅格区域，定义布局，然后通过 grid-area 把栅格元素放入指定的区域。简单而强大。
+
+<br>
+
+你可能注意到了，上述 CSS 中没有指定列轨道和行轨道的尺寸。这完全是为了突出本节要讲的知识。实际使用中，规则可能会写成下面这样：
+
+```css
+grid-template-areas:
+	"header header header header"
+	"leftside content content rightside"
+	"leftside footer footer footer";
+grid-template-rows: 200px 1fr 3em;
+grid-template-columns: 20em 1fr 1fr 10em;
+```
+
+此外，还可以使用 grid-area 引用栅格线。事前提醒：基于多方面的原因，所用的句法一开始可能让人摸不着头脑。
+
+下面的例子通过栅格模板定义了几条栅格线，然后又使用 grid-area 规则引用了那些栅格线，结果如下图所示：
+
+```css
+#grid {
+    display: grid;
+    grid-template-rows: [r1-start] 1fr [r1-end r2-start] 2fr [r2-end];
+    grid-template-columns: [col-start] 1fr [col-end main-start] 1fr [main-end];
+}
+
+.box01 {
+    grid-area: r1 / main / r1 / main;
+}
+
+.box02 {
+    grid-area: r2-start / col-start / r2-end / main-end;
+}
+
+.box03 {
+    grid-area: 1 / 1 / 2 / 2;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%8A%8A%E5%85%83%E7%B4%A0%E9%99%84%E5%8A%A0%E5%88%B0%E6%A0%85%E6%A0%BC%E7%BA%BF%E4%B8%8A.png)
+
+可以看到，元素是按我们指定的方式放置的。不过，请注意栅格线值的顺序：row-start、column-start、row-end、column-end。在脑中构想以下便会发现，这些值是围绕栅格元素逆时针排列的。这与我们习惯的外边距、内边距和边框等采用的 TRBL（上右下左）顺序正好相反。此外，对列和行的引用也不是放在一起的，而是分开的。
+
+当然，这是故意为之的。至于原因嘛，笔者也不知道。
+
+如果提供的值少于四个，缺少的值根据提供的值确定。如果只有三个值，而且 grid-column-start 的值是栅格线的名称，那么缺少的 grid-column-end 值与 grid-column-start 的值相同。如果开始线的值是一个数字，那么结束线的值被设为 auto。如果只提供两个值，也采用这种方式处理，只不过当 grid-row-start 的值是栅格线的名称时，缺少的 grid-row-end 值与之相同，否则设为 auto。
+
+据此，你或许能猜到只提供一个值时是怎么处理的了：如果是栅格线的名称，四个值都用那个名称。如果是数字，余下的都设为 auto。
+
+指定单个栅格区域名称就能让栅格元素填入那个区域正是基于这种一出四的复制模式。下面两个声明是等效的：
+
+```css
+grid-area: footer;
+grid-area: footer / footer / footer / footer;
+```
+
+<br>
+
+现在，回想一下前一节讨论的有关 grid-column 和 grid-row 的行为：如果栅格线的名称与栅格区域的名称一致，名称将变成相应的 -start 或 -end 形式。因此，前例最终将变成：
+
+```css
+grid-area: footer-start / footer-start / footer-end / footer-end;
+```
+
+这就是通过一个栅格区域名称就能把元素放到相应栅格区域中的原因。
+
+<br>
+
+## 6. 栅格元素重叠
+
+目前，我们在创建栅格布局时都极力避免出现重叠。然而，与定位一样，栅格元素是完全有可能重叠的（牢记这一点）。下面举个简单的例子，结果如下图所示：
+
+```css
+#grid {
+    display: grid;
+    grid-template-rows: 50% 50%;
+    grid-template-columns: 50% 50%;
+}
+
+.box01 {
+    grid-area: 1 / 1 / 2 / 3;
+}
+
+.box02 {
+    grid-area: 1 / 2 / 3 / 2;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%A0%85%E6%A0%BC%E5%85%83%E7%B4%A0%E5%87%BA%E7%8E%B0%E9%87%8D%E5%8F%A0.png)
+
+根据我们指定的栅格线编号，示例中的两个栅格元素在右上角那个栅格单元中重叠。哪个元素在上面取决于后文将讨论的分层行为，现在只需知道重叠时会分层即可。
+
+<br>不只使用数字引用栅格线时可能出现重叠。在下面的例子中，侧边栏和页脚将重叠，如下图所示（假设页脚的标记出现在侧边栏的标记后面，如果没有其他样式的影响，页脚将显示在侧边栏上面）。
+
+```css
+#grid {
+    display: grid;
+    grid-template-areas: 
+        "header header"
+        "sidebar content"
+        "footer footer";
+}
+
+#header {
+    grid-area: header;
+}
+
+#sidebar {
+    grid-area: sidebar / sidebar / footer-end / sidebar;
+}
+
+#footer {
+    grid-area: footer;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%92%8C%E9%A1%B5%E8%84%9A%E5%87%BA%E7%8E%B0%E9%87%8D%E5%8F%A0.png)
+
+这里提及这个话题，部分原因是让你知道栅格元素有可能出现重叠，此外也是为了转换到下一个话题，即栅格流。这个特性把栅格布局与定位区分开，有时能避免重叠。
+
+<br>
+
+# 5. 栅格流
+
+前面基本上都明确指定了栅格元素在栅格中的位置。如果不明确指定，栅格元素将自动放入栅格中。在栅格流的作用下，栅格元素将放在第一个适合它的区域中。最简单的情况是，按顺序一个一个把栅格元素放入栅格轨道中。但实际情况可能比这复杂得多，尤其是显式定位和自动定位的栅格元素共存时，后者将围绕前者放置。
+
+栅格流主要分为两种模式，即行优先和列优先，不过二者都可以通过密集流增强。栅格流通过 grid-auto-flow 属性设置。
+
+```css
+grid-auto-flow
+
+取值：[ row | column ] || dense
+初始值：row
+适用于：栅格容器
+计算值：声明的值
+继承性：否
+动画性：否
+```
+
+以下述标记为例说明这些值的作用：
+
+```html
+<ol id="grid">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+</ol>
+```
+
+我们在这段标记上应用下述样式：
+
+```css
+#grid {
+    display: grid;
+    width: 45em;
+    height: 8em;
+    grid-auto-flow: row;
+}
+
+#grid li {
+    grid-row: auto;
+    grid-column: auto;
+}
+```
+
+假设栅格中每隔 15em 有一条列线、每隔 4em 有一条行线，那么将得到如下图所示的结果。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E8%A1%8C%E4%B8%BB%E5%AF%BC%E7%9A%84%E6%A0%85%E6%A0%BC%E6%B5%81.png)
+
+这看起来再正常不过了，浮动或行内排布也能得到一样的结果。正因为如此，row 才是默认值。下面把 grid-auto-flow 的值换成 column 试试，结果如下图所示：
+
+```css
+#grid {
+    display: grid;
+    width: 45em;
+    height: 8em;
+    grid-auto-flow: column;
+}
+
+#grid li {
+    grid-row: auto;
+    grid-column: auto;
+}
+```
+
+可以看到，声明 grid-auto-flow: row 时，先填满一行再转到下一行，而声明 grid-auto-flow: column 时，则先填满一列。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E5%88%97%E4%B8%BB%E5%AF%BC%E7%9A%84%E6%A0%85%E6%A0%BC%E6%B5%81.png)
+
+<br>特别注意，这里没有明确设定列表项目的尺寸。默认情况下，元素的尺寸将自动调整，以便附加到所定义的栅格线上。为元素显式设定尺寸便可以覆盖这一行为。例如，把列表元素的宽度设为 7em、高度设为 1.5em，将得到如下图所示的结果：
+
+```css
+#grid {
+    display: grid;
+    width: 45em;
+    height: 8em;
+    grid-auto-flow: column;
+}
+
+#grid li {
+    grid-row: auto;
+    grid-column: auto;
+    width: 7em;
+    height: 1.5em;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%98%BE%E5%BC%8F%E8%AE%BE%E5%AE%9A%E6%A0%85%E6%A0%BC%E5%85%83%E7%B4%A0%E7%9A%84%E5%B0%BA%E5%AF%B8.png)
+
+与前一副插图比较，你会发现相同编号的栅格元素是从同一位置开始的，但是不在同一位置结束。这表明，栅格流放置的其实是栅格区域，然后再把栅格元素附加到栅格区域中。
+
+如果自动流动的元素比所在的列宽，或者比所在的行高，一定要记住这一点。不要以为这种情况不常见，栅格元素是图像或其他具有内在尺寸的元素时非常容易出现这种情况。假设有个栅格每隔 50 像素有一条列线、每隔 50 像素有一条行线，我们想再这个栅格中放一些尺寸各异的图像。以行的优先或列优先的流动方式放置一系列图像后得到的结果如下图所示。
+
+```css
+#grid {
+    display: grid;
+    grid-template-rows: repeat(3, 50px);
+    grid-template-columns: repeat(4, 50px);
+    grid-auto-rows: 50px;
+    grid-auto-columns: 50px;
+}
+
+img {
+    grid-row: auto;
+    grid-column: auto;
+}
+```
+
+有些图像出现了重叠，注意到了？这是因为各个图像是附加到栅格流中的下一条栅格线上的，没有考虑其他栅格元素的存在。图像较大时，我们没有让图像跨越多个栅格轨道，因此出现了重叠。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E5%9C%A8%E6%A0%85%E6%A0%BC%E4%B8%AD%E8%87%AA%E5%8A%A8%E6%B5%81%E5%8A%A8%E7%9A%84%E5%9B%BE%E5%83%8F.png)
+
+<br>如果想为不同尺寸的图像设定不同的跨度，可以通过类或其他方式添加样式。比如为占多个栅格轨道的图像加上 tall 或 wide 类（或二者兼具），然后添加下述 CSS，得到的结果如下图所示：
+
+```css
+img.wide {
+    grid-column: auto / span 2;
+}
+
+img.tall {
+    grid-row: auto / span 2;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E8%AE%A9%E5%9B%BE%E5%83%8F%E8%B7%A8%E8%B6%8A%E5%A4%9A%E4%B8%AA%E6%A0%85%E6%A0%BC%E8%BD%A8%E9%81%93.png)
+
+这样图像会向下展开，但是没有重叠了。
+
+<br>然而，注意到前一个栅格中有间隙了吗？这是因为跨多条栅格线的栅格元素没有为栅格流中的其他元素留出足够多的空间。为了更清楚地表明两种栅格流模式对这种情况的处理方式，下面使用编号框演示（如下图）。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E5%9B%BE%E8%A7%A3%E4%B8%A4%E7%A7%8D%E6%A0%85%E6%A0%BC%E6%B5%81%E6%A8%A1%E5%BC%8F.png)
+
+在第一个栅格中，请按照数字顺序数一遍。在这个栅格流中，栅格元素的排布方式好似向左浮动一样。但也不尽然，因为 13 号栅格元素在 11 号栅格元素左边。如果是浮动，绝不可能出现这种情况，但是在栅格流中就有可能。行流（如果可以这样称呼的话）的工作方式是，在每一行中从左向右排，如果有足够的空间放下一个栅格元素，就把栅格元素放在那儿，如果栅格单元被其他栅格元素占据了，就跳过那个栅格单元。我们看到，10 号栅格元素后面是空的，这是因为那部分空间放不下 11 号元素了。13 号元素之所以在 11 号元素左边，是因为换到那一行后空间能放得下 13 号元素。
+
+列流的基本机制也是如此，只不过现在是从上到下流动。9 号栅格元素下面是空的，因为那部分空间不足以放下 10 号元素。10 号元素流入下一列，占据四个栅格单元。10 号后面的元素都只占一个栅格单元，因此按顺序在列中排布。
+
+>在从左至右、从上到下书写的语言中，栅格流从左至右、从上到下。在从右至左书写的语言中，例如阿拉伯语和希伯来语，行主导的栅格流从右至左，而不是从左至右。
+
+<br>
+
+如果想让栅格元素尽量靠紧，而不管顺序会受到什么影响，也不是不可以，只需在 grid-auto-flow 的值里加上关键字 dense。如下图中的两个图分别展示 grid-auto-flow: rowdense 和 grid-auto-flow: densecolumn 的结果。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E5%9B%BE%E8%A7%A3%E5%AF%86%E9%9B%86%E6%A0%85%E6%A0%BC%E6%B5%81%E6%A8%A1%E5%BC%8F.png)
+
+在第一个栅格中，12 号元素在 11 号元素上边的行里，这是因为那里正好有个栅格单元可以放下 12 号元素。在第二个栅格中，11 号元素在 10 号 元素左边的列中，原因相同。
+
+其实，设为密集栅格流时，浏览器会沿流动方向（row 或 column）从起点（在从左至右书写的语言中是左上角）开始扫描整个栅格，找到能放下栅格元素的位置就把元素放在那儿。密集栅格流能让相册更紧凑，当然前提是无需按特定的顺序显示照片。
+
+栅格流讲完了，我要坦白一件事：为了能让前面几幅图中的栅格元素看起来没大的差异，我用了一些还没介绍的 CSS。如果没有那些 CSS，悬在栅格边缘处的元素看起来将与其他元素有些差别。在行主导的流中矮很多，在列主导的流中窄很多。这其中的原因，以及我使用的 CSS，在下一节说明。
+
+<br>
+
+# 6. 自动添加栅格线
+
+目前我们见到的栅格元素基本上都是放在显式定义的栅格中。不过，前一节也遇到了超出显式定义栅格边界的栅格元素。栅格元素超出边界了怎么办？答案是根据布局要求增加所需的行或列（见 13.4.3 节）。因此，如果在行主导的栅格末尾有一个跨 3 行的栅格元素，将在显式栅格后增加三行。
+
+默认情况下，自动增加的行是所需的最小尺寸。如果想进一步控制尺寸，使用 grid-auto-rows 和 grid-auto-columns 属性。
+
+```css
+grid-auto-rows, grid-auto-columns
+
+取值：<track-breadth> | minmax(<track-breadth>, <track-breadth>)
+初始值：auto
+适用于：栅格容器
+计算值：取决于具体的轨道尺寸
+备注：<track-breadth> 代表 <length> | <percentage> | <flex> | min-content | max-content | auto
+继承性：否
+动画性：否
+```
+
+设定自动创建的行或列轨道的尺寸时，可以提供一个尺寸值，也可以提供一对极值。下面以前一节的栅格流示例的简化版为例：设置一个 2 ⨉ 2 栅格，但是在里面放 5 个元素。其实，我们将做两次，一次声明 grid-auto-rows，一次不声明，结果如下图所示：
+
+```css
+.grid {
+    display: grid;
+    grid-template-rows: 80px 80px;
+    grid-template-columns: 80px 80px;
+}
+
+#g1 {
+    grid-auto-rows: 80px;
+}
+```
+
+可以看到，不为自动创建的行设定尺寸时，多出的栅格元素所在的行将与栅格元素中的内容一样高，一像素也不多。但是宽度与所在的列相等，因为我们设定了列的宽度（80px）。由于行没有显式设定高度，默认为 auto，因此得到图中所示结果。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E4%B8%A4%E4%B8%AA%E6%A0%85%E6%A0%BC%EF%BC%8C%E4%B8%80%E4%B8%AA%E4%B8%BA%E8%87%AA%E5%8A%A8%E5%A2%9E%E5%8A%A0%E7%9A%84%E8%A1%8C%E8%AE%BE%E5%AE%9A%E4%BA%86%E5%B0%BA%E5%AF%B8%EF%BC%8C%E4%B8%80%E4%B8%AA%E6%B2%A1%E6%9C%89.png)
+
+<br>换成列后，基本原理不变（见下图）：
+
+```css
+.grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: 80px 80px;
+    grid-template-columns: 80px 80px;
+}
+
+#g1 {
+    grid-auto-columns: 80px;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E4%B8%A4%E4%B8%AA%E6%A0%85%E6%A0%BC%EF%BC%8C%E4%B8%80%E4%B8%AA%E4%B8%BA%E8%87%AA%E5%8A%A8%E5%A2%9E%E5%8A%A0%E7%9A%84%E5%88%97%E8%AE%BE%E5%AE%9A%E4%BA%86%E5%B0%BA%E5%AF%B8%EF%BC%8C%E4%B8%80%E4%B8%AA%E6%B2%A1%E6%9C%89.png)
+
+这里，因为栅格流是列主导的，所以最后一个栅格元素将放在超出显式栅格末端的一列中。第二个栅格没有声明 grid-auto-columns，第五个元素的高度与所在的行相等（80px），但是其宽度为 auto，因此宽度为所需的最小值，不会比这宽一点。如果再添加第六个元素，而且其内容较宽，那么那一列的宽度将增大，以便放下较宽的内容，而第五个元素也会随之变宽。
+
+现在你应该知道我在前一节展示 grid-auto-flow 效果的插图中用的是什么了：我背地里把自动增加的行和列的尺寸设为与显式声明的尺寸一样，以免最后几个元素看起来有差异。下面把前一节的某幅插图拿过来，把 grid-auto-rows 和 grid-auto-columns 样式去掉，看看效果，如下图所示。可以看到，由于没有为自动增加的轨道设定尺寸，两个栅格中的最后几个元素要比其他元素矮或窄。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E5%89%8D%E4%B8%80%E8%8A%82%E7%9A%84%E6%8F%92%E5%9B%BE%EF%BC%8C%E5%8E%BB%E6%8E%89%E4%B8%BA%E8%87%AA%E5%8A%A8%E5%A2%9E%E5%8A%A0%E7%9A%84%E8%BD%A8%E9%81%93%E8%AE%BE%E5%AE%9A%E7%9A%84%E5%B0%BA%E5%AF%B8.png)
+
+我想，你应该知道接下来我要讲什么了。
+
+<br>
+
+# 7. grid 简写属性
+
+历尽千辛，终于讲到简写属性 grid 了。不过，这个属性可能会让你感到惊讶，因为它和其他的简写属性不一样。
+
+```css
+grid
+
+取值：none | subgrid | [ <grid-template-rows> / <grid-template-columns> ] | [ <line-names>? <string> <track-size>? <line-names>? ]+ [ / <track-list> ]? | [ <grid-auto-flow> [ <grid-auto-rows> [/ <grid-auto-columns>]?]?]
+初始值：参见各单独属性
+适用于：栅格容器
+计算值：参见各单独属性
+继承性：否
+动画性：否
+```
+
+不可否认，取值句法看着确实有点让人头痛，但是别担心，我们将各个击破。
+
+说到底，grid 属性的作用是以简洁的句法定义栅格模板，或者设定栅格流，并为自动增加的轨道设定尺寸。但是二者不能同时设置。
+
+此外，未定义的值都重置为默认值，这与其他简写属性是一致的。因此，如果定义了栅格模板，那么栅格流和自动增加的轨道的尺寸都归为默认值。这其中包含我们还未谈及的栅格栏距。使用 grid 属性无法设置栏距，但是 grid 将把它重置为默认值。
+
+是的，这是故意的。不过笔者不知道个中缘由。
+
+先说明如何使用 grid 属性创建栅格模板。栅格模板的值有时极为复杂，而且可能让人百思不解，但是用着却十分方便。举个例子，下述 grid 声明与后面的几个规则是等效的：
+
+```css
+grid:
+	"header header header header" 3em
+	". content sidebar ." 1fr
+	"footer footer footer footer" 5em /
+	2em 3fr minmax(10em, 1fr) 2em;
+grid-template-areas:
+	"header header header header header"
+	". content sidebar ."
+	"footer footer footer footer";
+grid-template-rows: 3em 1fr 5em;
+grid-template-columns: 2em 3fr minmax(10em, 1fr) 2em;
+```
+
+注意，grid-template-rows 的值被拆开了，与 grid-template-areas 的字符串放在一起的。使用字符串表示栅格区域时，grid 属性就是这样处理行尺寸的。把那些字符串去掉后，得到的值为：
+
+```css
+grid: 3em 1fr 5em / 2em 3fr minmax(10em, 1fr) 2em;
+```
+
+可以看到，行轨道和列轨道之间以斜线（/）分隔。
+
+还记得，简写属性未设置的值将重设为默认值。这意味着，下面两个规则是等效的：
+
+```css
+#layout {
+    display: grid;
+    grid: 3em 1fr 5em / 2em 3fr minmax(10em, 1fr) 2em;
+}
+
+#layout {
+    display: grid;
+    grid: 3em 1fr 5em / 2em 3fr minmax(10em, 1fr) 2em;
+    grid-auto-rows: auto;
+    grid-auto-columns: auto;
+    grid-auto-flow: row;
+}
+```
+
+<br>鉴于此，一定要把 grid 声明放在与栅格有关的其他声明之前。因此，如果想创建密集型列流，样式要这样写：
+
+```css
+#layout {
+    display: grid;
+    grid: 3em 1fr 5em / 2em 3fr minmax(10em, 1fr) 2em;
+    grid-auto-flow: dense column;
+}
+```
+
+<br>现在，把栅格区域的名称加上，然后再添加一些行栅格线名称。在行轨道上面的栅格线，其名称写在字符串前面，在行轨道下面的栅格线，其名称写在字符串和轨道尺寸的后面。假如我们想在中间一行的上下添加 main-start 和 main-stop 两条栅格线，并在最下面添加 page-end 栅格线：
+
+```css
+grid: 
+	"header header header header" 3em
+	[main-start] ". content sidebar ." 1fr [main-stop]
+	"footer footer footer footer" 5em [page-end] / 
+	2em 3fr minmax(10em, 1fr) 2em;
+```
+
+这个栅格如下图所示，图中标出了隐式创建的栅格线名称（例如 footer-start），以及在 CSS 中显式写出的栅格线名称。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E4%BD%BF%E7%94%A8%20grid%20%E7%AE%80%E5%86%99%E5%B1%9E%E6%80%A7%E5%88%9B%E5%BB%BA%E7%9A%84%E4%B8%80%E4%B8%AA%E6%A0%85%E6%A0%BC.png)
+
+可见，grid 属性的值很快就会变复杂。grid 属性的句法十分强大，但也不要被吓到，稍加练习便会习惯。换个角度看，复杂的句法容易出错，导致整个值失效，得不到想要的栅格。
+
+grid 属性的另一个用法是融合 grid-auto-flow、grid-auto-rows 及 grid-auto-columns。下面两个规则是等效的：
+
+```css
+#layout {
+    grid-auto-flow: dense rows;
+    grid-auto-rows: 2em;
+    grid-auto-columns: minmax(1em, 3em);
+}
+
+#layout {
+    grid: dense rows 2em / minmax(1em, 3em);
+}
+```
+
+相同的结果，使用 grid 属性时的输入量更少。不过，我要再次提醒你：如果这样写，与列轨道和行轨道相关的属性都将归为默认值。因此，下面两个规则是等效的：
+
+```css
+#layout {
+    grid: dense rows 2em / minmax(1em, 3em);
+}
+
+#layout {
+    grid: dense rows 2em / minmax(1em, 3em);
+    grid-template-rows: auto;
+    grid-template-columns: auto;
+}
+```
+
+因此，同样要记得把简写属性写在可能把它覆盖的其他属性前面。
+
+<br>
+
+## 子栅格
+
+grid 属性还可以取一个值：subgrid。用法如下：
+
+```css
+#grid {
+    display: grid;
+    grid: repeat(auto-fill, 2em) / repeat(10, 1% 8% 1%);
+}
+
+.module {
+    display: grid;
+    grid: subgrid;
+}
+```
+
+此时，每个 module 元素中的栅格元素（即其子元素）将根据 #grid 定义的栅格对齐。
+
+这个值有时非常有用。比如有个模块跨父元素的三列，而其子元素又根据主栅格对齐和排布，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E5%AF%B9%E9%BD%90%E5%AD%90%E6%A0%85%E6%A0%BC%E4%B8%AD%E7%9A%84%E5%85%83%E7%B4%A0.png)
+
+但问题是，写作本书时，subgrid 还是栅格布局的不成熟特性，有可能完全不起作用。正因为如此，我们才没有用大篇幅详细讨论这个值，只是在这短短的一小节中做个简单的介绍。
+
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
