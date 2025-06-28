@@ -2195,6 +2195,87 @@ grid-gap
 
 上图中的每个栅格元素在自己的栅格区域中（以蓝色虚线表示），每个区域中都有一个标注，指明使用的是哪个值。下面逐个简单说明一下。
 
+首先要明确的一点是，不管使用哪个值，只要没有显式设定 width 或 height，元素的内容将自动收缩，而不是像默认那样，占满整个栅格区域。
+
+start 和 end 使栅格元素向栅格区域的起边或终边对齐，这没什么难理解的。类似地，center 在对齐的轴上居中显示栅格元素，此时无需额外声明外边距等属性，例如 height 和 width。
+
+left 和 right 在横轴上的对齐方式与你预期的一样，然而如果赋予 align-self 属性（设置的是纵向对齐方式），当作 start 处理。
+
+self-start 和 self-end 难理解一些。self-start 把栅格元素向起边那一侧的栅格区域的边界对齐。在上图中，self-start 和 self-end 框设置了 direction: trl，即把语言的书写方向设为从右至左，因此元素的起边为右边界，终边为左边界。所以，在第一个栅格中，self-start 框是向右对齐的，而 self-end 框是向左对齐的。然而，在第二个栅格中，书写方向对块级轴上的对齐没有影响。因此，self-start 当做 start 处理，self-end 当做 end 处理。
+
+最后一个值，stretch，也不太容易理解。对比后可以发现，两个栅格中的其他框体是自动收缩的，只有内容那么大。而 stretch 值将在指定的方向上拉伸元素，从一百年延伸到对边：align-self: stretch 纵向拉伸栅格元素，justify-self: stretch 横向拉伸栅格元素。这个结果可能与你想的不一样，但是要注意，只有元素尺寸相关的属性设为 auto 才有这样的效果。因此，对下述样式来说，第一个示例将纵向拉伸，而第二个示例则不会拉伸：
+
+```css
+.exel01 {
+    align-self: stretch;
+    height: auto;
+}
+
+.exel02 {
+    align-self: stretch;
+    height: 50%;
+}
+```
+
+这是因为第二个示例为 height 设定的值不是 auto（这是默认值），所以 stretch 无法调整它的尺寸。对 justify-self 来说，影响这个行为的是 width。
+
+<br>纵向对齐还有两个值可用，不过它们的行为不那么好理解，因此需要单独说明。这两个值把栅格元素中的第一条或最后一条基线与栅格轨道中最高或最低的基线对齐。假如想把栅格元素中的最后一条基线与同一个行轨道中最高的那个栅格元素的最后一条基线对齐，可以这样声明：
+
+```css
+.exel {
+    align-self: last-baseline;
+}
+```
+
+反过来，如果想把第一条基线与同一个行轨道中最低的第一条基线对齐，要这样声明：
+
+```css
+.exel {
+    align-self: baseline;
+}
+```
+
+如果栅格元素没有基线，或者在指定的基线对齐方向上无法比较基线，那么 baseline 将当做 start 处理，last-baseline 将当作 end 处理。
+
+>本节故意忽略了两个值：flex-start 和 flex-end。这两个值只应该在弹性盒布局中使用，在其他布局上下文中，包括栅格布局，等效于 start 和 end。
+
+<br>
+
+## 2. 纵向对齐和横向对齐全部元素
+
+现在来讲 align-items 和 justify-items。这两个属性的取值与前一节一样，而且作用也相同，只不过应用的对象是栅格容器中的全部栅格元素，而且必须应用到栅格容器上，而不能应用到单个栅格元素上。
+
+因此，可以像下面这样让栅格中的所有栅格元素在各自的栅格区域里居中对齐，结果如下图所示：
+
+```css
+#grid {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E5%B1%85%E4%B8%AD%E5%AF%B9%E9%BD%90%E6%89%80%E6%9C%89%E6%A0%85%E6%A0%BC%E5%85%83%E7%B4%A0.png)
+
+可以看到，每个栅格元素都在所属的栅格区域中横向和纵向居中。而且，没有显式设定宽度和高度的栅格元素将自动收缩，而不占满整个栅格区域。如果显式设定了高度和宽度，那就采用设定的尺寸，然后再居中显示在栅格区域中。
+
+<br>除了可以纵向对齐和横向对齐每个栅格元素之外，还可以使用 align-content 和 justify-content 属性以一定的方式分布栅格元素，抑或横向对齐或纵向对齐整个栅格。设定分布方式的值不多，下图展示了可用于 justify-content 属性的各个值的效果，各栅格共用的样式如下：
+
+```css
+.grid {
+    display: grid;
+    padding: 0.5em;
+    margin: 0.5em 1em;
+    width: auto;
+    grid-gap: 0.75em 0.5em;
+    border: 1px solid;
+    grid-template-rows: 4em;
+    grid-template-columns: repeat(5, 6em);
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%A8%AA%E5%90%91%E5%88%86%E5%B8%83%E6%A0%85%E6%A0%BC%E5%85%83%E7%B4%A0.png)
+
 
 
 
