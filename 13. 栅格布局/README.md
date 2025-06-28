@@ -2276,6 +2276,128 @@ self-start 和 self-end 难理解一些。self-start 把栅格元素向起边那
 
 ![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%A8%AA%E5%90%91%E5%88%86%E5%B8%83%E6%A0%85%E6%A0%BC%E5%85%83%E7%B4%A0.png)
 
+在列轨道中也能实现同样的效果，如下图所示，不过要换用 align-content 属性。这一次，各栅格共用下述样式：
+
+```css
+.grid {
+    display: grid;
+    padding: 0.5em;
+    grid-gap: 0.75em 0.5em;
+    border: 1px solid;
+    grid-template-rows: repeat(4, 3em);
+    grid-template-columns: 5em;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E7%BA%B5%E5%90%91%E5%88%86%E5%B8%83%E6%A0%85%E6%A0%BC%E5%85%83%E7%B4%A0.png)
+
+分布栅格元素时，栅格轨道（包括栏距）的尺寸还像往常一样处理。如果栅格容器中的空间有余，即栅格轨道没有从栅格容器的一边延伸到对边，那么余下的空间将根据 justify-content（横向）或 align-content（纵向）的值分配。
+
+分配多出的空间其实就是调整栅格栏距的尺寸。如果没有声明栏距，那么分配的空间将成为栏距。如果声明了栏距，其尺寸将根据分配的情况而调整。
+
+注意，由于仅当轨道没有填满栅格容器时次啊会分配空间，所以栏距的尺寸只会增大。如果轨道的尺寸比容器大（十分常见），那就没有多余的空间可分配（缺少的空间不可分割）。
+
+还有一个分布值比较新，前面的插图没有展示，即 stretch。这个值把余下的空间均匀分配给各个栅格轨道，而不分配给栏距。因此，如果多出 400 像素空间，栅格容器中有 8 个栅格轨道，那么各个栅格轨道的尺寸将增加 50 像素。栅格轨道的尺寸不是按比例增加的，而是等量增加。截至 2017 年年末，没有浏览器支持用于设定栅格分布方式的 stretch 值。
+
+<br>最后，我们来看一下与分布相反的效果，即对齐栅格轨道。下图是栅格轨道横向对齐的不同方式。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%A8%AA%E5%90%91%E5%AF%B9%E9%BD%90%E6%A0%85%E6%A0%BC.png)
+
+这里，所有栅格轨道作为一个整体以 justify-content 属性设定的方式横向对齐。这个对齐方式对单个栅格元素的对齐方式没有影响。因此，可以使用 justify-content: end 让整个栅格靠终边对齐，然后再让单个栅格元素在所属的栅格区域中向左对齐、居中对齐或向起边对齐等。
+
+<br>你可能想到了，既然能使用 justify-content 设定横向对齐方式，那么就能使用 align-content 设定纵向对齐方式。各个值的效果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E7%BA%B5%E5%90%91%E5%AF%B9%E9%BD%90%E6%A0%85%E6%A0%BC.png)
+
+在纵向上，left 和 right 没有实际意义，因此将当做 start 处理。其他值的效果从名称上便可以看出来。
+
+<br>
+
+# 10. 分层和排序
+
+前面有一节讲过，栅格元素之间完全有可能重叠，原因可能是使用负外边距把栅格元素拉到栅格区域的边界之外了，也可能是两个栅格元素的栅格区域在同一个栅格单元中。默认情况下，栅格单元按照在文档源码中的顺序叠放，即在文档源码中靠后的栅格元素像是在靠前的栅格元素前面。因此，下述样式将得到如下图所示的结果（假设类名中的数字表示各栅格元素在文档源码中的顺序）。
+
+```css
+#grid {
+    display: grid;
+    width: 80%;
+    height: 20em;
+    grid-rows: repeat(10, 1fr);
+    grid-columns: repeat(10, 1fr);
+}
+
+.box01 {
+    grid-row: 1 / span 4;
+    grid-column: 1 / span 4;
+}
+
+.box02 {
+    grid-row: 4 / span 4;
+    grid-column: 4 / span 4;
+}
+
+.box03 {
+    grid-row: 7 / span 4;j
+    grid-column: 7 / span 4;
+}
+
+.box04 {
+    grid-row: 4 / span 7;
+    grid-column: 3 / span 2;
+}
+
+.box05 {
+    grid-row: 2 / span 3;
+    grid-column: 4 / span 5;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%A0%85%E6%A0%BC%E5%85%83%E7%B4%A0%E6%8C%89%E7%85%A7%E5%9C%A8%E6%96%87%E6%A1%A3%E6%BA%90%E7%A0%81%E4%B8%AD%E7%9A%84%E9%A1%BA%E5%BA%8F%E5%8F%A0%E6%94%BE.png)
+
+如果想自己设定顺序，可以使用 z-index 属性。与在定位中一样，z-index 设定元素在 z 轴（垂直于显示平面）上的位置。正值离你较近，负值离你较远。因此，如果想把第二个框放在上面，只需把 z-index 设为比其他元素大的值（结果如下图所示）：
+
+```css
+.box02 {
+    z-index: 10;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E6%8A%AC%E5%8D%87%E4%B8%80%E4%B8%AA%E6%A0%85%E6%A0%BC%E5%85%83%E7%B4%A0.png)
+
+<br>调整栅格元素顺序的另一种方式是使用 order 属性。这个属性的作用与在弹性盒布局中一样，为栅格轨道中的栅格元素设定 order 值便可以改变栅格元素的顺序。受影响的不只元素在轨道中的位置，如果有重叠，绘制顺序也将受到影响。例如，可以像下面这样把前例中的 z-index 换成 order，得到的结果与上图一样：
+
+```css
+.box02 {
+    border: 10;
+}
+```
+
+这里，box02 显示在其他栅格元素的上面，因为它的 order 值把它放在其他元素的后面。因此，box02 最后绘制。类似地，如果这些栅格元素依序放在一个栅格轨道中，box02 的 order 值将把它放在序列的末尾，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC13%E7%AB%A0%EF%BC%9A%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/%E4%BF%AE%E6%94%B9%E6%A0%85%E6%A0%BC%E5%85%83%E7%B4%A0%E7%9A%84%E9%A1%BA%E5%BA%8F.png)
+
+注意，能像这样重新排列栅格元素的顺序并不意味着你应该这样做。正如栅格布局规范所说的：
+
+与重新排列弹性元素一样，仅当视觉顺序无需与阅读和导航顺序一致时才可以使用 order 属性。否则应该调整元素在文档源码中的顺序。
+
+因此，可以使用 order 重排栅格元素布局顺序的唯一情况是，文档源码与布局的顺序不同。其实，不按文档源码中的顺序把栅格元素附加到栅格区域中已经能轻易做到这一点。
+
+当然，这不意味着 order 是没用的，应该敬而远之。既然存在，肯定有它的用武之地。但是，如果你发现在某些情况下必须使用 order，那就要仔细想一想这是不是最好的方案。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
