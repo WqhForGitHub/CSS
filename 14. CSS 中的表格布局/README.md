@@ -1108,6 +1108,114 @@ col#c3 {
 
 <br>
 
+## 3. 对齐方式
+
+有意思的是，相对于单元格和行的高度，定义单元格中内容的对齐方式要容易得多。甚至垂直对齐也很容易定义，而这很有可能对行得高度带来影响。
+
+横向对齐是最简单得。若想对齐单元格中的内容，使用 text-align 属性。其实，单元格相当于块级框，因此单元格中的内容根据 text-align 属性的值对齐。
+
+单元格中内容的纵向对齐方式使用 vertical-align 属性设定。这个属性的值很多都与行内内容的纵向对齐一样，不过应用到单元格上有不同的作用。下面三个值是最容易理解的：
+
+top
+
+​      单元格中内容的顶部与行的顶部对齐。在跨行的单元格中，内容的顶部与所跨的第一行的顶部对齐。
+
+bottom
+
+​      单元格中内容的底部与行的底部对齐。在跨行的单元格中，内容的底部与所跨的最后一行的底部对齐。
+
+middle
+
+​      单元格中内容的中线与行的中线对齐。在跨行的单元格中，内容的中线与所跨各行整体的中线对齐。
+
+<br>
+
+这三个值的效果如下图所示，使用的样式和标记如下：
+
+```css
+table {
+    table-layout: auto;
+    width: 20em;
+    border-collapse: separate;
+    border-spacing: 3px;
+}
+
+td {
+    border: 1px dashed gray;
+    background: silver;
+    padding: 0;
+}
+
+div {
+    border: 1px dashed gray;
+    background: white;
+}
+
+#r1c1 {
+    vertical-align: top;
+    height: 10em;
+}
+
+#r1c2 {
+    vertical-align: middle;
+}
+
+#r1c3 {
+    vertical-align: bottom;
+}
+```
+
+```html
+<table>
+    <tr>
+        <td id="r1c1">
+            <div>
+                The contents of this cell are top-aligned.
+            </div>
+        </td>
+        <td id="r1c2">
+            <div>
+                The contents of this cell are middle-aligned.
+            </div>
+        </td>
+        <td id="r1c3">
+            <div>
+                The contents of this cell are bottom-aligned.
+            </div>
+        </td>
+    </tr>
+</table>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC14%E7%AB%A0%EF%BC%9ACSS%20%E4%B8%AD%E7%9A%84%E8%A1%A8%E6%A0%BC%E5%B8%83%E5%B1%80/%E7%BA%B5%E5%90%91%E5%AF%B9%E9%BD%90%E5%8D%95%E5%85%83%E6%A0%BC%E4%B8%AD%E7%9A%84%E5%86%85%E5%AE%B9.png)
+
+每种对齐效果都是通过自动增加单元格的内边距实现的。在上图中的第一个单元格里，单元格的下内边距变成单元格框的高度与单元格中内容的高度之差。在第二个单元格中，单元格的上下内边距被置为同样的大小，从而让内容在单元格中纵向居中。在第三个单元格中，调整的是单元格的上内边距。
+
+第四个可用的值是 baseline，这个值比前三个稍微复杂一些：
+
+baseline
+
+​             单元格的基线与行的基线对齐。在跨行的单元格中，单元格的基线与所跨的第一行的基线对齐。
+
+这个值的作用最好通过图示说明（见下图）。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC14%E7%AB%A0%EF%BC%9ACSS%20%E4%B8%AD%E7%9A%84%E8%A1%A8%E6%A0%BC%E5%B8%83%E5%B1%80/%E5%90%91%E5%9F%BA%E7%BA%BF%E5%AF%B9%E9%BD%90%E5%8D%95%E5%85%83%E6%A0%BC%E7%9A%84%E5%86%85%E5%AE%B9.png)
+
+行的基线由行中最低的单元格初行基线（即第一行文本的基线）定义。因此，在上图中，行的基线由第三个单元格定义，因为那个单元格的初行基线最低。前两个单元格中第一行文本的基线与这条行的基线对齐。
+
+与上对齐、居中对齐和下对齐一样，基线对齐也是通过调整单元格的上下内边距实现的。如果一行中的单元格都不采用基线对齐，那么行就没有基线，因为根本就不需要有。
+
+对齐行中各单元格里内容的具体过程如下：
+
+1. 如果有单元格的基线对齐的，找出行的基线，放置沿基线对齐的单元格中的内容。
+2. 放置靠上对齐的单元格中的内容。现在行的高度是临时的，又已经确定内容位置的单元格中底边对齐的那个单元格确定。
+3. 如果余下的单元格中有居中对齐或靠下对齐的，而且内容的高度比行的临时高度大，那么行的高度将增大，覆盖这些单元格中最高的那个。
+4. 放置余下的单元格中的内容。如果单元格中内容的高度比行的高度小，单元格的内边距将增大，与行的高度保持一致。
+
+vertical-align 的其他值，即 sub、super、text-top 和 text-bottom，应用到单元格上时应该被忽略，全都视作 baseline，有时也可能视作 top。
+
+
+
 
 
 
