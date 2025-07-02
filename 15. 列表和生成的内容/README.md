@@ -808,11 +808,181 @@ h1 {
 
 >CSS 没有规定用户代理应该如何处理采用非数字计数格式时的负数值。例如，没有规定显示格式为 upper-alpha 时如何处理计数器中的 -5 值。
 
+<br>
 
+为了计数，需要通过一个属性通过哪个元素递增计数器。如若不然，计数器的值始终不变，一直是 counter-reset 声明指定的值。我们要使用的属性是 counter-increment。
 
+```css
+counter-increment
 
+取值：[<identifier> <integer>?]+ | none | inherit
+初始值：各用户代理有所不同
+适用于：所有元素
+继承性：否
+计算值：指定的值
+```
 
+与 counter-reset 一样，counter-increment 的值为标识符和整数对，而且整数部分可以是 0、负数或正数。两个属性的不同之处是，在 counter-increment 中省略的整数部分默认为 1，而不是 0。
 
+举个例子。用户代理为有序列表创建的自然数计数器可能是这样定义的：
+
+```css
+ol {
+    counter-reset: ordered; /* 默认为 0 */
+}
+
+ol li {
+    counter-increment: ordered; /* 默认为 1 */
+}
+```
+
+<br>
+
+反过来，创作人员可以会想从零向后计数，让列表项目的记号使用负数。在前例的基础上只需稍微修改一下：
+
+```css
+ol {
+    counter-reset: ordered; /* 默认为 0 */
+}
+
+ol li {
+    counter-increment: ordered -1;
+}
+```
+
+现在列表的序号将是 -1、-2、-3 等。如果把整数 -1 改成 -2，那么列表的序号将是 -2、-4、-6 等。
+
+<br>
+
+### 使用计数器
+
+不过，为了真正显示计数器，需要使用 content 属性及与计数器有关的值。下面通过一个基于 XML 的有序列表说明具体方法：
+
+```xml
+<list type="ordered">
+	<item>First item</item>
+    <item>Item two</item>
+    <item>The third item</item>
+</list>
+```
+
+把下述规则应用到这段 XML 结构上，将得到如下图所示的结果：
+
+```css
+list[type="ordered"] {
+    counter-reset: ordered; /* 默认为 0 */
+}
+
+list[type="ordered"] item {
+    display: block;
+}
+
+list[type="ordered"] item::before {
+    counter-increment: ordered;
+    content: counter(ordered) ". ";
+    margin: 0.25em 0;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E7%BB%9F%E8%AE%A1%E9%A1%B9%E7%9B%AE%E6%95%B0%E9%87%8F.png)
+
+注意，生成的内容跟之前一样以行内内容的形式显示在相应元素的开头。因此，上述规则的效果类似于在 HTML 列表上声明 list-style-position: inside。
+
+另外注意，item 元素是生成块级框的常规元素，这意味着计数器并不限于只能应用在 display 属性的值为 list-item 的元素上。其实，任何元素都能使用计数器。请看下述规则：
+
+```css
+h1 {
+    counter-reset: section subsec;
+    counter-increment: chapter;
+}
+
+h1::before {
+    content: counter(chapter) ". ";
+}
+
+h2 {
+    counter-reset: subsec;
+    counter-increment: section;
+}
+
+h2::before {
+    content: counter(chapter )"." counter(section) ". ";
+}
+
+h3 {
+    counter-increment: subsec;
+}
+
+h3::before {
+    content: counter(chapter) "." counter(section) "." counter(subsec) ". ";
+}
+```
+
+这些规则的效果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E6%8A%8A%E8%AE%A1%E6%95%B0%E5%99%A8%E6%B7%BB%E5%8A%A0%E5%88%B0%E6%A0%87%E9%A2%98%E4%B8%AD.png)
+
+上图中体现了计数器重置和增量相关的一些重要方面。例如，计数器在元素上重置，而生成的计数器则通过 ::before 伪元素插入文档。在伪元素上重置计数器是没有效果的，得到的将是大量零。增量可以在元素上设置，也可以在伪元素上设置，就看你怎么选择了。
+
+此外请注意，h1 元素使用的计数器是 chapter，其默认值为零，因此在元素的文本前面显示的是 "1. "。在相同的元素上递增并使用计数器时，计数器在显示之前完成递增。类似地，在相同的元素上重置并显示计数器时，计数器在显示之前完成重置。请看下述规则：
+
+```css
+h1::before, h2::before, h3::before {
+    content: counter(chapter) "." counter(section) "." counter(subsec) ". ";
+}
+
+h1 {
+    counter-reset: section subsec;
+    counter-increment: chapter;
+}
+```
+
+文档中的第一个 h1 元素前面显示的文本是 "1.0.0."，因为 section 和 subsec 计数器重置了，但是没有递增。这意味着，如果想在首次显示计数器时显示为 0，要像下面这样把计数器重置为 -1：
+
+```css
+body {
+    counter-reset: chapter -1;
+}
+
+h1::before {
+    counter-increment: chapter;
+    content: counter(chapter) ". ";
+}
+```
+
+<br>
+
+使用计数器可以实现一些有趣的效果。以下面的 XML 片段为例：
+
+```xml
+<code type=“BASIC”>
+    <line>PRINT "Hello world"</line>
+    <line>REM This is what the kids are calling a "comment"</line>
+    <line>GOTO 10</line>
+</code>
+```
+
+使用下述规则可以重现 BASIC 程序清单的传统格式：
+
+```css
+code[type="BASIC"] {
+    counter-reset: linenum;
+    font-family: monospace;
+}
+
+code[type="BASIC"] line {
+    display: block;
+}
+
+code[type="BASIC"] line::before {
+    counter-increment: linenum;
+    content: counter(linenum 10) ": ";
+}
+```
+
+<br>
+
+在 counter() 中还可以为每个计数器定义不同的格式。方法是，在计数器的标识符后面添加一个 list-style-type 关键字，之间以逗号隔开。下述规则在标题
 
 
 
