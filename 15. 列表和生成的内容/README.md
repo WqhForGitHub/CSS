@@ -982,7 +982,429 @@ code[type="BASIC"] line::before {
 
 <br>
 
-在 counter() 中还可以为每个计数器定义不同的格式。方法是，在计数器的标识符后面添加一个 list-style-type 关键字，之间以逗号隔开。下述规则在标题
+在 counter() 中还可以为每个计数器定义不同的格式。方法是，在计数器的标识符后面添加一个 list-style-type 关键字，之间以逗号隔开。下述规则在标题计数器示例的基础上做了一些改动，结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E4%BF%AE%E6%94%B9%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E6%A0%BC%E5%BC%8F.png)
+
+注意，我们没有为 section 计数器指定格式关键字，因为默认为十进制计数。如果愿意，甚至可以设置计数器使用 disc、circle、square 和 none 等格式。
+
+另外需要注意一点的是，display 属性的值为 none 的元素不递增计数器，即便样式规则看似不是这样。相比之下，visibility 属性的值为 hidden 的元素依然递增计数器：
+
+```css
+/* ‘cntr’ 不递增 */
+.suppress {
+    counter-increment: cntr;
+    display: none;
+}
+
+/* 'cntr' 递增 */
+.invisible {
+    counter-increment: cntr;
+    visibility: hidden;
+}
+```
+
+<br>
+
+### 计数器的作用域
+
+目前，我们知道如何通过多个计数器统计节和小节的数量了。通常，遇到嵌套的有序列表时我们也会这么做，然而一旦嵌套层级变深，创建大量计数器会让人不胜其烦。涵盖五级嵌套列表的规则可能是下面这样的：
+
+```css
+ol ol ol ol ol li::before {
+    counter-increment: ord1 ord2 ord3 ord4 ord5;
+    content: counter(ord1) "." counter(ord2) "." counter(ord3) "." counter(ord4) "." counter(ord5) ".";
+}
+```
+
+试想涵盖 50 层嵌套的规则将是什么样子（笔者不是说你应该创建嵌套 50 层的有序列表，只是举个例子而已）。
+
+幸好，CSS2.x 为计数器定义了作用域。简单来说，每一层嵌套都为相应的计数器创建一个新作用域。利用作用域，可以使用下述规则涵盖 HTML 处理有序列表的常规方式：
+
+```css
+ol {
+    counter-reset: ordered;
+}
+
+ol li::before {
+    counter-increment: ordered;
+    content: counter(ordered) ". ";
+}
+```
+
+使用上述规则，任何有序列表，即便是嵌套的，都将从 1 开始计数，而且每个列表项目递增 1，这正是 HTML 一直以来处理有序列表的方式。
+
+之所以这样，是因为每层嵌套都会新建一个 ordered 计数器。因此，在第一层有序列表中，有个 ordered 计数器。后面每嵌套一层，都会出现一个新的 ordered 计数器，并且从头开始计数。
+
+然而，如果希望嵌套的新计数器追加到现有的计数器上，实现 1、1.1、1.2、1.2.1、1.2.2、1.3、2、2.1 等效果，该怎么做？此时使用 counter() 是无法实现，但是可以使用 counters()。多了个 "s"，作用就变了。
+
+下图中所示的嵌套计数器格式是用下述规则实现的：
+
+```css
+ol {
+    counter-reset: ordered;
+    list-style: none;
+}
+
+ol li:before {
+    content: counters(ordered, ".") ": ";
+    counter-increment: ordered;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E5%B5%8C%E5%A5%97%E7%9A%84%E8%AE%A1%E6%95%B0%E5%99%A8.png)
+
+关键字 counters(ordered, ".") 显示每个作用域中的 ordered 计数器，并在后面加上一个点号，然后把指定元素上所有作用域中的计数器串在一起。因此，在第三层列表中，列表项目的编号先从最外层列表的作用域中获取 ordered 计数器的值，然后从最外层和当前层之间那一层列表的而作用域中获取 ordered 值，再从当前列表的作用域中获取 ordered 值，而且在每个值后面都加上点号。content 值中余下的内容添加一个空格、一个连字符，并在全部计数器的最后添加一个空格。
+
+与 counter() 一样，也可以为嵌套的计数器定义列表样式，不过指定的列表样式将用于全部计数器，因此，如果把前面的 CSS 改成下面这样，上图中的列表项目将全部使用小写字母计数：
+
+```css
+ol li::before {
+    counter-increment: ordered;
+    content: counters(ordered, ".", lower-alpha) ": ";
+}
+```
+
+你可能注意到了，在前面的例子中，我们为 ol 元素声明了 list-style: none。这是因为，插入的计数器是生成的内容，不能替代列表记号。也就是说，如果没有 list-style: none，每个列表项目目前都将显示用户代理提供的计数器，以及我们通过生成的内容插入的计数器。
+
+这个功能特别有用，不过有时我们只是想定义新的记号。这样的需求要使用计数模式。
+
+<br>
+
+# 3. 定义计数模式
+
+近些年，CSS 中出现了一种定义计数模式的新方法。这个方法使用 @counter-style 块定义一些专门的描述符，控制得到的结果。一般的句法如下：
+
+```css
+@counter-style <name> {
+    ...declarations...
+}
+```
+
+其中，`<name>` 是创作人员为模式起的名称。例如，若想交替显示三角形记号，@counter-style 块可以这样编写：
+
+```css
+@counter-style triangles {
+    system: cyclic;
+    symbols: ▶ ▷;
+}
+```
+
+使用效果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E8%AE%A1%E6%95%B0%E5%99%A8%E6%A8%A1%E5%BC%8F.png)
+
+>截至 2017 年年初，只有 Firefox 族浏览器支持本节讨论的 @counter-style 和相关的特性。这个功能很好，但是不要过于依赖，即，如果计数器是使用 @counter-style 生成的，不要说参见步骤 1A。
+
+<br>
+
+@counter-style 块中可以使用多个描述符，概述如下。
+
+```css
+@counter-style 中可用的描述符
+
+system 定义要使用的计数器模式系统。可以用的值有 fixed、cyclic、alphabetic、numeric、symbolic、additive 和 extends
+symbols 定义要在计数器模式中使用的符号，除 additive 和 extends 记号系统之外，其他系统都需要这个描述符
+additive-symbols 定义在 additive 计数器模式中使用的符号
+prefix 定义放在模式中各计数器之前的字符串或符号
+suffix 定义放在模式中各计数器之后的字符串或符号
+negative 定义放在计数器中负值两侧的字符串或符号
+range 定义应用计数器模式的范围值。在指定范围之外的计数器使用后备计数器格式
+fallback 定义无法使用主计数器模式表示或者值在 range 定义的范围之外时使用的计数器模式
+pad 定义模式中所有计数器至少有几个字符，缺少的位使用指定的一个或一系列符号填充
+speak-as 定义计数器在文字转语音系统中的发音策略
+```
+
+我们将由简到繁介绍各个系统，不过在此之前先来看最简单的两个描述符的准确定义：system 和 symbols。
+
+```css
+system 描述符
+
+取值：cyclic | numeric | alphabetic | symbolic | additive | [fixed <integer>?] | [ extends<counter-style-name>]
+初始值：Symbolic
+```
+
+```css
+symbols 描述符
+
+取值：<symbol>+
+初始值：n/a
+备注：<symbol> 可以是任何兼容 Unicode 的字符串、图像引用或转义的十六进制引用等标识符
+```
+
+基本上每个 @counter-style 块至少都有着两个描述符。如果定义的是 symbolic 系统，可以省略 system 描述符，不过一般最好写上，以便知道设置的是哪种系统。记住，以后接手样式的人可能不像你对计数器样式那么熟悉。
+
+<br>
+
+## 1. 固定计数模式
+
+fixed 系统是最简单的计数器模式。固定系统指定义的计数器记号数量有限，用完后不重复。请看下面的例子，结果如下图所示。
+
+```css
+@counter-style emoji {
+    system: fixed;
+    symbols: 😁 😉 😂 🤔 🙃;
+}
+
+ul.emoji {
+    list-style: emoji;
+}
+```
+
+一旦超过五个列表项目，这个计数器系统定义的表情符号就用完了，因为没有定义后备系统（稍后讨论），所以后续列表项目将使用无序列表的默认记号。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E5%9B%BA%E5%AE%9A%E8%AE%A1%E6%95%B0%E5%99%A8%E6%A8%A1%E5%BC%8F.png)
+
+<br>
+
+注意，symbols 描述符中的符号是以空格分开的。如果都挤在一起，中间没有空格，如下所示，那么得到的结果将变成下图那样：
+
+```css
+@counter-style emoji {
+    system: fixed;
+    symbols: 😁😉😂🤔🙃;
+}
+
+ul.emoji {list-style: emoji;}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E7%AC%A6%E5%8F%B7%E7%B4%A7%E6%8C%A8%E5%9C%A8%E4%B8%80%E8%B5%B7.png)
+
+<br>
+
+不过这却表明，单个记号可以由多个符号组成（如果你想定义由多种模式结合起来实现的计数系统，别急，马上就会讲到）。
+
+如果想使用 ASCII 符号作为记号，一般建议把符号放在引号中。这样能避免一些问题，例如防止尖括号被错误解析为 HTML 片段。因此，正确的做法是：
+
+```css
+@counter-style emoji {
+    system: fixed;
+    symbols: # $ % ">";
+}
+```
+
+把所有符号都放在引号中也可以，而且最好养成这个习惯。这样按键的次数多了（上述值要写成 "#" "$" "%" ">"），但是出错的几率却小了。
+
+使用固定计数器系统时，可以在 system 描述符中定义起始值。假如想从 5 开始计数，要这么写：
+
+```css
+@counter-style emoji {
+    system: fixed 5;
+    symbols: 😁😉😂🤔🙃;
+}
+
+ul.emoji {
+    list-style: emoji;
+}
+```
+
+此时，前五个符号表示计数器中第 5 个到第 9 个数。如果后备计数格式为十进制数，那么计数器中的第 6 个数对应的值是 10（在大写的罗马字母中，对应的是 "J"）。
+
+>设置起始数的功能在其他计数器系统中都不可用。
+
+<br>
+
+## 2. 循环计数模式
+
+固定模式之后是 cyclic 模式。这个模式其实是循环的固定模式。下面把前一节的表情符号固定模式改为循环模式，结果如下图所示：
+
+```css
+@counter-style emojiverse {
+    system: cyclic;
+    symbols: 😁 😉 😂 🤔 🙃;
+}
+
+ul.emoji {
+    list-style: emojiverse;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E5%BE%AA%E7%8E%AF%E8%AE%A1%E6%95%B0%E5%99%A8%E6%A8%A1%E5%BC%8F.png)
+
+定义的符号按顺序使用，一次又一次，直到计数序列中没有记号为止。
+
+循环模式可以只用一个记号，这与为 list-style-type 提供一个字符串的效果差不多。此时，规则的写法如下：
+
+```css
+@counter-style thinker {
+    system: cyclic;
+    symbols: 🤔;
+    /* 等效于 list-style-type: "🤔" */
+    
+}
+
+ul.emoji {
+    list-style: thinker;
+}
+```
+
+<br>你可能注意到了，目前所有的计数器后面都有句点。这是因为 suffix 描述符的默认值就是句点。suffix 描述符有个同类，prefix。
+
+```css
+prefix 和 suffix 描述符
+
+取值：<symbol>
+初始值：prefix 是 ""（空字符串），suffix 是 \2E（句点，"."）
+备注：<symbol> 可以是任何兼容 Unicode 的字符串、图像引用或转义的十六进制引用等标识符
+```
+
+使用这两个描述符可以定义插在每个记号前面和后面的符号。因此，可以像下面这样为思考表情加上 ASCII 格式的翅膀，如下图所示：
+
+```css
+@counter-style wingthinker {
+    system: cyclic;
+    symbols: 🤔;
+    prefix: "~";
+    suffix: "~";
+}
+
+ul.hmmm {
+    list-style: wingthinker;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E4%B8%BA%E6%80%9D%E8%80%83%E8%A1%A8%E6%83%85%E5%8A%A0%E4%B8%8A%E7%BF%85%E8%86%80.png)
+
+<br>如果想把记号的默认后缀去掉，就需要使用 suffix 描述符。下面举个例子说明做法：
+
+```css
+@counter-style thisisfine {
+    system: cyclic;
+    symbols: 🔥 🐶 ☕ 🔥;
+    suffix: "";
+}
+```
+
+当然，你还可以自由发挥，使用 prefix 和 suffix 实现其他有趣的效果，如下图所示：
+
+```css
+@counter-style thisisfine {
+    system: cyclic;
+    symbols: 🔥 🐶 ☕ 🔥;
+    prefix: "🔥";
+    suffix: 🔥;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E8%BF%99%E4%B8%AA%E5%88%97%E8%A1%A8%E5%BE%88%E5%A5%BD%E7%9C%8B.png)
+
+你可能觉得奇怪，在前面的示例中，为什么 prefix 的值放在引号里，而 suffix 的值没有？其实没什么特别的原因，我只是想告诉你两种做法都可以。前面说过，把符号放在引号里更安全，但不是必须的。
+
+你可能还发现了上述 CSS 示例有些特别的地方，在图中看得更明显一些。这是使用标签符号和其他类似的字符不可避免地后果，在一个人使用的用户代理中看到的效果可能与另一个人的不同。比如说，MacOS、iOS、安卓、三星、Windows 桌面系统、Windows 移动系统、Linux 系统等，渲染表情符号得到的结果都不同。
+
+别忘了，计数器还可以使用图像，至少理论上如此。举个例子，假设你想使用克林贡字形，而它们没有对应的 Unicode 码位（克林贡语加入 Unicode 家族的过程充满崎岖。1997 年提出动议，2001 年被拒。2016 年又提出了新的动议，但是写作本书时还未裁决）。我们不打算把全部克林贡符号都表示出来，而是从中选择几个：
+
+```css
+@counter-style klingon-letters {
+    system: cyclic;
+    symbols: url(i/klingon-a.svg) url(i/klingon-b.svg) url(i/klingon-ch.svg) url(i/klingon-d.svg) url(i/klingon-e.svg) url(i/klingon-gh.svg);
+    suffix: url(i/klingon-full-stop.svg);
+}
+```
+
+计数器将从 A 到 GH，然后重复。虽然不多，但至少我们把一些克林贡语符号显示出来了。本章后文将说明如何构建字母和数字计数系统。
+
+>截至 2017 年年初，几乎没有浏览器支持使用图像作为计数符号。
+
+<br>
+
+## 3. 符号计数模式
+
+symbolic 计数系统与循环系统类似，不过在符号系统中，每循环一次符号重复多一次。这与你熟悉的脚注符号或某种形式的字母计数系统有点像。下面分别举个例子，结果如下图所示。
+
+```css
+@counter-style footnotes {
+    system: symbolic;
+    symbols: "*" "†" "§";
+    suffix: " ";
+}
+
+@counter-style letters {
+    system: symbolic;
+    symbols: A B C D E;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E4%B8%A4%E7%A7%8D%E7%AC%A6%E5%8F%B7%E8%AE%A1%E6%95%B0%E6%A8%A1%E5%BC%8F.png)
+
+<br>需要注意的一点是，如果把少量符号应用到特别长的列表上，记号很快就会变得特别长。以前例中的字母计数器为例。在使用这个计数系统的列表中，第 135 到第 150 个列表项目如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E7%89%B9%E5%88%AB%E9%95%BF%E7%9A%84%E7%AC%A6%E5%8F%B7%E8%AE%B0%E5%8F%B7.png)
+
+<br>从现在起，不能把这个问题不当回事了，因为在某种意义上所有计数器格式都是累加的。避免受此问题影响的方式是使用 range 描述符。
+
+```css
+range 描述符
+
+取值：[[ <integer> | infinite ]{2} ]# | auto
+初始值：auto
+```
+
+range 的值为一对或多对以空格分开的值，每一对之间以逗号分隔。假设我们想在三次迭代之后停止字母重复。如果有 5 个符号，那么我们就可以把范围限制为 1-15，结果如下图所示（为免插图的尺寸太大，排成了两栏）。
+
+```css
+@counter-style letters {
+    system: symbolic;
+    symbols: A B C D E;
+    range: 1 15;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E4%BD%BF%E7%94%A8%20range%20%E9%99%90%E5%88%B6%E7%AC%A6%E5%8F%B7%E8%AE%A1%E6%95%B0%E5%99%A8%E6%A8%A1%E5%BC%8F.png)
+
+<br>
+
+如果后面还有范围需要使用指定的计数器（管它什么原因），可以这样做：
+
+```css
+@counter-style letters {
+    system: symbolic;
+    symbols: A B C D E;
+    range: 1 15, 101 115;
+}
+```
+
+这样，letters 定义的符号字母系统将应用在范围 1-15 和范围 101-115 上（记号是"AAAAAAAAAAAAAAAAAAAAAAA" 到 "EEEEEEEEEEEEEEEEEEEEEEEE"）。
+
+那么不在 range 定义的范围内的计数器怎么办？回落到默认的记号格式。这个问题可以留给用户代理处理，也可以使用 fallback 描述符自己定义。
+
+```css
+fallback 描述符
+
+取值：<counter-style-name>
+初始值：decimal
+备注：<counter-style-none> 可以是 list-style-type 的任何一个可用值
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
