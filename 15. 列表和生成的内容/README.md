@@ -1366,7 +1366,7 @@ range 的值为一对或多对以空格分开的值，每一对之间以逗号�
 
 这样，letters 定义的符号字母系统将应用在范围 1-15 和范围 101-115 上（记号是"AAAAAAAAAAAAAAAAAAAAAAA" 到 "EEEEEEEEEEEEEEEEEEEEEEEE"）。
 
-那么不在 range 定义的范围内的计数器怎么办？回落到默认的记号格式。这个问题可以留给用户代理处理，也可以使用 fallback 描述符自己定义。
+<br>那么不在 range 定义的范围内的计数器怎么办？回落到默认的记号格式。这个问题可以留给用户代理处理，也可以使用 fallback 描述符自己定义。
 
 ```css
 fallback 描述符
@@ -1375,6 +1375,372 @@ fallback 描述符
 初始值：decimal
 备注：<counter-style-none> 可以是 list-style-type 的任何一个可用值
 ```
+
+举个例子，或许你想让超出范围内的计数器使用希伯来语计数方式。
+
+```css
+@counter-style letters {
+    system: symbolic;
+    symbols: A B C D E;
+    range: 1 15, 101 115;
+    fallback: hebrew;
+}
+```
+
+当然，也可以使用 lower-greek、upper-latin，甚至是非计数格式，例如 square。
+
+如果主计数系统无法表示计数器中的某个值（不管是什么原因），也将使用后备计数格式。比如说在使用图像做符号的计数系统中，有个图像加载失败了。在下述声明中，假设 south.svg 没有加载。此时，缺少的图像将替换为 lower-latin 计数格式，表示计数器中当前项目的值：
+
+```css
+@counter-style compass {
+    system: symbolic;
+    symbols: url(north.svg) url(east.svg) url(south.svg) url(west.svg);
+    fallback: lower-latin;
+}
+```
+
+<br>
+
+## 4. 字母计数模式
+
+alpahbetic 计数系统与 symbolic 系统十分相似，只是重复的方式不同。还记得吗，使用符号计数系统时，符号的数量每循环一次就会叠加一次。而在字母计数系统中，各符号被当做计数系统中的数字。如果你熟悉电子表格的话就会发现，这种计数方法与列的标注很像。
+
+为了演示这个计数模式，下面再前一节那个字母符号计数器的基础上，把符号系统改为字母系统，得到的结果如下图所示（同样，为了节省篇幅，排成了两栏）
+
+```css
+@counter-style letters {
+    system: alphabetic;
+    symbols: A B C D E;
+    /* 仍在 "E" 处结束，以便快速看出这个模式的效果 */
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E5%AD%97%E6%AF%8D%E8%AE%A1%E6%95%B0.png)
+
+注意，这个计数模式第二次迭代得到的是 "AA" 到 "AE"，然后变成 "BA" 到 "BE"，而后又变成 "CA"等。换成符号计数系统，当字母计数系统到 "EE" 时，已经变成 "EEEEEE" 了。
+
+注意，symbols 描述符的值必须至少有两个符号，这样的字母计数系统才是有效的。如果只提供一个符号，那么整个 @counter-style 块都是无效的。任意两个符号都有效，可以是字母、数字、Unicode 字符集中的任何字符，以及图像（依然是理论上）。
+
+<br>
+
+## 5. 数字计数模式
+
+严格来说，numeric 系统是使用提供的符号定义按位计数系统。即，提供的符号用作位数计数系统中的数字。例如，可以像下面这样定义普通的十进制计数系统：
+
+```css
+@counter-style decimal {
+    system: numeric;
+    symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9";
+}
+```
+
+稍微扩充一下就能得到十六进制计数系统：
+
+```css
+@counter-style hexadecimal {
+    system: numeric;
+    symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "A" "B" "C" "D" "E" "F";
+}
+```
+
+这个计数器从 1 到 F，然后从 10 到 1F，再从 20 和 2F，30 到 3F 等。简单多的二进制计数系统更是不费吹灰之力：
+
+```css
+@counter-style binary {
+    system: numeric;
+    symbols: "0" "1";
+}
+```
+
+这三个计数模式得到的结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E4%B8%89%E4%B8%AA%E6%95%B0%E5%AD%97%E8%AE%A1%E6%95%B0%E6%A8%A1%E5%BC%8F.png)
+
+<br>有个有趣的问题值得思考一下：计数器中的负值应该怎么处理？在十进制计数系统中，一般在负数前加上减号（-），但又在其他计数系统中，比如符号计数系统？如果定义的是基于字母的数字计数系统？又或者，如果我们想使用会计常用的格式，把负值放在括号内？这就需要用到 negative 描述符了。
+
+```css
+negative 描述符
+
+取值：<symbol><symbol>?
+初始值：\2D（连字符或减号）
+备注：negative 只能在支持负值的计数系统中使用，包括 alphabetic、numeric、symbolic 和 additive
+```
+
+negative 有点像是 prefix 和 suffix 的综合体，只不过仅在计数器为负值时起作用。negative 指定的符号显示在前缀和后缀符号内侧。
+
+假设我们想使用会计常用的格式，而且为所有计数器都添加前缀和后缀符号。以下述代码为例，得到的结果如下图所示。
+
+```css
+@counter-style accounting {
+    system: numeric;
+    symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9";
+    negative: "(" ")";
+    prefix: "$";
+    suffix: " - ";
+}
+
+ol.kaching {
+    list-style: accounting;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%B4%9F%E5%80%BC.png)
+
+<br>数字计数系统的另一个特性是为位数较少的值补位，让长度保持与位数较多的值相同。例如，计数模式可以使用前导零把 "1" 和 "100" 变成 "001" 和 "100" 。这个效果使用 pad 描述符实现。
+
+```css
+pad 描述符
+
+取值：<integer> && <symbol>
+初始值：0 ""
+```
+
+这个描述符的值有点特别。第一部分是一个整数，定义每个计数器有几位数。第二部分是一个字符串，用于填充位数不足的值。请看下面的例子：
+
+```css
+@counter-style padded {
+    system: numeric;
+    symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9";
+    suffix: ".";
+    pad: 4 "0";
+}
+
+ol {
+    list-style: decimal;
+}
+
+ol.padded {
+    list-style: padded;
+}
+```
+
+应用上述样式的有序列表默认使用十进制计数系统，即：1，2，3，4，5。但是，class 为 padded 的有序列表将使用有填充值得十进制计数系统：0001，0002，0003，0004，0005。下图是个例子。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E5%A1%AB%E5%85%85%E5%80%BC.png)
+
+注意，为了保证每个计数器都至少有四个数字，没有数字的位都是用符号 0 填充的。前一句中至少是不能少的，如果计数器变成了五位数，那么就不会再填充。更重要的一点是，一旦计数器达到五位数，其他较短的计数器不会再多填充零，而是保持四位数，因为 4 "0" 中定义的是 4。
+
+<br>任何符号都能用于填充，而不限于 0。可以使用下划线、句点、表情符号、空格等。其实，`<symbol>` 部分还可以是多个字符。如果愿意，完全可以像下面这样写：
+
+```css
+@counter-style crazy {
+    system: numeric;
+    symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9";
+    suffix: ".";
+    pad: 4 "😁😉";
+}
+
+ol {
+    list-style: decimal;
+}
+
+ol.padded {
+    list-style: padded;
+}
+```
+
+计数器的值为 1 时，计数系统得到的结果将是 "😁😉😁😉😁😉1"，很疯狂。
+
+<br>注意，负值符号算在记号的长度内，因此会对填充产生影响。另外，负值符号显示在填充的值外侧。因此，下述样式将得到如下图所示的结果。
+
+```css
+@counter-style negativezeropad {
+    system: numeric;
+    symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9";
+    suffix: ". ";
+    negative: "-";
+    pad: 4 "0";
+}
+
+@counter-style negativespacepad {
+    system: numeric;
+    symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9";
+    suffix: ". ";
+    negative: "-";
+    pad: 4 " ";
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E5%A1%AB%E5%85%85%E5%80%BC%281%29.png)<br>
+
+## 6. 累加计数模式
+
+还有一种计数系统没有探讨，即 additive-symbol。在累加计数系统中，使用不同的符号表示不同的数值，然后把多个符号加在一起，得到计数器的值。
+
+```css
+additive-symbols 描述符
+
+取值：[ <integer> && <symbol> ]#
+初始值：n/a
+备注：<integer> 必须是非负数，计数器为负值时，累加计数模式不生效
+```
+
+看着有点抽象，下面举个例子。这个例子摘自 kseso：
+
+```css
+@counter-style roman {
+    system: additive;
+    additive-symbols:
+        1000 M, 900 CM, 500 D, 400 CD,
+        100 C, 90 XC, 50 L, 40 XL,
+        10 X, 9 IX, 5 V, 4 IV, 1 I;
+}
+```
+
+这个计数器实现的是典型的罗马计数风格。下面这个例子也不错，摘自计数格式的规范，使用骰子定义一个计数系统：
+
+```css
+@counter-style dice {
+    system: additive;
+    additive-symbols: 6 ⚅, 5 ⚄, 4 ⚃, 3 ⚂, 2 ⚁, 1 ⚀, 0 "__";
+    suffix: " ";
+}
+```
+
+这两个计数系统得到的结果如下图所示，这一次各列表排成了三栏。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E7%B4%AF%E5%8A%A0%E8%AE%A1%E6%95%B0.png)
+
+明确起见，符号可以放在引号中，例如 6 ⚅, 5 ⚄, 4 ⚃ 等。
+
+特别注意，符号及其对应值的顺序十分重要。看到没有，罗马和骰子计数系统中的值都是从大到小排列的，而不是其他顺序？这是因为，如果不按倒序排列，整个 @counter-style 块都将失效。
+
+另外注意，使用的是 additive-symbols 描述符，而不是 symbols。这一点也很重要，如果使用 symbols 描述符定义累加计数系统，整个 @counter-style 块都将失效（同样，如果在 additive 以外的系统中使用 additive-symbols 描述符，也将导致 @counter-style 块失效）。
+
+<br>
+
+关于累加计数系统还有一点需要注意：根据累加计数器算法的定义方式，得到的累加计数系统可能无法表示某些值。请看下述定义：
+
+```css
+@counter-style problem {
+    system: additive;
+    additive-symbols: 3 "Y", 2 "X";
+    fallback: decimal;
+}
+```
+
+这个计数器产出的前五个数分别是：1，X，Y，4， YX。你可能以为 4 应该是 XX，这是符合直觉的想法，但是累加计数器算法不是这样运作的。规范是这样说的：然而不幸的是，这样会导致算法的运行时间随计数器值得大小线性增加。
+
+>那么罗马计数系统怎么用 "III" 表示 3？答案同样在算法中。这个问题有点复杂，如果你真的好奇，建议阅读定义累加计数算法得 CSS Counter Styles Level 3 规范。如果不想这么麻烦，只需记住一点：有表示 1 的符号就能避免这个问题。
+
+<br>
+
+## 7. 扩展计数模式
+
+有时，你可能只想对现有的计数系统做些调整。假如你想让常规的十进制计数系统使用结束括号作为后缀，并且最多填充两个前导零。此时，可以像下面这样全新定义一个计数器：
+
+```css
+@counter-style mydecimals {
+    system: numeric;
+    symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9";
+    suffix: ") ";
+    pad: 2 "0";
+}
+```
+
+这样做是可以，但是有点麻烦。别担心，遇到这样的情况可以使用 extends。
+
+extends 算是一种计数系统，但是它建构在现有的计数系统之上。使用 extends，前例可以改成下面这样：
+
+```css
+@counter-style mydecimals {
+    system: extends decimal;
+    suffix: ") ";
+    pad: 2 "0";
+}
+```
+
+我们从 list-style-type 现有的计数系统中选取 decimal，然后做些格式调整。可见，无需重新输入整个符号集，只要按需求调整一些选项即可。
+
+其实，你也只能调整选项。如果尝试在 extends 系统中使用 symbols 或 additive-symbols 描述符，整个 @counter-style 块都将失效，从而被忽略。也就是说，使用的符号不能扩展。例如，不能扩展十进制计数系统实现十六进制计数系统。
+
+然而，我们可以针对不同的上下文调整十六进制计数系统。比如说，你可以先设置一个基本的十六进制计数系统，然后定义几个不同的显示模式。所用的样式如下，结果如下图所示（注意，各个列表从 19 直接跳到了 253，因为我们在某个列表项目上设置了 value="253"）。
+
+```css
+@counter-style hexadecimal {
+    system: numeric;
+    symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "A" "B" "C" "D" "E" "F";
+}
+
+@counter-style hexpad {
+    system: extends hexadecimal;
+    pad: 2 "0";
+}
+
+@counter-style hexcolon {
+    system: extends hexadecimal;
+    suffix: ": ";
+}
+
+@counter-style hexcolonlimited {
+    system: extends hexcolon;
+    range: 1 255; /* 到 FF 停止 */
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC15%E7%AB%A0%EF%BC%9A%E5%88%97%E8%A1%A8%E5%92%8C%E7%94%9F%E6%88%90%E7%9A%84%E5%86%85%E5%AE%B9/%E4%B8%8D%E5%90%8C%E7%9A%84%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E8%AE%A1%E6%95%B0%E6%A8%A1%E5%BC%8F.png)
+
+注意，第四个计数器格式 hexcolonlimited 扩展第三个计数器 hexcolon，而第三个计数器又扩展第一个计数器 hexadecimal。在 hexcolonlimited 中，十六进制计数系统到 FF（255）停止，因为我们声明了 range: 1 255。
+
+<br>
+
+## 8. 发音计数模式
+
+虽然使用符号能构建很多有趣的计数器，但是得到的结果对语音技术（例如苹果的 VoiceOver 或 JAWS 屏幕阅读器）来说却是一团糟。试想屏幕阅读器阅读骰子计数器或月相计数器会产生什么效果。为了避免这种问题，我们可以使用 speak-as 描述符定义后备发音策略。
+
+```css
+speak-as 描述符
+
+取值：auto | bullets | numbers | words | spell-out | <counter-style-name>
+初始值：auto
+```
+
+下面倒过来讲各个可用的值。`<counter-style-name>` 用于指定用户代理自身或许能识别的一个计数系统。例如，可以让骰子计数系统使用十进制计数系统的读音：
+
+```css
+@counter-style dice {
+    system: additive;
+    speak-as: decimal;
+    additive-symbols: 6 ⚅, 5 ⚄, 4 ⚃, 3 ⚂, 2 ⚁, 1 ⚀;
+    suffix: " ";
+}
+```
+
+在上述样式的作用下，这个计数器将把 ⚅⚅⚂ 读作十五。如果把 speak-as 的值改为 lower-latin，那么 ⚅⚅⚂ 就读作 ou（大写字母 O）。
+
+spell-out 看似简单，不过深究起来还是有点复杂的。用户代理拼读出来的是计数器的表示形式，然后逐个字母读出来。结果难以预料，因为生成计数器表示形式的方法没有明文规定，规范只说计数器的表示形式由计数器的字符拼接而成，具体怎么做却没说。
+
+words 与 spell-out 类似，只不过计数器的表示形式是以词为单位读出来的，而不是逐个字母发音。同样，具体过程没有定义。
+
+使用 numbers 值时，计数器用文档所用的语言读出来。这与前面的代码示例很像，在英语编写的文档中，663 读作 fifteen。语言不同，发音也不同：在西班牙语中读作 quince，在德语中读作 funfzehn，在汉语中读作 shiwu 等。
+
+设为 bullets 时，用户代理用无序列表中圆点记号的读音阅读计数器。有些用户代理可能什么也不读，有些则会发出特别的声音，例如鸣一下或嘀一下。
+
+最后是默认值 auto。最后才说这个值，是因为它的具体效果取决于使用的计数系统。如果是 alphabetic 系统，speak-as: auto 的效果等同于 speak-as: spell-out。在 cyclic 系统中，auto 等效于 bullets。在其他计数系统中的效果都与 speak-as: numbers 相同。
+
+但 extends 系统例外。此时，auto 的效果取决于被扩展的计数系统。因此，对下述样式来说，emojibrackets 列表中计数器的读音就像把 speak-as 设为 bullets 一样。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
