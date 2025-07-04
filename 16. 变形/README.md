@@ -232,6 +232,671 @@ transform 属性的值通常是由空格分隔的一个或多个函数，各函�
 
 值为长度时，效果与你预想的差不多。使用 translateX(200px) 沿 x 轴移动 200 像素的结果是元素向右移动 200 像素。换成 translateX(-200px)，元素则向左移动 200 像素。对 translateY() 来说，正值向下移动元素，负值向上移动元素，而是都是相对元素自身的轴而言的。因此，如果通过旋转对调上下两边，那么 translateY() 的正值将在页面上向上移动元素。
 
+如果值是百分数，移动距离相对元素自身的尺寸计算。对宽度为 30 像素、高度为 200 像素的元素来说，translateX(50%) 把元素向右移动 15 像素，translateY(-10%) 把元素向上移动 20 像素（相对原位置）。
+
+<br>
+
+| 函数        | 可取的值                                                     |
+| ----------- | ------------------------------------------------------------ |
+| translate() | [ `<length>` | `<percentage>` ] [, `<length>` | `<percentage>`]? |
+
+如果想同时沿 x 轴和 y 轴移动，使用 translate() 更方便。第一个值是沿 x 轴的移动量，第二个值是沿 y 轴的移动量，这与 translateX() translateY() 结合在一起的作用是一样的。如果省略 y 值，假定为零。因此，translate(2em) 视作 translate(2em, 0)，也等同于 translateX(2em)。下图是一些 2D 平移示例。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E4%BA%8C%E7%BB%B4%E5%B9%B3%E7%A7%BB.png)
+
+根据最新版规范，两个 2D 平移函数的值都可以不带单位。此时，提供的数字采用用户单位，如未设为其他单位，就是像素。CSS 规范没有说明如何设定用户单位，但是 SVG 规范有规定，然而不详细。经测试，写作本书时没有浏览器支持不带单位的平移值，因此目前只是理论上支持这个特性。
+
+<br>
+
+| 函数         | 可取的值   |
+| ------------ | ---------- |
+| translateZ() | `<length>` |
+
+这个函数沿 z 轴平移元素，即在第三个维度中移动元素。与 2D 平移函数不同，translateZ() 只接受长度值。translateZ() 不允许使用百分数值，其实任何有关 z 轴的值都不可以使用百分数。
+
+<br>
+
+| 函数          | 可取的值                                                     |
+| ------------- | ------------------------------------------------------------ |
+| translate3d() | [ `<length> | <percentage>`], [`<length> | <percentage>`], [`<length>`] |
+
+我们知道 translate() 能同时设定 x 轴和 y 轴平移，类似地，translate3d() 这个简写属性能同时设定 x 轴、y 轴和 z 轴的平移量。如果想一次性把元素向右、向上和向前移动，使用这个函数特别方便。3D 平移的过程如下图所示。图中的箭头表示沿相应轴的移动，最终到达 3D 空间中的一点。图中的虚线离原点（三个轴的交点）的距离和方向，以及在 xz 平面上方的距离。
+
+与 translate() 不同，如果 translate3d() 是值少于三个，没有假定的默认值。因此，用户代理应该把 translate3d(1em, -50px) 视作无效的，而不能假定为 translate3d(2em, -50px, 0)。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E4%B8%89%E7%BB%B4%E5%B9%B3%E7%A7%BB.png)
+
+<br>
+
+## 缩放函数
+
+缩放变形把元素放大或缩小，具体取决于提供的值。缩放函数的值都是无单位的实数，而且始终为正数。在 2D 平面上，可以分别在 x 轴或 y 轴上缩放，也可以同时在两个轴上缩放。
+
+| 函数                         | 可取的值   |
+| ---------------------------- | ---------- |
+| scaleX()，scaleY()，scaleZ() | `<number>` |
+
+提供给缩放函数的数字是个乘数，因此，scaleX(2) 将把元素的宽度变为变形前的两倍，而 scaleY(0.5) 将把元素的高度缩小一半。这样看，你可能以为缩放值也能使用百分数，但其实不然。
+
+<br>
+
+| 函数    | 可取的值                  |
+| ------- | ------------------------- |
+| scale() | `<number>` [,`<number>`]? |
+
+如果想在两个轴上同时缩放，使用 scale()。第一个始终是 x 值，第二个则是 y 值，因为 scale(2, 0.5) 将把元素的宽度放大两倍，把元素的高度缩小一半。如果只提供一个值，用作两个轴的缩放值。因此，scale(2) 将把元素的宽度和高度都放大两倍。这与 translate() 是不同的，在 translate() 中，省略的第二个值始终被设为零。scale(1) 缩放的元素与缩放前的尺寸完全相同，scale(1, 1) 也是，万一你真想这么做的话。
+
+下图展示了几个缩放的示例，有的用单轴缩放函数，有的用二合一的 scale()。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E7%BC%A9%E6%94%BE%E5%85%83%E7%B4%A0.png)
+
+<br>
+
+能在二维空间缩放，也就能在三维空间缩放。CSS 提供的 scaleZ() 函数仅在 z 轴上缩放，而 scale3d() 则能同时在三个轴上缩放。当然，仅当元素有深度时，这两个函数才有效果，而元素在默认情况并没有深度。如果让元素具有一定的深度，例如绕 x 轴或 y 轴旋转，那么深度就可以缩放，使用 scaleZ() 或 scale3d() 都可以。
+
+| 函数      | 可取的值                           |
+| --------- | ---------------------------------- |
+| scale3d() | `<number>`, `<number>`, `<number>` |
+
+与 translate3d() 一样，scale3d() 的三个数都必须是有效的。如若不然，无效的 scale3d() 将导致所属的整个变形值失效。
+
+<br>
+
+## 旋转函数
+
+旋转函数绕某个轴旋转元素，或者绕 3D 空间中的一个向量旋转元素。旋转变形有四个简单的函数，以及一个稍微复杂、专门用于 3D 旋转的函数。
+
+| 函数                                      | 可取的值  |
+| ----------------------------------------- | --------- |
+| rotate(), rotateX(), rotateY(), rotateZ() | `<angle>` |
+
+四个简单的旋转函数都只接受一个值，即角度。角度值以一个数字（可正可负）和一个有效的角度单位（deg、grad、rad 和 turn）表示。如果数字超出了相应单位的常规范围，将化为范围内的值。也就是说，437deg 与 77deg 的效果是相同的，与 -283deg 的效果也是相同的。
+
+然而要注意，仅当没有使用任何形式的动画，这样的换算才是完全等效的。如果以动画的形式旋转 1100deg，元素将转动几周，最终停止在 -20 度（如果喜欢用正数，是 340 度）的倾斜位置。与之相比，如果以动画的形式旋转 -20deg，元素将稍微向左倾斜，而不转动。如果以动画的形式旋转 340deg，元素将向右转动几乎一周。这三次动画的最终状态是一样的，但是每一次旋转的过程有明显的差异。
+
+rotate() 函数实施的是 2D 旋转，是我们常用的旋转方式。它的效果等同于 rotateZ()，因为都是绕 z 轴（从显示器射出来，直指你的眼睛）旋转的。类似地，rotateX() 绕 x 轴旋转，致使元素向你倾斜，或者远离你倾斜。rotateY() 绕 y 轴旋转元素，像门的开合一样。这几个函数的效果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E5%88%86%E5%88%AB%E7%BB%95%E4%B8%89%E4%B8%AA%E8%BD%B4%E6%97%8B%E8%BD%AC.png)
+
+>上图中国有几个示例涉及到 3D 效果。这要求 16.3.2 节和 16.3.3 节讨论的 transform-style 和 perspective 属性设为特定的值，简单起见，这里没有给出。本章涉及的 3D 变形都是如此，如果只应用给出的变形函数是得不到图中所示效果的，切记。
+
+<br>
+
+| 函数       | 可取的值                                      |
+| ---------- | --------------------------------------------- |
+| rotate3d() | `<number>`, `<number>`, `<number>`, `<angle>` |
+
+如果你了解向量，想在 3D 空间中旋转元素，使用 rotate3d()。前三个值指定 3D 空间中向量的 x、y 和 z 分量，第四个值是角度值，指定绕向量旋转的量。
+
+看个简单的例子：rotate(45deg) 用 3D 旋转表示是 rotate3d(0, 0, 1, 45deg)。这个向量在 x 轴和 y 轴上的大小是零，在 z 轴上的大小是 1。也就是说，旋转中心是  z 轴。元素将绕指定的向量旋转 45 度，如下图所示。图中还给出了绕 x 轴和 y 轴旋转 45 度时应该提供给 rotate3d() 函数的值。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E7%BB%95%203D%20%E7%A9%BA%E9%97%B4%E4%B8%AD%E7%9A%84%E5%90%91%E9%87%8F%E6%97%8B%E8%BD%AC.png)
+
+rotate3d(-0.95, 0.5, 1, 45deg) 要复杂一些，它描述的向量位于轴之间的 3D 空间里。为了弄清处理过程，我么从一个简单的例子入手：rotateZ(45deg)（见上图）。在 3D 空间中，等效于 rotate3d(0, 0, 1, 45deg)。前三个数设定向量的三个分量，可见这个向量在 x 轴和 y 轴上的大小为零，在 z 轴上的大小为 1.因此，这个向量在 z 轴上，指向正方向，即指向观察者。如果看向向量的原点，元素是顺时针旋转的。
+
+类似地，rotateX(45deg) 等效于 3D 空间中的 rotate3d(1, 0, 0, 45deg)。这个向量在 x 轴上，指向正方向（右方）。如果站在向量的终点看向原点，元素绕向量顺时针旋转 45 度。因此，站在常规观察者的位置上，元素的顶部远离观察者，元素的底部靠近观察者。
+
+稍微变复杂一点，假如旋转函数是 rotate3d(1, 1, 0, 45deg)。正视显示器时，这个函数描述的向量从左上角指向右下角，正好经过元素的中心（当然默认情况下是这样，稍后将说明如何转换）。因此，元素所在的矩形框中有一条 45 度斜线。随后，这个向量带着元素一起旋转 45度。如果看向向量的原点，是顺时针旋转的，因此，同样，元素的顶部远离观察者，底部靠近观察者。如果把旋转值改为 rotate3d(1, 1, 0, 90deg)，在观察者看来，元素是侧立的，倾斜 45度，正面面向右上角。你可以找张纸试一下，从左上角到右下角画一条直线，然后绕那条线旋转纸张。
+
+好的，现在请在脑中构想 rotate3d(-0.95, 0.5, 1, 45deg) 描述的向量。假设有个边长 200 像素的立方体，那么这个向量在 x 轴上的大小为 190 像素，指向左方，在 y 轴上的大小为 100 像素，指向下方，在 z 轴上的大小为 200 像素，指向观察者。这个向量从原点（0, 0, 0）指向点（-190px, 100px, 200px），如下图所示，图中还给出了观察者看到的最终结果。
+
+这个向量就像一根金属棒，穿过旋转的元素。如果沿着向量向回看，元素顺时针旋转了 45 度。但是，由于向量指向左下前方，因此旋转后的元素左上角靠近观察者，而右下角远离观察者，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E7%BB%95%203D%20%E7%A9%BA%E9%97%B4%E4%B8%AD%E7%9A%84%E5%90%91%E9%87%8F%E6%97%8B%E8%BD%AC%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%90%91%E9%87%8F%E7%9A%84%E7%A1%AE%E5%AE%9A%E6%96%B9%E6%B3%95.png)
+
+<br>
+
+请特别注意，rotate3d(1, 1, 0, 45deg) 与 rotateX(45deg) rotateY(45deg) rotateZ(0deg) 不等效。这是个很容易犯的错误，很多人，包括许多在线教程的作者，这才弄清楚。乍一看，二者是等效的，事实却不然。假如我们把这个向量放在前面假想的 200 ⨉ 200 ⨉ 200 的立方体，旋转轴将从原点指向偏右 200 像素、偏下 200 像素的（200, 200, 0）点。
+
+可见，旋转轴从元素的左上角射向右下角，呈 45 度角。看向原点（左上角），元素绕对角线顺时针旋转 45 度，因此因素的右上角远离观察者，稍向左偏，而左下角靠近观察者，稍向右偏。这与 rotateX(45deg) rotateY(45deg) rotateZ(0deg) 的结果明显不同，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E7%BB%95%E4%B8%A4%E4%B8%AA%E8%BD%B4%E6%97%8B%E8%BD%AC%E4%B8%8E%E7%BB%95%203D%20%E7%A9%BA%E9%97%B4%E4%B8%AD%E7%9A%84%E5%90%91%E9%87%8F%E6%97%8B%E8%BD%AC%E6%98%AF%E6%9C%89%E5%B7%AE%E5%88%AB%E7%9A%84.png)
+
+<br>
+
+## 倾斜函数
+
+倾斜函数沿 x 轴和 y 轴倾斜元素。元素不能沿 z 轴或 3D 空间中的向量倾斜。
+
+| 函数             | 可取的值  |
+| ---------------- | --------- |
+| skewX(), skewY() | `<angle>` |
+
+这两个函数使元素倾斜指定的角度。文字表达有点抽象，看几个示例你就明白了。下图中展示了几个沿 x 轴和 y 轴倾斜的例子。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E6%B2%BF%20x%20%E8%BD%B4%E5%92%8C%20y%20%E8%BD%B4%E5%80%BE%E6%96%9C.png)
+
+<br>
+
+| 函数   | 可取的值                  |
+| ------ | ------------------------- |
+| skew() | `<angle>` [, `<angle>` ]? |
+
+skew(a, b) 的效果与 skewX(a) skewY(b) 不同。前者通过矩阵运算 [ax, ay] 实施 2D 倾斜。下图展示了几个矩阵倾斜的例子，以及与使用两个单轴倾斜变形的结果对比。表面上看结果应该是一样的，事实却不然。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E5%80%BE%E6%96%9C%E5%85%83%E7%B4%A0.png)如果提供两个值，第一个始终是 x 轴的倾斜角度，第二个是 y 轴的倾斜角度。如未指定 y 轴倾斜角度，假定为零。
+
+<br>
+
+## 视域函数
+
+在 3D 空间中改变元素的形态中，基本上都要赋予元素一定的视域。视域为元素赋予前后深度，而这深度可以根据需要设定。
+
+| 函数          | 可取的值   |
+| ------------- | ---------- |
+| perspective() | `<length>` |
+
+通过距离指定视域看起来有点奇怪，毕竟 perspective(200px) 设定的距离无法在 z 轴上准确衡量。然而，存在即合理。深度幻想就围绕我们指定的值构建。较小的数得到较极端的视角，就像在元素跟前通过鱼眼镜头看元素一样。较大的数得到较温和的视角，就像从远处通过变焦镜头看元素一样。特别大的视域值会产生等距效应。
+
+这是有一定道理的。如果把视域想象成金字塔，顶点在视域的原点，基底在离你最近的地方，那么顶点与基底之间的距离越短，金字塔越扁，变形效果越失真，如下图所示。图中假想的金字塔分别表示 200 像素、800 像素和 2000 像素的视域距离。
+
+在 Safari 的文档中，Apple 指出，小于 300px 的视域值得到的效果特别失真，大于 2000px 的值失真十分温和，而 500px 到 1000px 之间的值产生适中的视域。下图展示了相同旋转角度下不同视域值得到的结果。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E4%B8%8D%E5%90%8C%E8%A7%86%E5%9F%9F%E5%80%BC%E7%9A%84%E6%95%88%E6%9E%9C.png)
+
+视域值必须是正数，而且不能为零。其他值都将导致 perspective() 函数被忽略，此外要注意，perspective() 函数在变形函数列表中的位置十分重要。查看上图的代码你会发现，perspective() 函数在 rotateY() 函数前面。如果调换顺序，尚未应用视域就旋转了，上图中的四个示例将得到完全相同的结果。因此，如果想在变形函数列表中设定视域值，一定要把 perspective() 函数放在首位，至少也要放在依赖视域的变形之前。这一点特别重要，请牢记，transform 函数的编写顺序十分重要。
+
+>注意，perspective() 函数与后文介绍的 perspective 属性十分相似，但是二者的用法完全不同。一般来说，最好使用 perspective 属性，不过也有需要使用 perspective() 函数的例外情况。
+
+<br>
+
+## 矩阵函数
+
+如果你特别喜欢高等数学，或是出自 wachowski 姐妹的电影中的老掉牙的笑话，决不能错过本节介绍的函数。
+
+| 函数     | 可取的值                        |
+| -------- | ------------------------------- |
+| matrix() | `<number>` [, `<number>`]{5, 5} |
+
+CSS 变形规范对 matrix() 函数做了严格规定：以六个值 a-f 确定的变换矩阵指定 2D 平面中的变形。
+
+首先要注意，matrix() 函数的有效值是六个以逗号分隔的数字。不能多，也不能少。数字可以为正，也可以为负。其次，matrix() 函数的值所用的句法十分复杂，描述的是元素变形后的最终状态，可以涵盖其他所有变形类型（旋转、倾斜等）。最后，极少有人使用这个句法。
+
+本节不会具体说明矩阵计算的复杂过程。对多数读者来说，就算讲了，也不知所以。而余下那些熟悉这一领域的人，讲了也是多此一举。如果感兴趣，可以在网上找些资料，研究如何计算矩阵。本节只介绍基本句法，以及在 CSS 中的用法。
+
+下面来看矩阵变形的基本原理。假设我们把下述函数应用到一个元素上：
+
+```css
+matrix(0.838671, 0.544639, -0.692519, 0.742636, 6.51212, 34.0381);
+```
+
+描述这个变换矩阵的 CSS 句法如下：
+
+0.838671           -0.692519              0              6.51212
+
+0.544639            0.742636              0              34.0381
+
+0                          0                            1              0
+
+0                          0                            0              1
+
+可是，这个矩阵有什么用？得到的结果如下图所示，这与下述函数列表的效果完全一样：
+
+```css
+rotate(33deg) translate(24px, 25px) skewX(-10deg);
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E4%BD%BF%E7%94%A8%E7%9F%A9%E9%98%B5%E5%8F%98%E5%BD%A2%E7%9A%84%E5%85%83%E7%B4%A0%E5%8F%8A%E4%B8%8E%E4%B9%8B%E7%AD%89%E6%95%88%E7%9A%84%E5%8F%98%E5%BD%A2%E5%87%BD%E6%95%B0.png)
+
+其实，如果你熟悉或者需要使用矩阵，完全可以也绝对应该使用矩阵。不然，可以使用多个变形函数得到相同的结果，这样更容易理解。
+
+<br>
+
+这是 2D 空间中的变形。如果想使用矩阵实施三维变形？
+
+| 函数       | 可取的值                          |
+| ---------- | --------------------------------- |
+| matrix3d() | `<number>` [, `<number>` ]{15,15} |
+
+同样，我们来看看 CSS 变形规范是如何定义 matrix3d() 的：以列主序排列一个 4 ⨉ 4 的齐次矩阵，用这 16 个值指定 3D 变形。这意味着，matrix3d() 函数的值必须是 16 个以逗号分隔的数字，不能多也不能少。这些数字按列序排列成一个 4 ⨉ 4 矩阵，第一列由第一组四个数构成，第二列由第二组四个数构成，第三列由第三组四个数构成，以此类推。因此，对下述函数来说：
+
+```css
+matrix3d(
+	0.838671, 0, -0.544639, 0.00108928
+	-0.14788, 1, 0.0960346, -0.000192069
+	0.544639, 0, 0.838671, -0.00167734
+	20.1281, 25, -13.0713, 1.02614
+)
+```
+
+得到的矩阵为：
+
+0.838671           -0.14788                 0.544639                  20.1281
+
+0                          1                             0                                25
+
+-0.544639           0.0960346            0.838671                 -13.0713
+
+0.00108928        -0.000192069      -0.00167734            1.02614
+
+最终状态等效于：
+
+```css
+perspective(500px) rotateY(33deg) translate(24px, 25px) skewX(-10deg);
+```
+
+如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E4%BD%BF%E7%94%A8%E4%B8%89%E7%BB%B4%E7%9F%A9%E9%98%B5%E5%8F%98%E5%BD%A2%E7%9A%84%E5%85%83%E7%B4%A0%E4%B8%8E%E4%B9%8B%E7%AD%89%E6%95%88%E7%9A%84%E5%8F%98%E5%BD%A2%E5%87%BD%E6%95%B0.png)
+
+<br>
+
+## 关于最终状态等效的说明
+
+特别注意，matrix() 函数与一系列变形函数等效的只是最终状态。原因与讨论旋转那一节所说的一样：旋转 393deg 与旋转 33deg 得到的最终视觉效果是一样的，但是如果以动画的形式表示的话，前者将导致元素像滚筒一样旋转，而后者不会。如果用 matrix() 函数实现相同的最终状态，也不会有滚动效果，而是以最简短的路径到达最终状态。
+
+可能有些抽象，下面举个例子。假设下述变形函数列表与 matrix() 函数是等效的：
+
+```css
+rotate(200deg) translate(24px, 25px) skewX(-10deg);
+matrix(-0.939693, -0.34202, 0.507713, -0.879385, -14.0021, -31.7008);
+```
+
+注意 200 度的旋转。自然而然，我们会把这理解为顺时针旋转 200 度，事实也是如此。然而，如果以动画的形式表示这两次变形，过程是不同的：函数列表版本真的会顺时针旋转 200 度，而 matrix() 版本将逆时针旋转 160 度。两次变形都在相同的位置停止，但方式却不同。
+
+有时看似相同的过程，其实也是有差异的。原因还是由于 matrix() 函数始终取最简短的路径到达最终状态，而变形函数列表则按部就班（其实，也不一定）。请看下面两个貌似等效的变形：
+
+```css
+rotate(160deg) translate(24px, 25px) rotate(-30deg) translate(-100px);
+matrix(-0.642788, 0.766044, -0.766044, -0.642788, 33.1756, -91.8883);
+```
+
+这两个变形也在相同的位置停止，但是，如果以动画的形式表示，到达最终状态的过程是不一样的。乍一看，区别不是那么明显，但确实有差异。
+
+倘若不以动画的形式表示变形，这都不重要，但是一定要知道这个区别，说不定什么时候你就想使用动画了（但愿是在读过动画那一章之后）。
+
+<br>
+
+# 3. 其他变形属性
+
+除了基本的 transform 属性之外，还有几个辅助属性，用于定义变形的原点、场景使用的视域等。
+
+## 1. 移动原点
+
+目前所见的变形有个共同点，都以元素的绝对中心为变形的原点。例如，旋转元素时，是绕着中心旋转的，而不是绕着某一角旋转的。这是默认行为，不过可以使用 transform-origin 属性修改。
+
+```css
+transform-origin
+
+取值：[ left | center | right | top | bottom | <percentage> | <length> ] | [ left | center | right | <percentage> | <length>] && [ top | center | bottom | <percentage> | <length>] <length>?
+初始值：50% 50%
+适用于：任何可变形的元素
+百分数：相对范围框计算（见下文的说明）
+计算值：计算为一个百分数，值为长度值时，计算为绝对长度
+继承性：否
+动画性：<length>, <percentage>
+```
+
+取值句法看起来错综复杂，但实际使用起来还是比较简单的。transform-origin 属性的值为两个或三个关键字，用于定义相对哪个点变形：第一个值针对横向，第二个值针对纵向，可选的第三个值是 z 轴上的长度。横轴和纵轴可以使用英语关键字，例如 top 和 right，也可以使用百分数、长度，或者不同类型的关键字搭配。然而 z 轴不能使用英语关键字或百分数，不过可以使用长度值，其中像素值是目前最常用的。
+
+长度值设定的是距元素左上角的距离。因此，transform-origin: 5em 22px 定义的变形原点距元素的左边 5em、距元素的顶边 22 像素。类似地，transform-origin: 5em 22px 200px 定义的变形原点右移 5em、下移 22 像素、后移 200 像素（即元素所在位置背后 200 像素）。
+
+百分数相对对应的轴和元素的尺寸计算，设定的是距元素左上角的偏移量。例如，transform-origin: 67% 40% 定义的元素距元素左边的距离为宽度的 67%，距元素顶边的距离为高度的 40%。下图展示了几种定义原点的方式。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E5%AE%9A%E4%B9%89%E5%8E%9F%E7%82%B9%E7%9A%84%E4%B8%8D%E5%90%8C%E6%96%B9%E5%BC%8F.png)
+
+那么，修改原点的位置有什么用？通过 2D 旋转最容易说明其作用。假设我们把一个元素向右旋转 45度，那么元素的最终位置就取决于变形原点。下图展示了使用不同的变形原点得到的结果。图中以圆圈标出的是变形原点。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E5%8F%98%E5%BD%A2%E5%8E%9F%E7%82%B9%E4%BD%8D%E4%BA%8E%E4%B8%8D%E5%90%8C%E4%BD%8D%E7%BD%AE%E6%97%B6%E7%9A%84%E6%97%8B%E8%BD%AC%E6%95%88%E6%9E%9C.png)
+
+<br>
+
+原点对其他变形类型也有影响，例如倾斜和缩放。如果原点在元素的中心，缩放时，每一边缩放的量相等。而原点在右下角的话，元素将向那一角收缩。类似地，相对元素的中心倾斜与相对右上角倾斜得到的形状是一样的，但是位置不同。下图中有几个例子。同样，图中以圆圈标出的是变形原点。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E5%8F%98%E5%BD%A2%E5%8E%9F%E7%82%B9%E4%BD%8D%E4%BA%8E%E4%B8%8D%E5%90%8C%E4%BD%8D%E7%BD%AE%E6%97%B6%E7%9A%84%E5%80%BE%E6%96%9C%E6%95%88%E6%9E%9C.png)
+
+有种变形不怎么受变形原点的影响，平移。使用 translate()，或者 translateX() 和 translateY() 移动元素，不管变形原点在哪儿，元素最终都将移到相同的位置。如果只做平移，设定变形原点就没什么意义了。然而，除了平移之外，如果还想做其他变形，那原点的位置就有影响了。请根据实际情况灵活使用。
+
+<br>
+
+## 2. 选择 3D 变形方式
+
+如果在三维空间中改变元素的形态，例如使用 translate3d() 或 rotateY()，或许希望在 3D 空间中呈现元素。然而，这却不是默认的行为。默认情况下，不管怎样变形，得到的结果都是扁平的。幸好，这个行为可以使用 transform-style 属性修改。
+
+```css
+tranform-style
+
+取值：flat | preserve-3d
+初始值：flat
+适用于：任何可变形的元素
+计算值：指定的值
+继承性：否
+动画性：否
+```
+
+假设我们想在适中的视域下移动元素，让元素离我们的眼睛更近一些，然后倾斜一点。使用的规则和 HTML 如下：
+
+```css
+div#inner {
+    transform: perspective(750px) translateZ(60px) rotateX(45deg);
+}
+```
+
+```html
+<div id="outer">
+    outer
+    <div id="inner">inner</div>
+</div>
+```
+
+结果如下图所示，差不多与所想的一样。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/3D%20%E5%8F%98%E5%BD%A2%E5%86%85%E5%B1%82%20div.png)
+
+<br>
+
+但是，如果向某一边旋转外层 div，结果就与我们设想的不一样了：内层 div 像粘在外层 div 上的照片一样，这与预期不符。
+
+然而，结果就是这样，因为 transform-style 的默认值是 flat。内层 div 的上部前倾、下部后靠，像是紧贴在外层 div 上的图像，随外层 div 一起旋转，如下图所示。
+
+```css
+div#outer {
+    transform: perspective(750px) rotateY(60deg) rotateX(-20deg);
+}
+
+div#inner {
+    transform: perspective(750px) translateZ(60px) rotateX(45deg);
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E6%89%81%E5%B9%B3%E5%8F%98%E5%BD%A2%E6%96%B9%E5%BC%8F%E7%9A%84%E6%95%88%E6%9E%9C.png)
+
+<br>
+
+然而，把值改成 preserve-3d 后，结果就截然不同了。内层 div 将绘制成一个 3D 对象，浮动在外层 div 附近，因此也就不紧贴在外层 div 上了。改动后得到的结果如下图所示。
+
+```css
+div#outer {
+    transform: perspective(750px) rotateY(60deg) rotateX(-20deg);
+    transform-style: preserve-3d;
+}
+
+div#inner {
+    transform: perspective(750px) translateZ(60px) rotateX(45deg);
+}
+```
+
+注意，transform-style 设定的变形方式可能会被其他属性覆盖。这是因为那些属性的某些值要求元素及其子元素必须以扁平的方式呈现才能起作用。遇到这种情况，不管你把 transform-style 设为什么值，都会被强制重置为 flat。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E4%BF%9D%E7%95%99%203D%20%E6%95%88%E6%9E%9C%E7%9A%84%E5%8F%98%E5%BD%A2.png)
+
+为了避免被覆盖，下述属性要设为给出的值：
+
+* overflow: visible
+* filter: none
+* clip: auto
+* clip-path: none
+* mask-image: none
+* mask-border-source: none
+* mix-blend-mode: normal
+
+这些都是相应属性的默认值，如果没在保留 3D 效果的元素上声明为其他值，那就没什么需要担心的。然而，如果在编辑 CSS 的过程中，突然发现 3D 变形效果被拍扁了，根源可能就在上述列表中的某个属性上。
+
+此外，除了前面提到的值以外，isolation 属性的值必须是或者计算为 isolate（想知道 isolation 属性的作用，用于设定给定合成方式）。
+
+<br>
+
+## 3. 修改视域
+
+视域其实由两个属性定义：一个定义视域距离，相当于前面讨论过的 perspective() 函数，另一个定义视域的原点。
+
+### 定义视域
+
+先讲 perspective 属性。这个属性的值是一个长度，定义视域锥体的深度。这么看来，它与前面讨论的 perspective() 函数功能类似，不过二者之间有重要的区别。
+
+```css
+perspective
+
+取值：none | <length>
+初始值：none
+适用于：任何可变形的元素
+计算值：绝对长度，或者 none
+继承性：否
+动画性：是
+```
+
+举个简单的例子，如果想创建特别深的视域，仿照变焦镜头的效果，可以声明 perspective: 2500px。如果想让深度浅一些，模仿鱼眼镜头的近景效果，可以声明 perspective: 200px。
+
+那么它与 perspective() 函数之间到底有什么不同？perspective() 函数只为目标元素定义视域，比如声明 transform: perspective(800px)rotateY(-50grad)。那么只有应用这个规则的元素才使用设定的视域。
+
+而 perspective 属性定义的视域深度应用到目标元素的所有子元素上。糊涂了，没关系。下面举例说明这个区别，结果如下图所示：
+
+```css
+div {
+    transform-style: perserve-3d;
+    border: 1px solid gray;
+    width: 660px;
+}
+
+img {
+    margin: 10px;
+}
+
+#one {
+    perspective: none;
+}
+
+#one img {
+    transform: perspective(800px) rotateX(-50grad);
+}
+
+#two {
+    perspective: 800px;
+}
+
+#two img {
+    transform: rotateX(-50grad);
+}
+```
+
+```html
+<div><img src="rsq.gif"><img src="rsq.gif"><img src="rsq.gif"></div>
+<div id="one"><img src="rsq.gif"><img src="rsq.gif"><img src="rsq.gif"></div>
+<div id="two"><img src="rsq.gif"><img src="rsq.gif"><img src="rsq.gif"></div>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E5%85%B1%E6%9C%89%E8%A7%86%E5%9F%9F%E4%B8%8E%E7%8B%AC%E7%AB%8B%E8%A7%86%E5%9F%9F.png)
+
+上图中的第一排图像还没有变形，第二排中的每个图像向我们旋转了 50 弧度（等同于 45 度），不过每个图像的视域是独立的。
+
+在第三排中，各个图像自身都没有视域。这一排中的图像都在为 div 容器设定的视域（由 perspective: 800px 定义）中绘制。正因为这些图像在共有的视域中变形，所以看起来是正确的，即与预期一致，就像把三个实物照片贴在透明玻璃片上，绕着玻璃片中间的横轴向我们旋转一样。
+
+>注意，前一节说过，设定 transform-style: preserve-3d 才能看到图中的效果。
+
+这就是 perspective 属性与 perspective() 函数之间重要的区别。前者创建的 3D 空间为所有子元素共有，而后者只对目标元素有效果。而且，为了让 3D 空间中的变形有视觉效果，要把 perspective() 函数放在变形函数列表的开头或前部。然而，perspective 属性应用到全部子元素上，对在何处声明变形没有要求。
+
+多数时候，应该使用 perspective 属性。其实，3D 变形经常使用页面布局中惯用的 div 容器（或其他元素），目的主要是提供共有视域。在前面的示例中，`<div id="two">` 的唯一作用就是充当视域容器。没有这个容器，图中的效果也就无从谈起。
+
+<br>
+
+### 移动视域的原点
+
+如果允许以 3D 形式呈现，元素在三维空间中的变形将使用视域（参见前文的 transform-style 和 perspective 属性）。视域有原点，也称消隐点，这个点的位置可以使用 perspective-origin 属性修改。
+
+```css
+perspective-origin
+
+取值：[left | center | right | top | bottom | <percentage> | <length> ] | [ left | center | right | <percentage> | <length> ] && [ top | center | bottom | <percentage> | <length>]] <length>?
+初始值：50% 50%
+适用于：任何可变形的元素
+百分数：相对范围框计算（见下文的说明）
+计算值：计算为一个百分数，长度值计算为绝对长度
+继承性：否
+动画性：<length>, <percentage>
+```
+
+你可能发现了，perspective-origin 的取值句法与 transform-origin 一样，而且最后也有个可选的长度值，定义在 z 轴上的偏移量。虽然值得表述是一样的，但是效果却截然不同。transform-origin 定义的是围绕哪个点变形，而 perspective-origin 定义的是视线汇聚于哪一点。
+
+与其他多数 3D 变形属性一样，这个属性的作用通过演示更容易说明白。请看下述 CSS 和标记，结果如下图所示：
+
+```css
+#container {
+    perspective: 850px;
+    perspective-origin: 50% 0%;
+}
+
+#ruler {
+    height: 50px;
+    background: #DED url(tick.gif) repeat-x;
+    transform: rotateX(60deg);
+    transform-origin: 50% 100%;
+}
+```
+
+```html
+<div id="container">
+    <div id="ruler"></div>
+</div>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%A0%87%E5%B0%BA.png)
+
+我们用重复的背景图在尺子上标出刻度，刻度所在的 div 容器向后倾斜 60 度。标尺上的刻度线都指向同一个消隐点，即 div 容器顶边的中点（因为 perspective-origin 的值是 50% 100%）。
+
+<br>
+
+下面我们在同样的条件下变更视域原点的位置，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E4%B8%8D%E5%90%8C%E8%A7%86%E5%9F%9F%E5%8E%9F%E7%82%B9%E4%B8%8B%E7%9A%84%E6%A0%87%E5%B0%BA.png)
+
+可以看到，视域原点位置的变化对 3D 变形元素的渲染是有影响的。
+
+注意，之所以能看到图中的效果，是因为我们声明了 perspective。倘若 perspective 的值是默认值 none，不管把 perspective-origin 设为什么，都将被忽略。这是说得通的，毕竟没有视域也就没有视域原点。
+
+<br>
+
+## 4. 处理背面
+
+排布元素这么多年来，你可能从未想过，如果能看到元素的背面，背面是什么样子？在使用 3D 变形的过程中，有朝一日完全有可能会看到元素的背面。说不定还会故意这么做。这样的情况如何处理，由 backface-visibility 属性决定。
+
+```css
+backface-visibility
+
+取值：visible | hidden
+初始值：visible
+适用于：任何可变形的元素
+计算值：指定的值
+继承性：否
+动画性：否
+```
+
+这个属性没有前面讨论的属性和函数那么复杂，它的作用只有一个，即决定元素的背面朝向我们时是否渲染背面，仅此而已。
+
+假设翻转两个元素，一个元素的 backface-visibility 属性设为默认值 visible，另一个设为 hidden，得到的结果如下图所示。
+
+```css
+span {
+    border: 1px solid red;
+    display: inline-block;
+}
+
+img {
+    vertical-align: bottom;
+}
+
+img.flip {
+    transform: rotateX(180deg);
+    display: inline-block;
+}
+
+img#show {
+    backface-visibility: visible;
+}
+
+img#hide {
+    backface-visibility: hidden;
+}
+```
+
+```html
+<span><img src="salmon.gif" ></span>
+<span><img src="salmon.gif" class="flip" id="show"></span>
+<span><img src="salmon.gif" class="flip" id="hide"></span>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E6%98%BE%E7%A4%BA%E5%92%8C%E9%9A%90%E8%97%8F%E8%83%8C%E9%9D%A2.png)
+
+可以看到，第一个图像没变化，第二个图像沿 x 轴翻转了，而且能看到背面。第三个图像也翻转了，但是看不到，因为背面隐藏了。
+
+<br>
+
+这个属性在一些场合下还是很有用的。最简单的情况是一个能翻转的 UI 元素，在两面呈现不同的内容。比如一个搜索区域，在背面显示首选项配置，或者一张照片，在背面记一些信息。我们来看后一种情况。所用的 CSS 和标记可能是下面这样的：
+
+```css
+section {
+    position: relative;
+}
+
+img, div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+}
+
+div {
+    transform: rotateY(180deg);
+}
+
+section:hover {
+    transform: rotateY(180deg);
+    transform-style: preserve-3d;
+}
+```
+
+```html
+<section>
+    <img src="photo.jpg" alt="">
+    <div class="info">(...info goes here...)</div>
+</section>
+```
+
+这个例子表明，backface-visibility 使用起来没有想的那么简单。不是说 backface-visibility 属性本身有多复杂，而是如果忘记把 transform-style 设为 preserve-3d 的话，根本看不到效果。正是因为这样，我们才为 section 元素声明了 transform-style。
+
+<br>
+
+在相同的标记下，我们可以稍微修改一下 CSS，在翻转后显示图像的背面。这样可能更符合我们的意图，让信息看起来真的是写在图像的背面。修改后得到的结果如下图所示。
+
+```css
+section {
+    position: relative;
+}
+
+img, div {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+div {
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    background: rgba(255, 255, 255, 0.85);
+}
+
+section:hover {
+    transform: rotateY(180deg);
+    transform-style: preserve-3d;
+    
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC16%E7%AB%A0%EF%BC%9A%E5%8F%98%E5%BD%A2/%E6%AD%A3%E9%9D%A2%E6%98%AF%E7%85%A7%E7%89%87%EF%BC%8C%E8%83%8C%E9%9D%A2%E6%98%AF%E4%BF%A1%E6%81%AF.gif)
+
+为了达到这样的效果，我们只需把 backface-visibility: hidden 应用到 div 上，而不是同时应用到 img 和 div 上。这样，翻转后，div 的背面隐藏了，而图像的背面不隐藏。
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
