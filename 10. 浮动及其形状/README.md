@@ -1,4 +1,14 @@
-# 10.1 浮动
+很长一段时间内，浮动元素是所有 Web 布局方案的基础（很大程度上依赖 clear 属性，稍后详细说明）。但浮动并不是为布局而生的。与使用表格布局一样，把浮动作为布局工具算是无奈之举，那时别无他选。
+
+然而，浮动自身却是相当有趣和有用的，尤其是最近新增浮动形状之后，内容可以沿非矩形边缘浮动了。
+
+# 1. 浮动
+
+你应该对浮动元素不陌生。从 netscape 1.1 开始，就可以浮动图像，例如 `<img src="b5.gif" align=right">`。此时，图像浮动到右侧，其他内容（例如文本）将围绕图像流动。其实，浮动这个名称就出自 netscape devedge 中的 extensions to HTML2.0 页面，转摘如下：
+
+>对 align 属性的扩展需要特别说明一下。先看 left 和 right 两个值。使用它们设置图像的对齐方式得到的是全新的浮动图像类型。
+
+以前，只有图像能浮动，某些浏览器还支持浮动表格。而使用 CSS 可以浮动任何元素，从图像、段落到列表，不一而足。在 CSS 中，浮动通过 float 属性实现。
 
 ```css
 float
@@ -11,68 +21,72 @@ float
 动画性：否
 ```
 
+例如，若想把图像浮动到左侧，可以使用下述标记：
 
+```html
+<img src="b4.gif" style="float: left;" alt="b4">
+```
 
+如下图所示，这个图像浮动到浏览器窗口左边，文本则围绕图像流动。这正是我们预期的行为。
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E4%B8%80%E4%B8%AA%E6%B5%AE%E5%8A%A8%E7%9A%84%E5%9B%BE%E5%83%8F.png)
 
+然而，利用 CSS 浮动元素也带来了一些棘手的问题。
 
+<br>
 
 ## 1. 浮动的元素
 
+浮动元素后要注意几件事。首先，在某种程序上讲，浮动的元素脱离了常规的文档流，不过对布局仍有影响。使用 CSS 浮动元素的独特之处是，浮动的元素基本上算是处在单独的平面上，但是对文档中其余的内容仍有影响。
 
+之所以这样，是因为元素浮动后，其他内容将围绕它流动，浮动的图像就是这样，不过即使浮动段落，也是如此。在下图中可以十分清楚地看出这一点，因为我们为浮动的段落加上了外边距：
 
-### 1. 有外边距的浮动图像
-
-**`浮动元素后要注意几件事。首先，在某种程度上讲，浮动的元素脱离了常规的文档流，不过对布局仍有影响。使用 CSS 浮动元素的独特之处是，浮动的元素基本上算是处在单独的平面上，但是对文档中其余的内容仍有影响。之所以这样，是因为元素浮动后，其他内容将围绕它流动。浮动的图像就是这样，不过即使浮动段落，也是如此。`**
-
-```html
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CSS Float 示例</title>
-  <style>
-    .container {
-      width: 500px;
-      border: 1px solid #ccc;
-      padding: 10px;
-    }
-
-    .floated-paragraph {
-      float: left;
-      margin: 20px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <p class="floated-paragraph">这是一个浮动段落。这是一个浮动段落。这是一个浮动段落。</p>
-    <p>这是环绕浮动段落的文本。这是环绕浮动段落的文本。这是环绕浮动段落的文本。这是环绕浮动段落的文本。这是环绕浮动段落的文本。</p>
-  </div>
-</body>
-</html>
+```css
+p.aside {
+    float: right;
+    width: 15em;
+    margin: 0 1em 1em;
+    padding: 0.25em;
+    border: 1px solid;
+}
 ```
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/10-1.png)
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E4%B8%80%E4%B8%AA%E6%B5%AE%E5%8A%A8%E6%AE%B5%E8%90%BD.png)
 
-**`注意，浮动元素四周的外边距不折叠。如果为浮动图像设置 20 像素的外边距，图像周围至少有 20 像素的空白。如果与图像相邻（横向和纵向）的其他元素也有外边距，那些外边距不会与浮动图像的外边距折叠在一起。`**
+<br>
 
+注意，浮动元素四周的外边距不折叠。如果为浮动图像设置 20 像素的外边距，图像周围至少有 20 像素的空白。如果与图像相邻（横向和纵向）的其他元素也有外边距，那些外边距不会与浮动图像的外边距折叠在一起，如下图所示。
 
+```css
+p img {
+    float: left;
+    margin: 25px;
+}
+```
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E6%9C%89%E5%A4%96%E8%BE%B9%E8%B7%9D%E7%9A%84%E6%B5%AE%E5%8A%A8%E5%9B%BE%E5%83%8F.png)
 
+<br>
 
-### 2. 根本不浮动
+如果浮动的是非置换元素，要为元素设定宽度。否则，根据 CSS 规范，元素的宽度趋近于零。因此，浮动的元素可能只有一个字符宽，当然这是假设浏览器为 width 属性预设的最小值为一个字符宽度。假如没有为浮动元素声明 width 值，可能会得到如下图所示的结果（不太常见，但仍有可能）。
 
-**`浮动的默认值是 none`**
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E6%B5%AE%E5%8A%A8%E6%B2%A1%E6%9C%89%E6%98%BE%E5%BC%8F%E5%A3%B0%E6%98%8E%E5%AE%BD%E5%BA%A6%E7%9A%84%E6%96%87%E6%9C%AC.png)
 
+<br>
 
+### 根本不浮动
 
+除了 left 和 right 之外，float 属性还可以取一个值。float: none 的作用四彻底禁止元素浮动。
 
+这么做看起来有点多此一举，如果不想浮动元素，不声明 float 属性不就行了？首先，float 属性的默认值是 none。换句话说，为了常规情况下不做任何浮动，必须有这样一个值存在。如若不然，元素都将以某种方式浮动。
+
+其次，你可能想覆盖从别处导入的样式表中的某个样式。假设一个网站的样式表把所有图像都设为浮动的，而在某个页面，你却不想浮动图像。此时不用新建一个样式表，可以在文档内嵌的样式表中声明 img { float: none }。除此之外，确实很少需要使用 float: none。
+
+<br>
 
 ## 2. 浮动详解
 
-**`在深入了解浮动之前，一定要建立容纳块的概念。浮动元素的容纳块是最近的块级祖辈元素。因此，在下述标记中，浮动元素的容纳块是所在的段落元素：`**
+在深入了解浮动之前，一定要建立容纳块的概念。浮动元素的容纳块是最近的块级祖辈元素。因此，在下述标记中，浮动元素的容纳块是所在的段落元素：
 
 ```html
 <h1>
@@ -80,150 +94,188 @@ float
 </h1>
 
 <p>
-    This is paragraph text, but you knew that.
-</p>
+    This is paragraph text, but you knew that. Within the content of this
+    paragraph is an image that's been floated. <img src="testy.gif" style="float: right"> The containing block for the floated 	     image is the paragraph.
+ </p>
 ```
 
-**`此外，不管元素是什么类型，浮动后得到的都是块级框。因此，如果浮动的是链接，即使元素自身正常情况下生成的是行内框，浮动后生成的也是块级框。在布局中，浮动元素就像 div 元素（以此为例）一样。这与为浮动元素声明 display: block 的效果没什么不同，不过没必要多此一举。`**
+此外，不管元素是什么类型，浮动后得到的都是块级框。因此，如果浮动的是链接，即使元素自身正常情况下生成的是行内框，浮动后生成的也是块级框。在布局中，浮动元素就像 div 元素（以此为例）一样。这与为浮动元素声明 display: block 的效果没什么不同，不过没必要多此一举。
 
-**`浮动元素的位置由一系列规则约 束，在深入探讨具体行为之前，先来了解一下。这些规则与计算外边距和宽度的方式略有相似之处，而且都有些符合常识的地方。这些规则如下。`**
+浮动元素的位置由一系列规则约束，在深入探讨具体行为之前，先来了解一下。这些规则与计算外边距和宽度的方式略有相似之处，而且都有些符合常识的地方。这些规则如下。
 
-1. **`浮动元素的左（或右）外边界不能超过容纳块的左（或右）内边界。`** 
+1. 浮动元素的左（或右）外边界不能超过容纳块的左（或右）内边界。
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/10-2.png)
+   这一点不难理解。左浮动的元素，其左外边界最多只能到达容纳块的左内边界。类似地，右浮动的元素，最远只能到容纳块的右内边界，如下图所示（下图及后面几个插图中带圆圈的数字是元素的标记在源码中的真实位置，而带数字的方框表示元素浮动后的位置和尺寸）。
 
-2. **`如果在文档源码中处于前面的元素向左浮动，那后面的浮动元素的左外边界必定在前一个元素右外边界的右侧，除非后一个元素的顶边在前一个元素的底边以下。类似地，如果在文档中处于前面地元素向右浮动，后面的浮动元素的右外边界必定在前一个元素左外边界的左侧，除非后一个元素的顶边在前一个元素的底边以下。`** 
+2. 如果在文档源码中处于前面的元素向左浮动，那后面的浮动元素的左外边界必定在前一个元素右外边界的右侧，除非后一个元素的顶边在前一个元素的底边以下。类似地，如果在文档中处于前面的元素向右浮动，后面的浮动元素的右外边界必定在前一个元素左外边界的左侧，除非后一个元素的顶边在前一个元素的底边以下。
 
-**`这条规则能避免浮动的元素相互遮盖。如果向左浮动一个元素，而左侧已经有浮动的元素了，那么后浮动的元素将靠紧前面浮动元素的右外边界。然而，如果浮动元素的顶边在前面浮动元素的底边以下，那么后浮动的元素将直达父元素的左内边界。`** 
+​	这条规则能避免浮动的元素相互遮盖。如果向左浮动一个元素，而左侧已经有浮动的元素了，那么后浮动的元素将靠紧前面浮动元素的右外边界。然而，如果                	浮动元素的顶边在前面浮动元素的底边以下，那么后浮动的元素将直达父元素的左内边界。下图中有几个例子。
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/10-3.png)
+​	这条规则的好处是，能确保所有浮动的内容都可见，不会出现一个浮动元素遮盖另一个浮动元素的情况，让我们可以放心使用浮动。定位的情况截然不同，很	容易导致元素被遮盖。
 
-**`这条规则的好处是，能确保所有浮动的内容都可见，不会出现一个浮动元素遮盖另一个浮动元素的情况，让我们可以放心使用浮动。定位的情况截然不同，很容易导致元素被遮盖。`**
+3. 左浮动元素的右外边界不能在右浮动元素的左外边界的右侧。右浮动元素的左外边界不能在左浮动元素的右外边界的左侧。
 
-3. **`左浮动元素的右外边界不能在右浮动元素的左外边界的右侧。右浮动元素的左外边界不能在左浮动元素的右外边界的左侧。`** 
+​	这条规则避免浮动的元素重叠。假如网页正文的宽度是 500 像素，内容里右两个图像，都是 300 像素宽。第一个图像向左浮动，第二个图像向右浮动。根据	这条规则，第二个图像不会与第一个图像出现 100 像素宽的重叠区域。事实上，第二个图像的顶边将正好在左浮动图像的底边以下，如下图所示。
 
-**`这条规则避免浮动的元素重叠。假如网页正文的宽度是 500 像素，内容里面有两个图像，都是 300 像素宽。第一个图像向左浮动，第二个图像向右浮动。根据这条规则，第二个图像不会与第一个图像出现 100 像素宽的重叠区域。事实上，第二个图像的顶边将正好在左浮动图像的底边以下。`** 
+4. 浮动元素的顶边不能比父元素的内顶边高。如果浮动元素位于两个折叠的外边距之间，在两个元素之间放置它的位置时，将视其有个块级父元素。
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/10-4.png)
+​	这条规则的前半部分避免浮动元素一直向文档的顶端浮动。正确的行为如下图所示。这条规则的后半部分进一步规定某些情况下的对齐方式。例如，有三个段	落，中间那个段落是浮动的。此时，中间那个段落在浮动时好似有一个块级父元素（比如 div）。这样能避免浮动的段落一直向上移动，超出三个段落共有的父	元素。
 
-4. **`浮动元素的顶边不能比父元素的内顶边高。如果浮动元素位于两个折叠的外边距之间，在两个元素之间放置它的位置时，将视其有个块级父元素。`** 
+5. 浮动元素的顶边不能比前方任何一个浮动元素或块级元素的顶边高。
 
-**`这条规则的前半部分避免浮动元素一直向文档的顶端浮动。正确的行为如图所示。这条规则的后半部分进一步规定某些情况下的对齐方式。例如，有三个段落，中间那个段落是浮动的。此时，中间那个段落在浮动时好似有一个块级父元素（比如 div）。这样能避免浮动的段落一直向上浮动，超出三个段落共有的父元素。`** 
+​	与第 4 条规则一样，这条规则避免浮动的元素一直向上移动，超出父元素的顶边。而且，浮动元素的顶边不能比前方任何一个浮动元素的顶边高。下图是个例	子：因为第二个浮动元素必须在第一个浮动元素的下方，所以第三个浮动元素的顶边与第二个浮动元素平齐，而不是与第一个浮动元素平齐。
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/10-5.png)
+6. 浮动元素的顶边不能高于文档源码中出现在浮动元素之前的元素生成的框体所在的行框的顶边。
 
+​	与第 4 条和第 5 条规则类似，这条规则则进一步限制浮动元素上移的幅度，以免浮动元素超出前方内容所在的行框顶边。假如一个段落中有个浮动的图像，	那么图像顶边能到达的最高位置是图像原来所在的那一行行框的顶边。从下图可以看出，这样能避免图像向上浮动太远。
 
+7. 左浮动元素的左边如果还有一个向左浮动的元素，那么它的右外边界不能在容纳块右边界的右侧。类似地，右浮动元素的右边如果还有一个向右浮动的元素，那么它的右外边界不能在容纳块左边界的左侧。
 
-5. **`浮动元素的顶边不能比前方任何一个浮动元素或块级元素的顶边高。`** 
+​	也就是说，浮动元素不可能超出容纳块元素的边界，除非浮动元素太宽，容纳元素放不下。这样能避免多个连续的浮动元素全部横排在一起，超出容纳块的边	界。如果相邻的浮动元素排在一起，可能超出容纳块的话，后面的部分浮动元素将放到前面的浮动元素下面的某个位置，如下图所示（为了更好地说明这条规	则，图中可能导致超出边界地浮动元素从下一行开始排列）。
 
-**`与第 4 条规则一样，这条规则避免浮动的元素一直向上移动，超出父元素的顶边。而且，浮动元素的顶边不能比前方任何一个浮动元素的顶边高。如图，因为第二个浮动元素必须在第一个浮动元素的下方，所以第三个浮动元素的顶边与第二个浮动元素平齐，而不是与第一个浮动元素平齐。`** 
+8. 浮动元素必须放在尽可能高的位置上。
 
+​	你应该能看的出来，这条规则受前七条规则的限制。以前，浏览器把浮动元素的顶边与其他标记所在的行之后的那一行的行框顶边对齐。然而，根据规则 8，	浮动元素的顶边应该与其标签所在那一行的行框顶边平齐。当然，前提是有足够的空间。理论上正确的行为如下图所示。
 
+9. 左浮动元素必须尽量向左移动，右浮动元素必须尽量向右移动。位置越高，向左或向右移动的距离越远。
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/10-6.png)
+   同样，这条规则也受前面几条规则的限制。从下图中可以清楚地看到，浮动的元素已经向左或向右移动得够远了。
 
-
-
-6. **`浮动元素的顶边不能高于文档源码中出现在浮动元素之前的元素生成的框体所在的行框的顶边。`** 
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/10-7.png)
-
-7. **`左浮动元素的左边如果还有一个向左浮动的元素，那么它的右外边界不能在容纳块右边界的右侧。类似地，右浮动元素地右边如果还有一个向右浮动的元素，那么它的右外边界不能在容纳块左边界的左侧。`** 
-
-**`也就是说，浮动元素不可能超出容纳元素的边界，除非浮动元素太宽，容纳元素放不下。这样能避免多个连续的浮动元素全部横排在一行，超出容纳块的边界。如果相邻的浮动元素排在一起，可能超出容纳块的话，后面的部分浮动元素将放到前面的浮动元素下面的某个位置。如图所示（为了更好地说明这条规则，图中可能导致超出边界的浮动元素从下一行开始排列）。`** 
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/10-8.png)
-
-8. **`浮动元素必须放在尽可能高的位置上。`** 
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/10-9.png)
-
-
-
-9. **`左浮动元素必须尽量向左移动，右浮动元素必须尽量向右移动。位置越高，向左或向右移动的距离越远。`**
-
-**`同样，这条规则也受前面几条规则的限制。从图中可以清楚地看到，浮动的元素已经向左或向右移动得够远了。  `**
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/10-10.png)
-
-
+<br>
 
 ## 3. 具体行为
 
+前述规则有些有意思的后果，这些结果源于两方面，一是上述规则明确指明了一些要求，二是上述规则并未涵盖所有情况。首先来看浮动的元素比父元素高会发生什么情况。
 
+其实，这种情况时常发生。比如有个内容较少的文档，只有几个段落和 h3 元素，而且第一个段落中有个浮动的图像。此外，这个浮动图像的外边距为 5 像素（5px）。你可能以为这个文档的渲染结果是下图那样。
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E8%AE%BE%E6%83%B3%E7%9A%84%E6%B5%AE%E5%8A%A8%E8%A1%8C%E4%B8%BA.png)
 
+<br>
 
+事实上与你所想的没有多大出入，但是如果第一个段落有背景的话，可能就与设想的不太一样了，如下图所示。
 
+此时，结果没有太大的差别，只是这一次我们能看到背景了。可以看到，浮动的图像从父元素的底部冒出来了。其实前面也是这样，不过没有那么明显，因为背景不可见。前文讨论的浮动规则只涉及了浮动元素及其父元素的左、右和顶边，没有提到底边。这是故意的，为的是专门探讨下图中的行为。
 
-## 4. 浮动元素与内容重叠
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E5%8A%A0%E4%B8%8A%E8%83%8C%E6%99%AF%E5%90%8E%E5%86%8D%E7%9C%8B%E6%B5%AE%E5%8A%A8%E5%85%83%E7%B4%A0.png)
 
-**`一个更深思得问题是：如果浮动元素与常规流动的内容出现重叠会怎样？例如，内容流动方向那一侧的外边距为负时（例如右浮动元素的左外边距为负）就会出现这种情况。我们已经知道块级元素的边框和背景在这种情况下是怎样处理的。那么行内元素呢？`** 
+<br>
 
-**`CSS 1 和 CSS 2 对这种情况下没有明文规定。但是 CSS 2.1 阐明了具体规则。规范规定：`** 
-
-* **`行内框与浮动元素重叠时，其边框、背景和内容都在浮动元素之上渲染。`** 
-* **`块级框与浮动元素重叠时，其边框和背景在浮动元素背后渲染，而内容在浮动元素之上渲染。`** 
-
-
-
-
-
-
-
-# 10.2 清除浮动
-
-**`我们讲了相当多的浮动行为，在介绍浮动形状之前还有一点要讨论。有时，我们并不想让内容向浮动元素的一方流动，某些情况下甚至想刻意避免。如果把文档划分为多个区域，可能就不希望浮动元素从一个区域探出，进入另一个区域。此时，要禁止每个区域的第一个元素出现在浮动元素旁。倘若第一个元素在浮动元素旁，它的位置会下移到浮动的元素下方，而后续的内容都将向下顺延，如图所示。`** 
+CSS 2.1 阐明了浮动元素的一个行为：浮动元素的后代也浮动时，将扩大范围，涵盖浮动的后代元素（之前的 CSS 版本对这种情况没有明文规定）。因此，若想让元素随父元素一起浮动，可以浮动父元素，如下例所示：
 
 ```html
-<div class="wrapper">
-  <p class="black">
-    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus sit amet
-    diam. Duis mattis varius dui. Suspendisse eget dolor. Fusce pulvinar lacus
-    ac dui.
-  </p>
-  <p class="red">
-    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus sit amet
-    diam. Duis mattis varius dui. Suspendisse eget dolor.
-  </p>
-  <p class="both">This paragraph clears both.</p>
+<div style="float: left; width: 100%;">
+    <img src="hay.gif" style="float: left;"> The 'div' will stretch around the floated image because the 'div' has been floated.
 </div>
 ```
 
+与此相关的一个问题是，背景与文档中靠前的浮动元素之间的关系，如下图所示。
+
+由于浮动元素既再内容流内，也在内容流外，因此这种情况肯定会发生。那么具体行为如何？图中的标题在浮动元素的作用下后移了。然而，标题元素的宽度依然与父元素相同。因此，标题的内容区域依然占满父元素的宽度，而且背景也是如此。为了避免被浮动元素遮盖，内容不会从内容区的起边开始显示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E5%85%83%E7%B4%A0%E7%9A%84%E8%83%8C%E6%99%AF%E6%BB%91%E5%88%B0%E6%B5%AE%E5%8A%A8%E5%85%83%E7%B4%A0%E8%83%8C%E5%90%8E.png)
+
+<br>
+
+### 负外边距对浮动的影响
+
+有趣的是，负外边距将导致浮动元素移到父元素的外面。这看似与前述规则矛盾，其实不然。我们知道，负外边距能导致元素比父元素宽，类似地，负外边距也能让浮动的元素从父元素中突出来。
+
+以下述浮动的图像为例。这个图像向左浮动，左边和上边的外边距为 -15px。而且这个图像在一个没有内边距、边框和外边距的 div 元素中。结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E5%A4%96%E8%BE%B9%E8%B7%9D%E4%B8%BA%E8%B4%9F%E5%80%BC%E7%9A%84%E6%B5%AE%E5%8A%A8%E5%85%83%E7%B4%A0.png)
+
+从外观上，这个浮动的元素超出了所在的父元素，但是除此之外，没有违反前述任何一条规则。
+
+仔细研究前一节的规则之后可以发现，从技术上讲这种行为是符合规定的，因为浮动元素的外边界必须在父元素内。然而，负外边距的作用其实相当于覆盖自己的外边界，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E5%A4%96%E8%BE%B9%E8%B7%9D%E4%B8%BA%E8%B4%9F%E6%97%B6%E5%90%91%E4%B8%8A%E5%8F%8A%E5%90%91%E5%B7%A6%E6%B5%AE%E5%8A%A8%E7%9A%84%E8%AF%A6%E6%83%85.png)
+
+假设 div 元素的上内边界在 100 像素处，浏览器为了确定浮动元素的上内边界在何处，将做这样的数学计算：100px + （-15px）外边距 + 0 内边距 = 85px。因此，浮动元素的上内边界在 85 像素处。尽管这比浮动元素所在的父元素的上内边界高，但是算式摆在那里，可见没有违背规范。同样，以类似的方式计算后可以发现，浮动元素的左内边界在父元素左内边界的左边。
+
+现在可能很多人都想大叫一声犯规，但我不会责怪你。直觉上，我们肯定觉得上内边界不可能比上外边界高，但是上外边距为负时就右这样的效果，这就跟常规情况下的负外边距一样，无浮动元素的宽度看起来就比父元素宽。浮动元素的四个边都是如此：外边距为负时，内容将超出外边界，而且严格来说并不违背规范。
+
+这里还有一个重要的问题：由于外边距为负而导致浮动的元素超出父元素时，文档将如何显示？比如说，一个图像向上浮动的距离太远，闯入了用户代理已经显示的某个段落的领地。此时，由用户代理自行决定是否重排文档。
+
+CSS 规范明确指出，用户代理无需为文档中位于后面的内容腾出空间而重排之前的内容。也就是说，如果一个图像向上浮动，盖住了前面的段落，盖住也就盖住了。不过，用户代理遇到这种情况可能会沿着浮动的元素排布内容。不管怎样，依赖某一种特定行为都是不恰当的，因此在浮动元素上使用负外边距没什么大用途。浮动相对安全，但是在页面中把元素向上移动往往不是个好主意。
+
+还有一种情况能导致浮动的元素超出父元素的左右内边界，即浮动元素比父元素宽时。此时，浮动元素将从右内边界或左内边界溢出（具体哪一边取决于浮动方式），而用户代理尽最大的努力显示浮动元素。比如，可能得到如下图所示的结果。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E6%B5%AE%E5%8A%A8%E4%B8%80%E4%B8%AA%E6%AF%94%E7%88%B6%E5%85%83%E7%B4%A0%E5%AE%BD%E7%9A%84%E5%85%83%E7%B4%A0.png)
+
+<br>
+
+## 4. 浮动元素与内容重叠
+
+一个更值得深思的问题是：如果浮动元素与常规流动的内容出现重叠会怎样？例如，内容流动方向那一刻的外边距为负时（例如右浮动元素的左外边距为负）就会出现这种情况。我们已经知道块级元素的边框和背景在这种情况下是怎样处理的。那么行内元素?
+
+CSS1 和 CSS2 对这种情况没有明文规定。但是 CSS 2.1 阐明了具体规则。规范规定：
+
+* 行内框与浮动元素重叠时，其边框、背景和内容都在浮动元素之上渲染。
+* 块级框与浮动元素重叠时，其边框和背景在浮动元素背后渲染，而内容在浮动元素之上渲染。
+
+为了弄清这两条规则，以下述代码为例说明：
+
+```html
+<img src="testy.gif" class="sideline">
+<p class="box">
+    This paragraph, unremarkable in most ways, does contain an inline element.
+    This inline contains some <strong>strongly emphasized text, which is so 
+    marked to make an important point</strong>. The rest fo the element's
+    content is normal anonymous inline content.
+</p>
+<p>
+    This is a second paragraph. There's nothing remarkable about it, really.
+    Please move along to the next bit.
+</p>
+<h2 id="jump-up">
+    A Heading!
+</h2>
+```
+
+在这段标记上应用下述样式后，得到的结果如下图所示。
+
 ```css
-.wrapper {
-  border: 1px solid black;
-  padding: 10px;
+.sideline {
+    float: left;
+    margin: 10px -15px 10px 10px;
 }
 
-.both {
-  border: 1px solid black;
-  clear: both;
+p.box {
+    border: 1px solid gray;
+    background: hsl(117, 50%, 80%);
+    padding: 0.5em;
 }
 
-.black {
-  float: left;
-  margin: 0;
-  background-color: black;
-  color: #fff;
-  width: 20%;
+p.box strong {
+    border: 3px double;
+    background: hsl(215, 100%, 80%);
+    padding: 2px;
 }
 
-.red {
-  float: right;
-  margin: 0;
-  background-color: pink;
-  width: 20%;
-}
-
-p {
-  width: 45%;
+h2#jump-up {
+    margin-top: -25px;
+    background: hsl(42, 70%, 70%);
 }
 ```
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/10-11.png)
+行内元素（strong）在各方面都与浮动元素重叠，包括背景、边框、内容等。而块级元素只有内容显示在浮动元素之上，背景和边框都在浮动元素背后。
 
-**`为此，我们要使用 clear 属性。`** 
+这里所说的重叠处理方式与元素在文档源码中出现的顺序无关。不管常规元素在浮动的元素前面还是后面，都是这样处理的。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E6%B5%AE%E5%8A%A8%E5%85%83%E7%B4%A0%E4%B8%8E%E5%86%85%E5%AE%B9%E9%87%8D%E5%8F%A0%E6%97%B6%E7%9A%84%E5%B8%83%E5%B1%80%E6%96%B9%E5%BC%8F.png)
+
+<br>
+
+# 2. 清除浮动
+
+我们讲了相当多的浮动行为，在介绍浮动形状之前还有一点要讨论。有时，我们并不想让内容向浮动元素的一方流动，某些情况下甚至想刻意避免。如果把文档划分为多个区域，可能就不希望浮动元素从一个区域探出，进入另一个区域。此时，要禁止每个区域的第一个元素出现在浮动元素旁。倘若第一个元素在浮动元素旁，它的位置会下移到浮动元素下方，而后续的内容都将向下顺延，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E7%95%85%E8%A1%8C%E6%97%A0%E9%98%BB%E5%9C%B0%E6%98%BE%E7%A4%BA%E5%85%83%E7%B4%A0.png)
+
+<br>
+
+为此，我们要使用 clear 属性。
 
 ```css
 clear
@@ -236,163 +288,101 @@ clear
 动画性：否
 ```
 
-
-
-## `1. clear: left`
-
-```html
-<div class="wrapper">
-  <p class="black">
-    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus sit amet
-    diam. Duis mattis varius dui. Suspendisse eget dolor.
-  </p>
-  <p class="red">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
-  <p class="left">This paragraph clears left.</p>
-</div>
-```
+例如，若想让所有 h3 元素不出现在左浮动元素的右侧，可以声明 h3 { clear: left }。这个声明的意思可以理解为确保 h3 元素的左边远离浮动图像，作用与 HTML 结构 `<br clear="left">` 十分相似（让人始料未及的是，浏览器默认为 br 元素生成行内框，因此如若没有改变显示方式，clear 属性不会生效）。下述规则禁止 h3 元素挨着浮动元素的左边排布：
 
 ```css
-.wrapper {
-  border: 1px solid black;
-  padding: 10px;
-}
-
-.left {
-  border: 1px solid black;
-  clear: left;
-}
-
-.black {
-  float: left;
-  margin: 0;
-  background-color: black;
-  color: #fff;
-  width: 20%;
-}
-
-.red {
-  float: left;
-  margin: 0;
-  background-color: pink;
-  width: 20%;
-}
-
-p {
-  width: 50%;
+h3 {
+    clear: left;
 }
 ```
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/11-12.png)
+这样声明之后，h3 元素不会紧挨左浮动元素了，但是浮动的元素却可以出现在 h3 元素的右边，如下图所示。
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E6%B8%85%E9%99%A4%E5%B7%A6%E8%BE%B9%EF%BC%8C%E5%8F%B3%E8%BE%B9%E4%B8%8D%E5%8F%97%E5%BD%B1%E5%93%8D.png)
 
+<br>
 
-
-
-## `2. clear: right`
-
-```html
-<div class="wrapper">
-  <p class="black">
-    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus sit amet
-    diam. Duis mattis varius dui. Suspendisse eget dolor.
-  </p>
-  <p class="red">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
-  <p class="right">This paragraph clears right.</p>
-</div>
-```
+为了避免这种情况发生，也为了确保 h3 元素不与任何浮动的元素共处一行，可以使用 both：
 
 ```css
-.wrapper {
-  border: 1px solid black;
-  padding: 10px;
-}
-
-.right {
-  border: 1px solid black;
-  clear: right;
-}
-
-.black {
-  float: right;
-  margin: 0;
-  background-color: black;
-  color: #fff;
-  width: 20%;
-}
-
-.red {
-  float: right;
-  margin: 0;
-  background-color: pink;
-  width: 20%;
-}
-
-p {
-  width: 50%;
+h3 {
+    clear: both;
 }
 ```
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/11-13.png)
+这个值的意思不言自明，即目标元素的两边都不与浮动的元素共存，如下图所示。
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E4%B8%A4%E8%BE%B9%E9%83%BD%E6%B8%85%E9%99%A4.png)
 
+<br>
 
+反过来，如果担心右边的浮动元素把 h3 元素向下推，声明 `h3 { clear: right }`。
 
+最后一个值是 none，其作用是允许元素向另一个元素的任何一边浮动。与 `float: none` 一样，这个值最大的价值在于体现常规的行为，即浮动元素在元素的两边都可以出现。
 
-## `3. clear: both`
+none 可用于覆盖其他样式，如下图所示。尽管应用于整个文档的规则禁止浮动元素出现在任何一边，但是有个 h3 元素却特立独行，两边都允许有浮动的元素：
+
+``` css
+h3 {
+    clear: both;
+}
+```
 
 ```html
-<div class="wrapper">
-  <p class="black">
-    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus sit amet
-    diam. Duis mattis varius dui. Suspendisse eget dolor. Fusce pulvinar lacus
-    ac dui.
-  </p>
-  <p class="red">
-    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus sit amet
-    diam. Duis mattis varius dui. Suspendisse eget dolor.
-  </p>
-  <p class="both">This paragraph clears both.</p>
-</div>
+<h3 style="clear: none;">What's with All The Latin?</h3>
 ```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E6%A0%B9%E6%9C%AC%E4%B8%8D%E6%B8%85%E9%99%A4.png)
+
+<br>
+
+在 CSS1 和 CSS2 中，clear 起作用的方式是增加元素的上外边距，把元素移到浮动的元素下方。因此，为元素声明的上外边距其实会被忽略。假如元素自身的上外边距为 1.5em，为了把元素向下移动足够的距离，确保内容区在浮动元素的下边界以下，浏览器可能会把上外边距增加为 10em、25px、7.133in，或者其他能满足要求的值。
+
+然而，CSS 2.1 引入了间距这个概念。间距是为了把元素向下移动，确保显示在浮动元素的下方而在元素上外边距上方增加的额外空白。这意味着，清除了浮动的元素，其上外边距不再受到影响。现在，元素的下移是因为有这一块间距。下述代码得到的结果如下图所示，请特别留意标题边框的位置。
 
 ```css
-.wrapper {
-  border: 1px solid black;
-  padding: 10px;
+img.sider {
+    float: left;
+    margin: 0;
 }
 
-.both {
-  border: 1px solid black;
-  clear: both;
-}
-
-.black {
-  float: left;
-  margin: 0;
-  background-color: black;
-  color: #fff;
-  width: 20%;
-}
-
-.red {
-  float: right;
-  margin: 0;
-  background-color: pink;
-  width: 20%;
-}
-
-p {
-  width: 45%;
+h3 {
+    border: 1px solid gray;
+    clear: left;
+    margin-top: 15px;
 }
 ```
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/11-14.png)
+```html
+<img src="chrome.jpg" class="sider" height="50" width="50">
+<img src="stripe.gif" height="10" width="100">
+<h3>
+    Why Doubt Salmon?
+</h3>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8%E5%AF%B9%E5%A4%96%E8%BE%B9%E8%B7%9D%E7%9A%84%E5%BD%B1%E5%93%8D.png)
+
+h3 元素的上边框与浮动图像的下边框之间没有间隙，这是因为，为了把 h3 的边框边界正好移到浮动元素下边界的下方，15 像素的上外边距上方增加了 25 像素的间距。如果 h3 元素的上外边距大于或等于 40 像素，常规情况下就显示在浮动的元素下方，与 clear 值也就没什么关系了。除此之外，都会在 h3 上方增加所需的间距。如果 h3 元素的上外边距大于或等于 40 像素，常规情况下就显示在浮动的元素下方，与 clear 值也就没什么关系了。除此之外，都会在 h3 上方增加所需的间距。
+
+多数情况下，我们无法确定清除浮动时元素将下移多少。若想确保清除了浮动的元素的上边与浮动元素的下边之间有一定的间隔，可以为浮动元素设置下外边距。假如在上例中想让浮动元素的下方至少有 15 像素的空白，可以把 CSS 改成下面这样：
+
+```css
+img.sider {
+    float: left;
+    margin: 0 0 15px;
+}
+
+h3 {
+    border: 1px solid gray;
+    clear: left;
+}
+```
+
+浮动元素的下外边距将增加浮动框的尺寸，因此清除了浮动的元素要下移的距离也随之增加。如前所述，这是因为，浮动框的边界由浮动元素外边距的边界划定。
 
 
 
-    ## `4. clear: none`                                                                                                                                            
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC10%E7%AB%A0%EF%BC%9A%E6%B5%AE%E5%8A%A8%E5%8F%8A%E5%85%B6%E5%BD%A2%E7%8A%B6/11-15.png)
 
 
 
@@ -402,5 +392,38 @@ p {
 
 
 
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

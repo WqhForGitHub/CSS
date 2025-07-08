@@ -1750,6 +1750,99 @@ paused 是有效的动画名称。在上述简写属性中，你可能以为附�
 
 <br>
 
+## 4. 动画和 UI 线程
+
+CSS 动画在用户界面（UI）线程中的优先级最低。如果页面加载时附加了多个动画，而且 animation-delay 为正值，延迟结束后倘若 UI 线程不可用，动画不会播放。
+
+有如下假设：
+
+* 所有动画都需要 UI 线程（也就是说不使用 GPU，参见本章前面动画链一节）。
+* 有 20 个动画，animation-delay 属性的值分别为 1s、2s、3s、4s 等，每隔一秒开始播放一个动画。
+* 页面或应用加载时间很长，在页面中绘制出要应用动画效果的元素与 JavaScript 下载完毕、解析并执行之间相隔 11 秒。
+
+那么，在 UI 线程可用时前 11 个动画的延迟已经结束，因此这 11 个动画将同时开始播放。余下的动画则每隔一秒开始一个。
+
+<br>
+
+# 7. 癫痫和前庭功能失调
+
+>虽然可以使用动画创建不断变化的内容，但是动态变化的内容可能导致某些用户癫痫发作。谨记这一点，一定要保证网站对癫痫和其他神经系统疾病患者是可访问的。
+
+笔者很少以警告开始一节，但这里有一定的正当理由。视觉变化，尤其是快速的视觉变化，可能导致癫痫病人发作。此外，还有可能导致前庭功能失调（晕动病）人群产生多种不适。
+
+在本书即将付梓的 2017 年年末，浏览器新增了一个媒体查询 ：prefers-reduced-motion。创作人员可以通过这个媒体查询为在浏览器或其他设备中设置了减少运动效果或类似偏好设置的用户定义样式。强烈建议像下面这样做：
+
+```css
+@media (prefers-reduced-motion) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+```
+
+这个规则禁用全部动画和过渡，假设没有动画使用 !important（当然也不应该这么做）。这不是细致或完美的解决方案，但是迈出第一步。反过来，我们可以把所有动画和过渡单独放在一处，针对没有启用减少运动效果的用户：
+
+```css
+@media not (prefers-reduced-motion) {
+    /* 所有动画和过渡 */
+}
+```
+
+不是所有动画都是危险的，会让人失去认知能力，而且可能有必要为全部用户呈现少量的动画。此时，可以使用 prefers-reduced-motion 缓和对 UI 而言必不可少的动画，并把仅用作装饰的动画关闭。
+
+<br>
+
+# 8. 动画事件及其前缀
+
+本节回顾可通过 DOM 事件监听器访问的动画事件，以及何时需要使用前缀。
+
+## 1. animationstart
+
+animationstart 事件在动画开始时触发。如果动画有延迟，延迟结束后才触发这个事件。如果没有延迟，动画应用到元素上之后立即触发 animationstart 事件。即便一次迭代也没有，animationstart 事件依然触发。如果在一个元素上应用多个动画，每个有效的关键帧动画都将触发一次 animationstart 事件。一般来说，一个有效的动画标识符触发一次 animationstart 事件。
+
+```css
+#colorchange {
+    animation: red, green, blue;
+}
+```
+
+在这个示例中，只要 red、green 和 blue 关键帧动画是有效的，尽管看不到实际的动画效果（因为持续时间都默认为 0s），但是却会触发三次 animationstart 事件，一个动画名称对应一次。
+
+在需要为动画属性加上 -webkit- 前缀的浏览器中（基本上是 safari 8 及之前的版，以及 android 4.4.4 及之前的版本），animationstart 要写做 webkitAnimationStart。注意，前缀是 -webkit-，事件是驼峰式。最好默认使用不带前缀的句法，仅在有必要时回落为带前缀的版本。
+
+<br>
+
+## 2. animationend
+
+animationend 事件在动画结束时触发。应用的每个动画只触发一次 animationend 事件。如果在一个元素（例如前例中的 #colorchange）上应用三个动画，animationend 事件触发三次，每个动画结束时触发一次。上述示例没有为动画声明持续时间，可是 animationend 事件的时序通常等于下述等式求出的结果：
+
+```javascript
+(animation-duration * animation-iteration-count) + animation-delay = time
+```
+
+即使一次也不迭代，应用的每个动画也会触发一次 animationend 事件。如果 animation-iteration-count 的值为 infinite，animationend 事件永不触发。
+
+在需要为动画属性加上 -webkit- 前缀的浏览器中，animationend 写做 webkitAnimationEnd。
+
+<br>
+
+## 3. animationiteration
+
+animationiteration 事件在动画的一次迭代结束之后和下一次迭代开始之前触发。如果没有迭代，或者迭代次数小于或等于一，animationiteration 事件不触发。如果迭代无数次，animationiteration 事件触发无数次，除非没有设置持续时间，或者设为 0s。
+
+一个动画名称触发一次 animationstart 和 animationend 事件，而 animationiteration 事件可能触发多次，也可能一次也不触发，这取决于迭代次数。注意，这个事件在两次循环之间触发，但不与 animationend 事件同时触发。也就是说，如果 animation-iteration-count 的值为整数，animationiteration 事件的触发次数一般比 animation-iteration-count 属性的值少一次，当前前提是负延迟的绝对值小于持续时间。
+
+<br>
+
+# 9. 打印动画
+
+虽然印刷纸张上无法呈现动画效果，但是打印有动画效果的属性时，将使用相关的属性值。在纸上看不到动画效果，但是如果动画把元素的 border-radius 变成了 50%，那么打印出来后，元素的 border-radius 就是 50%。
+
+
+
+
+
 
 
 
