@@ -13,7 +13,7 @@ CSS 不能解决所有问题，例如，CSS（至少现在）不能修改 PNG �
 
 如果文档中有大量 h2 元素，这将是一个漫长乏味的过程。更糟的是，如果后来决定 h2 元素应该显示成绿色，而不是灰色，就必须重来一次，手动修改所有标签（是的，以前就是这么做的）。
 
-CSS 样式便于修改和编辑，而且能应用到指定的所有文本元素上（下一节说明如何指定）。例如，可以编写如下的规则把所有 h2 元素的颜色设为灰色：
+CSS 样式便于修改和编辑，而且能应用到指定的所有文本元素上（下一节说明如何指）。例如，可以编写如下的规则把所有 h2 元素的颜色设为灰色：
 
 ```css
 h2 {
@@ -1464,6 +1464,824 @@ body {
 ```
 
 >截至 2017 年年末，:empty 是唯一一个在匹配时考虑文本节点的 CSS 选择符。Selectors Level 3 中的其他选择符（比如同胞选择符）都只考虑元素，完全忽略文本节点。
+
+<br>
+
+### 选择唯一的子代
+
+如果想选择带超链接的图像，可以使用 :only-child 伪类。它选择的元素是另一个元素的唯一子元素。假设你想为作为另一个元素唯一子元素的图像加上边框，可以使用：
+
+```css
+img:only-child {
+    border: 1px solid black;
+}
+```
+
+这个规则会应用到符合条件的每一个图像上。因此，如果一个段落中只有一个图像，没有其他子元素，那个图像就会独立于周围的文本被选中。如果想选择作为超链接唯一子代的图像，只需把选择符改为（结果见下图）。
+
+```css
+a[href] img:only-child {
+    border: 2px solid black;
+}
+```
+
+```html
+<a href="http://w3.org/"><img src="w3.png" alt="W3C"></a>
+<a href="http://w3.org/"><img src="w3.png" alt="">The W3C</a>
+<a href="http://w3.org/"><img src="w3.png" alt=""><em>The W3C</em></a>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E9%80%89%E6%8B%A9%E4%BD%9C%E4%B8%BA%E9%93%BE%E6%8E%A5%E5%94%AF%E4%B8%80%E5%AD%90%E4%BB%A3%E7%9A%84%E5%9B%BE%E5%83%8F.png)
+
+<br>关于 :only-child 伪类，有两点要注意。首先，前文说过，它始终依附在希望是唯一子元素的那个元素上，而不是父元素。由此引出第二点，即在后代选择符上使用 :only-child 伪类时，列出的元素不一定是父子关系。
+
+对前面超链接中的图像示例来说，a[href] img:only-child 匹配的图像是唯一的子元素，而且是 a 元素的后代，而不是 a 元素的子元素。匹配时，那个元素必须是其直接父元素的唯一子元素，而且是链接的后代，但是图像的父元素自身也可以是链接的后代。因此，下面三个图像都能匹配，如下图所示。
+
+```css
+a[href] img:only-child {
+    border: 5px solid black;
+}
+```
+
+```html
+<a href="http://w3.org/"><img src="w3.png" alt="W3C"></a>
+<a href="http://w3.org/"><span><img src="w3.png" alt="W3C"></span></a>
+<a href="http://w3.org/">A link to <span>the <img src="w3.png" alt="W3C">web</span> site</a>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E9%80%89%E6%8B%A9%E9%93%BE%E6%8E%A5%E4%B8%AD%E4%BD%9C%E4%B8%BA%E5%94%AF%E4%B8%80%E5%AD%90%E4%BB%A3%E7%9A%84%E5%9B%BE%E5%83%8F.png)
+
+在三个链接中，图像都是其父元素的唯一子元素，而且都是 a 元素的后代。因此，示例中的规则能匹配全部三个图像。如果想限制规则，只让它匹配作为 a 元素唯一子代的图像，要加上子元素连结符，改成 a[href] > img:only-child。这样修改之后，上图中的三个图像，只有第一个图像能匹配。
+
+<br>好了，如果想选择超链接中唯一的图像，而链接中还有其他内容该怎么办？比如说下面这个链接：
+
+```html
+<a href="http://w3.org/"><b>•</b><img src="w3.png" alt="W3C"></a>
+```
+
+这里，a 元素有两个子代：b 和 img。那个图像不再是父元素（超链接）的唯一子元素，因此无法使用 :only-child 匹配。然而，却能被 :only-of-type 匹配。下述规则和标记的结果如下图所示。
+
+```css
+a[href] img:only-of-type {
+    border: 5px solid black;
+}
+```
+
+```html
+<a href="http://w3.org/"><b>•</b><img src="w3.png" alt="W3C"></a>
+<a href="http://w3.org/"><span><b>•</b><img src="w3.png" alt="W3C"></span></a>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E9%80%89%E6%8B%A9%E5%90%8C%E8%83%9E%E5%85%83%E7%B4%A0%E4%B8%AD%E5%94%AF%E4%B8%80%E7%9A%84%E5%9B%BE%E5%83%8F.png)
+
+这两个伪类之间的区别是，:only-of-type 匹配同胞中唯一的那种元素，而 :only-child 只匹配完全没有同胞的元素。
+
+使用 :only-of-type 可以放心选择段落中的图像，而不必担心段落中有超链接或其他行内元素：
+
+```css
+p > img:only-of-type {
+    float: right;
+    margin: 20px;
+}
+```
+
+只要同一个段落中的图像不超过两个，那个图像就会浮动显示。使用这个伪类还可以为一节中唯一的 h2 添加额外的样式，例如：
+
+```css
+section > h2 {
+    margin: 1em 0 0.33em;
+    font-size: 1.8rem;
+    border-bottom: 1px solid gray;
+}
+
+section > h2:only-of-type {
+    font-size: 2.4rem;
+}
+```
+
+对上述示例来说，section 中只有一个 h2 子元素时，h2 将显示的比通常大一些。如果一个 section 中有两个或多个 h2 子元素，它们的大小将相等。有没有其他元素，例如其他级别的标题、段落、表格、列表等，对匹配效果没有影响。
+
+还有一点要澄清：:only-of-type 指代的是元素，而不是其他任何东西。以下述规则和标记为例：
+
+```css
+p.unique:only-of-type {
+    color: red;
+}
+```
+
+```html
+<div>
+    <p class="unique">This paragraph has a 'unique' class.</p>
+    <p>This paragraph doesn't have a class at all.</p>
+</div>
+```
+
+这里，两个段落都不会被选中。为什么？因为两个段落都是 div 的后代，因此不可能是唯一一个段落类型。
+
+这里出现的类型无关紧要。不要误以为类型是一种泛称，对 :only-of-type 来说，类型特指元素类型，因此，p.unique:only-of-type 的意思是，选择的 p 元素的 class 属性中包含 unique 这个词，而且 p 元素是同胞中唯一的一个，而不是作为同胞的段落中唯一一个 class 属性中包含 unique 这个词的 p 元素。
+
+<br>
+
+### 选择第一个和最后一个子代
+
+为一个元素的第一个或最后一个子元素应用特殊的样式是十分常见的需求。比如说，装饰导航栏中的链接时，可能想为第一个或最后一个选项卡（或者同时）赋予特殊的视觉效果。以前的做法是，为它们设定特殊的类。现在，可以让伪类代劳，
+
+:first-child 伪类选择一个元素的第一个子元素。以下述标记为例：
+
+```html
+<div>
+    <p>These are the necessary steps:</p>
+    <ul>
+        <li>Insert key</li>
+        <li>Turn key <strong>clockwise</strong></li>
+        <li>Push accelerator</li>
+    </ul>
+    <p>
+        Do <em>not</em> push the brake at the same time as the accelerator.
+    </p>
+</div>
+```
+
+在这个示例中，第一个 p、第一个 li，以及 strong 和 em 都是相应父元素的第一个子元素。如果有下面两个规则：
+
+```css
+p:first-child {
+    font-weight: bold;
+}
+
+li:first-child {
+    text-transform: uppercase;
+}
+```
+
+得到的结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E8%A3%85%E9%A5%B0%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%AD%90%E4%BB%A3.png)
+
+第一个规则把一个元素中的第一个 p 元素显示为粗体。第二个规则把一个元素（对 HTML 来说，必须是 ol 或 ul 元素）中的第一个 li 元素显示为全大写形式。
+
+同样，人们对 p:first-child 这样的选择符最大的误解是，认为它选择的是 p 元素的第一个子元素。还记得伪类的特点？它为所依附的元素设定某种幽灵类。如果添加真正的类，标记将变成：
+
+```html
+<div>
+    <p class="first-child">These are the necessary steps:</p>
+    <ul>
+        <li class="first-child">Insert key</li>
+        <li>Turn key <strong class="first-child">clockwise</strong></li>
+        <li>Push accelerator</li>
+    </ul>
+    <p>
+        Do <em class="first-child">not</em> push the brake at the same time as the accelerator
+    </p>
+</div>
+```
+
+因此，如果想选择一个元素中的第一个 em 子元素，可以使用 em:first-child 选择符。与 :first-child 对应的是 :last-child。还以前面的例子为例，如果只修改伪类，得到的结果如下图所示。
+
+```css
+p:last-child {
+    font-weight: bold;
+}
+
+li:last-child {
+    text-transform: uppercase;
+}
+```
+
+```html
+<div>
+    <p>These are the necessary steps:</p>
+    <ul>
+        <li>Insert key</li>
+        <li>Turn key <strong>clockwise</strong></li>
+        <li>Push accelerator</li>
+    </ul>
+    <p>
+        Do <em>not</em> push the brake at the same time as the accelerator
+    </p>
+</div>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E8%A3%85%E9%A5%B0%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E5%AD%90%E4%BB%A3.png)
+
+第一个规则把一个元素中的最后一个 p 元素显示为粗体。第二个规则把一个元素中的最后一个 li 元素显示为全大写形式。如果想选择最后一个段落中的 em 元素，使用 p:last-child em 选择符，它选择的 em 元素是 p 元素的后代，而且 p 元素是另一个元素的最后一个子元素。
+
+有趣的是，这两个伪类结合在一起的效果相当于 :only-child。下述两个规则选择的是相同的元素：
+
+```css
+p:only-child {
+    color: red;
+}
+
+p:first-child:last-child {
+    background-color: red;
+}
+```
+
+这两个规则在一起把段落设为红底红字（这么做显然不好）。
+
+<br>
+
+### 选择第一个和最后一个某种元素
+
+除了选择一个元素中的第一个和最后一个子代之外，还可以选择一个元素中某种元素的第一个或最后一个。例如，选择一个元素中的第一个 table，而不管它前面有什么元素。
+
+```css
+table:first-of-type {
+    border-top: 2px solid gray;
+}
+```
+
+注意，这个伪类不应用于整个文档，即上述规则不是选择文档中的第一个表格，其他的表格都不算，而是选择里面有表格的元素中的第一个 table，跳过后面作为同胞的其他 table 元素。因此，对下图所示的文档结构来说，选中的是圈出的那两个节点。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E9%80%89%E6%8B%A9%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%A1%A8%E6%A0%BC.png)
+
+在表格中，如果想选择一行中的第一个数据单元格，而不管前面有没有表头，可以这样：
+
+```css
+td:first-of-type {
+    border-left: 1px solid red;
+}
+```
+
+对下述表格行来说，这将选择每一行中的第一个数据单元格：
+
+```html
+<tr>
+    <th scope="row">Count</th><td>7</td><td>6</td><td>11</td>
+</tr>
+<tr>
+    <td>Q</td><td>X</td><td>-</td>
+</tr>
+```
+
+倘若使用 td:first-child，第二行中的 td 元素能被选中，但是第一行就无法选中了。
+
+与 :first-of-type 对应的是 :last-of-type，它从同胞元素中选择指定种类元素的最后一个。在某种意义上，:last-of-type 与 :first-of-type 特别相似，只不过它是从同胞元素的最后一个开始向前搜索，直到找到指定的元素类型。对下图所示的文档结构来说，table:last-of-type 选中的是圈出的节点。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E9%80%89%E6%8B%A9%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E8%A1%A8%E6%A0%BC.png)
+
+注意，与 :only-of-type 一样，你是从一组同胞元素中选择一个类型的元素，各组同胞是分开对待的。也就是说，不是把整个文档中某种类型的第一个（或最后一个）元素作为一个整体选择出来。同属一个父元素的元素是一组，而我们是从这样的一组元素中选择某种元素的第一个（或最后一个）。
+
+与前一节末尾所讲的类似，我们可以把这两个伪类连在一起，达到 :only-of-type 的效果。下述两个规则选择的是相同的元素：
+
+```css
+table:only-of-type {
+    color: red;
+}
+
+table:first-of-type:last-of-type {
+    background: red;
+}
+```
+
+<br>
+
+### 选择每 n 个子元素
+
+如果你能选择一个元素的第一个子元素、最后一个子元素和唯一的子元素，那能不能选择每第三个子元素，能不能选择所有偶数位的子元素，又或者能不能选择第 9 个子元素。如果分别为这些需求定义伪类，那数量可就多了。CSS 为此提供的是 :nth-child() 伪类。我们可以在括号中填上整数，甚至是简单的代数式，选择任何想选择的子元素。
+
+先看与 :first-child 等效的 :nth-child(1)。对下述示例来说，选中的是第一个段落和第一个列表项目。
+
+```css
+p:nth-child(1) {
+    font-weight: bold;
+}
+
+li:nth-child(1) {
+    text-transform: uppercase;
+}
+```
+
+```html
+<div>
+    <p>These are the necessary steps:</p>
+    <ul>
+        <li>Insert key</li>
+        <li>Turn key <strong>clockwise</strong></li>
+        <li>Push accelerator</li>
+    </ul>
+    <p>
+        Do <em>not</em> push the brake at the same time as the accelerator
+    </p>
+</div>
+```
+
+如果把 1 改成 2，没有段落会被选中，而中间那个（第二个）列表项目会被选中，如下图所示。
+
+```css
+p:nth-child(2) {
+    font-weight: bold;
+}
+
+li:nth-child(2) {
+    text-transform: uppercase;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E8%A3%85%E9%A5%B0%E7%AC%AC%E4%BA%8C%E4%B8%AA%E5%AD%90%E4%BB%A3.png)
+
+括号中可以填上任何整数。如果在某种情况下需要选择作为一个元素第 93 个子元素的有序列表，可以使用 ol:nth-child(93)。这个选择符将匹配第 93 个子元素，前提是它是有序列表（不是子啊同胞中匹配第 93 个有序列表，详细说明参见下一节）。
+
+更强大的是，括号中可以使用简单的代数式定义公式。代数式的形式为 an + b 或 an - b，其中 a 和 b 是具体的整数，n 原封不动。而且，b 和 -b 是可选的，如果不需要，可以不用。
+
+假设我们想从一个无序列表的第一个列表项目开始，选择每第三个列表项目。此时，可以使用下述选择符，选择第一个和第四个列表项目，如下图所示。
+
+```css
+ul > li:nth-child(3n + 1) {
+    text-transform: uppercase;
+}
+```
+
+这里的 n 表示 0、1、2、3、4，一直到无穷大。浏览器求解 3 n + 1 时，得到的结果为 1、4、7、10、13 等。如果没有 +1 那部分，只剩下 3n，得到的结果是 0、3、6、9、12 等。因为没有第 0 个列表项目（与数组不同，HTML 元素从第一个数起），所以这个表达式选中的第一个元素是第三个列表项目。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E8%A3%85%E9%A5%B0%E6%AF%8F%E7%AC%AC%E4%B8%89%E4%B8%AA%E5%88%97%E8%A1%A8%E9%A1%B9%E7%9B%AE.png)
+
+正因为元素从 1 数起，要稍微转个圈才能推出 :nth-child(2n) 选择的是偶数位的子代，而 :nth-child(2n+1) 或 :nth-child(2n-1) 选择的是奇数位的子代。你可以选择记住，也可以使用两个特殊的关键字：even 和 odd。想从表格的第一行起每隔一行突出显示，可以这么做，结果如下图所示。
+
+```css
+tr:nth-child(odd) {
+    background: silver;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E8%A3%85%E9%A5%B0%E8%A1%A8%E6%A0%BC%E4%B8%AD%E9%97%B4%E9%9A%94%E7%9A%84%E8%A1%8C.png)
+
+比间隔元素复杂的情况都要使用代数式 an + b。
+
+注意，如果想让 b 使用负数，要把前面的 + 号删掉，否则选择符无效。对下面两个规则来说，只有第一个会起作用。解析器不解析第二个规则，而是将其忽略。
+
+```css
+tr:nth-child(4n-2) {
+    background: silver;
+}
+
+tr:nth-child(3n + 2) {
+    background: red;
+}
+```
+
+如果想选择从第 9 行起的每一行，可以使用下面两个规则中的一个。二者的共同点是都会选择第 9 行起的每一行，不过后者的特指度更高（参见第 3 章）。
+
+```css
+tr:nth-last-child(odd) {
+    background: silver;
+}
+
+tr:nth-child(8) ~ tr {
+    background: silver;
+}
+```
+
+你可能猜到了，有个与之对应的伪类 :nth-last-child()。它的作用与 :nrth-child() 一样，只不过是从一组同胞的最后一个元素开始，从后向前计算。如果想突出显示表格中间隔的行，而且想让最后一行含在其中，可以使用下述规则中的任意一个：
+
+```css
+tr:nth-last-child(odd) {
+    background: silver;
+}
+
+tr:nth-last-child(2n+1) {
+    background: silver; /* 等效 */
+}
+```
+
+如果更新 DOM，添加或删除了行，无需添加或删除类。借助结构伪类，上述选择符始终能匹配更新后的 DOM 中的奇数行。
+
+只要条件得当，使用 :nth-child() 和 :nth-last-child() 可以选择任何元素。下述规则的结果如下图所示。
+
+```css
+li:nth-child(3n + 3) {
+    border-left: 5px solid black;
+}
+
+li:nth-last-child(4n - 1) {
+    border-right: 5px solid black;
+    background: silver;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E7%BB%93%E5%90%88nth-child%28%29%20%E5%92%8C%20nth-last-child%28%29.png)
+
+这两个伪类可以串在一起，:nth-child(1):nth-last-child(1) 实现 :only-child 的效果。如果不是想得到较高的特指度，没有任何原因这么做，不过你要知道确实可以这么做。
+
+你可以使用 CSS 确定一个列表有多少个列表项目，然后据此装饰：
+
+```css
+li:only-child {
+    width: 100%;
+}
+
+li:nth-child(1):nth-last-child(2),
+li:nth-child(2):nth-last-child(1) {
+    width: 50%;
+}
+
+li:nth-child(1):nth-last-child(3),
+li:nth-child(1):nth-child(3) ~ li {
+    width: 33.33%;
+}
+
+li:nth-child(1):nth-last-child(4),
+li:nth-child(1):nth-last-child(4) ~ li {
+    width: 25%;
+}
+```
+
+在上述示例中，如果列表中只有一个列表项目，宽度为 100%。如果一个列表项目是第一个项目，还是倒数第二个项目，即列表中有两个项目，那么宽度为 50%。如果一个列表项目是第一个项目，还是倒数第三个项目，那么后面两个同胞项目的宽度为 33%。类似地，如果一个列表项目是第一个项目，还是倒数第四个项目，即列表中有四个项目，那么后面三个同胞的宽度为 25%。
+
+<br>
+
+### 选择每第 n 个某种元素
+
+了解相关模式之后你可能猜到了，:nth-child() 和 :nth-last-child() 伪类有对应的 :nth-of-type() 和 :nth-last-of-type()。例如，可以使用 p > a:nth-of-type(even) 在一个段落中从第二个超链接选择间隔的超链接。此时，其他元素（span、strong 等）都被忽略，只考虑超链接，结果如下图所示。
+
+```css
+p > a:nth-of-type(even) {
+    background: blue;
+    color: white;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E9%80%89%E6%8B%A9%E5%81%B6%E6%95%B0%E4%BD%8D%E7%9A%84%E9%93%BE%E6%8E%A5.png)
+
+如果想从最后一个超链接向前数，要使用 p > a:nth-last-of-type(even)。
+
+与之前一样，这两个伪类从同胞元素中选择某一种元素，而不是从整个文档把某一种元素作为一个整体选择出来。每个元素都有自己的一组同胞，而选择就发生在那组同胞中。
+
+你可能猜到了，串在一起的 :nth-of-type(1):nth-last-of-type(1) 相当于 :only-of-type，二者作用相同，只不过前者特指度更高（别急，第 3 章将说明特指度）/
+
+<br>
+
+## 3. 动态伪类
+
+除了结构伪类之外，还有一些与结构有关的伪类，不过它们在页面渲染之后根据页面的变化而变化。也就是说，为了把这些伪类定义的样式应用到文档中的某一部分上，除了文档的结构，还要考虑其他事情，而且通过文档的标记很难准确推出应用样式的方式。
+
+看起来这好像是随机应用样式，然而并非如此。其实，样式是在无法提前预知的条件满足时应用的。话虽如此，但是应用样式的条件其实是定义好的。拿体育比赛来说，如果主队得分了，观众就会沸腾起来。但是，你无法预知一场比赛中主队何时会得分，但是按预计，只要得分，观众就会沸腾起来。我们知道观众在什么情况下会沸腾，但是对何时出现这样的情况却一无所知。
+
+拿锚记来说（a）来说，（在 HTML 及相关的语言中）它的作用是从一个文档链接到另一个文档。锚记始终是锚记，但是有些锚记指向的页面已经访问过，而有些尚未访问。从 HTML 标记中式看不出这一区别的。因为所有锚记的句法都是一样的。若想知道链接到底有没有访问，只能与用户的浏览器历史记录比较。因此，链接基本上有两种状态：已访问和未访问。
+
+### 超链接伪类
+
+CSS2.1 定义了两个只能在超链接上使用的伪类。在 HTML 中，这两个伪类用在具有 href 属性的 a 元素上。在 XML 语言中，这两个伪类在链接到其他资源的元素上应用。这两个伪类的说明见下表。
+
+| 伪类     | 说明                                                         |
+| -------- | ------------------------------------------------------------ |
+| :link    | 指代用作超链接的锚记（即具有 href 属性），而且指向尚未访问的地址 |
+| :visited | 指代指向已访问地址的超链接。出于安全考虑，能应用到已访问链接上的样式十分有限。详情参见本章后面已访问链接的隐私保护旁注 |
+
+乍一看上表中的第一个伪类，可能觉得多余。一个锚记未被访问，那它肯定就处于未访问状态，不是吗？如果是这样，我们只需编写：
+
+```css
+a {
+    color: blue;
+}
+
+a:visited {
+    color: red;
+}
+```
+
+这样看似合理，但其实还不够。上述规则中的第一条不仅应用到未访问的链接上，还应用到类似下面的占位链接上：
+
+```html
+<a>4. The Lives fo Meerkats</a>
+```
+
+这个文本会显示为蓝色，因为 a 元素与 a { color: blue } 规则匹配。所以，为了避免把链接样式应用到占位链接上，要使用 :link 和 :visited 伪类：
+
+```css
+a:link {
+    color: blue; /* 未访问的链接显示为蓝色 */
+}
+
+a:visited {
+    color: red; /* 已访问的链接显示为红色 */
+}
+```
+
+此时，我们可以看一下如何把属性选择符和类选择符与伪类结合在一起使用。假设我们想改变指向站外地址的链接颜色。多数情况下，我们可以使用以特定文本开头的属性选择符。然而，在某些 CMS 中，所有链接使用的都是绝对 URL。此时，可以为每个锚记设定类。比如说：
+
+```html
+<a href="/about.html">My About page</a>
+<a href="https://www.site.net/" class="external">An external site</a>
+```
+
+然后使用下述规则为外部链接应用不同的样式：
+
+```css
+a.external:link, a[href^="http"]:link {
+    color: slateblue;
+}
+
+a.external:visited, a[href^="http"]:visited {
+    color: maroon;
+}
+```
+
+对上述标记中的第二个锚记来说，默认情况下颜色为石蓝色，访问后变成红褐色。而第一个锚记始终显示超链接的默认颜色（通常在未访问时是蓝色，访问后是紫色）。为了提升可用性和可访问性，已访问链接和未访问链接之间要能轻易区分。
+
+>具有特别样式的已访问里链接能让访客知道他们访问过哪些网站，以及哪些还未访问。在大型网站中这样做尤其重要，因为链接太多，记不住（特别是对有认知障碍的人）哪些网站已经访问过。突出显示已访问的链接不仅是 W3C Web Content Accessibility Guidelines 的指导方针之一，而且还便于快速且高效地搜索内容，减轻每个人的压力。
+
+ID 选择符也可以跟伪类结合在一起使用：
+
+```css
+a#footer-copyright:link {
+    background: yellow;
+}
+
+a#footer-copyright:visited {
+    background: gray;
+}
+```
+
+链接状态的这两个伪类可以串在一起，不过这么做没有任何意义：链接不可能既是已访问的又是未访问的。
+
+>有超过十年的时间，已访问的链接可以使用任何可用的CSS属性装饰，与未访问链接没有差别。
+>
+>然而，大约在2005年，有几个人通过示例揭露，通过视觉样式和简单的DOM脚本就可以判断用户是否访问过特定页面。例如，对:visited{ font-weight: bold; }规则来说，脚本可以找出所有加粗的链接，告诉用户他们访问过哪些网站。更槽糕的是，已访问的网站可能会被服务器偷偷收集。不使用脚本的话，还可以通过背景图像达到相同的效果。
+>
+>对你来说这可能不是什么严重的问题，但在有些国家，访问某些网站（反对党、未经批准的宗教组织、邪教或腐败网站等）可能招致牢狱之灾。钓鱼网站还可以利用这一点查出用户访问过哪些重要资源。
+>
+>鉴于此，相关方采取了两个措施：
+>
+>首先，只能把颜色相关的属性应用到已访问的链接上，包括：color、background-color、column-rule-color、outline-color、border-color，以及各边的边框颜色属性（例如：border-top-color）。除此之外的属性将被忽略。此外，:link定义的样式除了应用到未访问的链接上之外，也会应用到已访问的链接上，因此:link能装饰所有超链接，而不只是装饰所有未访问的超链接。
+>其次，如果通过DOM查询已访问链接的样式，返回的值跟未访问时一样。因此，如果把已访问链接的颜色设为紫色，未访问链接的颜色设为蓝色，那么通过DOM查询颜色时，返回的是蓝色，而不是紫色。
+>从2017年年未起，这一行为在所有浏览模式中都应用了，而不仅限于隐私浏览模式。
+>
+>尽管只能使用有限的CSS属性区分已访问链接和未访问链接，但是为了可用性和可访问性，我们还是要充分利用有限的属性把已访问的链接和未访问的链接区分开。
+
+<br>
+
+### 用户操作伪类
+
+CSS 中有几个伪类可以根据用户的操作改变文档的外观。这些动态伪类以前普遍用于装饰超链接，不过现在的应用范围宽得多。这些伪类得说明见下表。
+
+| 伪类    | 说明                                                         |
+| ------- | ------------------------------------------------------------ |
+| :focus  | 指代当前获得输入焦点的元素，即可以接受键盘输入或以某种方式激活 |
+| :hover  | 指代鼠标指针放置其上的元素，例如鼠标指针悬停在超链接上       |
+| :active | 指代由用户输入激活的元素，例如用户单击超链接时按下鼠标按键的那段时间 |
+
+可以处于 :active 状态的元素有链接、菜单项目，以及可以设定 tabindex 属性的元素。这些元素，加上其他所有交互元素，例如表单控件和可编辑内容的元素，还可以获得焦点。
+
+与 :link 和 :visited 类似，这些伪类最常用于超链接。很多网页都有类似下面的样式：
+
+```css
+a:link {
+    color: gray;
+}
+
+a:visited {
+    color: gray;
+}
+
+a:focus {
+    color: orange;
+}
+
+a:hover {
+    color: red;
+}
+
+a:active {
+    color: yellow;
+}
+```
+
+>这些伪类的顺序可不是随意的，通常推荐的顺序是 link-visited-hover-active，不过后来改成了 link-visited-focus-hover-active。下一章将解释为什么采用这种顺序，并讨论可能想改变或忽略推荐顺序的一些原因。
+
+注意，动态伪类可应用于任何元素，也就是说可用于链接之外的元素。例如，使用下述规则可以突出显示获得键盘输入焦点的表单元素，效果如下图所示。
+
+```css
+input:focus {
+    background: silver;
+    font-weight: bold;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E7%AA%81%E5%87%BA%E6%98%BE%E7%A4%BA%E8%8E%B7%E5%BE%97%E7%84%A6%E7%82%B9%E7%9A%84%E8%A1%A8%E5%8D%95%E5%85%83%E7%B4%A0.gif)
+
+你还可以使用一些特别的技巧为任意应用动态伪类。例如，使用下述规则实现某种突出显示效果：
+
+```css
+body *:hover {
+    background: yellow;
+}
+```
+
+这个规则把 body 的任何后代元素处于悬停状态时的背景设为黄色。body 中的标题、段落、列表、表格、图像等一切元素都将变成黄色背景。此外，还可以改变悬停时元素的字体，为元素加上边框，或者浏览器能显示的其他效果。
+
+>虽然可以使用 :focus 以任何方式装饰元素，但是千万别删除获得焦点的元素的全部样式。区分当前获得焦点的元素对可访问性十分重要，尤其是使用键盘在网站或应用中导航时。
+
+<br>
+
+### 动态样式引起的问题
+
+动态伪类有些耐人寻味的问题和怪异行为。例如，可以把已访问链接和未访问链接设为相同的字号，而在悬停时把字号增大，如下图所示。
+
+```css
+a:link, a:visited {
+    font-size: 13px;
+}
+
+a:hover, a:active {
+    font-size: 20px;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E5%8A%A8%E6%80%81%E4%BC%AA%E7%B1%BB%E6%94%B9%E5%8F%98%E5%B8%83%E5%B1%80.gif)
+
+可以看出，鼠标指针悬停在那个锚记上时，用户代理增大了它的字号。因为还有 :active 伪类，所有用户在触摸屏上轻点时也会出现这种情况。支持这一行为的用户代理在锚记处于悬停状态时必须重新绘制文档，这可能导致那个链接后面的内容重排。
+
+<br>
+
+## 4. UI 状态伪类
+
+与动态伪类紧密相关的是用户界面状态伪类，简要说明见下表。这些伪类根据用户界面元素（例如复选框）的当前状态应用样式。
+
+| 伪类           | 说明                                                         |
+| -------------- | ------------------------------------------------------------ |
+| :enabled       | 指代启用的用户界面元素（例如表单元素），即接受输入的元素     |
+| :disabled      | 指代禁用的用户界面元素（例如表单元素），即不接受输入的元素   |
+| :checked       | 指代由用户或文档默认选中的单选按钮或复选框                   |
+| :indeterminate | 指代既未选中也没有未选中的单选按钮或复选框。这个状态只能由 DOM 脚本设定，不能由用户设定 |
+| :default       | 指代默认选中的单选按钮、复选框或选项                         |
+| :valid         | 指代满足所有数据有效性语义的输入框                           |
+| :invalid       | 指代不满足所有数据有效性语义的输入框                         |
+| :in-range      | 指代输入的值在最小值和最大值之间的输入框                     |
+| :out-of-range  | 指代输入的值小于控件允许的最小值或大于控件允许的最大值的输入框 |
+| :required      | 指代必须输入值的输入框                                       |
+| :optional      | 指代无需一定输入值的输入框                                   |
+| :read-write    | 指代可由用户编辑的输入框                                     |
+| :read-only     | 指代不能由用户编辑的输入框                                   |
+
+虽然 UI 元素的状态能被用户操作改变，例如用户勾选或不选一个复选框，但是 UI 状态伪类不是单纯动态的，因为它们还受文档结构或 DOM 脚本的影响。
+
+>你可能觉得 :focus 属于这一节，而不是前一节。可是，Selectors Level 3 规范把 :focus 与 :hover 和 :active 归为一组。这可能是因为 CSS2 就是这样分组的，而且那时没有 UI 状态伪类。然而，更重要的原因是，非 UI 元素（例如标题或段落）也可以获得焦点，比如说能自动阅读的浏览器读到某个元素时。就这一点便足以把它与 UI 状态伪类分开。
+
+<br>
+
+### 启用和禁用的 UI 元素
+
+在 DOM 脚本和 HTML5 的支持下，我们可以把一个用户界面元素（或者一组用户界面元素）标记为禁用的。禁用的元素也能显示出来，但是无法选择、激活或与用户交互。若想把元素设为禁用的，可以使用 DOM 脚本，也可以在 HTML5 元素的标记中添加 disabled 属性。
+
+未禁用的元素显然是启用的。这两个状态可以使用 :enabled 和 :disabled 伪类装饰。常见的做法是装饰禁用的元素，启用的元素不做修饰，不过这两个伪类都有用处，如下图所示。
+
+```css
+:enabled {
+    font-weight: bold;
+}
+
+:disabled {
+    opacity: 0.5;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E8%A3%85%E9%A5%B0%E5%90%AF%E7%94%A8%E5%92%8C%E7%A6%81%E7%94%A8%E7%9A%84%20UI%20%E5%85%83%E7%B4%A0.png)
+
+<br>
+
+### 选择状态
+
+除了启用和禁用之外，某些 UI 元素还可以选中或不选，HTML 中的复现框和单选按钮就是这种。Selectors Level 3 为这种状态提供了 :checked 伪类，但是不知为何，没有 :unchecked 伪类。此外，还有一个 :indeterminate 伪类，它匹配的 UI 元素是可选择但是既未选中也没不选。这些状态如下图所示。
+
+```css
+:checked {
+    background: silver;
+}
+
+:indeterminate {
+    border: red;
+}
+```
+
+此外，可以使用否定伪类（稍后介绍）选择未被选中的复选框：input[type="checkbox"]:not(:checked)。只有单选按钮和复选框才能被选中。其他元素以及这两个元素，如果未选选中，使用 :not(:checked) 选择。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E8%A3%85%E9%A5%B0%E9%80%89%E4%B8%AD%E5%92%8C%E5%A4%84%E4%BA%8E%E4%B8%8D%E7%A1%AE%E5%AE%9A%E7%8A%B6%E6%80%81%E7%9A%84%20UI%20%E5%85%83%E7%B4%A0.png)
+
+可选元素默认是未被选中的，不过 HTML 文档的编写人员可以通过元素标记中的 checked 属性切换状态，或者使用 DOM 脚本改变元素的选择状态。
+
+除了这两个状态之外，还有一个状态。截至 2017 年年末，这个状态只能由 DOM 脚本或用户代理设定，在标记中做不到这一点。不确定状态存在的目的是从视觉上提示用户需要选中（或不选）某个元素。不过要注意，这只是视觉上的效果，对 UI 元素底层的状态没有影响。元素的底层状态只能是选中或未选中，这取决于文档标记和 DOM 脚本。
+
+前面的示例虽然展示了如何装饰单选按钮，但是通过 CSS 装饰单选按钮和复选框能实现的效果十分有限。然而，使用这些伪类能做的事情却是无限的。例如，可以结合 :checked 和紧邻同胞连结符装饰复选框和单选按钮的标注（label）：
+
+```css
+input[type="checkbox"]:checked + label {
+    color: red;
+    font-style: italic;
+}
+```
+
+```html
+<input id="chbx" type="checkbox"> <label for="chbx">I am a label</label>
+```
+
+<br>
+
+### 默认选项伪类
+
+:default 伪类匹配一组相似元素中取默认值的 UI 元素。这个伪类通常用于上下文菜单选项、按钮和选择列表（目录）。如果由几个同名的单选按钮，最初选中的那个单选按钮匹配 :default，即使用户改变了 UI，最初选中的单选按钮已经不匹配 :checked。页面加载时选中的复选框匹配 :default。select 元素中最初选中的一个或多个 option 匹配 :default。:default 伪类还能匹配按钮和菜单选项。
+
+```css
+[type="checkbox"]:default + label {
+    font-style: italic;
+}
+```
+
+```html
+<input id="chbx" type="checkbox"> <label for="chbx">I am a label</label>
+```
+
+<br>
+
+### 可选性伪类
+
+:required 伪类匹配必填的表单控件，这一要求由 required 属性（HTML5）指定。:optional 伪类匹配没有 required 属性的表单控件，或者 required 属性的值为 false 的控件。
+
+若想提交表单，表单中匹配 :required 的元素必须有值，匹配 :optional 的元素可有值也可以没有值。例如：
+
+```css
+input:required {
+    border: 1px solid #f00;
+}
+
+input:optional {
+    border: 1px solid #ccc;
+}
+```
+
+```html
+<input type="email" placeholder="enter an email address" required>
+<input type="email" placeholder="opptional email address">
+<input type="email" placeholder="optional email address" required="false">
+```
+
+第一个电子邮件地址输入框匹配 :required 伪类，因为它有 required 属性。第二个输入框是可选的，因此匹配 :optional 伪类。第三个输入框也是可选的，因为虽然有 required 属性，但值是 false。
+
+除了伪类，还可以使用属性选择符。下述选择符与前面的等效：
+
+```css
+input[required] {
+    border: 1px solid #f00;
+}
+
+input:not([required]) {
+    border: 1px solid #ccc;
+}
+```
+
+除了表单输入框之外，其他元素既不能是必填的，也不能是可选的。
+
+<br>
+
+### 有效性伪类
+
+:valid 伪类表示用户输入的值满足全部数据验证条件，而 :invalid 伪类表示用户输入的值不满足全部数据验证条件。
+
+:valid 和 :invalid 两个有效性伪类只适用于能检查数据有效性的元素。因此，div 元素绝不可能匹配它们中的任何一个，而 input 元素可能匹配其中一个，这取决于用户界面的当前状态。
+
+下面的示例为获得焦点的电子邮件地址输入框设定背景图，一个在输入的地址无效时显示，一个在输入的地址有效时显示，如下图所示。
+
+```css
+input[type="mail"]:focus {
+    background-position: 100% 50%;
+    background-repeat: no-repeat;
+}
+
+input[type="mail"]:focus:invalid {
+    background-image: url(warning.jpg);
+}
+
+input[type="email"]:focus:valid {
+    background-image: url(checkmark.jpg);
+}
+```
+
+```html
+<input type="email">
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E8%A3%85%E9%A5%B0%E6%9C%89%E6%95%88%E5%92%8C%E6%97%A0%E6%95%88%E7%9A%84%20UI%20%E5%85%83%E7%B4%A0.gif)
+
+>这两个伪类起不起作用取决于用户代理会不会向样式系统报告验证状态，因此某些情况下的效果可能跟预期不符。例如，在 2017 年年末，在多个用户代理中，未输入值的电子邮件输入框匹配 :valid，而空值肯定不是有效的电子邮件地址。在验证逻辑改进之前，使用有效伪类时一定要小心。
+
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
