@@ -2267,231 +2267,355 @@ input[type="email"]:focus:valid {
 
 <br>
 
+### 范围伪类
 
+范围伪类有两个，:in-range 和 :out-of-range。前者表示用户输入的值在 HTML5 的 min 和 max 属性设定的最小值和最大值范围之内，而后者表示用户输入的值小于控件接受的最小值或大于最大值。
 
+例如，下面几个规则分别装饰一个接受 0~1000 之间数字的输入框的不同状态：
 
+```css
+input[type="number"]:focus {
+    background-position: 100% 50%;
+    background-repeat: no-repeat;
+}
 
+input[type="number"]:focus:out-of-range {
+    background-image: url(warning.jpg);
+}
 
+input[type="number"]:focus:in-range {
+    background-image: url(checkmark.jpg);
+}
+```
 
+```html
+<input id="nickels" type="number" min="0" max="1000" />
+```
 
+:in-range 和 :out-of-range 伪类只适用于设定了范围的元素。没有范围限制的元素，例如链接或 tel 类型的输入框，不能被它们中的任何一个匹配。
 
+HTML5 还有一个 step 属性。如果一个值由于不匹配步进值而无效，但仍然在 min 和 max 设定的值之间（或等于两个极值），那么所在的元素将匹配 :invalid，同时还匹配 :in-range。也就是说，在范围内的值也可能是无效的。
 
+因此，在下述示例中，输入框中的值将是红色加粗的，因为 23 在范围内，但是不能被 10 整除：
 
+```css
+input[type="number"]:invalid {
+    color: red;
+}
 
+input[type="number"]:in-range {
+    font-weight: bold;
+}
+```
 
+```html
+<input id="by-tens" type="number" min="0" max="1000" step="10" value="23" />
+```
 
+<br>
 
+### 可变性伪类
 
+可变性伪类有 :read-write 和 :read-only 两个，前者表示输入框可由用户编辑，而后者匹配不能编辑的输入框。只有能被用户编辑的元素才匹配 :read-write。
 
+例如，在 HTML 中，未禁用的非只读 input 元素，以及设定了 contenteditable 属性的元素匹配 :read-write。其他所有元素匹配 :read-only。
 
+默认情况下，下面两个规则都不匹配，因为 textarea 元素是可读可写的，而 pre 元素是只读的。
 
+```css
+textarea:read-only {
+    opacity: 0.75;
+}
 
+pre:read-write:hover {
+    border: 1px dashed green;
+}
+```
 
+然而，却匹配下述元素：
 
+```html
+<textarea disabled></textarea>
+<pre contenteditable>Type your own code!</pre>
+```
 
+因为 textarea 设定了 disabled 属性，变成只读的了，所以能应用第一个规则。类似地，这里的 pre 设定了 contenteditable 属性，现在是可读可写的元素，因此匹配第二个规则。
 
+<br>
 
+## 5. :target 伪类
 
+URL 中有个片段标识符，它所指向的文档片段（在 CSS 中）称为目标。URL 片段标识符指向的目标元素可以使用 :target 伪类特别装饰。
 
+即便不知道片段标识符这个术语，你肯定也见过。比如下面这个 URL：
 
+http://www.w3.org/TR/css3-selectors/#target-pseudo
 
+这个 URL 中的 target-pseudo 部分就是片段标识符，由 # 符号标记。如果对应的页面（http://www.w3.org/TR/css3-selectors/）中有 ID 为 target-pseudo 的元素，那个元素就是片段标识符的目标。
 
+借助 :target 伪类，我们可以突出显示文档中的任何目标元素，或者为不同的目标元素定义不同的样式，例如作为目标的标题使用一个样式，作为目标的表格使用一个样式等。下图是 :target 伪类的实际效果。
 
+```css
+*:target {
+    border-left: 5px solid gray;
+    background: yellow url(target.png) top right no-repeat;
+}
+```
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E8%A3%85%E9%A5%B0%E4%B8%80%E4%B8%AA%E7%89%87%E6%AE%B5%E6%A0%87%E8%AF%86%E7%AC%A6%E7%9A%84%E7%9B%AE%E6%A0%87.png):target 伪类定义的样式在两种情况下不会应用：
 
+1. 页面中的 URL 中没有片段标识符。
+2. 页面的 URL 中有片段标识符，但是文档中没有与之匹配的元素。
 
+不过，更有趣的问题是，如果一个文档中有多个元素与片段标识符匹配怎么办？例如，文档编写人员失误，在文档中放了三个 `<div id="target-pseudo">`。
 
+简单来说，CSS 无需为此提供解决方案，因为 CSS 所做的只是装饰目标。不管浏览器选择三个元素中的某一个，还是同等对待三个元素，:target 样式都会应用到有效的目标上。
 
+<br>
 
+## 6. :lang 伪类
 
+如果想根据文本使用的语言选择元素，可以使用 :lang() 伪类，在匹配方式上，:lang() 伪类与 |= 属性选择符类似。假设想让使用法语编写的元素倾斜显示，可以编写下述规则中的任何一个：
 
+```css
+*:lang(fr) {
+    font-style: italic;
+}
 
+*[lang|="fr"] {
+    font-style: italic;
+}
+```
 
+伪类选择符与属性选择符之间的主要区别是语言信息有多个来源，有时可能来自元素自身之外。对属性选择符来说，元素自身必须有 lang 属性才能匹配。而 :lang 伪类能匹配设定了语言的元素的后代。Selectors Level 3 是这样规定的：
 
+在 HTML 中，语言可以通过 lang 属性判断，也可以通过 meta 元素和协议（例如 HTTP 首部）判断。XML 使用 xml:lang 属性，此外还可能有文档语言专用的方法。
 
+:lang 伪类可以使用各种信息，而 |= 属性选择符只能用于标记中有 lang 属性的元素。因此，伪类比属性选择符更可靠，多数情况下是装饰特定语言的理想之选。
 
+<br>
 
+## 7. 否定伪类
 
+目前介绍的所有选择符有个共同点：都是肯定选择符。也就是说，这些选择符用于指定应该选择的东西，排除不匹配（即不选择）的东西。
 
+如果想反过来，选择不满足条件的元素，可以使用 Selector Level 3 引入的否定伪类 :not()。这个伪类与其他选择符不太一样，而且自身有一些限制。暂不讨论细节，先看一个例子。
 
+假设你想装饰 class 属性不是 moreinfo 的列表项目，如下图所示。以前，这个需求很难实现，而且某些情况下根本实现不了。如果想让除了类为 .moreinfo 之外的列表项目倾斜显示，过去我们要先让所有列表项目都倾斜（一般是通过类选择 ul），然后再通过 .moreinfo 类把特定的列表项目还原。这么做要确保 .moreinfo 样式在源码中的位置靠后，而且要具有相同或更高的特指度。现在，我们可以像这样声明样式：
 
+```css
+li:not(.moreinfo) {
+    font-style: italic;
+}
+```
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E8%A3%85%E9%A5%B0%E6%B2%A1%E6%9C%89%E6%8C%87%E5%AE%9A%E7%B1%BB%E7%9A%84%E5%88%97%E8%A1%A8%E9%A1%B9%E7%9B%AE.png)
+
+:not() 伪类依附在元素上，括号中是简单的选择符。根据 W3C 的定义，简单的选择符指：
+
+一个类型选择符、通用选择符、属性选择符、类选择符、ID 选择符或伪类。
+
+基本上，简单选择符是指没有祖辈-后代关系的选择符。
+
+注意定义中的或，它的意思是 :not() 伪类中只能使用其中一个选择符。不能使用群组选择符，也不能使用连结符，因此不能使用后代选择符，因为后代选择符中分隔元素的空格是连结符。这些限制在未来可能撤销（极有可能），不过就算有这些限制，我们仍然可以通过它做很多事情。
+
+再看前面的示例。假设我们想选择所有 class 为 moreinfo，但不是列表项目的元素。结果如下图所示。
+
+```css
+.moreinfo:not(li) {
+    font-style: italic;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E8%A3%85%E9%A5%B0%E5%85%B7%E6%9C%89%E7%89%B9%E5%AE%9A%E7%B1%BB%EF%BC%8C%E4%BD%86%E4%B8%8D%E6%98%AF%E5%88%97%E8%A1%A8%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%85%83%E7%B4%A0.png)
+
+用人类语言描述，这个选择符的意思是，选择的元素，其 class 属性中包含 moreinfo 这个词，但不是 li 元素。类似地，li:not(.moreinfo) 的意思是，选择 li 元素，但不包括 class 属性中包含 moreinfo 这个词的 li 元素。
+
+严格来说，:not() 伪类的括号中可以使用通用选择符，但这么做意义不大。毕竟，p:not(*) 的意思是选择不是元素的 p 元素。试想，怎么可能存在不是元素的元素。p:not(p) 与之类似，也选择不了任何元素。此外，还有 p:not(div) 这样的选择符，即选择不是 div 元素的 p 元素，这相当于选择所有 p 元素。可见，没有什么缘由这样做。
+
+否定选择符可在复杂选择符的任何位置使用。因此，若想选择不是 section 元素子代的所有表格，可以使用 *:not(section) > table。类似地，若想选择不在表头中的表头单元格，可以使用 *:not(thead) > tr > th，效果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E8%A3%85%E9%A5%B0%E8%A1%A8%E5%A4%B4%E4%B9%8B%E5%A4%96%E7%9A%84%E8%A1%A8%E5%A4%B4%E5%8D%95%E5%85%83%E6%A0%BC.png)
+
+否定伪类不能嵌套，因此 p:not(:not(p)) 是无效的，将被忽略。逻辑上，这与直接使用 p 没有区别，所以没必要这么做。此外，在括号中不能引用伪元素（稍后说明原因），因为伪元素不是简单选择符。
+
+不过，否定伪类可以串在一起，作用相当于也不是。例如，你可能想选择 class 为 link，但既不是列表项目也不是段落的元素：
+
+```css
+*.link:not(li):not(p) {
+    font-style: italic;
+}
+```
+
+这个规则的意思是，选择 class 属性中包含 link 这个词，但不是 li 或 p 的所有元素。
+
+使用否定伪类时要注意，有时真实的效果可能与设想不同。多数情况下，这是因为我们不习惯以否定的方式思考问题。对下面的规则和标记来说：
+
+```css
+div:not(.one) p {
+    font-weight: normal;
+}
+
+div.one p {
+    font-weight: bold;
+}
+```
+
+```html
+<div class="one">
+    <div class="two">
+        <p>I'm paragraph!</p>
+    </div>
+</div>
+```
+
+上述段落将显示为粗体，而不是常规字重。这是因为两个规则都匹配：p 元素是 class 属性中宝不包含 one 这个词的 div 元素（`<div class="two">`）的后代，而且还是 class 元素中包含 one 这个词的 div 元素的后代。两个规则都匹配，因为两个规则都应用。因为二者有冲突，为了解决冲突要用到层叠规则，而结果是第二个样式规则胜出。标记的结构，即 div.two 比 div.one 离这个段落更近，在这里无关紧要。
 
 <br>
 
 # 7. 伪元素选择符
 
-**`伪元素 是 CSS 中用于选择元素的特定部分，并允许你设置这些部分的样式，而无需修改 HTML 结构。与伪类不同，伪元素实际上创建了文档中不存在的新的虚拟元素，从而允许你对这些元素进行样式化。`**
+伪元素与伪类很像，为了实现特定的效果，它在文档中插入虚构的元素。CSS2 定义了四个基本的伪元素，分别用于装饰元素的首字母、首行，以及创建和装饰前置和后置内容。CSS2 之后的规范又定义了其他伪元素（例如 ::marker），我们将在相关的章节中探讨。这一节介绍 CSS2 定义的那四个，因为它们由来已久，借此机会还可以讨论伪元素的行为。
+
+伪类使用一个冒号，而伪元素使用一对冒号，例如 ::first-line。这么做是为了把伪元素与伪类区分开。一开始并不是这样的，在 CSS2 中，这两种选择符都使用一个冒号。因此，为了向后兼容，浏览器也接受使用单个冒号的伪元素选择符。但是，不要因为这样就懈怠。为了确保你编写的 CSS 在未来还能继续使用，应该使用正确的冒号个数，毕竟我们无法预知浏览器什么时候不再接受单个冒号的伪元素选择符。
+
+注意，所有伪元素只能出现在选择符最后。p::first-line em 是无效的，因为伪元素在选择符的主词前面（主词是选择符中的最后一个元素）。这也表明一个选择符中只能有一个伪元素，不过在 CSS 以后的版本中可能会取消这一限制。
 
 <br>
 
-## ::before
+## 1. 装饰首字母
 
-**`::before 创建一个伪元素，其将成为匹配选中的元素的第一个子元素。常通过 content 属性来为一个元素添加修饰性内容。此元素默认是行级的`**
-
-```html
-<span class="ribbon">Notice where the orange box is.</span>
-```
-
-```css
-.ribbon {
-    background-color: #5bc8f7;
-}
-
-.ribbon::before {
-    content: "Look at this orange box.";
-    background-color: #ffba10;
-    border-color: black;
-    border-style: dotted;
-}
-```
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/2-10.png)
-
-<br>
-
-## ::after
-
-**`在 CSS 中，::after 会创建一个伪元素，作为所选元素的最后一个子元素。它通常用于为具有 content 属性的元素添加修饰内容。默认情况下，它是行向布局的。`**
-
-```html
-<span class="ribbon">看看这段文字后的橙色盒子。</span>
-```
-
-```css
-.ribbon {
-    background-color: #5bc8f7;
-}
-
-.ribbon::after {
-    content: "这是一个漂亮的橙色盒子。";
-    background-color: #ffba10;
-    border-color: black;
-    border-style: dotted;
-}
-```
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/2-11.png)
-
-<br>
-
-## ::first-line
-
-**`::first-line 在区块容器的第一行应用样式`**
-
-```html
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  tempor incididunt ut labore.
-</p>
-```
-
-```css
-p::first-line {
-    text-transform: uppercase;
-}
-```
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/2-12.png)
-
-<br>
-
-## ::first-letter
-
-**`::first-letter 应用于区块容器第一行的第一个字母，但仅当其前面没有其他内容（例如图像或行内表格）时才有效`**
-
-```html
-<p>一些段落，一些段落，一些段落，一些段落。</p>
-<p>-特殊标点符号的开头。</p>
-<p>_特殊标点符号的开头。</p>
-<p>"特殊标点符号的开头。</p>
-<p>'特殊标点符号的开头。</p>
-<p>*特殊标点符号的开头。</p>
-<p>#特殊标点符号的开头。</p>
-<p>「特殊的汉字标点符号开头。</p>
-<p>《特殊的汉字标点符号开头。</p>
-<p>"特殊的汉字标点符号开头。</p>
-```
+::first-letter 伪元素用于装饰任何非行内元素的首字母，或者开头的标点符号和首字母（如果文本以标点符号开头）。下述规则把每一段的首字母设为红色：
 
 ```css
 p::first-letter {
     color: red;
+}
+```
+
+::first-letter 伪元素最常用于实现排版效果中的首字母大写或首字母下沉。你可以把每个 p 元素首字母的字号设为其余内容的两倍大，不过最好只应用到第一段的首字母上：
+
+```css
+p::first-of-type::first-letter {
+    font-size: 200%;
+}
+```
+
+这个规则的效果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/first-letter%20%E4%BC%AA%E5%85%83%E7%B4%A0%E7%9A%84%E6%95%88%E6%9E%9C.png)
+
+这个规则其实相当于让用户代理装饰每个 p 元素中包围首字母的一个虚构元素。比如这样：
+
+```html
+<p>
+    <p-first-letter>T</p-first-letter>his is a p element, with a styled first letter
+</p>
+```
+
+::first-letter 样式只应用于上例中虚构的那个元素里的内容。`<p-first-letter>` 元素不会出现在文档的源码中，也不会出现在 DOM 树中，而是由用户代理动态构建，目的是把 ::first-letter 样式应用到相应的文本上。也就是说，`<p-first-letter>` 是个伪元素。注意，你无需添加任何新标签。用户代理会代为装饰首字母，就像把首字母放到一个元素中一样。
+
+首字母指排版上的第一个字母单元（如果前面没有其他内容的话，例如图像）。规范中使用的词是字母单元，因为有些语言的字母由多个字符构成，例如古斯基的纳维亚语中的 "oe"。首字母前面或后面的标点符号（即便有多个符号），包含在 ::first-letter 伪元素中。
+
+<br>
+
+## 2. 装饰首行
+
+类似地，::first-line 用于装饰元素的首行文本。例如，可以把文档中每个段落的首行字号变大，并显示为紫色：
+
+```css
+p::first-line {
     font-size: 150%;
+    color: purple;
 }
 ```
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/2-13.png)
+在下图中，这个样式应用到每个段落中显示的第一行文本上。不管显示区域有多宽或多窄都是这样。如果首行只包括一段的前五个词，那就只有这五个词显示为紫色的大字。如果首行包含前 30 个词，那么前 30 个词将显示为紫色的大字。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/first-line%20%E4%BC%AA%E5%85%83%E7%B4%A0%E7%9A%84%E6%95%88%E6%9E%9C.png)
+
+从 This 到 only 应该显示为紫色的大字，因此用户代理会加上类似下面的虚构标记：
+
+```html
+<p>
+    <p-first-line>This is a paragraph of text that has only</p-first-line>
+    one stylesheet applied to it.That style causes the first line to
+    be big and purple.No other line will have those styles applied.
+</p>
+```
+
+如果修改了首行里的文本，只剩前七个词了，那么虚构的 `</p-first-line>` 会向前移到 that 后面。如果用户增大或减少了字号，抑或拉宽或缩窄了浏览器窗口，导致文本的宽度有变，首行中的词数随之增多或减少，浏览器能自动调整，只把当前显示的首行里的文本显示为紫色大字。
+
+首行的长度受诸多因素影响，例如字号、字符间距、父级容器的宽度等。对特定的标记和首行宽度而言，首行可能会在某个嵌套的元素中间结束。如果首行把嵌套的元素（例如 em 或超链接）破开了，::first-line 定义的样式只会应用到嵌套元素显示在首行里的那部分上了。
 
 <br>
 
-## ::selection
+## 3. 对 ::first-letter 和 ::first-line 的限制
 
-**`::selection 应用于文档中被用户高亮的部分（比如使用鼠标或其他选择设备选中的部分）`**
+目前，::first-letter 和 ::first-line 伪元素只能应用到块级元素上，例如标题或段落，不能应用到行内元素上，例如超链接。::first-line 和 ::first-letter 样式中可以使用的 CSS 属性也有限制，见下表。
 
-```html
-This text has special styles when you highlight it.
-<p>Also try selecting text in this paragraph.</p>
-```
-
-```css
-::selection {
-    color: gold;
-    background-color: red;
-}
-
-p::selection {
-    color: white;
-    background-color: blue;
-}
-```
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/2-14.png)
+| ::first-letter   | ::first-line     |
+| ---------------- | ---------------- |
+| 所有字体属性     | 所有字体属性     |
+| 所有背景属性     | 所有背景属性     |
+| 所有文本装饰属性 | 所有外边距属性   |
+| 所有行内排版属性 | 所有内边距属性   |
+| 所有行内布局属性 | 所有边框属性     |
+| 所有边框属性     | 所有文本装饰属性 |
+| box-shadow       | 所有行内排版属性 |
+| color            | color            |
+| opacity          | opacity          |
 
 <br>
 
-## ::placeholder
+## 4. 装饰（或创建）前置和后置内容元素
 
-**`::placeholder 表示 <input> 或 <textarea> 元素中的占位文本`**
-
-```html
-<input placeholder="默认不透明度" />
-<input placeholder="完全不透明" class="force-opaque" />
-```
+假设根据排版效果，需要在 h2 元素前面加上两个银色的方括号：
 
 ```css
-::placeholder {
-    color: green;
-}
-
-.force-opaque::placeholder {
-    opacity: 1;
+h2::before {
+    content: "]]";
+    color: silver;
 }
 ```
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/2-15.png)
+使用 CSS 可以插入生成的内容，生成的这些内容可以直接使用 ::before 和 ::after 伪元素装饰。下图是一个例子。
 
-<br>
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/%E5%9C%A8%E5%85%83%E7%B4%A0%E5%89%8D%E9%9D%A2%E6%8F%92%E5%85%A5%E5%86%85%E5%AE%B9.png)
 
-## ::marker
-
-**`::marker 匹配列表的标记框（通常为一个符号或数字）。它作用在任何设置了 display: list-item 的元素或伪元素上，例如 <li> 和 <summary> 元素`**
-
-```html
-<ul>
-  <li>Peaches</li>
-  <li>Apples</li>
-  <li>Plums</li>
-</ul>
-```
+这个伪元素用于插入并装饰生成的内容。若想把内容放在元素的后面，使用 ::after 伪元素。例如，可以在文档末尾加上结束语：
 
 ```css
-ul li::marker {
-    color: red;
-    font-size: 1.5em;
+body::after {
+    content: "The End.";
 }
 ```
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E9%80%89%E6%8B%A9%E7%AC%A6/2-16.png)
+生成的内容是一个单独的话题，第 15 章将对此进行更为深入的介绍（还包括 ::before 和 ::after 的详细说明）。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
