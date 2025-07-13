@@ -143,6 +143,86 @@ section {
 
 'There's never been a "string theory" that I've liked.'
 
+为此，文档要使用 unicode 编码，不过这就是推荐的编码。
+
+如果字符串值中有换行，可以转义换行符。CSS 会去掉换行符，就像从未换行一样。因此，下面两个字符串在 CSS 看来是一样的：
+
+"This is the right place \
+
+for a newline."
+
+"This is the right place for a newline."
+
+如果真想在字符串中插入一个换行符，在需要换行的地方使用 unicode 字符 \A：
+
+"This is a better place \Afor a newline."
+
+<br>
+
+## 3. URL
+
+编写过网页的人对 URL（CSS2.1 称之为 URI）肯定不陌生。引用 URL（例如在导入外部样式表的 @import 语句中）的一般格式如下：
+
+url(protocol://server/pathname)
+
+这是一个绝对 URL。绝对的意思是不管位于何处都能找到，因为这种 URL 在网络空间中定义了一个绝对位置。假设有个名为 web.waffles.org 的服务器。在这个服务器中有个名为 pix 的目录，里面有个名为 waffle22.gif 的图像。那么，这个图像的绝对 URL 是：
+
+web.waffles.org/pix/waffle22.gif
+
+不管在什么地方，是在 web.waffles.org 服务器上，还是在 web.pancakes.com 服务器上，这个 URL 都是有效的。
+
+URL 的另一种类型是相对 URL，之所以这样命名是因为它的位置相对于所在的文档。如果指代一个相对位置，例如与网页在同一个目录中的某个文件，一般的格式为：
+
+url(pathname)
+
+此时，指代的文件（例如一个图像）必须与网页在同一个服务器中。下面举个例子。假设网页的地址是 http://web.waffles.org/syrup.html，我们想在这个网页中显示图像 waffle22.gif。此时，URL 可以这样写：
+
+pix/waffle22.gif
+
+这个路径是有效的，web 浏览器知道要先找到文档的地址，然后在后面加上特定的相对 URL。这里，路径名为 pix/waffle22.gif 将添加到 http://web.waffles.org 后面，得到 http://web.waffles.org/pix/waffle22.gif 将添加到 http://web.waffles.org 后面，得到 http://web.waffles.org/pix/waffle22.gif。使用相对 URL 的地方几乎都可以绝对 URL，使用哪种 URL 无关紧要，只要指代的地址是有效的就行。
+
+在 CSS 中，相对 URL 相对于所在的样式表，而不是使用样式表的文档。例如，一个外部样式表中可能会导致其他样式表。如果使用相对 URL 导入那个样式表，URL 必须相对于当前样式表。
+
+举个例子。假设 HTML 文档的地址是 http://web.waffles.org/toppings/tips.html，文档中有个 link 元素，链接样式表 http://web.waffles.org/styles/basic.css：
+
+```html
+<link rel="stylesheet" type="text/css" href="http://web.waffles.org/styles/basic.css">
+```
+
+basic.css 文件中有个 @import 语句，导入另一个样式表：
+
+```css
+@import url(special.toppings.css);
+```
+
+浏览器遇到这个 @import 语句时将在 http://web.waffles.org/styles/special/toppings.css 位置查找样式表，而不是 http://web.waffles.org/toppings/special/toppings.css。如果样式表在后一个位置上，basic.css 中的 @import 语句要写成下面两种方式中的一种：
+
+```css
+@import url(http://web.waffles.org/toppings/special/toppings.css);
+
+@import url(../special/toppings.css);
+```
+
+注意，url 和开始括号之间不能有空格：
+
+```css
+body {
+	background: url(http://www.pix.web/picture1.jpg); /* 正确 */
+}
+
+body {
+    background: url  (images/picture2.jpg); /* 错误 */
+}
+```
+
+如若不然，整个声明都无效，将被忽略。
+
+
+
+
+
+
+
 
 
 
