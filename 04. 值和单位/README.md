@@ -1051,6 +1051,235 @@ main {
 
 第一个声明把 main 元素的前景色设为 gray，第二个声明使用 currentColor 复制 color 属性计算得到的值（这里是 rgb(50%, 50%, 50%)，等同于 gray），然后应用到 main 元素的边框上。
 
+<br>
+
+# 7. 角度
+
+讲完 HSL 中的色相角度，现在比较适合讨论角度单位。角度一般使用使用 `<angle>` 表示，即一个 `<number>` 后跟下列四个单位中的一个。
+
+deg
+
+​	度数，完整的圆周是 360 度。
+
+grad
+
+​	百分度（gradian，也叫 grade 或 gon），完整的圆周是 400 百分度。
+
+rad
+
+​	弧度，完整的圆周是 2Π（近似于 6.28）。
+
+turn
+
+​	圈数，一个完整的圆周是一圈。这个单位在旋转动画中最有用，比如说让一个元素旋转 10 圈就是 10turn，复数形式 turns 是无效的，将被忽略。至少截至 	2017 年年末是这样）。
+
+角度单位（见下表）最常在 2D 和 3D 变形中使用，不过其他地方也能用到。注意，HSL 颜色中不使用角度单位，色相角度始终是度数，而且不加 deg 单位。
+
+| 度数   | 百分度  | 弧度     | 圈数      |
+| ------ | ------- | -------- | --------- |
+| 0deg   | 0grad   | 0rad     | 0turn     |
+| 45deg  | 50grad  | 0.785rad | 0.125turn |
+| 90deg  | 100grad | 1.571rad | 0.25turn  |
+| 180deg | 200grad | 3.142rad | 0.5turn   |
+| 270deg | 300grad | 4.712rad | 0.75turn  |
+| 360deg | 400grad | 6.283rad | 1turn     |
+
+<br>
+
+# 8. 时间和频率
+
+属性的值为一段时间时，使用 `<time>` 表示，它是一个 `<number>` 值后跟 s（秒）或 ms（毫秒）。时间值最常在过渡和动画中使用，用于定义持续时间或延迟时间。下面两个声明的结果完全一样：
+
+```css
+a[href] {
+    transition-duration: 2.4s;
+}
+
+a[href] {
+    transition-duration: 2400ms;
+}
+```
+
+视听 css 也能用到时间值，用于定义持续时间或延迟时间。不过，写作本书时，对视听 css 的支持极其有限。
+
+视听 css 中还有一种值 `<frequency>`，它是一个 `<number>` 值后跟 Hz（赫兹）或 kHz（千赫兹）。一同往常，这个单位的标识符不区分大小写，因此 Hz 和 hz 是等效的。下面两个声明的结果完全一样：
+
+```css
+h1 {
+    pitch: 128hz;
+}
+
+h1 {
+    pitch: 0.128khz;
+}
+```
+
+<br>
+
+# 9. 位置
+
+位置值用于指定图像在背景区域中的位置，使用 `<position>` 表示。不过，位置值得句法结构相当复杂：
+
+```css
+[
+	[ left | center | right | top | bottom | <percentage> | <length> ] |
+	[ left | center | right | <percentage> | <length> ]
+	[ top | center | bottom | <percentage> | <length> ] |
+	[ center | [ left | right ] [  <percentage> | <length> ]? ]&&
+	[ center | [ top | bottom ] [ <percentage> | <length> ]? ]
+]
+```
+
+看着有些难懂，但这是由位置值允许使用的复杂形式决定的。
+
+如果只声明一个值，例如 left 或 25%，那么第二个值将被设为 center。因此，left 的作用与 left center 一样，25% 的作用与 25% center 一样。
+
+如果声明两个值（像上面那样隐式或显式），而且第一次值是长度或百分数，那么钱一个值始终是横向值。因此，对 25% 是横向距离，35px 是纵向距离。如果调换顺序，写成 35px 25%，那么 35px 就是横向距离，而 25% 变成了纵向距离。这也意味着，如果写成 25% left 或 35px right，整个值都无效，因为两个值都是横向距离，没有指定纵向距离（类似地，right left 或 top bottom 也是无效的，将被忽略）。而写成 left 25% 或 right 35px 则没问题，因为既指定了横向距离（通过关键字），也指定了纵向距离（通过百分数或长度）。
+
+如果声明四个值（使用三个值的说明参见下一段），必须有两个长度或百分数，而且前面都得是关键字。此时，长度或百分数指定偏移距离，而关键字定义偏移以哪一边计算。因此，right 10px bottom 30px 表示右边向左偏移 10 像素，底边向上偏移 30 像素。类似地，top 50% left 35px 表示顶边向下偏移 50%，左边向右偏移 35 像素。
+
+三个值得处理方式跟四个值一样，不过最后一个偏移量将被设为零（即不偏移）。因此，right 20ox top 的作用与 right 20px top 0 一样。
+
+<br>
+
+# 10. 自定义值
+
+2017 年年末，本书即将完稿时，css 新增了一个特性。这个特性的术语是自定义属性，不过它的作用其实是在 css 中创建变量。这个名称词不达意，它并不创建特殊的 css 属性（像 color 或 font 之类的）。
+
+下面举个简单的例子，结果如下图所示。
+
+```css
+html {
+    --base-color: #639;
+    --highlight-color: #AEA;
+}
+
+h1 {
+    color: var(--base-color);
+}
+
+h2 {
+    color: var(--highlight-color);
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC4%E7%AB%A0%EF%BC%9A%E5%80%BC%E5%92%8C%E5%8D%95%E4%BD%8D/%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E5%80%BC%E8%AE%BE%E5%AE%9A%E6%A0%87%E9%A2%98%E7%9A%84%E9%A2%9C%E8%89%B2.png)
+
+有两个地方要理解。首先是自定义值 --base-color 和 --highlight-color 的定义。这不是某种特殊的颜色类型，而是根据值的作用而选择的名称。上述规则也可以写成：
+
+```css
+html {
+    --alison: #639;
+    --david: #AEA;
+}
+
+h1 {
+    color: var(--alison);
+}
+
+h2 {
+    color: var(--david);
+}
+```
+
+一般我们不会这么做，除非真的要定义对应于 Alison 和 David 这两个人名的颜色（比方说在关于团队页面）。通常，最好根据作用定义自定义标识符，例如 main-color、accent-color 或 brand-font-face。
+
+另一点是，自定义标识符以两个连字符开头（--）。调用的方法是使用 var() 值类型。注意，这些名称是区分大小写的，因此 --main-color 和 --Main-color 是完全不同的两个标识符。
+
+这些自定义标识符通常被称为 css 变量，这解释了为什么使用 var() 调用它们。这个称呼有点道理，不过要记住，自定义标识符没有编程语言中的变量那样功能全面。其实，自定义标识符更像是文本编辑器中的宏，作用只是把一个值替换成另一个。
+
+自定义属性有个有趣的特性：作用域在一定的范围内。如果你稍微知道这句话的意思，或许会激动一番。如果不明其意，下面举个例子说明，结果如下图所示。
+
+```css
+html {
+    --base-color: #639;
+}
+
+aside {
+    --base-color: #F60;
+}
+
+h1 {
+    color: var(--base-color);
+}
+```
+
+```html
+<body>
+    <h1>Heading 1</h1>
+    <p>Main text.</p>
+    
+    <aside>
+        <h1>Heading 1</h1>
+        <p>An aside.</p>
+    </aside>
+    
+    <h1>Heading 1</h1>
+    <p>Main text.</p>
+</body>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC4%E7%AB%A0%EF%BC%9A%E5%80%BC%E5%92%8C%E5%8D%95%E4%BD%8D/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%80%BC%E5%9C%A8%E7%89%B9%E5%AE%9A%E7%9A%84%E8%8C%83%E5%9B%B4%E5%86%85%E8%B5%B7%E4%BD%9C%E7%94%A8.png)
+
+注意，aside 元素外部的标题是紫色的，而内部的标题是橙色的。这是因为 aside 元素更新了 --base-color 变量的值，应用到 aside 元素中 h1 上的是新的自定义值。
+
+虽然 css 变量只能替换值，但也有很多用途。下面的例子是 chriztian steinmeier 提供的，这个例子结合变量 和 calc() 值类型，为无序列表创建有一定规律的缩进：
+
+```css
+html {
+    --gutter: 3ch;
+    --offset: 1;
+}
+
+ul li {
+    margin-left: calc(var(--gutter) * var(--offset));
+}
+
+ul ul li {
+    --offset: 2;
+}
+
+ul ul ul li {
+    --offset: 3;
+}
+```
+
+这与下面这样写其实是一样的：
+
+```css
+ul li {
+    margin-left: 3ch;
+}
+
+ul ul li {
+    margin-left: 6ch;
+}
+
+ul ul ul li {
+    margin-left: 9ch;
+}
+```
+
+不过使用变量更方便，只需在一处更新乘数 --gutter，其他地方都能自动更新，而不用重新输入三个值，还要确保计算正确。
+
+使用抽象的变量名为样式规则的编写打开了全新的方式，这是以往很难实现的。如果想试试自定义属性，但又担心支持情况，可别忘了能查询特性的 @supports()。这样，万一遇到不支持的用户代理，使用变量的样式规则便能隐藏起来，不产生影响：
+
+```css
+@supports (color: var(--custom)) {
+    /* 使用变量的样式 */
+}
+
+@supports (--custom: value) {
+    /* 替代样式 */
+}
+```
+
+>重申一次，自定义属性在本书即将完稿的 2017 年年末才出现，具体怎么使用、能用来做什么，以及与层叠的关系等还不确定。这是一个值得了解和尝试的特性，不过要注意，这里所讲的内容可能会变。
+
+
+
+
+
 
 
 
