@@ -607,19 +607,336 @@ unicode-range: U+4E00-9FFFF, U+FF00-FF9F, U+30??, U+A5; /* 日语汉字、平假
 
 可以看出，只这三个描述符就有这么多组合方式，毕竟 font-weight 有 11 种可能的值，font-stretch 有 10 种可能的值，不过不一定都用得到。其实，多数字体族不会像 switzeraADF 这样提供如此多的字型（共计 24 种），因此没必要所有组合都写出来。然而，你要知道可以这么做，以防某些情况下需要使用特殊的字体渲染紧缩的加粗文本，避免用户代理自行计算。
 
+<br>
 
+# 3. 字重
 
+讲完 @font-face 及其描述符之后，回到字体属性。基本上，我们都用过正常和加粗的文本，这是两个最基本的字重。css 的 font-weight 属性可以精确控制字重。
 
+```css
+font-weight
 
+取值：normal | bold | bolder | lighter | 100 | 200 | 300 | 400 | 4500 | 600 | 700 | 800 | 900
+初始值：normal
+适用于：所有元素
+计算值：其中一个数值（100 等），或者一个数值加一个相对值（bolder 或 lighter）
+备注：有对应的 @font-face 描述符
+继承性：是
+动画性：否
+```
 
+一般来说，字重越大，字体越黑、越粗。标识字型粗细的方式有很多种。例如，SwitzeraADF 字体族有很多变体，例如 SwitzeraADF Bold、SwitzeraADF Extra Bold、SwitzeraADF Light 和 SwitzeraADF Regular，这些变体的字形基本一样，不过字重个不相同。
 
+假如想在文档中使用 SwitzeraADF 不同粗细的变体，可以直接通过 font-family 属性指定，但是完全没必要这么做。毕竟编写下面这样的样式表没什么乐趣可言：
 
+```css
+h1 {
+    font-family: 'SwitzeraADF Extra Bold', sans-serif;
+}
 
+h2 {
+    font-family: 'SwitzeraADF Bold', sans-serif;
+}
 
+h3 {
+    font-family: 'SwitzeraADF Bold', sans-serif;
+}
 
+h4,p {
+    font-family: SwitzeraADF Regular, sans-serif;
+}
 
+small {
+    font-family: 'SwitzeraADF Light', sans-serif;
+}
+```
 
+这样写很繁琐。更合理的做法是，为整个文档指定一个字体族，然后为不同的元素设定不同的字重。为此，可以使用 @font-face 和不同的 font-weight 值。下面是一个十分简单的 font-weight 声明：
 
+```css
+b {
+    font-weight: bold;
+}
+```
+
+这个声明的意思是，b 元素应该使用粗体字型显示，即比常规字型粗一些的字型。一般来说这就是我们想要的行为，毕竟 b 元素就是用于加粗文本的。
+
+其实在背后，显示 b 元素时会使用一个较粗的字型。因此，如果一个段落使用 Times 显示，其中有部分加粗文本，那么这个段落其实是使用同一字体的两个字型显示的：Times 和 TimesBold。常规文本使用 Times 显示，加粗文本使用 TimesBold 显示。
+
+<br>
+
+## 1. 字重的工作方式
+
+为了弄清用户代理如何确定一个字体变体的粗细（或字重），先要理解关键字 100 到 900。这些数字关键字对应于字体设计中的九级字重。如果一个字体族中有全部九级字重，那么这些数字就直接对应于预定义的级别，100 是最细的，900 是最粗的。
+
+其实，这些数字并不表示字重本身。css 规范只是说，每个数字对应的权重至少和前面的数字具有相同的字重。因此，100、200、300 和 400 可能都对应于同样细的变体。500 和 600 对应于同样粗的变体。700、800 和 900 则对应同样较粗的变体。只要后面的数字关键字对应的粗细不比前面的数字关键字细就行。
+
+一般，这些数字对应于常见的变体名称（先不考虑 font-weight 的其他值）。400 对应于 normal，700 对应于 bold。其他数字不与 font-weight 的其他关键字对应，不过可以对应于常见的变体名称。在字体的变体重，以 normal regular roman 或 book 等表示的可以分配给数字 400，以 medium 表示的可以分配给数字 500。然而，如果只有一个变体，而且以 medium 表示，那么应该分配给 400， 而非 500。
+
+如果给定的字体族重字重的等级少于 9 个，用户代理要做更多工作。遇到这种情况，用户代理必须填补既定方式的空缺：
+
+* 如果 500 未分配，与 400 对应的字重一样。
+* 如果 300 未分配，将其对应于比 400 细的那个变体。如果没有这样一个变体，字重与 400 一样。此时，通常为 normal 或 medium 变体。200 和 100 也是这样处理的。
+* 如果 600 未分配，将其对应于比 500 黑的下一个变体。如果没有这样一个变体，字重与 500 一样。700、800 和 900 也是这样处理的。
+
+为了更清楚地说明这种字重处理机制，下面看三个指定字重的例子。第一个例子假设 Karrank% 字体族是 opentype 字体，定义了 9 级字重。此时，9 个数字分别对应 9 级字重，而且关键字 normal 和 bold 分别对应数字 400 和 700.这是最简单的情况，现实重很少遇见（很少有字体族会提供 9 级字重，如果提供的话，价格通常不菲）。
+
+第二个例子假设字体族为本节开头通过的 SwitzeraADF。假设 SwitzeraADF 的变体按照下表所示的对应关系分配了数值。
+
+| 字型                   | 分配的关键字 | 分配的数字    |
+| ---------------------- | ------------ | ------------- |
+| SwitzeraADF Light      |              | 100, 200, 300 |
+| SwitzeraADF Regular    | normal       | 400           |
+| SwitzeraADF Medium     |              | 500           |
+| SwitzeraADF Bold       | bold         | 600, 700      |
+| SwitzeraADF Extra Bold |              | 800, 900      |
+
+前三个数值分配给最细的字型。Regular 字型对应关键词 normal，对应数字 400。因为有 medium 字型，所以分配给数字 500。没有字型可分配给 600，因此将其对应到 bold 字型上。bold 字型还对应 700 和 bold。最后，800 和 900 分配给 extra bold 字型。注意，仅当这个字型的最高的两级字重时，才会这样分配。否则，用户代理可能忽略这个字型，把 800 和 900 分配给 bold 字型或其他变体。
+
+最后一个例子以精简版 Times 为例。在下表中，只有两个字重变体：timesRegular 和 timesBold。
+
+| 字型         | 分配的关键字 | 分配的数字              |
+| ------------ | ------------ | ----------------------- |
+| TimesRegular | normal       | 100, 200, 300, 400, 500 |
+| TimesBold    | bold         | 600, 700, 800, 900      |
+
+关键字 normal 和 bold 分别分配给常规字重和加粗字重，这与预期一样的。数字关键字方面，100 到 300 分配给 regular 字型，因为没有更细的字型了/400 也分配给 regular 字型，这也符合预期，但是 500？它也分配给 regular（或 normal）字型，因为没有 medium 字型。根据前述机制，将其分配给与 400 一样的字型。余下的数字关键字，700 分配给 bold，而由于缺少更粗的字型，所以把 800 和 900 分配给下一个较细的字型，即 bold。最后，600 分配个下一个较粗的字型，即 bold。
+
+font-weight 可以继承，因此如果把一个段落的字重设为 bold：
+
+```css
+p.one {
+    font-weight: bold;
+}
+```
+
+那么，这个段落的所有子代都将继承粗体，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E7%BB%A7%E6%89%BF%E5%AD%97%E9%87%8D.png)
+
+上述机制没什么反常之处，不过讲到最后两个关键字（bolder 和 lighter）时，你会发现有些不同往常的地方。一般来说，这两个关键字的效果跟你预期一样：渲染的文本比父元素的字重更重或更轻。先来看 bolder。
+
+<br>
+
+## 2. 增大字重
+
+如果把一个元素的字重设为 bolder，用户代理首先要确定从父元素继承的 font-weight 值是什么，然后选择比继承的字重高一级的最小数字。如果找不到，用户代理把元素的字重设为下一个数字值，直到 900。到顶后，就把字重设为 900。下述各种情况的渲染结果如下图所示。
+
+```css
+p {
+    font-weight: normal;
+}
+
+p em {
+    font-weight: bolder; /* 文本为粗体，求值结果为 700 */
+}
+
+h1 {
+    font-wegiht: bold;
+}
+
+h1 b {
+    font-weight: bolder; /* 如果没有更粗的字型，其值结果为 800 */
+}
+
+div {
+    font-weight: 100; /* 假设有 light 字型，说明见下文 */
+}
+
+div strong {
+    font-weight: bolder; /* 文本为常规字型，字重为 400 */
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E6%8A%8A%E6%96%87%E6%9C%AC%E5%8F%98%E5%BE%97%E6%9B%B4%E7%B2%97.png)
+
+在第一个示例中，用户代理顺着字重等级向上爬，把 normal 变成 bold。用数字表示，就是从 400 变成 700。在第二个示例中，h1 的字重已经设为 bold。如果没有更粗的字型，用户代理会把 h1 中 b 的字重设为 800，因为这是从 700（等同于 bold）起的下一级。因为 800 和 700 对应同一个字型，所以 h1 中常规的文本和加粗的文本在视觉上没有区别，但字重是不同的。
+
+在最后一个示例中，我们把段落的字重设为最细的字型，而且假设存在 light 变体。此外，再假设这个字体族重还有 regular 和 bold 字型。段落中的 em 将使用 normal 字型，因为这是字体族中下一个较粗的字型。然而，如果字体族中只有 regular 和 bold 字型？此时，声明的求值结果如下：
+
+```css
+/* 假设只有 regular 和 bold 两个字型 */
+p {
+    font-weight: 100; /* 看起来跟 normal 字重一样 */
+}
+
+p span {
+    font-weight: bolder; /* 对应于 700 */
+}
+```
+
+可以看出，100 被分配给 normal 字型，不过其字重仍是 100。因此，p 元素重的 span 将继承这个 100，经计算得到的下一个较粗的字型是 bold，其对应的数字字重为 700。
+
+下面更进一步，增加两个规则和一些标记，演示处理过程（结果见下图）：
+
+```css
+/* 假设只有 regular 和 bold 两个字型 */
+p {
+    font-weight: 100; /* 看起来跟 normal 字重一样 */
+}
+
+p span {
+    font-weight: 400; /* 同样如此 */
+}
+
+strong {
+    font-weight: bolder; /* 比父元素更粗 */
+}
+
+strong b {
+    font-weight: bolder; /* 继续加粗 */
+}
+```
+
+```html
+<p>
+    This paragraph contains elements of increasing weight: there is an
+    <em>emphasized element which contains a <strong>strongly emphasized
+    element, and that contains a <b>boldface element</b></strong></em>.
+</p>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E5%AD%97%E9%87%8D%E4%B8%8D%E6%96%AD%E5%A2%9E%E5%8A%A0.png)
+
+对后两个嵌套元素来说，font-weight 经计算得到的值逐渐增加，因为两个地方都用了关键字 bolder。如果把段落中的文本换成各元素对应的 font-weight 数字，得到的结果如下：
+
+```html
+<p>
+    100 <span> 400 <strong> 700 <b> 800 </b></strong> </span>
+</p>
+```
+
+前三个字重相比，增加的幅度较大，分别从 100 增加到 400，以及从 400 增加到 bold（700）。因为没有比 700 更粗的字型了，所以用户代理把 font-weight 的值上移一个数字级别（800）。此外，如果在 b 元素中插入一个 strong 元素，得到的结果如下：
+
+```html
+<p>
+    100 <span> 400 <strong> 700 <b> 800 <strong> 900 </strong></b></strong></span>
+</p>
+```
+
+如果最内层的 strong 元素中还有一个 b 元素，那个 b 元素的字重将变成 900，因为 font-weight 永远不能大于 900。假设只有两个字型，那么文本要么是常规粗细，要么是加粗的，如下图所示。
+
+```html
+<p>
+    regular <span> regular <strong> bold <b> bold <strong> bold</strong> </b> </strong> </span>
+</p>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E8%A7%86%E8%A7%89%E4%B8%8A%E7%9C%8B%E5%88%B0%E7%9A%84%E5%AD%97%E9%87%8D%EF%BC%88%E4%BB%A5%E6%95%B0%E5%80%BC%E8%A1%A8%E7%A4%BA%EF%BC%89.png)
+
+<br>
+
+## 3. 减小字重
+
+你可能猜到了，lighter 的工作方式类似，只不过是让用户代理向下减少字重。简单修改一下前面的示例，lighter 的作用就十分明确了：
+
+```css
+/* 假设只有 regular 和 bold 两个字型 */
+p {
+    font-weight: 900; /* 尽量使用最粗的，看起来跟 bold 一样 */
+}
+
+p span {
+    font-weight: 700; /* 也是 bold */
+}
+
+strong {
+    font-weight: lighter; /* 比父元素细一些 */
+}
+
+b {
+    font-weight: lighter; /* 继续变细 */
+}
+```
+
+```html
+<p>
+    900 <span> 700 <strong> 400 <b> 300 <strong> 200</strong></b></strong></span>
+</p>
+<!-- 或者用关键字表示 -->
+<p>
+    bold <span> bold <strong> regular <b> regular <strong> regular </strong></b></strong></span>
+</p>
+```
+
+先不管符不符合常理，从下图重可以看出，段落中主文本的字重是 900。把 strong 中文本的字重设为 lighter 后，得到的是较细的字型，即这里的常规字型，以数值衡量的话，是 400（等同于 normal）。接下来减小为 300，这也相当于 normal，因为没有更细的字型存在。自此之后，用户代理一次只能减少一个字重等级，直到 100（上例中没有体现）。第二个段落展示哪些文本为粗体，哪些为增长粗细。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E6%96%87%E6%9C%AC%E9%80%90%E6%B8%90%E5%8F%98%E7%BB%86.png)
+
+<br>
+
+## 4. font-weight 描述符
+
+使用 font-weight 描述符可以为字型指定 font-weight 属性支持的字重等级。例如，下述规则为五个字型分配六个不同的字重：
+
+```css
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: normal;
+    src: url("f/SwitzeraADF-Regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: bold;
+    src: url("f/SwitzeraADF-Bold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: 300;
+    src: url("f/SwiteraADF-Light.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwiteraADF";
+    font-weight: 500;
+    src: url("f/SwitzeraADF-DemiBold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwiteraADF";
+    font-weight: 700;
+    src: url("f/SwitzeraADF-Bold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: 900;
+    src: url("f/SwitzeraADF-ExtraBold.otf") format("opentype");
+}
+```
+
+这样分配之后，创作人员便可使用多个字重等级。下述规则的结果如下图所示。
+
+```css
+h1, h2, h3, h4 {
+    font: 225% SwitzeraADF, Helvetica, sans-serif;
+}
+
+h1 {
+    font-weight: 900;
+}
+
+h2 {
+    font-weight: 180%;
+    font-weight: 700;
+}
+
+h3 {
+    font-size: 150%;
+    font-weight: 500;
+}
+
+h4 {
+    font-size: 125%;
+    font-weight: 300;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E4%BD%BF%E7%94%A8%E5%88%86%E9%85%8D%E4%BA%86%E5%AD%97%E9%87%8D%E7%9A%84%E5%AD%97%E5%9E%8B.png)
+
+不管何时，用户代理都会使用 5.3.1 节所述的解析算法根据 font-weight 属性的值选择字型。font-weight 描述符的值可以是 font-weight 属性可取的任何一个值，但 inherit 关键字除外。
 
 
 
