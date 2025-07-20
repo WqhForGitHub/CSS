@@ -326,6 +326,289 @@ h1, h2, h3 {
 
 只要用户的设备中安装有 Helvetica，前三级标题便将使用 Helvetica 渲染。这样做看起来有点多此一举，不过再某些情况下确实能减少样式表文件的大小。
 
+<br>
+
+### 万全之策
+
+@font-face 有个棘手的问题要解决：不同时代的不同浏览器支持不同格式的字体（从表中那些可下载的字体格式可见一斑）。为了尽量涵盖较广的场景，应该使用能确保万全的 @font-face 句法。这种句法最初由 paul irish 提出，后经 fontsptring 的人员改进，写法如下：
+
+```css
+@font-face {
+    font-family: "SwitzeraADF";
+    src: url("SwitzeraADF-Regular.eot");
+    src: url("SwitzeraADF-Regular.eot?#iefix") format("embedded-opentype"),
+        url("SwitzeraADF-Regular.woff") format("woff"),
+        url("SwitzeraADF-Regular.ttf") format("truetype"),
+        url("SwitzeraADF-Regular.svg#switzera_adf_regular") format("svg");
+}
+```
+
+下面详细说明。开头的部分，即指定 font-family 名称那一行无需过多解释。随后的两行：
+
+```css
+src: url("SwitzeraADF-Regular.eot");
+src: url("SwitzeraADF-Regular.eot?#iefix") format("embedded-opentype");
+```
+
+这两行为支持 EOT（Embedded Opentype）格式的浏览器（IE6~IE9）提供 EOT 文件。前一行针对兼容模式下的 IE9，后一行针对 IE6~IE8。后一行中的 ?iefix 导致这些浏览器出现一个解析缺陷，从而绕过另一个解析缺陷，即列出多个字体格式时返回 404 响应。IE9 修正了这个问题，但是没有扩充支持的字体格式，因此才需要第一行。
+
+```css
+url("SwitzerADF-Regular.woff") format("woff");
+```
+
+这一行为支持 web open font format 的浏览器（包含多数现代浏览器）提供 .woff 文件。其实，至此已经涵盖大多数桌面用户了。
+
+```css
+url("SwitzeraADF-Regular.ttf") format("truetype");
+```
+
+这一行为多数 ios 和 android 设备提供所支持额字体格式，涵盖了多数手持设备用户。
+
+```css
+url("SwitzeraADF-Regular.svg#switzera_adf_regular") format("svg");
+```
+
+最后一行提供只有旧 ios 设备支持的字体格式，涵盖余下的多数手持设备用户。
+
+如果字形很多，很快就会变得烦琐，即便只输入一遍也很累手腕。幸好，有些服务能根据你提供的字型生成所需的 @font-face，并把字型转换成不同的格式，然后提供一个文件包供你下载。这些服务中最好的一个是 font squirrel 的 @font-face kit generator(http://fontsquirrel.com/fontface/generator)。使用这个生成工具时要谨记一点，必须得到转换和使用字型的授权（详情参见自定义字体的注意事项旁注）。
+
+<br>
+
+## 2. 其他字体描述符
+
+除了必须的 font-family 和 src 描述符，还有几个可选的描述符用于为字型指定属性值。与 font-family 一样，这些描述符也对应于现有的 css 属性（本章后文说明），控制着用户代理相应属性的处理方式。见下表。
+
+| 描述符                | 默认值     | 说明                                                         |
+| --------------------- | ---------- | ------------------------------------------------------------ |
+| font-style            | normal     | 区分常规、斜体和倾斜字型                                     |
+| font-weight           | normal     | 区分不同的字重（例如加粗）                                   |
+| font-stretch          | normal     | 区分不同的字符宽度（例如紧缩和加宽）                         |
+| font-variant          | normal     | 区分众多字形变体（例如小号大写字母），在很多方面与 css 中的 font-feature-settings 很像 |
+| font-feature-settings | normal     | 直接访问 opentype 的低层特性（例如启用连字）                 |
+| unicode-range         | U+0-10FFFF | 定义指定字体中可用的字符范围                                 |
+
+这些字体描述符是可选的，不必一定在 @font-face 规则中列出。css 规定，描述符不像属性那样可以没有默认值。如果没有某个可选的描述符，它的值将被设为默认值。因此，如果未列出 font-weight，其值默认为 mormal。
+
+>自定义字体的注意事项
+>
+>使用自定义的字体时哟啊注意两件事。第一：要有权在网页中使用指定的字体。第二，值不值得使用自定义字体。
+>
+>与图片库一样，字体族也有许可证，规定使用范围，不是所有字体都准许在 web 中使用。如果想彻底规避这个问题，可以使用 foss（free nd open-source softwware）字体，或者使用 fontdeck 或 typekit 这样的商业服务，让它们处理许可证和字体格式转换。否则，一定要确保自己有权按照想要的方式使用字型，这跟你要保证自己有恰当的授权使用购买的图像一样。
+>
+>此外，使用的字型越多，web 服务器要处理的资源越多，而且页面越大。多数字型的体积并不大，通常为 50 ~ 100KB，不过，为了华丽的效果，字型会越用越多，而且比较复杂的字型体积是很大的。可以想象，这与图像如出一辙。一如往常，在外观和性能上要做适当的权衡，具体向哪边倾斜要视情况而定。
+>
+>我们知道图像有优化工具，同样，字体也有优化工具。这些工具通常是做子集处理，即只在字体中留下确实需要用到的符号。typekit 或 fonts.com 等服务可能有这样的工具，或者在请求字体时动态处理。
+
+<br>
+
+### 限制字符范围
+
+有一个字体描述符没有对应的 css 属性（与上表中的其他描述符不同），即 unicode-range。这个描述符用于指定自定义字体可以应用到哪些字符上。使用符号字体，或者想确保只有特定语言使用指定字型时用得到这个描述符。
+
+```css
+unicode-range
+
+取值：<urange>#
+初始值：U+0-10FFFF
+```
+
+默认情况下，这个描述符的值涵盖全部 unicode 字符。这表明，只要字体中有某个字符的字形，就能用它渲染那个字符。多数情况下，这正是我们想要的。然而，有时我们想使用特定的字型渲染特定的内容。下面是从 css fonts module level 3 规范中摘取的两个例子：
+
+```css
+unicode-range: U+590-5FF;
+unicode-range: U+4E00-9FFF, U+FF00-FF9F, U+30??; /* 日语文字、平假名、片假名 */
+```
+
+第一个例子只指定了一个范围，从 unicode 码位 590~5FF。这个范围是希伯来语字符。因此，创作人员可以指定一个希伯来语字体，限制它只用于渲染希伯来语字符，即使字型中还包括其他码位的字形：
+
+```css
+@font-face {
+    font-family: "CMM-Ahuvah";
+    src: url("cmm-ahuvah.otf" format("opentype"));
+    unicode-range: U+590-5FF;
+}
+```
+
+第二个例子指定了多个范围，以逗号分隔，涵盖所有日语字符。里面奇怪的 U+30?? 值是 unicode-range 允许使用的特殊格式，问号是通配符，意思是任何数字。因此，u+30?? 等效于 U+3000-30FF。unicode-range 的值中只允许使用问好这一个特殊的字符。
+
+范围必须是小到大，反过来（例如 U+400-300）会导致解析错误而被忽略。除了范围之外，还可以声明单个码位，例如 U+221E。单个码位通常与其他码位和范围结合起来使用，比如像下面这样：
+
+```css
+unicode-range: U+4E00-9FFFF, U+FF00-FF9F, U+30??, U+A5; /* 日语汉字、平假名、片假名、外加货币符号 */
+```
+
+可以指定一个码位，让指定的字体渲染唯一的字符。要不要这么做取决于你自己、你的设计、字体文件的大小和用户的网速。
+
+@font-face 是惰性加载的，因此可以使用 unicode-range 限制只下载页面中真正需要用到的字型。假设一个网站中有英语、俄语，还有一些基本的算术运算符，而你并不知道页面中会出现哪些字符。有些页面可能全是英语，有些可能混杂着俄语和算式等。此外，假设这三种内容都用专门的字型。为了确保用户代理只下载真正需要的字型，可以像下面这样组织 @font-face 规则：
+
+```css
+@font-face {
+    font-family: "MyFont";
+    src: url("myfont-general.otf" format("opentype"));
+}
+
+@font-face {
+    font-family: "MyFont";
+    src: url("myfont-cyrillic.otf" format("opentype"));
+    unicode-range: U+04??, U+0500-0521F, U+2DE0-2DFF,U+A640-A96F, U+1D2B-1D78;
+}
+
+@font-face {
+    font-family: "MyFont";
+    src: url("myfont-math.otf" format("opentype"));
+    unicode-range: U+22??; /* 等效于 U+2200-22FF */
+}
+```
+
+第一个规则没有指定 unicode 范围，因此始终下载，除非页面中恰巧什么字符也没有（不是不可能）。根据第二个规则，仅当页面中指定 unicode 范围内的字符时才下载 myfont-cyrillic.otf。第三个规则一样，不过是当页面中有基本的算术运算符时才下载。
+
+<br>
+
+## 3. 组合描述符
+
+我们可以把多个描述符组合在一起为字型设定不同的属性，这一点没那么容易想到，不过确实可行。例如，可以指定一个字型为粗体，一个字型为斜体，再指定一个字型为加粗的斜体。
+
+这么做背后的原理是，未声明的描述符使用默认值。以下面三个字型设定规则为例：
+
+```css
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    src: url("SwitzeraADF-Regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    src: url("SwitzeraADF-Bold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: normal;
+    font-style: italic;
+    font-stretch: normal;
+    src: url("SwitzeraADF-Italic.otf") format("opentype");
+}
+```
+
+这里我们明确列出了所需的描述符，即便使用默认值，也没有省略。把值为 normal 的描述符去掉之后，效果完全一样：
+
+```css
+@font-face {
+    font-family: "SwitzeraADF";
+    src: url("SwitzeraADF-Regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: bold;
+    src: url("SwitzeraADF-Bold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-style: italic;
+    src: url("SwitzeraADF-Italic.otf") format("opentype");
+}
+```
+
+在这三个规则中，所有 font-stretch 的值都是 normal，而 font-weight 和 font-style 的值各异。如果想让加粗斜体字不拉伸？
+
+```css
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: bold;
+    font-style: italic;
+    font-stretch: normal;
+    src: url("SwitzeraADF-Italic.otf") format("opentype");
+}
+```
+
+如果想得到紧缩的加粗斜体？
+
+```css
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: bold;
+    font-style: italic;
+    font-stretch: condensed;
+    src: url("SwitzeraADF-BoldCondItalic.otf") format("opentype");
+}
+```
+
+如果想得到紧缩的正常字重斜体？
+
+```css
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: normal;
+    font-style: italic;
+    font-stretch: condensed;
+    src: url("SwitzeraADF-CondItalic.otf") format("opentype");
+}
+```
+
+可行性还有很多，我们就此打住。如果把所有取值为 normal 的描述符去掉，得到的结果如下，效果如下图所示。
+
+```css
+@font-face {
+    font-family: "SwitzeraADF";
+    src: url("SwitzeraADF-Regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: bold;
+    src: url("SwitzeraADF-Bold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-style: italic;
+    src: url("SwitzeraADF-Italic.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: bold;
+    font-style: italic;
+    src: url("SwitzeraADF-BoldItalic.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: bold;
+    font-stretch: condensed;
+    src: url("SwitzeraADF-BoldCond.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-style: italic;
+    font-stretch: condensed;
+    src: url("SwitzeraADF-CondItalic.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: bold;
+    font-style: italic;
+    font-stretch: condensed;
+    src: url("SwitzeraADF-BoldCondItalic.otf") format("opentype");
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AD%97%E5%9E%8B.png)
+
+可以看出，只这三个描述符就有这么多组合方式，毕竟 font-weight 有 11 种可能的值，font-stretch 有 10 种可能的值，不过不一定都用得到。其实，多数字体族不会像 switzeraADF 这样提供如此多的字型（共计 24 种），因此没必要所有组合都写出来。然而，你要知道可以这么做，以防某些情况下需要使用特殊的字体渲染紧缩的加粗文本，避免用户代理自行计算。
+
+
+
 
 
 
