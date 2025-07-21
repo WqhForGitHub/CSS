@@ -938,6 +938,1196 @@ h4 {
 
 不管何时，用户代理都会使用 5.3.1 节所述的解析算法根据 font-weight 属性的值选择字型。font-weight 描述符的值可以是 font-weight 属性可取的任何一个值，但 inherit 关键字除外。
 
+<br>
+
+# 4. 字号
+
+我们对确定字号的方法十分熟悉，但又让人觉得特别陌生。
+
+```css
+font-size
+
+取值：xx-small | x-small | small | medium | large | x-large | xx-large | smaller | larger | <length> | <percentage>
+初始值：medium
+适用于：所有元素
+百分数：根据父元素的字号计算
+计算值：一个绝对长度
+继承性：是
+动画型：是（仅限数字关键字）
+```
+
+类似于 font-weight 属性的关键字 bolder 和 lighter，font-size 属性也有相对大小关键字，分别为 larger 和 smaller。这两个关键字的作用与相对字重类似，分别增大和减少一号字体大小。不过，我们首先要知道字号是如何确定的。
+
+其实，font-size 属性与渲染结果之间的关系由字体设计者决定。这个关系在字体中通过 em 方框（或 em 盒子）表示。em 方框（以及字号）与字体中字符的边界没有关系，其实它指的是没有行距（css 中的 line-height）的情况下两条基线之间的距离。字体中完全有可能存在高度超过基线之间距离的字符。鉴于此，设计字体时要确保所有字符都比 em 放框小。事实上，多数字体就是这么做的，下图中是几个虚构的例子。
+
+因此，font-size 的作用是为字体的 em 方框提供一个尺寸。所以，显示出来的字符不可能完全是指定的大小。
+
+<br>
+
+## 1. 绝对大小
+
+掌握这些基础知识之后，来看绝对大小关键字。font-size 支持的绝对大小值有七个：xx-small、x-mall、small、medium、large、x-large 和 xx-large。这几个关键字没有固定的大小，而是相对而言，如下图所示。
+
+```css
+p.one {
+    font-size: xx-small;
+}
+
+p.two {
+    font-size: x-small;
+}
+
+p.three {
+    font-size: small;
+}
+
+p.four {
+    font-size: medium;
+}
+
+p.five {
+    font-size: large;
+}
+
+p.six {
+    font-size: x-large;
+}
+
+p.seven {
+    font-size: xx-large;
+}
+```
+
+根据 css1 规范，这些绝对大小之间相差的倍数（或叫换算系数）是向上 1.5、向下 0.66。因此，如果 medium 相当于 10px，那么 large 应该是 15px。后来，人们觉得换算系数太大，因此 css2 建议取 1.0~1.2，而 css3 草案提供了更为复杂的计算方式（例如，small 是 medium 的 8/9，xx-small 是 medium 的 3/5）。不过，这些只是简易的换算系数，用户代理随时可以调整。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E7%BB%9D%E5%AF%B9%E5%AD%97%E5%8F%B7.png)
+
+假设 medium 等于 16px，使用不同的换算系数得到的绝对值对照情况见下表（已经四舍五入为整数）。
+
+| 关键字   | css1 | css2 | css3 |
+| -------- | ---- | ---- | ---- |
+| xx-small | 5px  | 9px  | 10px |
+| x-small  | 7px  | 11px | 12px |
+| small    | 11px | 13px | 14px |
+| medium   | 16px | 16px | 16px |
+| large    | 24px | 19px | 19px |
+| x-large  | 36px | 23px | 24px |
+| xx-large | 54px | 28px | 32px |
+
+<br>
+
+## 2. 相对大小
+
+关键字 larger 和 smaller 相对简单，它们根据父元素的字号增大或减小一定比例，这里使用的换算系数与计算绝对大小时一样。也就是说，如果浏览器计算绝对大小时使用的换算系数是 1.2，计算相对大小关键字时用的也是 1.2。
+
+```css
+p {
+    font-size: medium;
+}
+
+strong, em {
+    font-size: larger;
+}
+```
+
+```html
+<p>
+    This paragraph element contains <strong> strong-emphasis element which itself contains <em> an emphasis element that also contains <strong>a strong element.</strong></em></strong>
+</p>
+
+<p>
+    medium <strong>large <em> x-large <strong> xx-large </strong> </em></strong>
+</p>
+```
+
+从下图中可以看出，h1 元素中强调文本的字号比 xx-large 稍微大些。具体增大多少由用户代理决定，1.2 是建议的换算系数，而不是强制要求。段落中的强调文本比绝对大小 large 大一级。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E7%BB%9D%E5%AF%B9%E5%AD%97%E5%8F%B7%E4%B8%AD%E7%A9%BF%E6%8F%92%E7%9D%80%E7%9B%B8%E5%AF%B9%E5%AD%97%E5%8F%B7.png)
+
+>用户代理在增大或减少字号时不一定会超过绝对大小关键字的上下限。
+
+<br>
+
+## 3. 百分数和 em
+
+百分数在某种意义上与相对大小关键字很像。百分数始终根据继承自父元素的字号计算。与前面讨论的关键字相比，百分数能更为细致地控制字号。来看下面这个例子，其结果如下图所示：
+
+```css
+body {
+    font-size: 15px;
+}
+
+p {
+    font-size: 12px;
+}
+
+em {
+    font-size: 120%;
+}
+
+strong {
+    font-size: 135%;
+}
+
+small, fnote {
+    font-size: 70%;
+}
+```
+
+```html
+<body>
+    <p>This paragraph contains both <em>emphasis</em> and <strong>strong
+    emphasis</strong>, both of which are larger than their parent element.
+    The <small>small text</small>, on the other hand, is smaller by a quarter.</p>
+    <p class="fnote">This is a 'footnote' and is smaller than regular text.</p>
+
+    <p> 12px <em> 14.4px </em> 12px <strong> 16.2px </strong> 12px <small> 9px </small> 12px </p>
+    <p class="fnote"> 10.5px </p>
+</body>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E4%BD%BF%E7%94%A8%E7%99%BE%E5%88%86%E6%95%B0.png)
+
+这个示例显示了字号的具体像素值。这是浏览器计算得到的结果，不同于真正在屏幕上显示的大小。
+
+此外，css 还把长度单位 em 定义为等效于百分数，对字号而言，1em 与 100% 的效果相同。因此，下面两个规则得到的结果一样（前提是同属一个父元素）：
+
+```css
+p.one {
+    font-size: 166%;
+}
+
+p.two {
+    font-size: 1.6em;
+}
+```
+
+使用 em 单位时，百分数的规则同样适用，例如基于继承的字号计算等。
+
+<br>
+
+## 4. 字号的继承
+
+上图还表明，虽然 css 中的字号会继承，但继承的是计算得到的值，而不是百分数本身。因此，strong 元素继承的值是 12px，乘以声明的 135% 后得到 16.2px。脚注那一段的字号相对从 body 元素继承的值（15px）计算，乘以 75% 后得到 11.25px。
+
+与相对大小关键字一样，百分数也会累积。因此，下述标记的显示结果如下图所示。
+
+```css
+p {
+    font-size: 12px;
+}
+
+em {
+    font-size: 120%;
+}
+
+strong {
+    font-size: 135%;
+}
+```
+
+```html
+<p>This paragraph contains both<em>emphasis and <strong>strong
+emphasis</strong></em>, both of which are larger than the paragraph text. </p>
+
+<p> 12px <em>14.4px <strong> 19.44px </strong></em> 12px  </p>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E7%BB%A7%E6%89%BF%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98.png)
+
+上图中那个 strong 元素的字号是这样计算的。
+
+12px ⨉ 120% = 14.4px
+
+14.4px ⨉ 135% = 19.44px（显示时可能会舍入为 19px，参见下一节）
+
+按比例缩放可能会向另一个极端发展。假设有个文档中只有一系列无序列表，其中一些嵌套在另一个列表中，而且有些列表嵌套四级深。试想把下述规则应用到这个文档会导致怎样的结果：
+
+```css
+ul {
+    font-size: 80%;
+}
+```
+
+假设列表嵌套四级深，最内层的无序列表经计算得到的 font-size 值将是最外层无序列表的 40.96%。嵌套每深一层，字号就变成父列表的 80%，因此嵌套的列表一层比一层看不清。
+
+<br>
+
+### 显示时舍入
+
+多数现代浏览器在内部维护着小数字号，但渲染引擎不一定会使用。下面以下图中的文本为例分析。
+
+每一行中的字母 O 从左至右逐渐增大 0.1 像素字号。因此，最左边的 O 字号为 10px，中间的 O 字号为 10.5px，最右边的 O 字号为 11px。
+
+从下图可以看出，不同的浏览器和操作系统组合得到的结果有所不同。例如，macOS 中的 Opera、Safari 和 Chrome 在 10.5px 的位置突然由 10 像素变成 11 像素。windows（7 和 8）中的 Internet Explorer 和 firefox 也是如此。而 macOS 中的 firefox 看起来字号相同，像是一条平直的线。其实，由于字号有细微的差异，各字符在绘制效果上是有细微差别的，不仔细看（或用尺子量）很难察觉。由此可见，从一端到另一端，字号上的增加很难看出来。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E5%B0%8F%E6%95%B0%E5%AD%97%E5%8F%B7.png)
+
+尽管如此，如果使用审查工具，或者直接通过 DOM 脚本查询，你会发现，每个浏览器都会保留字号中的子像素（subpixel）。右数第 3 个 O，计算得到的字号是 10.8px，不过着并不是在屏幕上显示的大小。
+
+<br>
+
+### 关键字和等宽文本
+
+字号关键字和继承会导致实际大小缩水，这在某些浏览器渲染等宽文本（例如使用 courier 字体）时尤为明显。以下述规则和标记为例，其结果如下图所示。
+
+```css
+p {
+    font-size: medium; /* 默认值 */
+}
+
+span {
+    font-family: monospace;
+    font-size: 1em;
+}
+```
+
+```html
+<p>
+    This is a 'p' with a <span>'span'</span> inside.
+</p>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E7%AD%89%E5%AE%BD%E6%96%87%E6%9C%AC%E5%9C%A8%E5%AD%97%E5%8F%B7%E4%B8%8A%E7%9A%84%E5%A5%87%E6%80%AA%E7%8E%B0%E8%B1%A1.png)
+
+假设用户没有更改浏览器的偏好设置（文本的默认字号在这里设定），medium 的默认值一般是 16px。查询 span 元素外部的文本，审查工具会告诉你，计算得到的文本字号为 16px（同样假设用户没有更改偏好设置）。
+
+因此，你可能以为 span 元素中的等宽文本也是 16 像素。在某些浏览器中确实如此，然而在有些浏览器中是 13px。
+
+原因在于，虽然段落中的文本经计算得到的字号是 16px，但是通过继承向下传递的是关键字 medium。因此，span 中的字号是根据 medium 计算的。为了算出具体的字号，用户代理会查看用户偏好设置，而多数浏览器为等宽文本设定的默认字号是 13px。所以，即使明确为等宽文本设定 font-size: 1em，在使用 16 像素字号的段落中，等宽文本依然显示为 13 像素。
+
+字号设为 1em（或 100%）之外的值时，这个问题依旧存在。在下述示例中，等宽文本经计算得到的字号是 26px，而不是 32px（还是假设浏览器的默认设置未被改动）：
+
+```css
+p {
+    font-size: medium; /* 默认值 */
+}
+
+span {
+    font-family: monospace;
+    font-size: 2em;
+}
+```
+
+```html
+<p>
+    This is a 'p' with a <span>'span'</span> inside.
+</p>
+```
+
+注意，不是所有浏览器都是这样处理的，有些浏览器会覆盖 medium 默认的对应关系，根据父元素的字号计算实际值。因此，文本在不同浏览器中显示的大小不一致。
+
+然而，有个方法能绕开这个问题，而且对已知的浏览器都有效（至少是截至 2017 年年末）。具体方法如下：
+
+```css
+p {
+    font-size: medium; /* 默认值 */
+}
+
+span {
+    font-family: monospace, serif;
+    font-size: 1em;
+}
+```
+
+```html
+<p>
+    This is a 'p' with a <span>'span'</span> inside.
+</p>
+```
+
+看到 font-family 中多了个 serif 了码？这样做，在所有浏览器中，font-size: 1em 的意思都是段落实际字号的 100%，而不再根据 medium 对应的值计算。这种方法适用于所有浏览器，效果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E7%AD%89%E5%AE%BD%E6%96%87%E6%9C%AC%E7%9A%84%E5%AD%97%E5%8F%B7%E5%8D%8F%E8%B0%83%E4%BA%86.png)
+
+<br>
+
+## 5. 使用长度单位
+
+font-size 可以设为任何长度值。下述几个 font-size 声明是等效的：
+
+```css
+p.one {
+    font-size: 36pt;
+}
+
+p.two {
+    font-size: 3pc;
+}
+
+p.three {
+    font-size: 0.5in;
+}
+
+p.four {
+    font-size: 1.27cm;
+}
+
+p.five {
+    font-size: 12.7mm;
+}
+```
+
+下图中显示的结果假定用户代理知道显示媒体每英寸有多少点。不同的用户代理做不同的假设，有些基于操作系统，有些基于偏好设置，还有些基于编写用户代理的程序员的假设。不管怎样，上述五个声明得到的字号是一样的。因此，尽管结果与现实中的尺寸不匹配（例如，p.three 的实际大小可能不是半英寸），上述声明得到的量值是相同的。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AD%97%E5%8F%B7.png)
+
+还有一个值可能与上图中显示的大小一样，即 36px。如果显示媒体是 72 像素每英寸（ppi），则跟实际距离一样。然而，很少有显示器使用这个分辨率了。现在的显示器具有更高的分辨率，从 96ppi~120ppi 不等。而且移动设备更高，目前从 300ppi~500ppi 都有。
+
+尽管操作系统和设备之间有如此多的差异，很多创作人员依然选择使用像素值设定字号，在既有文本又有光栅图像（GIF、JPG、PNG 等）的网页中，特别适合使用像素值，因为（理论上）可以通过 font-size: 11px。等把文本的高度设为与图像元素一样，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E9%80%9A%E8%BF%87%E5%83%8F%E7%B4%A0%E5%80%BC%E5%AD%97%E5%8F%B7%E8%AE%A9%E6%96%87%E6%9C%AC%E5%92%8C%E5%9B%BE%E5%83%8F%E4%BF%9D%E6%8C%81%E9%AB%98%E5%BA%A6%E4%B8%80%E8%87%B4.png)
+
+使用像素值设定 font-size 确实能保持字号一致（其实使用任何长度单位都是如此），但是有一个缺点：不是所有浏览器都都能轻易缩放像素值设定的文本（有时甚至不能缩放），而且有时使用像素值设定的文本在模仿全屏幕设备的移动设备上的实际字号特别小（例如多款 iphone）。单就这一点，一般不推荐使用像素值谁当字号。
+
+<br>
+
+## 6. 自动调整字号
+
+有两个因素影响字体是否清晰易辨：字号和 x 高度。x 高度除以字号得到的结果称为高宽比值。随着字号的减小，高宽比值越高，字体越清晰易辩。相反，高宽比值较低的字体，很容易变得模糊难辨。css 提供的 font-size-adjust 属性用于改变字体族之间的高宽比值。
+
+```css
+font-size-adjust
+
+取值：<number> | none | auto
+初始值：none
+适用于：所有元素
+继承性：是
+动画性：是
+```
+
+这个属性的作用是在所用的字体不是创作人员的首选时维持清晰性。由于字体之间在外观上有差异，一个字体在某个字号时可能清晰易辩，而另一个字体在同样的字号下或许就变得模糊难辨，或者根本无法看清。
+
+常用的 verdama 和 times 字体之间就有这种差异。请看下图和下述规则，两款字体的字号都是 10px：
+
+```css
+p {
+    font-size: 10px;
+}
+
+p.cl1 {
+    font-family: verdana, sans-serif;
+}
+
+p.cli2 {
+    font-family: times, serif;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E6%AF%94%E8%BE%83%20verdana%20%E5%92%8C%20times.png)
+
+使用 times 的文本比使用 verdana 的文本更难辨别。出现这种情况的部分原因是受限于基于像素的显示器，不过也是由于 times 在较小的字号时模糊难辨。
+
+verdana 的 x 高度和字符大小的比值是 0.58，而 times 是 0.46。为了解决这个问题，我们可以设定 verdana 的高宽比值，让用户代理根据实际情况调整文本的字号。这里，要用到下述公式：
+
+设定的 font-size ⨉ （font-size-adjust 值 ÷ 字体的高宽比值）= 调整后的 font-size
+
+因此，当实际使用的是 times 而不是 verdana 时，调整的结果是：
+
+10px ⨉ （0.58 ÷ 0.46）= 12.6px
+
+结果如下图所示。
+
+```css
+p {
+    font: 10px verdama, sans-serif;
+    font-size-adjust: 0.58;
+}
+
+p.cli2 {
+    font-family: times, serif;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E8%B0%83%E6%95%B4%20times.png)
+
+若想让用户代理自动调整字号，它首先要知道指定字体的高宽比值。支持 @font-face 的用户代理能直接从字体文件中获取这一信息，不过前提是字体文件中包含这个信息。专业制作的字体应该有这个信息，不过也不一定。如果字体文件中没有高宽比值，用户代理可能会尝试自己计算。然而同样地，无法保证用户代理一定会这么做，或者一定能这么做。
+
+假设用户代理能找到或算出高宽比值，把 font-size-adjust 设为 auto 就能达到所需的效果，即使不知道首选字体的高宽比值也行。例如，假设用户代理能确定 verdana 的高宽比值的 0.58，那么下述规则得到的结果与下图一样：
+
+``` css
+p {
+    font: 10px verdana, sans-serif;
+    font-size-adjust: auto;
+}
+
+p.cl2 {
+    font-family: times, serif;
+}
+```
+
+font-size-adjust: none。声明将禁止调整字号。这是默认的行为。
+
+>截至 2017 年年末，唯一支持 font-size-adjust 属性的用户代理是 gecko(firefox)系列。
+
+<br>
+
+# 5. 字形
+
+font-style 属性的作用十分简单：在 normal（常规）、italic（斜体）和 oblique（倾斜体）之间做出选择。就这样，这里唯一有点难懂的是斜体和倾斜体之间的区别，以及为什么浏览器不为你做出选择。
+
+```css
+font-style
+
+取值：italic | oblique | normal
+初始值：normal
+适用于：所有元素
+计算值：指定的值
+备注：有对应的 @font-face 描述符
+继承性：是
+动画性：否
+```
+
+可以看出，font-style 的默认值是 normal。这表示竖直体，即没有倾斜。比如说，本书中的大多数文本都是竖直的。现在只剩下 italic 和 oblique 之间的区别了。为此，最简单的方法是参考下图，图中很清楚地展示了二者之间的区别。
+
+简单来说，斜体是一种单独的字型，各字母的构造有些改动，体现外观上的不同。衬线字体在这一点上的体现尤为明显，除了字符有点斜之外，字符本身还可能会做调整。而倾斜体只是竖直体的倾斜版本。以 italic cursive 和 kursiv 等标识的字型通常对应于 italic 关键字，而 oblique 往往分配给以 oblique slanted 和 incline 等标识的字型。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E6%96%9C%E4%BD%93%E5%92%8C%E5%80%BE%E6%96%9C%E4%BD%93%E5%9B%BE%E7%A4%BA.png)
+
+如果想让文档中的文本以人们熟知的方式使用斜体，可以编写下面这样的样式表：
+
+```css
+p {
+    font-style: normal;
+}
+
+em, i {
+    font-style: italic;
+}
+```
+
+这些样式会把段落显示为竖直体，而让 em 和 i 元素使用斜体，这都是符合常理的做法。不过，也可以让 em 和 i 之间有细微的差别：
+
+```css
+p {
+    font-style: normal;
+}
+
+em {
+    font-style: oblique;
+}
+
+i {
+    font-style: italic;
+}
+```
+
+仔细看下图，你会发现 em 和 i 元素之间没有明显的不同。其实，不是每款字体都复杂到同时提供斜体和倾斜体，也很少有浏览器复杂到能区分二者之间的不同。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E6%9B%B4%E5%A4%9A%E5%AD%97%E5%BD%A2.png)
+
+万一遇到这样的情况，用户代理要做些额外的工作。如果没有斜体，而有倾斜体，可以使用后者代替前者。反过来，如果有斜体，而没有倾斜体，根据规范，用户代理可能不会使用前者代替后者。最后，用户代理可以直接倾斜竖直体，得到倾斜体。其实，在数字世界上中这很常见，因为只需做些简单的计算就额能倾斜一款字体。
+
+此外，在某些操作系统中，即使声明使用斜体渲染文本，但在特定的字号时会转而使用倾斜体。例如下图，其中显示的是运行 classic os（mac os 9）系统的 macintosh 上显示的 times 字体，两行文本在字号上只差一像素。
+
+遗憾的是，对此我们做不了什么，只能依赖操作系统提供更好的字体处理方式。幸运的是，maxos 和 windows xp 提供了十分优秀的字体渲染技术，而且创作人员可以通过 @font-face 中的 font-style 描述符指定斜体和倾斜体，让创作人员自行选择。
+
+即便斜体和倾斜体通常使用同一个字型，但是 font-style 依然十分有用。例如，按照排版约定，引用块应该显示为斜体，而引用中的强调文本则应显示为竖直体。若想实现这样的效果（见下图），可以使用下述样式：
+
+```css
+blockquote {
+    font-style: italic;
+}
+
+blockquote em, blockquote i{
+    font-style: normal;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E9%80%9A%E8%BF%87%20css%20%E5%AE%9E%E7%8E%B0%E6%8E%92%E7%89%88%E7%BA%A6%E5%AE%9A.png)
+
+用户代理遇到不含粗体或斜体的字体族时会遇到这个属性判断是否允许合成粗体或斜体。
+
+<br>
+
+### font-style 描述符
+
+用作描述符时，font-style 把指定的字型对应到指定的字形上。
+
+```css
+@font-face {
+    font-family: "SwitzeraADF";
+    font-style: normal;
+    src: url("SwitzeraADF-Regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-style: italic;
+    src: url("SwitzeraADF-Italic.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-style: oblique;
+    src: url("SwitzeraADF-Italic.otf") format("opentype");
+}
+```
+
+像这样定义之后，下述规则将使用 SwitzeraADF-Italic 渲染 h2 和 h3 元素，而不使用 SwitzeraADF-Regular，如下图所示。
+
+```css
+h1, h2, h3 {
+    font: 225% SwitzeraADF, Helvetica, sans-serif;
+}
+
+h2 {
+    font-size: 180%;
+    font-style: italic;
+}
+
+h3 {
+    font-size: 150%;
+    font-style: oblique;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E4%BD%BF%E7%94%A8%E5%A3%B0%E6%98%8E%E4%BA%86%20font-style%20%E7%9A%84%E5%AD%97%E5%9E%8B.png)
+
+理想情况下，如果 switzeraADF 字体族有倾斜字型，创作人员可以把 oblique 值指向它，而不指向斜体。然而，swizeraADF 没有这样的字型，因此把 italic 和 oblique 都对应到斜体上。与 font-weight 一样，font-style 描述符的值可以是 font-style 属性允许取的值中除了 inherit 之外的其他任何值。
+
+<br>
+
+# 6. 字体拉伸
+
+有些字体族中的变体可能具有较宽或较窄的字母型式，这些变体通常以 condensed wide ultra expanded 等标识。这种变体存在的目的是在同一个字体族中提供瘦体和胖体。css 提供了一个属性，用于选择这样的变体，如此便无需在 font-family 声明中指定使用单独的字体族。这个属性是 font-stretch，不过它的名称有时让人不明其意。
+
+```css
+font-stretch
+
+取值：normal | ultra-condensed | extra-condensed | condensed | semi-condensed | semi-expanded | expanded | extra-expanded | ultra-expanded
+初始值：normal
+适用于：所有元素
+继承性：是
+动画性：否
+备注：有对应的 @font-face 描述符（见下文）
+```
+
+看到这个属性的名称，你可能会想它的作用是像折叠拉伸咸味太妃糖那样对待字体，而事实完全不是这样。抛开名称，这个属性的作用其实非常像 font-size 属性的绝对大小关键字（例如 xx-large），让创作人员在一些绝对值中选择一个，调整字体的宽度。例如，为了突出显示着重强调元素中的文本，创作人员可能会选择一个较宽的字型显示强调文本。
+
+仅当使用的字体族中有宽体和窄体时，这个属性才起作用，而一般的字体族并没有这样的变体（如果有，字体族的价格往往不菲）。因此，这个属性的作用与 font-size 相差很大，后者可以随时随地改变字号。仅当使用的字体族中有加宽变体时，font-stretch: expanded 声明才起作用。如果没有加宽变体，什么也不会发生，即仍使用原来的字型。
+
+下面以十分常见的 verdana 字体为例。verdana 的字型只有一个宽度，相当于 font-stretch: normal。像下面这样声明对显示的文本宽度没有任何影响：
+
+```css
+body {
+    font-family: verdana;
+}
+
+strong {
+    font-stretch: extra-expanded;
+}
+
+footer {
+    font-stretch: extra-condensed;
+}
+```
+
+所有文本都将使用 verdana 的正常宽度显示。然而，如果换成有多个宽度字型的字体族，例如 futura 情况就不同了，如下图所示。
+
+```css
+body {
+    font-family: verdana;
+}
+
+strong {
+    font-stretch: extra-expanded;
+}
+
+footer {
+    font-stretch: extra-condensed;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E6%8B%89%E4%BC%B8%E5%90%8E%E7%9A%84%E5%AD%97%E7%AC%A6.png)
+
+>截至 2017 年年末，macos 和 ios 中的 safari 都不支持 font-stretch，opera mini 也不支持。
+
+<br>
+
+### font-stretch 描述符
+
+与 font-weight 描述符类似，font-stretch 描述符的作用是把不同宽度的字型分配给 font-stretch 属性允许取的不同宽度值。例如，下述规则把三个字型分配给最常用的三个 font-stretch 值：
+
+```css
+@font-face {
+    font-family: "SwitzeraADF";
+    font-stretch: normal;
+    src: url("SwitzeraADF-Regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-stretch: condensed;
+    src: url("SwitzeraADF-cond.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SwitzeraADF";
+    font-stretch: expanded;
+    src: url("SwitzeraADF-ext.otf") format("opentype");
+}
+```
+
+与前一节类似，创作人员可以通过 font-stretch 属性指定不同宽度的字型，如下图所示。
+
+```css
+h1, h2, h3 {
+    font: 225% SwitzeraADF, helvetica, sans-serif;
+}
+
+h2 {
+    font-size: 180%;
+    font-stretch: condensed;
+}
+
+h3 {
+    font-size: 150%;
+    font-stretch: expanded;
+}
+```
+
+与之前一样，font-stretch 描述符的值可以是 font-stretch 属性允许取的值中除了 inherit 之外的其他任何值。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E4%BD%BF%E7%94%A8%E5%A3%B0%E6%98%8E%E4%BA%86%20font-stretch%20%E7%9A%84%E5%AD%97%E5%9E%8B.png)
+
+<br>
+
+# 7. 字距调整
+
+有些字体定义了字符之间相对位置的数据，即字距。不同的字符组合，字距是不一样的。例如，oc 这两个字符的字距可能就与 ox 不同。类似地，AB 和 AW 的字距可能也不一样，在某些字体中，W 的右上端可能在 A 右下端的左边。字距可以使用 font-kerning 属性呼出或禁止。
+
+```css
+font-kerning
+
+取值：auto | normal | none
+初始值：auto
+适用于：所有元素
+继承性：是
+动画性：否
+```
+
+none 的意思是十分简单：让用户代理忽略字体中的字距信息。normal 的意思是让用户代理正常处理字距，即使用字体中的字距数据。auto 则把决定权交给用户代理，让用户代理选择最合适的处理方式，当然具体怎么做由所用的字体决定。例如，opentype 规范建议（只是建议），只要字体中有字距数据就应该使用。如果字体中没有字距数据，font-kerning 没有任何作用。
+
+>注意，如果既调整字距，又应用 letter-spacing 属性，正确的顺序是先调整字距，然后再根据 letter-spacing 属性的值调整字符间距，而不是反过来。
+
+<br>
+
+# 8. 字体变形
+
+除了字重、字型等之外，字体还有变形。变形信息内嵌在字型中，包括旧时的各种连写、小号大写字母、小数的表示方式、数字之间的间距、零有没有贯穿线等。如果字型中有这些变形信息，可以通过 css 的 font-variant 属性调用。
+
+```css
+font-variant
+
+取值（css2.1）：normal | small-caps
+取值（level 3）：normal | none | <common-lig-values> || <discretionary-lig-values> || <historical-lig-values> || <contextual-alt-values> || stylistic(<feature-value-name>) || character-variant(<feature-value-name>#) || swash(<feature-value-name>) || ornaments(<feature-value-name>) || annotation(<feature-value-name>>) || [ small-caps | all-small-caps | petite-caps | all-petite-caps | unicase | titling-caps ] || <numeric-figure-values> || <numeric-spacing-values> || <numberic-fraction-values> || ordinal || slashed-zero || <east-asian-varient-values> || <east-asian-width-values> || ruby]
+初始值：normal
+适用于：所有元素
+计算值：指定的值
+继承性：是
+动画性：否
+备注：有对应的 @font-face 描述符（见下文）
+```
+
+（level 3 的）取值特别多，是吧，css1 和 css2 只有两个取值：一个是 normal，表示普通形式，一个是 small-caps，指定使用小号大写字母。我们先说明这两个值。
+
+小号大写字母既不是大写字母，也不是小写字母，而是大小稍有区别的大写字母。你可能见过与下图中类似的文本：
+
+```css
+h1 {
+    font-variant: small-caps;
+}
+
+h1 code, p {
+    font-variant: normal;
+}
+```
+
+```html
+<h1>
+    The Uses fo <code>font-variant</code> On the Web
+</h1>
+<p>
+    The property <code>font-variant</code> is very interesting...
+</p>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E4%BD%BF%E7%94%A8%20small-caps%20%E5%80%BC.png)
+
+你可能发现了，h1 元素中的大写字母使用较大的大写字母显示，小写字母使用较小的大写字母显示。这与 text-transform: uppercase 的效果非常类似，不过就这里而言，两种方式之间的区别是大写字母的大小不同。之所以用字体属性声明 small-caps，是因为有些字体有专门的小号大写字母字型，从而必须通过字体属性选择。
+
+如果没有这样的字型存在？规范提供了两个选项。其一，用户代理自行缩放大写字母，创建小号大写字母。其二，把所有字母都变成大写，而且大小相同，就像使用 text-transform: uppercase。一样，这不是理想的方案，不过尚可接受。
+
+<br>
+
+## 1. level 3 新增的值
+
+下面讨论 level 3 增加的值。不置可否，css3 的取值繁杂，不过也能讲得清楚。这些值其实是下述属性允许得取值总和：
+
+* font-variant-ligatures
+* font-variant-caps
+* font-variant-numeric
+* font-variant-alternates
+* font-variant-east-asian
+
+例如（选个较为简单的），`<common-lig-values>` 出自 font-variant-ligatures 属性，取 common-ligatures 或 no-common-ligatures。`<numeric-fraction-values>` 出自 font-variant-numeric 属性，取 diagonal-fractions 或 stacked-fractions。其他值参见各属性的规范。
+
+字体变形丰富多样，但是能不能用取决于两个因素：浏览器支持和字体支持。前者情况简单，截至 2017 年年末，字体变形还没有得到浏览器的广泛支持。当然，你可以使用 css2.1 定义的值，不过 level 3 新增的值中多数只被 gecko 和 webkit 支持。
+
+第二个因素说简单也简单，说复杂又复杂：不是每个字体都支持每一种变形。例如，多数拉丁字体不支持东亚字体的变形。又如，不是每一个字体都支持数字变形和连字。为了找出字体的支持情况，要阅读文档。没有文档的话，只能大量做测试（多数收费字体有文档，多数免费字体则没有）。
+
+>这里没有介绍各个 font-variant-* 属性，原因是截至 2017 年年末，浏览器对它们还没有提供较好的支持。详情参见 http://w3.org/TR/css3-fonts/。
+
+<br>
+
+## 2. font-variant 描述符
+
+font-variant 描述符通过一个空格分隔的列表指定字型的哪些变体可以使用，哪些不能使用。例如，可以像下面这样启用常见的连字、小号大写字母和带贯穿线的零：
+
+```css
+font-variant: common-ligatures small-caps slashed-zero;
+```
+
+现在，不难看出，font-variant 描述符的值可以是 font-variant 属性允许的取值中除了 inherit 关键字之外的任何值。
+
+注意，这个描述符与前面讲过的其他描述符有个明显的区别。以 font-stretch 描述符为例，你可以把特定的字型指定给特定的 font-stretch 属性值。而 font-variant 描述符在 @font-face 规则中指定允许使用的变形轻易覆盖属性中指定的字体变形。在下述示例总，即便 SwitzeraADF 有 diagonal-fractions 或 small-caps 变形，段落也不会使用它们显示：
+
+```css
+@font-face {
+    font-family: "SwitzeraADF";
+    font-weight: normal;
+    src: url("SwitzeraADF-Regular.otf") format("opentype");
+    font-variant: stacked-fractions titling-caps slashed-zero;
+}
+
+p {
+    font: small-caps 1em SwitzeraADF, sans-serif;
+    font-variant-numeric: diagonal-fractions;
+}
+```
+
+<br>
+
+# 9. 字体特性
+
+与 font-variant 类似，font-feature-settings 属性从低层控制 opentype 字体的哪些特性可以使用（因此，不能用在 .woff 文件上）。
+
+```css
+font-feature-settings
+
+取值：normal | <feature-tag-value>#
+初始值：normal
+备注：有对应的 @font-face 描述符（见下文）
+```
+
+这个属性的值可以是 opentype 规范定义的一个或多个特性（以逗号分隔）。例如，若想启用常用的连字、小号大写字母和带贯穿线的零，可以这样做：
+
+```css
+font-feature-settings: "liga" on, "smcp" on, "zero" on;
+```
+
+`<feature-tag-value>` 值的具体格式为：
+
+`<feature-tag-value>`
+
+​	`<string>` [ `<integer>` | on | off ]?
+
+多数特性的值是整数 0 和 1，相当于 off 和 on（反过来用也行）。不过，有些特性的值可以是其他数，大于 1 时既表示启用特性，也用于定义选择的索引/如果列出了某个特性，但是没有提供数字，假定为 1（启用）。因此，下述规则都是等效的：
+
+```css
+font-feature-settings: "liga"; /* 假定为 1 */
+font-feature-settings: "liga" 1; /* 明确声明为 1 */
+font-feature-settings: "liga" on; /* on = 1 */
+```
+
+注意，所有 `<string>` 值都必须放在引号里。因此，下述规则总的第一个特性有效，而第二个讲被忽略：
+
+```css
+font-feature-settings: "liga", dlig; /* 启用常用的连字，想启用自由连字，但是忘了引号 */
+```
+
+另一个限制是，opentype 要求所有特性标签都是四个 ASCII 字符长。比这长或短，以及使用非 ASCII 字符的特性是无效的，将被忽略（通常无需担心，除非使用的字体没有遵守命名规则，自己编造了特性名称）。
+
+默认情况下，opentype 字体都启用了下述特性，除非创作人员通过 font-feature-settings 或 font-variant 明确禁用了：
+
+calt
+
+​	根据上下文替换。
+
+ccmp
+
+​	组合字符。
+
+clig
+
+​	根据上下文连字。
+
+liga
+
+​	标准连字。
+
+locl
+
+​	本地化形式。
+
+mark
+
+​	基本定位标记。
+
+mkmk
+
+​	标记定位标记。
+
+rlig
+
+​	必要的连字。
+
+此外，特定的字体可能还会默认启用其他特性，例如启用竖排文本的 vert。
+
+>全部 opentype 特性名称参见 microsoft.com/typography/otspec/featurelist.htm。
+
+<br>
+
+### font-feature-settings 描述符
+
+font-feature-settings 描述符指定 opentype 字型的哪些特性可以使用，哪些不能使用，多个特性以逗号分隔。
+
+慢着，这跟几段之前介绍的 font-variant 难道不是基本一样？其实，的确如此。font-variant 描述符几乎涵盖 font-feature-settings 的一切功能，外加一些其他作用。font-variant 更符合 css 的风格，使用的值不是晦涩的 opentype 标识符和布尔值。鉴于此，css 规范明确建议创作人员使用 font-variant，只在想要的字体特性不在 font-variant 的取值范围内时才使用 font-feature-settings。
+
+注意，这个描述符只是把特性提供出来（或者禁止使用），并不在显示文本时真正启用（参见讲解 font-feature-settings 属性的那一节）。
+
+与 font-variant 描述符类似，font-feature-settings 描述符的作用是定义 @font-face 规则中所声明的字型允许使用哪些字体特性。例如，对下述规则来说，段落不会使用另一种小数形式或小号大写字母显示，即使 switzeraADF 提供了这些特性也不行：
+
+```css
+@font-face {
+    font-family: "SwtizeraADF";
+    font-weight: normal;
+    src: url("SwitzeraADF-Regular.otf") format("opentype");
+    font-feature-settings: "afrc" off, "smcp" off;
+}
+
+p {
+    font: 1em SwitzeraADF, sans-serif;
+    font-feature-settings: "afrc", "smcp";
+}
+```
+
+同前，font-feature-settings 描述符的值可以是 font-feature-settings 属性允许取的值中除了 inherit 之外的其他任何值。
+
+<br>
+
+# 10. 字体合成
+
+有时，指定的字体族中可能缺少某种字型，例如粗体或斜体。此时，用户代理可能会尝试使用可用的字型合成所需的字型，不过这样得到的效果不是特别好。为了解决这个问题，css 提供了 font-synthesis 属性，让创作人员控制合成哪种字型，或者在渲染页面时禁止合成。
+
+```css
+font-synthesis
+
+取值：none | weight || style
+初始值：weight style
+适用于：所有元素
+继承性：是
+动画性：否
+```
+
+在很多用户代理中，如果字体族中没有粗体，用户代理会自行计算，生成粗体。例如，生成的方法可能是在各字形的两侧增加像素。这样做看起来便利了，不过实现的效果可能无法让人满意。鉴于此，很多字体族都自带了粗体，因为字体设计人员想确保粗体的显示效果。
+
+类似地，如果字体族中缺少斜体，用户代理会直接倾斜常规字型，合成斜体。这比合成粗体的效果还差，尤其是对衬线字体而言。下图对比了 georgia 的合成斜体（称为倾斜体）和 georgia 自带的斜体。
+
+在支持的用户代理中，font-symtheses: none 表明将阻止用户代理在对应的元素上做这种合成。例如，如果想禁止整个文档都这么做，可以使用 html { font-synthesis: none }。这么做的缺点是，尝试使用不带相应字型的字体族显示加粗或倾斜的文本时，文本不会加粗或倾斜。不过也有好处，我们无须担心用户代理合成效果不理想的变体。
+
+>截至 2017 年年末，只有 firefox 支持 font-synthesis 属性。
+
+<br>
+
+# 11. font 属性
+
+字体相关的这些属性都具有强大的功能，不过一个一个写也是相当烦琐：
+
+```css
+h1 {
+    font-family: verdana, helvetica, arial, sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    font-style: italic;
+    font-variant: small-caps;
+}
+
+h2 {
+    font-family: verdana, helvetica, airal, sans-erif;
+    font-size: 24px;
+    font-weight: bold;
+    font-style: italic;
+    font-variant: normal;
+}
+```
+
+有些问题可以通过群组选择符解决，但是如果能把各属性合并到一起，那岂不是更好？font 就是这样的属性，它把所有字体相关的属性（外加一些其他属性）合写在一起。
+
+```css
+font
+
+取值：[[ <font-style> || [ normal | small-caps ] || <font-weight> ]? <font-size> [/ <line-height> ]<font-family>] | caption | icon | menu | message-box | small-caption | status-bar
+初始值：参见各单独属性
+适用于：所有元素
+百分数：<font-size> 基于父元素计算，<line-height> 基于当前元素的 <font-size> 计算
+计算值：参见各单独属性（font-style 等）
+继承性：是
+动画性：参见各单独属性
+```
+
+一般来说，font 声明可以使用所列属性允许的任何一个值，或者是系统字体值（参见 5.11.3 节）。因此，本节开头的示例可以简写为（效果相同，如下图所示）：
+
+```css
+h1 {
+    font: italic 900 small-caps 30px verdana, helvetica, arial, sans-serif;
+}
+
+h2 {
+    font: bold normal italic 24px verdana, helvetica, arial, sans-serif;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E5%85%B8%E5%9E%8B%E7%9A%84%20font%20%E8%A7%84%E5%88%99.png)
+
+我说的是可以简写成那样，因为除此之外还有其他写法，这得益于 font 属性相对宽松的写法。仔细看前例，你会发现前三个值的顺序不一样。在 h1 规则中，前三个值分别针对 font-style、font-weight 和 font-variant。而在第二个规则中，顺序变成了随意排列。此外，如果其中某个属性的值是 normal，甚至不用写出。因此，下述规则与前例是等效的：
+
+```css
+h1 {
+    font: italic 900 small-caps 30px verdana, helvetica, arial, sans-serif;
+}
+
+h2 {
+    font: bold italic 24px verdana, helvetica, arial, sans-serif;
+}
+```
+
+这里，h2 规则的 normal 值省略了，但是效果仍与前例完全一样。
+
+然而，要注意的是，只有 font 属性的前三个值有这种自由。后两个值的顺序要严格得多。注意，后两个值不仅必须是 font-size 和 font-family 这种顺序，而且必须出现在 font 声明中。哪怕少一个，整个规则都是无效的，很有可能会被用户代理彻底忽略。因此，下述规则得到的结果如下图所示：
+
+```css
+h1 {
+    font: normal normal italic 30px sans-serif; /* 没问题 */
+}
+
+h2 {
+    font: 1.5em sans-serif; /* 也没问题，省略的值默认为 normal */
+}
+
+h3 {
+    font: sans-serif; /* 无效：没有提供 font-size */
+}
+
+h4 {
+    font: lighter 14px; /* 无效：没有提供 font-family */
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E5%BF%85%E9%A1%BB%E6%8F%90%E4%BE%9B%E5%AD%97%E5%8F%B7%E5%92%8C%E5%AD%97%E4%BD%93%E6%97%8F.png)
+
+<br>
+
+## 1. 加入行高
+
+目前，我们只认为 font 属性能设五个值，但这并不正确。通过 font 属性还能设定 line-height 属性的值，尽管 line-height 是文本属性（本章不做介绍），而不是字体属性。设定的方法算是在 font-size 中增加一个值，以正斜线（/）分隔：
+
+```css
+body {
+    font-size: 12px;
+}
+
+h2 {
+    font: bold italic 200%/1.2 verdana, helvatica, arial, sans-serif;
+}
+```
+
+这两个规则把所有 h2 元素设为粗斜体（使用某个无衬线字体族），把 font-size 设为 24px（body 的两倍），并把 line-height 设为 28.8px，结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E5%8A%A0%E5%85%A5%E8%A1%8C%E9%AB%98.png)
+
+与 font 属性的前三个值一样，增不增加 line-height 值完全是可选的。如果加入 line-height，记住，font-size 始终在 line-height 前面，不能反过来，而且两个值之间要以斜线分隔。
+
+你可能觉得我啰嗦，但是 css 编写人员最常犯这样的错误，因此我不得不强调：font 属性必须的两个值是 font-size 和 font-family，而且必须以这样的顺序编写，其他值都是可选的。
+
+<br>
+
+## 2. 正确使用简写
+
+注意，font 是一个简写属性，如果使用不当，可能导致意想不到的后果。以下述规则为例，得到的结果如下图所示。
+
+```css
+h1, h2, h3 {
+    font: italic small-caps 250% sans-serif;
+}
+
+h2 {
+    font: 200% sans-serif;
+}
+
+h3 {
+    font-size: 150%;
+}
+```
+
+```html
+<h1>This is an h1 element</h1>
+<h2>This is an h2 element</h2>
+<h3>This is an h3 element</h3>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC5%E7%AB%A0%EF%BC%9A%E5%AD%97%E4%BD%93/%E4%B8%8D%E5%90%8C%E7%9A%84%E7%AE%80%E5%86%99%E6%96%B9%E5%BC%8F%E5%BE%97%E5%88%B0%E7%9A%84%E7%BB%93%E6%9E%9C.png)
+
+注意到了吗？h2 元素既不是斜体，也没有使用小号大写字母，而且没有一个元素是加粗的？这是正确的行为。使用 font 属性时，省略的值都将重设为默认值。因此，前例可以改写成这样，但是结果不变：
+
+```css
+h1, h2, h3 {
+    font: italic normal small-caps 250% sans-serif;
+}
+
+h2 {
+    font: normal normal normal 200% sans-serif;
+}
+
+h3 {
+    font-size: 150%;
+}
+```
+
+这里，h2 元素的字形和变体都是 normal，而且三个元素的字重也都是 normal。这是简写时的预期行为。h3 的情况与 h2 不同，因为它用的是 font-size，二者不是简写属性，所以只对自己的值有影响。
+
+<br>
+
+## 3. 使用系统字体
+
+如果想让网页与用户的操作系统融为一体，可以在 font 声明中使用系统字体值。这样设定之后，元素上应用的是操作系统中控件的字号、字体族、字重、字形和变形。可用的系统字体值如下。
+
+caption
+
+​	用于说明文字的控件，如按钮。
+
+icon
+
+​	标注图标。
+
+menu
+
+​	在菜单中使用，即下拉菜单和菜单列表。
+
+message-box
+
+​	在对话框中使用。
+
+small-caption
+
+​	用于标注小型控件。
+
+status-bar
+
+​	用在窗口的状态栏中。
+
+例如，你可能想把按钮的字体设成与操作系统中的按钮一样，比如说：
+
+```css
+button {
+    font: caption;
+}
+```
+
+使用这些值可以让 web 应用看起来像用户操作系统的原生应用一样。
+
+注意，系统字体或许只能作为一个整体设置，即字体族、字号、字重、字形等必须一起设置。因此，前例中的按钮文本看起来与操作系统中按钮的文本将是一模一样的，而不管按钮上的文本与周围的文本协不协调。不过，设定系统字体之后可以调整单个属性的值。例如，下述规则确保按钮的字号与父元素一样：
+
+```css
+button {
+    font: caption;
+    font-size: 1em;
+}
+```
+
+如果调用的系统字体在用户的设备中不存在，用户代理可能会尝试模拟，例如减少 caption 字体的字号，得到 small-caption 字体。如果做不到这一点，用户代理应该使用默认字体。如果能找到指定的系统字体，但是无法读取全部值，用户代理应该使用默认值。例如，用户代理或许能找到 status-bar 字体，但是不知道是不是小号大写字母字型。此时，用户代理将把 font-variant 属性的值设为 normal。
+
+<br>
+
+# 12. 字体匹配机制
+
+可以看出，通过 css 能选择字体族、字重合变体。这背后蕴藏着字体匹配机制，这是一个非常复杂的过程，而且让人捉摸不透。创作人员一定要理解这个机制，从而让用户代理选择合适的字体显示文档。笔者把这个机制放在本章最后，是因为不是人人都需要了解字体相关的属性背后的运作方式，有些读者或许会跳过这一节。如果你感兴趣，下面就来说一说字体匹配的过程：
+
+1. 用户代理创建或访问字体属性数据库。这个数据库中有用户代理能访问的全部字体的各个 css 属性。通常，设备中的所有字体都在这里，不过可能还有其他字体（例如，用户代理可能内置了字体）。如果用户代理遇到两个一样的字体，将忽略其中一个。
+2. 用户代理把应用了字体属性的元素摘出来，构建显示元素所需的字体属性列表。首先，用户代理根据这个列表选择使用哪个字体族显示元素。如果能找到完全匹配的字体，用户代理就使用那个字体。否则，还要做些额外的工作。
+3. 匹配字体时先看 font-stretch 属性。
+4. 然后再看 font-style 属性。任何以 italic 或 oblique 标识的字体都能匹配 italic 关键字。如果没有这样的字体，匹配失败。
+5. 接下来匹配 font-weight，鉴于 css 对 font-weight 的处理方式（参见 5.3.1 节），这一匹配绝不会失败。
+6. 然后处理 font-size。匹配字号时要有一定容差，不过这个容差由用户代理定义。因此，指定的字号合实际使用的字号再一个用户代理中可能允许存在 20% 的容差，而在另一个用户代理中可能只允许 10% 的容差。
+7. 如果第 2 步没有找到匹配的字体，用户代理在同一个字体族中选择替代字体。找到后，回到第 2 步。
+8. 假设找到一个匹配的字体，但是字体没有显示元素所需的全部信息，比如字体缺少版权符号，那么用户代理将回到第 3 步，搜索替代字体，然后再执行第 2 步。
+9. 最后，如果找不到匹配的字体，而且所有替代字体都试过了，用户代理将选择指定字体族中的默认字体，力争正确显示元素。
+
+此外，用户代理处理字体变形和特性的方式如下：
+
+1. 查看默认启用的字体特性，包括指定文本所需的特性。默认启用的特性有 calt ccmp clig liga locl mark mkmk 和 rlig。
+2. 如果是 @font-face 规则定义的字体，检查 @font-face 规则中 font-feature-settings 描述符对应的特性。
+3. 检查由 font-variant 或 font-feature-settings 之外的属性确定的特性设置（例如，把 letter-spacing 属性设为默认值之外的值时将禁用连字）。
+4. 检查 font-variant 属性及其子属性（例如 font-variant-ligatures），以及其他可能会调用 opentype 特性的属性（例如 font-kerning）的值对应的特性。
+5. 检查 font-feature-settings 属性的值对应的特性。
+
+整个过程很长，也很麻烦，不过从中可以窥见用户代理是如何选择字体的。例如，你可能指定文档使用 times 或其他衬线字体：
+
+```css
+body {
+    font-family: Times, serif;
+}
+```
+
+渲染各元素时，用户代理会检查 times 提供的字符与元素中的字符是否匹配。多数情况都能找到匹配的字符，但是假设某一段中有个汉字，此时 times 中就没有匹配的字符了，用户代理要么绕过汉字，要么寻找能满足显示需求的其他字体。西文字体极有可能不含汉字，但是假设有个字体有（就叫它 asiatimes 吧），那么用户代理就可以使用它显示那个元素，或者只用于显示那个汉字。因此，整个段落都可能使用 asiatimes，或者段落总除了汉字之外的文本使用 times，而那个汉字使用 asiatimes 显示。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
