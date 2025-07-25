@@ -1285,7 +1285,348 @@ box-decoration-break 属性最常用于行内框，不过只要存在换行的�
 
 也就是说，行内非置换元素的绘制区由用户代理确定。如果用户代理把字体框的高度当作内容区的高度，那么行内非置换元素的背景高度等于字体框的高度（即 font-size 的值）。如果用户代理使用字体的最大上伸和下沿值，那么背景的高度可能比字体框高或矮。此时，如果把行内非置换元素的行高设为 1em，背景依然会与其他重叠。
 
+<br>
 
+## 5. 行内置换元素
+
+行内置换元素（例如图像）自身是高度和宽度的。例如，一张图像有确定的高度和宽度值。因此，自身有高度的置换元素可能导致行框比正常情况下高。但这不影响行中任何元素的行高，包括置换元素自身。行框的高度将正好容纳置换元素及其盒模型属性设定的值。也就是说，置换元素的行内框包含整个元素，包括内容、外边距、边框和内边距。下述规则就是这种情况，结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC7%E7%AB%A0%EF%BC%9A%E8%A7%86%E8%A7%89%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%9F%BA%E7%A1%80/%E7%BD%AE%E6%8D%A2%E5%85%83%E7%B4%A0%E5%8F%AF%E8%83%BD%E5%A2%9E%E5%8A%A0%E8%A1%8C%E6%A1%86%E7%9A%84%E9%AB%98%E5%BA%A6%EF%BC%8C%E4%BD%86%E5%AF%B9%20line-height%20%E7%9A%84%E5%80%BC%E6%B2%A1%E6%9C%89%E5%BD%B1%E5%93%8D.png)
+
+```css
+p {
+    font-size: 15px;
+    line-height: 18px;
+}
+
+img {
+    height: 30px;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+```
+
+尽管多出了一些空白，但是 line-height 的值并没有变，段落和图像自身都是如此。line-height 对图像的行内框没有影响。上图中的图像没有内边距、外边距和边框，所以它的行内框的高度内容区相等，即 30 像素。
+
+尽管如此，行内置换元素的 line-height 属性仍有值。这是为什么？因为纵向对齐时有这个值才能正确定位元素的位置。例如，vertical-align 属性的百分数值就是相对元素的 line-height 计算的。
+
+```css
+p {
+    font-size: 15px;
+    line-height: 18px;
+}
+
+img {
+    vertical-align: 50%;
+}
+```
+
+```html
+<p>the image in this sentence <img src="test.gif" alt="test image"> will be raised 9 pixels.</p>
+```
+
+在这个示例中，图像继承的 line-height 值导致图像向上抬升 9 像素。可见，如果 line-height 没有值，那就不能把纵向对齐的值设为百分数了。在纵向对齐中，图像自身的高度没有任何意义，一切都由 line-height 的值决定。
+
+然而，其他置换元素可能需要设定 line-height 值，让后代元素继承。svg 图像就是这样，因为图中的文本通过 css 装饰。
+
+<br>
+
+### 加上盒模型属性
+
+有前面的知识打底，在行内置换元素上应用外边距、边框和内边距的行为就好理解了。
+
+应用在置换元素上的内边距和边框之前一样，内边距在内容四周添加空白，边框围绕字内边距四周。但也有与之之前不一样的地方：内边距和边框会影响行狂的高度，因为它们是行内置换元素行内框的一部分（这一点与非置换元素不同）。下图中的结果由下述样式得到：
+
+```css
+img {
+    height: 50px;
+    width: 50px;
+}
+
+img.one {
+    margin: 0;
+    padding: 0;
+    border: 3px dotted;
+}
+
+img.two {
+    margin: 10px;
+    padding: 10px;
+    border: 3px solid;
+}
+```
+
+注意，第一行的行框高度足够容纳图像，而第二行的行框高度足够容纳图像及其内边距和边框。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC7%E7%AB%A0%EF%BC%9A%E8%A7%86%E8%A7%89%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%9F%BA%E7%A1%80/%E8%A1%8C%E5%86%85%E7%BD%AE%E6%8D%A2%E5%85%83%E7%B4%A0%E7%9A%84%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D%E4%BC%9A%E5%A2%9E%E5%8A%A0%E8%A1%8C%E5%86%85%E6%A1%86%E7%9A%84%E9%AB%98%E5%BA%A6.png)
+
+外边距也在行框中，但它自身也有问题要面对。正外边距没什么可讲的，就是增加置换元素行内框的高度。与之相反，负外边距减少置换元素行内框的高度。如下图所示，负的上外边距把图像上面那行向下拉了一点：
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC7%E7%AB%A0%EF%BC%9A%E8%A7%86%E8%A7%89%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%9F%BA%E7%A1%80/%E8%A1%8C%E5%86%85%E7%BD%AE%E6%8D%A2%E5%85%83%E7%B4%A0%E4%B8%8A%E8%B4%9F%E5%A4%96%E8%BE%B9%E8%B7%9D%E7%9A%84%E6%95%88%E6%9E%9C.png)
+
+```css
+img.two {
+    margin-top: -10px;
+}
+```
+
+显然，块级元素上的负外边距也是这种效果。这里，负外边距导致置换元素行内框的高度比常规情况下矮。只有通过负外边距才能让行内置换元素叠加到其他行上，正是因为这样，行内置换元素生成的行内框才假定为行内块。
+
+<br>
+
+### 置换元素与基线
+
+通过前面的示例你可能注意到了，行内置换元素默认与基线对齐。如果为置换元素设定下内边距、外边距或边框，那么内容将上移（假设 box-sizing: content-box）。置换元素自身没有基线，退而求其次，把置换元素的行内框底边与基线对齐。因此，与基线对齐的其实是外边距的边界，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC7%E7%AB%A0%EF%BC%9A%E8%A7%86%E8%A7%89%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%9F%BA%E7%A1%80/%E8%A1%8C%E5%86%85%E7%BD%AE%E6%8D%A2%E5%85%83%E7%B4%A0%E4%B8%8E%E5%9F%BA%E7%BA%BF%E5%AF%B9%E9%BD%90.png)
+
+这种对齐方式有个意想不到（而且不受待见）的后果：只有图像的单元格，其高度要足够容纳图像所在的行框。即使单元格中没有文本，甚至没有空白，单元格中的图像还是会被调整尺寸。因此，以往常用的图像分割和空白填充图设计在现代的浏览器中显示的效果将惨不忍睹（我知道你已经告别那个时代，但是借此说明这一行为还是不错的）。下面是最简单的情况：
+
+```css
+td {
+    font-size: 12px;
+}
+```
+
+```html
+<td><img src="spacer.gif" height="1" width="10"></td>
+```
+
+根据 css 行内格式化模型，这个单元格的高度为 12 像素，其中的图像与单元格的基线对齐。因此，图像下部可能有 3 像素空白，图像上部可能有 8 像素空白。不过，具体的空白量取决于所用的字体族和基线的位置。
+
+这种行为并不局限于单元格中的图像，只有行内置换元素是块级元素或单元格元素的唯一后代，就会发生。例如，div 元素中的图像也与基线对齐。
+
+这种情况最常用的解决方法是把单元格中的图像设为块级元素，不让它生成行内框。例如：
+
+```css
+td {
+    font-size: 12px;
+}
+
+img.block {
+    display: block;
+}
+```
+
+```html
+<td><img src="spacer.gif" height="1" width="10" class="block"></td>
+```
+
+另一种方法是把图像所在的单元格的 font-size 和 line-height 都设为 1px，让行框的高度等于单元格中 1 像素高的图像。
+
+与基线对齐的行内置换元素还有一个有趣的效果：如果把下外边距设为负值，元素将下移，因此此时行内框的底边比内容区的底边高。因此，下述规则将得到如下图所示的结果：
+
+```css
+p img {
+    margin-bottom: -10px;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC7%E7%AB%A0%EF%BC%9A%E8%A7%86%E8%A7%89%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%9F%BA%E7%A1%80/%E4%B8%8B%E5%A4%96%E8%BE%B9%E8%B7%9D%E4%B8%BA%E8%B4%9F%E5%80%BC%E6%97%B6%E7%BD%AE%E6%8D%A2%E5%85%83%E7%B4%A0%E4%B8%8B%E7%A7%BB.png)
+
+从上图中可以看出，这样很容易导致置换元素与下一行重叠。
+
+>行内格式化模型的历史溯源
+>
+>css 行内格式化模型有点过于复杂，让人捉摸不透，有时甚至与创作人员的预期相违。之所以变成这个样子，是因为在制定 css 规范时要考虑向后兼容性，兼顾那些在 css 之前就已存在的 web 浏览器，而且还要为将来的发展留有余地。这门演示语言参杂着过去与现在。此外还有一个原因：为了避免不良后果而作的合理决策，可能会导致其他不良后果。
+>
+>例如，有图像和纵向对齐的文本行会散开，究其原因，这要归结于 mosaic 1.0 的做法：留出足够的空间容纳图像。这种做法很好，因为可以避免图像与其他行中的文本重叠。所以，为 css 制作文本和行内元素的样式化方法时，规范起草人员竭尽全力想创建一个（默认情况下）不会导致行内图像与其他文本行重叠的模型。然而，这样的模型也存在一些问题，例如上标元素（sup）会导致行之间的距离变大。
+>
+>这种效果使一些创作人员很恼火，他们希望基线之间的距离是固定不变的。不过，这又会导致一系列问题。如果通过 line-height 让基线之间的距离固定不变，行内置换元素和纵向位置有变动的元素就会与其他行的文本重叠，这也会让创作人员不满意。幸运的是，css 总是为了你想要的效果提供了某种实现方式，而且 css 还在发展，未来潜力无限。
+
+<br>
+
+## 6. 行内块级元素
+
+inline-block 这个值从字面上看是两个词的结合，其意义也是如此，是块级元素和行内元素的混合产物。这种显示方式在 css2.1 中引入。
+
+行内块级元素与其他元素和内容的关系按照行内框处理。也就是说，它在一行中的布局方式跟图像一样。实际上，行内块级元素是当做置换元素进行格式化的。这意味着，行内块级元素的底边默认是与文本行的基线是对齐的，而且内部不会断行。
+
+行内块级元素中的内容视作块级元素进行格式化。width 和 height 属性可以应用到行内块级元素上（box-sizing 属性也可以），因为这些属性都可以应用到块级元素或行内置换元素上，而且如果行内块级元素比周围的内容高，行的高度也会随之增加。
+
+下面通过实例说明：
+
+```html
+<div id="one">
+This text is the content of a block-level level element. Within this
+block-level element is another block-level element. <p>Look, it's a block-level
+paragraph.</p> Here's the rest of the DIV, which is still block-level.
+</div>
+<div id="two">
+This text is the content of a block-level level element. Within this
+block-level element is an inline element. <p>Look, it's an inline
+paragraph.</p> Here's the rest of the DIV, which is still block-level.
+</div>
+<div id="three">
+This text is the content of a block-level level element. Within this
+block-level element is an inline-block element. <p>Look, it's an inline-block
+paragraph.</p> Here's the rest of the DIV, which is still block-level.
+</div>
+```
+
+我们把下述规则应用到这段标记上：
+
+```css
+div {
+    margin: 1em 0;
+    border: 1px solid;
+}
+
+p {
+    border: 1px dotted;
+}
+
+div#one p {
+    display: block;
+    width: 6em;
+    text-align: center;
+}
+
+div#two p {
+    display: inline;
+    width: 6em;
+    text-align: center;
+}
+
+div#three p {
+    display: inline-block;
+    width: 6em;
+    text-align: center;
+}
+```
+
+得到的结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC7%E7%AB%A0%EF%BC%9A%E8%A7%86%E8%A7%89%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%9F%BA%E7%A1%80/%E8%A1%8C%E5%86%85%E5%9D%97%E7%BA%A7%E5%85%83%E7%B4%A0%E7%9A%84%E8%A1%8C%E4%B8%BA.png)
+
+注意，第二个 div 元素中的行内段落按照常规的行内内容进行格式化，因此 width 和 text-align 将被忽略（因为这两个属性不能应用到行内元素上）。而在第三个 div 元素中，行内块级段落将应用那两个属性，因为这个段落是按照行内块级元素进行格式化的。这个段落有外边距，从而导致文本行变高，这是因为它相当于置换元素。
+
+如果没有为行内块级元素设定 width，或者显式声明为 auto，那么元素框将根据内容自行调整宽度，即元素框的宽度恰好能容纳其中的内容，不宽不窄。行内框也是如此，不过可以断成多行，而行内块级元素则不断行。因此，如果把下述规则应用到上述标记上：
+
+```css
+div#three p {
+    display: inline-block;
+    height: 4em;
+}
+```
+
+那么得到的元素框宽度将恰好容纳其中的内容，而且高度更大，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC7%E7%AB%A0%EF%BC%9A%E8%A7%86%E8%A7%89%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%9F%BA%E7%A1%80/%E8%87%AA%E5%8A%A8%E8%B0%83%E6%95%B4%E8%A1%8C%E5%86%85%E5%9D%97%E7%BA%A7%E5%85%83%E7%B4%A0%E7%9A%84%E5%B0%BA%E5%AF%B8.png)
+
+行内块级元素有很多用途，例如在工具栏中放置 5 个宽度相等的超链接。如果想让每个链接占父元素宽度的 20%，而且都放在一行内，可以声明下述规则：
+
+```css
+nav a {
+    display: inline-block;
+    width: 20%;
+}
+```
+
+>弹性盒布局也能实现这种效果，而且多数情况下可能更合适。
+
+<br>
+
+## 7. 流动显示方式
+
+flow 和 flow-root 需要单独说明。声明为 display: flow 的元素常规情况下使用块级布局，如果再加上 inline，则生成行内框。
+
+对下述规则来说，前两个得到的是块级框，而第三个得到的是行内框。
+
+```css
+#first {
+    display: flow;
+}
+
+#second {
+    display: block flow;
+}
+
+#third {
+    display: inline flow;
+}
+```
+
+出现这种形式的原因是，css 正在向一种新布局系统发展，在这个系统中有两种显示类型：外部显示类型和内部显示类型。block 和 inline 等关键字表示外部显示类型，指明显示框与周围元素的关系。flow 关键字表示内部显示类型，指明元素内部的布局情况。
+
+利用这种形式可以声明 display: inline table 这样的规则，指明元素内部按照表格布局，而处理与周围内容的关系时则作为行内元素（以前的 inline-table 值具有同等效果）。
+
+display: flow-root 有所不同，它始终生成块级框，而且内部会生成新的块级格式化上下文。这个值可以应用到文档的根元素上，例如 html，其作用是指明这是格式化的根基所在。
+
+你可能熟悉的那些 display 属性的旧值依然可用。下表列出了旧值与新值的对应关系。
+
+| 旧值             | 新值                  |
+| ---------------- | --------------------- |
+| block            | block flow            |
+| inline           | inline flow           |
+| inline-block     | inline flow-root      |
+| list-item        | list-item block flow  |
+| inline-list-item | list-item inline flow |
+| table            | block table           |
+| inline-table     | inline table          |
+| flex             | block flex            |
+| inline-flex      | inline flex           |
+| grid             | block grid            |
+| inline-grid      | inline grid           |
+
+>截至 2017 年年末，只有 firefox 和 chrome 支持 flow 和 flow-root，其他浏览器都不支持。
+
+<br>
+
+## 8. contents 显示方式
+
+display 还新增了一个稍带魔法的值，contents。把 display: contents 应用到元素上之后，那个元素不再参与页面的格式化，相当于把它的子元素提升到当前的层级。以下述简单的 css 和 html 为例：
+
+```css
+ul {
+    border: 1px solid red;
+}
+
+li {
+    border: 1px solid silver;
+}
+```
+
+```html
+<ul>
+    <li>The first list item.</li>
+    <li>List Item LI: The Listening.</li>
+    <li>List Item the third.</li>
+</ul>
+```
+
+得到的无序列表将有一个红色边框，而且三个列表元素都有银色边框。
+
+如果把 display: contents 应用到 ul 元素上，用户代理会按照文档中没有 `<ul>` 和 `</ul>` 那两行进行渲染。正常情况和使用 contents 显示方式得到的结果对比如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC7%E7%AB%A0%EF%BC%9A%E8%A7%86%E8%A7%89%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%9F%BA%E7%A1%80/%E5%B8%B8%E8%A7%84%E7%9A%84%E6%97%A0%E5%BA%8F%E5%88%97%E8%A1%A8%E5%92%8C%E5%BA%94%E7%94%A8%E4%BA%86%20display%20contents%20%E7%9A%84%E6%97%A0%E5%BA%8F%E5%88%97%E8%A1%A8.png)
+
+现在，列表元素还是列表元素，而且表现也像列表元素，但是 ul 没有了，就像从未出现过一样。注意，不仅边框不见了，通常出现在列表内容四周的上下外边距也没了。正因为如此，上图中的第二个列表才显得比第一个列表的位置高。
+
+>截至 2017 年年末，只有 firefox 支持 display: contents。chrome、blink 系列浏览器目前正在实现。
+
+<br>
+
+## 9. display 的其他值
+
+display 还有很多值，本章不再讨论。与表格相关的各值在后面讲解表格布局的章节讨论，列表项目在讨论计数器和生成的内容时还会谈及。
+
+与旁注（ruby）相关的值本书完全不涉及，因为讲起来一本书也不够，而且截至 2017 年年末支持有限。还有从未流行开的 run-in，本书也不做讨论，这个值肯能会从 css 规范中删除，或者重新定义。
+
+<br>
+
+## 10. 计算值
+
+如果元素是浮动或定位的，其 display 值可能会变。应用到根元素上也可能会变。其实，display、position 和 float 的值之间关系错综复杂。
+
+如果元素是绝对定位的，float 的值为 none。对浮动或绝对定位的元素来说，display 的计算值由声明的值确定，详见下表。
+
+| 声明的值                                                     | 计算值   |
+| ------------------------------------------------------------ | -------- |
+| inline-table                                                 | table    |
+| inline，run-in，table-row-group，table-column，table-column-group，table-header-group，table-footer-group，table-row，table-cell，table-caption，inline-block | block    |
+| 其他值                                                       | 指定的值 |
 
 
 
