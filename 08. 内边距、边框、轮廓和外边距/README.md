@@ -1346,13 +1346,15 @@ border-image-slice 属性在图像上放置 4 条裁剪线，这 4 条线围聚�
 
 下面以一个 3 行 3 列共 9 个圆（各圆的颜色不同）构成的图为例，裁剪后用作边框的图像。使用这个图像得到的边框如下图所示。
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E5%A4%9A%E4%B8%AA%E5%9C%86%E6%9E%84%E6%88%90%E7%9A%84%E8%BE%B9%E6%A1%86%E5%9B%BE%E5%83%8F.png)
-
 ```css
 border: 25px solid;
 border-image-source: url(i/circles.png);
 border-image-slice: 33.33%;
 ```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E5%A4%9A%E4%B8%AA%E5%9C%86%E6%9E%84%E6%88%90%E7%9A%84%E8%BE%B9%E6%A1%86%E5%9B%BE%E5%83%8F.png)
+
+
 
 得到的结果真有趣。注意，各边上的图像有拉伸，这是默认的行为，不过十分合理。详情参见本章后面调整重复方式一节。此外，可以看到，上图中裁剪线正好位于相邻的圆之间，这是因为图中各个圆的尺寸是一样的，所以 1/3 的偏移量正好使裁剪线落在两个圆之间。位于四个角的圆出现在边框的四个角上，而各边上的圆经过拉伸后填满整条边。
 
@@ -1370,13 +1372,13 @@ border-image-slice: 33.33%;
 
 除了百分数之外，偏移还可以使用数字定义。没错，不是长度，而是纯数字。对光栅图像（例如 PNG 或 JPEG）来说，指定的数字对应于图中的像素数。如果想为一个光栅图像定义 25 像素的偏移，可以这么做，结果如下图所示：
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E6%95%B0%E5%AD%97%E5%81%8F%E7%A7%BB%E7%9A%84%E6%95%88%E6%9E%9C.png)
-
 ```css
 border: 25px solid;
 border-image-source: url(i/circles.png);
 border-image-slice: 25;
 ```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E6%95%B0%E5%AD%97%E5%81%8F%E7%A7%BB%E7%9A%84%E6%95%88%E6%9E%9C.png)
 
 是不是又乱了？这个光栅图像的尺寸是 150 ⨉ 150 像素，而我们指定的偏移是 25，即 25 像素。裁剪线在图像上的位置如下图所示。
 
@@ -1388,19 +1390,17 @@ border-image-slice: 25;
 
 下面来分析消失的图像中间部分。在前面的示例中，3 行 3 列的圆形中间那个圆在边框中消失不见了。在上一个示例中，不止中间那个圆不见了，裁剪后的整个中间部分都没有了。这是图像裁剪的默认行为，不过可以在 border-image-slice 属性的末尾添加 fill 关键字覆盖这一行为，如果像下面这样加上 fill 关键字，得到的结果如下图所示。
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E4%BD%BF%E7%94%A8%E5%A1%AB%E5%85%85%E8%A3%81%E5%89%AA%E6%95%88%E6%9E%9C.png)
-
 ```css
 border: 25px solid;
 border-image-souce: url(i/circles.png);
 border-image-slice: 25 fill;
 ```
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E4%BD%BF%E7%94%A8%E5%A1%AB%E5%85%85%E8%A3%81%E5%89%AA%E6%95%88%E6%9E%9C.png)
+
 可以看到，裁剪后的中间部分出现在元素的背景区域。其实，这一部分在元素现有的背景之上绘制，因此可以用它代替现有背景，或者增加到现有背景之上。
 
 你可能注意到了，目前各边的边框宽度是一致的（多数为 25px）。但是，不管边框图像是如何裁剪的。这都不是强制要求。还以前面的边框图像为例，这一次我们裁剪图像的三分之一，而且每一边的宽度各不相同。得到的结果如下图所示。
-
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E8%BE%B9%E6%A1%86%E5%AE%BD%E5%BA%A6%E4%B8%8D%E7%AD%89%E6%97%B6%E7%9A%84%E5%9B%BE%E5%83%8F%E8%BE%B9%E6%A1%86.png)
 
 ```css
 border-style: solid;
@@ -1408,6 +1408,8 @@ border-width: 20px 40px 60px 80px;
 border-image-source: url(i/circles.png);
 border-image-slice: 50;
 ```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E8%BE%B9%E6%A1%86%E5%AE%BD%E5%BA%A6%E4%B8%8D%E7%AD%89%E6%97%B6%E7%9A%84%E5%9B%BE%E5%83%8F%E8%BE%B9%E6%A1%86.png)
 
 虽然我们把裁剪线放在 50 像素处，但是裁剪后的图像受限于边框区域的宽度，尺寸变了。
 
@@ -1444,12 +1446,12 @@ border-image-width: 1em;
 
 因此，上下边框的高度为 1em，左右边框的宽度为 1em，四个角的宽度和高度均为 1em。在这种情况下，由 border-image-slice 确定的边框图像将根据 border-image-repeat（稍后介绍）规定的方式填充限定的边框区域，因此，下述样式得到的结果如下图所示。
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E5%A1%AB%E5%85%85%E8%BE%B9%E6%A1%86%E5%8C%BA%E5%9F%9F.png)
-
 ```css
 border-image-width: 1em;
 border-image-slice: 33.3333%;
 ```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E5%A1%AB%E5%85%85%E8%BE%B9%E6%A1%86%E5%8C%BA%E5%9F%9F.png)
 
 注意，各裁剪区域的尺寸与 border-width 无关。在上图中，即便把 border-width 的值设为零，通过 border-image-width 也能让边框图像无法加载，但是又不让实线跟图像的高度 / 宽度一样宽。
 
@@ -1466,11 +1468,11 @@ border-image-slice: 33.333%;
 
 知道宽度为具体值的裁剪线是如何放置的之后，百分数值就好理解了，不过要注意，百分数偏移是相对边框框的整体尺寸，而不是各边的尺寸。来看下面的声明，裁剪线的位置如下图所示。
 
-![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E4%BD%BF%E7%94%A8%E7%99%BE%E5%88%86%E6%95%B0%E6%8C%87%E5%AE%9A%E5%81%8F%E7%A7%BB%E6%97%B6%E8%A3%81%E5%89%AA%E7%BA%BF%E7%9A%84%E4%BD%8D%E7%BD%AE.png)
-
 ```css
 border-image-width: 33%;
 ```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E4%BD%BF%E7%94%A8%E7%99%BE%E5%88%86%E6%95%B0%E6%8C%87%E5%AE%9A%E5%81%8F%E7%A7%BB%E6%97%B6%E8%A3%81%E5%89%AA%E7%BA%BF%E7%9A%84%E4%BD%8D%E7%BD%AE.png)
 
 与使用长度值一样，裁剪线从边框框向内偏移指定的量。此时，具体的偏移量相对边框框的尺寸计算。不要以为百分数偏移是相对 border-width 定义的边框区域计算的。比如，border-width 的值为 30px 时，border-image-width: 33.333%。结果为 10 像素。这是错的。应该是相对边框框的整体尺寸沿着各轴偏移。
 
@@ -1643,15 +1645,82 @@ border-image
     border-image-outseet: 5px;
     border-image: repeat: space;
 }
+
+.example {
+    border-image: url(eagles.png) 40% 30% 20% fill / 10px 7px / 5px space;
+}
+
+.example {
+    border-image: url(eagles.png) space 40% 30% 20% fill / 10px 7px / 5px;
+}
+
+.example {
+    border-image: space 40% 30% 20% fill / 10px 7px / 5px url(eagles.png);
+}
 ```
 
+显然，简写形式输入的内容少了，但是初看起来，意图并不明显。
 
+与其他简写属性一样，如果省略了某个部分，那一部分将使用默认值。假如只提供了图像来源，那么其他值都将使用默认值。因此，下述两个声明完全等效：
 
+```css
+border-image: url(orbit.svg);
+border-image: url(orbit.svg) stretch 100% / 1 / 0;
+```
 
+<br>
 
+### 几个例子
 
+图像边框不是那么好理解，概念有点抽象。不过我们可以通过示例了解各属性的用法。
 
+首先，我们来看任何实现四角挖空、边线上凸，类似匾额的边框。这个边框将回落为颜色相近的简单外凸边框。我们将使用下述样式和一个图像。边框图像和最终结果，以及回落为简单边框时的结果，如下图所示。
 
+```css
+#plaque {
+    padding: 10px;
+    border: 3px outset goldenrod;
+    background: goldenrod;
+    border-image-source: url(i/plaque.png);
+    border-image-repeat: stretch;
+    border-image-slice: 20 fill;
+    border-image-width: 12px;
+    border-image-outset: 9px;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E7%AE%80%E5%8D%95%E7%9A%84%E5%8C%BE%E9%A2%9D%E6%95%88%E6%9E%9C%E5%92%8C%E6%97%A7%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E5%9B%9E%E8%90%BD%E7%9A%84%E6%95%88%E6%9E%9C.png)
+
+注意，各边上的图像是拉伸的，相当于沿两个方向重复实色。当然，这里也可以用 repeat 或 round 重复方式，不过 stretch 就够了。因为这是默认值，所以完全可以省略 border-image-repeat 声明。
+
+接下来，我们尝试实现海浪效果：浪花沿着各边排开。因为我们事先不知道元素有多宽、有多高，而且想让浪花平滑过渡，所以我们将使用 round 重复方式，利用它缩放行为，而且排列足够数量的浪花。得到的结果，以及所用的图像如下图所示。
+
+```css
+#oceanic {
+    border: 2px solid blue;
+    border-image: url(waves.png) 50 fill / 20px / 10px round;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E6%B3%A2%E6%B5%AA%E6%95%88%E6%9E%9C%E8%BE%B9%E6%A1%86.png)
+
+如果元素有背景，有一点要注意。为了说得清楚些，下面为元素添加红色背景，结果如下图所示。
+
+```css
+#oceanic {
+    background: red;
+    border: 2xp solid blue;
+    border-image: url(waves.png) 50 fill / 20px / 10px round;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E9%80%8F%E8%BF%87%E5%9B%BE%E5%83%8F%E8%BE%B9%E6%A1%86%E7%9C%8B%E5%88%B0%E4%BA%86%E8%83%8C%E6%99%AF%E5%8C%BA%E5%9F%9F.png)
+
+发现没有，透过波浪能看到红色背景？这是因为波浪图像是透明的 PNG 格式，再加上图像裁剪宽度和外推，所以透过透明的部分看到了背景区域。这可是个问题，因为有时除了图像边框还是设定背景色，以防边框图像无法加载。一般来说，这个问题的解决方法有两个，一种是不为后备机制设定背景，另一种是使用 border-image-outset 把图像推远一些，确保背景区域不可见。
+
+通过这些示例可以看出，边框图像可以实现丰富的视觉效果。尽情发挥你的想象力。
+
+<br>
 
 
 
