@@ -1110,6 +1110,541 @@ border-radius
 
 各角的处理方式相同，得到的圆角是对称的，而不是相同的。
 
+为 border-radius 属性提供一个长度值或百分数值，得到的每个圆角形状相同。从句法定义中你可能发现了，与 padding 属性和其他简写属性（如 border-style）一样，最多可以为 border-radius 提供四个值。四个值按顺时针排列，从左上角开始，到左下角结束，如下所示：
+
+```css
+#example {
+    border-radius: 
+        1em /* 左上角 */ 
+        2em /* 右上角 */
+        3em /* 右下角 */
+        4em; /* 左下角 */ 
+}
+```
+
+TL-TR-BR-BL 顺序可以这样辅助记忆：TiLTeR BuRBLe。这里的重点是，指定的值从左上角开始，顺时针旋转。
+
+如果缺少某个值，填充的方式与 padding 等属性一样。如果有三个值，第四个值复制第二个。如果两个值，第三个值复制第一个，第四个值复制第二个。只有一个值的画，其他三个值都复制第一个。因此，下面两个规则的作用一样，得到的结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E5%8D%8A%E5%BE%84%E4%B8%8D%E5%90%8C%E7%9A%84%E5%9C%86%E8%A7%92.png)
+
+```css
+#example {
+    border-radius: 1em 2em 3em 2em;
+}
+
+#example {
+    border-radius: 1em 2em 3em; /* 左下角复制右上角 */
+}
+```
+
+上图中有一处要留意：内容区的背景也出现了圆角。但是银色背景处的圆角却把句号留在外面了。当内容区的背景与内边距区域的背景颜色不同（下一章说梦如何做到这一点），而且圆角半径足够大，囊括了内容和内边距的边界时，就会出现这种情况。
+
+这是因为，虽然 border-radius 会改变元素的边框和背景的绘制方式，但是不会改变元素框的形状。看一下下图中的图解。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E6%9C%89%E5%9C%86%E8%A7%92%E7%9A%84%E5%85%83%E7%B4%A0%E4%BE%9D%E7%84%B6%E6%98%AF%E6%A1%86%E4%BD%93.png)
+
+上图中有个向左浮动的元素，周围的文本围绕它放置。浮动元素的圆角使用 border-radius: 50% 实现，得到了一个完整的圆，不过有些文本从圆角里冒出来了。在圆角外侧能清楚地看到页面的背景，如果没有圆角，那一部分应该与浮动元素的背景色一样。
+
+所以，初看起来，元素的形状好像由方形变成了圆形（严格来说是椭圆形），而文本只是碰巧冒出来了。但是看一下浮动元素旁的文本，并没有流动到圆角留下的区域里。这是因为浮动元素的四角依然在那里，只是因为设定了 border-radius，看不到边框和背景而已。
+
+如果半径太大，覆盖到其他角了？例如，border-radius: 100% 会得到怎样的圆角？或者在肯定没有一万像素高或宽的元素上应用 border-radius: 9999px，结果如何？
+
+此时，每一角处的圆角都会弯曲成最大的半径。如果想让按钮看起来始终像锭剂那样，可以这样做：
+
+```css
+.button {
+    border-radius: 9999em;
+}
+```
+
+这会把元素最短的两边（通常为左右两边，但也不一定）变成半圆形。
+
+<br>
+
+### 复杂的圆角形状
+
+现在，我们已经知道单个圆角是如何处理的。接下来讨论提供两个值的情况，了解此时圆角是如何生成的。
+
+假设我们想让圆角的横向弯曲 3 个字符单位，纵向弯曲 1 个字符单位。我们不能声明 border-radius: 3ch 1ch，因为这个声明的意思是左上角和右下角的圆角半径为 3ch，另外两个角的圆角半径为 1ch。在这两个值之间插入一个斜线就能得到我们想要的效果：
+
+```css
+#example {
+    border-radius: 3ch / 1ch;
+}
+```
+
+这个声明的作用等价于：
+
+```css
+#example {
+    border-radius: 3ch 3ch 3ch 3ch / 1ch 1ch 1ch 1ch;
+}
+```
+
+在这种句法中，斜线前为各圆角的横向半径，斜线后为各圆角的纵向半径。而且斜线前后的两组值都遵守 TiLTeT BuRBLe 顺序。
+
+下述声明得到的结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E6%A4%AD%E5%9C%86%E5%BD%A2%E7%9A%84%E5%9C%86%E8%A7%92.png)
+
+```css
+#example {
+    border-radius: 1em / 2em;
+}
+```
+
+根据前一节的分析，各圆角的横轴圆角半径为 1em，纵轴圆角半径为 2em。
+
+下述示例稍微复杂一些，斜线两侧都有两个长度值，得到的结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E5%90%84%E8%A7%92%E7%9A%84%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%9C%86%E8%A7%92%E4%B8%8D%E5%90%8C.png)
+
+```css
+#example {
+    border-radius: 1em 2em / 2em 3em;
+}
+```
+
+这里，左上角和右下角的圆角在横轴上向内弯曲 1em，在纵轴上向内弯曲 2em。右上角和左下角的圆角在横轴上向内弯曲 2em，在纵轴上向内弯曲 3em。
+
+不要以为斜线左侧的 1em 2em 值是针对左上角和右下角的，而斜线右侧的 2em 3em 值是针对另外两个角的。记住，斜线前是横轴的值，斜线后是纵轴的值。如果想让左上角和右下角的圆角在横轴上弯曲 1em，在纵轴上也弯曲 1em（得到圆形圆角），两组值应该这么写：
+
+```css
+#example {
+    border-radius: 1em 2em / 1em 3em;
+}
+```
+
+这种情况也能使用百分数值。如果想让元素两侧为完整的半圆，而横轴向内弯曲 2 个字符单位，可以这么写：
+
+```css
+#example {
+    border-radius: 2ch / 50%;
+}
+```
+
+<br>
+
+### 圆角过渡
+
+目前，我么见到的圆角都十分简单，宽度、样式和颜色都相同。但实际的情况远比这复杂。如果红色粗实线边框倒角进入了绿色细虚线边框会发生什么？
+
+css 规范明确指出，圆角在宽度上应该尽量平滑过渡。也就是说，较粗的边框到较细的边框之间的圆角，其曲线应该逐渐变窄。
+
+但是，规范并没有清楚地规定如何处理不同的样式和颜色。下图中有几个例子。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E8%BE%B9%E6%A1%86%E4%B8%8D%E5%90%8C%E6%97%B6%E7%9A%84%E5%9C%86%E8%A7%92.png)
+
+第一个是简单的圆角，颜色、宽度和样式都没有变化。第二个圆角由粗线过渡到细线。可以看出，第二个圆角的外侧还是圆形，但内侧是椭圆形。
+
+第三个圆角的颜色和宽度相同，但样式变了，由左侧的实线过渡到顶边的双划线。两种样式之间的过渡很生硬，在圆角曲线中点直接变化。
+
+第四个圆角由粗实线过渡到细双划线。注意，过渡的位置不在曲线的中点。此时的过渡点由两个边框的宽度比确定。假设左边框的宽度为 10px，上边框的宽度为 5px。二者相加等于 15px，左边框占 2/3（10/15），上边框占 1/3（5/15）。因此，圆角曲线的 2/3 长度使用左边框的样式，1/3 长度使用上边框的样式。宽度仍然在整个曲线的长度内平滑过渡。
+
+第五个和第六个圆角变成颜色不同了。其实，颜色的变化与样式是一样的。截至 2017 年年末，颜色之间的变化通常也是生硬过渡的，不过未来可能有变。css 规范明确指出，用户代理可以使用线性渐变过渡边框的颜色。或许有一天会变成这样，但是目前颜色还是立即转变的。
+
+上图中的第七个圆角其实我们还没讨论过：如果边框的宽度大于或等于 border-radius 值怎么办？如图所示，此时，外侧会变成圆形，而内部不会。下述声明就会得到这样的结果：
+
+```css
+#example {
+    border-style: solid;
+    border-color: tan red;
+    border-width: 20px;
+    border-radius: 20px;
+}
+```
+
+<br>
+
+### 单独的圆角属性
+
+介绍完 border-radius 属性之后，你可能会想，我能不能只为一个角指定圆角？当然可以。
+
+```css
+border-top-left-radius, border-top-right-radius, border-bottom-right-radius, border-bottom-left-radius
+
+取值：[ <length> | <percentage> ]{1,2}
+初始值：0
+适用于：除表格内的元素之外的所有元素
+计算值：两个绝对长度值或百分数值
+百分数：相对边框的相应尺寸计算
+继承性：否
+动画性：是
+```
+
+各属性设定对应各角的曲线形状，对其他角没有影响。与之前不同的是，如果提供两个值，一个用作横向半径，另一个用作纵向半径，无需在两个值之间插入斜线。因此，下述两个规则是等效的：
+
+```css
+#example {
+    border-radius: 1.5em 2vw 20% 0.67ch / 2rem 1.2vmin 1cm 10%;
+}
+
+#example {
+    border-top-left-radius: 1.5em 2rem;
+    border-top-right-radius: 2vw 1.2vmin;
+    border-bottom-right-radius: 20% 1cm;
+    border-botom-left-radius: 0.67ch 10%;
+}
+```
+
+单独的圆角属性最常用于修改某一角，例如先设定通用的圆角，然后覆盖其中一个。因此，可以像下面这样得到右开标签形状：
+
+```css
+.tabs {
+    border-radius: 2em;
+    border-bottom-left-radius: 0;
+}
+```
+
+记住前面提到的一点，圆角形状对元素的背景有影响，而且可能还会影响内边距和内容区，但图像边框则不然。慢着，图像边框？这是什么？很高兴你有这个疑问。
+
+<br>
+
+## 8. 图像边框
+
+前面介绍的边框样式很不错，但款式有限。如果你想绘制特别复杂的边框，实现华丽的视觉效果，该怎么办？以往，为了实现这种效果，我们要创建多行表格，但是得益于 css 规范最近引入的图像边框，边框的样式几乎没有任何限制了。
+
+### 加载和裁剪边框图像
+
+如果你想使用图像绘制边框，要从某处获取图像。为了告诉浏览器图像在何处，要使用 border-image-source 属性。
+
+```css
+border-image-source
+
+取值：none | <image>
+初始值：none
+适用于：除 border-collapse 属性的值为 collapse 的表格内的元素之外的所有元素
+计算值：none 或图像的绝对 URL
+继承性：否
+动画性：否
+```
+
+下述样式加载一个圆形，用作边框图像，结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E5%AE%9A%E4%B9%89%E8%BE%B9%E6%A1%86%E5%9B%BE%E5%83%8F%E7%9A%84%E6%9D%A5%E6%BA%90.png)
+
+这里有几点要注意。如果没有 border: 25px solid 声明，根本不会显示边框。记住，如果 border-style 的值为 none，边框的宽度将是零。因此，为了让边框图像显示出来，必须把 border-style 设为 none 以外的值，不一定非得是 solid。其次，border-width 的值决定边框图像的宽度。如未声明这个值，默认为 medium，差不多是 3 像素（具体的值可能有所不同）。
+
+这里，我们把边框设为 25 像素宽，然后指定一个图像。得到的结果是，四个角显示同一个圆形。但是，为什么只出现在四个角上，而没有沿着各边绘制？答案在于 border-image-slice 属性的定义方式。
+
+```css
+border-image-slice
+
+取值：[ <number> | <percentage> ]{1,4} && fill?
+初始值：100%
+适用于：除 border-collapse 属性的值为 collapse 的表格内的元素之外的所有元素
+百分数：相对边框图像的尺寸
+计算值：4 个数字或百分数，以及可选的 fill 关键字
+继承性：否
+动画性：<number>, <percentage>
+```
+
+border-image-slice 属性在图像上放置 4 条裁剪线，这 4 条线围聚得到的部分用作绘制边框的图像。这个属性最多接受 4 个值，（按顺序）定义距上右下左 4 边的偏移。是的，顺序依然是 TRBL。少于 4 个值时，也应用前面讲过的值复制规则。因此，只提供一个值时，为四边设定相等的偏移。下图以百分数值为例，说明偏移方式。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E4%B8%8D%E5%90%8C%E7%9A%84%E8%A3%81%E5%89%AA%E6%96%B9%E5%BC%8F.png)
+
+下面以一个 3 行 3 列共 9 个圆（各圆的颜色不同）构成的图为例，裁剪后用作边框的图像。使用这个图像得到的边框如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E5%A4%9A%E4%B8%AA%E5%9C%86%E6%9E%84%E6%88%90%E7%9A%84%E8%BE%B9%E6%A1%86%E5%9B%BE%E5%83%8F.png)
+
+```css
+border: 25px solid;
+border-image-source: url(i/circles.png);
+border-image-slice: 33.33%;
+```
+
+得到的结果真有趣。注意，各边上的图像有拉伸，这是默认的行为，不过十分合理。详情参见本章后面调整重复方式一节。此外，可以看到，上图中裁剪线正好位于相邻的圆之间，这是因为图中各个圆的尺寸是一样的，所以 1/3 的偏移量正好使裁剪线落在两个圆之间。位于四个角的圆出现在边框的四个角上，而各边上的圆经过拉伸后填满整条边。
+
+（你可能会想，等等，中间那个灰色的圆？问得好，现在你可以把它当做一个未解之谜，不过本节稍后便会揭露其中的奥秘）。
+
+那么，为什么本节开头那个示例中的图像只出现在边框的四个角上，而没有出现在四条边上？因为 border-image-slice 属性就是这么定义的。规范是这么说的：
+
+如果左右两边的 [border-image-slice] 宽度之和大于或等于图像的宽度，上下两边和中间部分是空的，上下两边类似。
+
+也就是说，如果裁剪线重合或错过了，图像便只出现在角上，而边上则为空。这一点使用 border-image-slice: 50% 最好解释。此时，一个图像被分成四等份，分别用于四角，没有留下任何部分供四边使用。然而，如果值大于 50%，尽管图像不再被分成四等份，依然得到相同的结果。因此，声明为 border-image-slice: 100% 时（默认值），整个图像都出现在四角上，而各边则留空。下图展示了几个例子。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E5%AF%BC%E8%87%B4%E8%BE%B9%E4%B8%8A%E6%B2%A1%E6%9C%89%E5%9B%BE%E5%83%8F%E7%9A%84%E5%87%A0%E4%B8%AA%E4%BE%8B%E5%AD%90.png)
+
+也正是因为这样，我们才使用一个由 3 行 3 列共 9 个圆构成的图像，以便每个角和每个边都出现图像。
+
+除了百分数之外，偏移还可以使用数字定义。没错，不是长度，而是纯数字。对光栅图像（例如 PNG 或 JPEG）来说，指定的数字对应于图中的像素数。如果想为一个光栅图像定义 25 像素的偏移，可以这么做，结果如下图所示：
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E6%95%B0%E5%AD%97%E5%81%8F%E7%A7%BB%E7%9A%84%E6%95%88%E6%9E%9C.png)
+
+```css
+border: 25px solid;
+border-image-source: url(i/circles.png);
+border-image-slice: 25;
+```
+
+是不是又乱了？这个光栅图像的尺寸是 150 ⨉ 150 像素，而我们指定的偏移是 25，即 25 像素。裁剪线在图像上的位置如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E8%A3%81%E5%89%AA%E7%BA%BF%E5%81%8F%E7%A7%BB%2025%20%E5%83%8F%E7%B4%A0.png)
+
+你应该有点儿明白边上的图像为什么是默认是拉深的了。注意角上的图像是向边上流动的。
+
+数字偏移在更换图像或图像的尺寸有变时始终不变，而百分数值则不然。使用数字指定偏移的好处是，也能应用于非光栅图像（例如 SVG），因为它们也是基于光栅的，百分数值一样。一般来说，最好使用百分数指定偏移，尽管这样要做些数学计算才能找出正确的百分比。
+
+下面来分析消失的图像中间部分。在前面的示例中，3 行 3 列的圆形中间那个圆在边框中消失不见了。在上一个示例中，不止中间那个圆不见了，裁剪后的整个中间部分都没有了。这是图像裁剪的默认行为，不过可以在 border-image-slice 属性的末尾添加 fill 关键字覆盖这一行为，如果像下面这样加上 fill 关键字，得到的结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E4%BD%BF%E7%94%A8%E5%A1%AB%E5%85%85%E8%A3%81%E5%89%AA%E6%95%88%E6%9E%9C.png)
+
+```css
+border: 25px solid;
+border-image-souce: url(i/circles.png);
+border-image-slice: 25 fill;
+```
+
+可以看到，裁剪后的中间部分出现在元素的背景区域。其实，这一部分在元素现有的背景之上绘制，因此可以用它代替现有背景，或者增加到现有背景之上。
+
+你可能注意到了，目前各边的边框宽度是一致的（多数为 25px）。但是，不管边框图像是如何裁剪的。这都不是强制要求。还以前面的边框图像为例，这一次我们裁剪图像的三分之一，而且每一边的宽度各不相同。得到的结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E8%BE%B9%E6%A1%86%E5%AE%BD%E5%BA%A6%E4%B8%8D%E7%AD%89%E6%97%B6%E7%9A%84%E5%9B%BE%E5%83%8F%E8%BE%B9%E6%A1%86.png)
+
+```css
+border-style: solid;
+border-width: 20px 40px 60px 80px;
+border-image-source: url(i/circles.png);
+border-image-slice: 50;
+```
+
+虽然我们把裁剪线放在 50 像素处，但是裁剪后的图像受限于边框区域的宽度，尺寸变了。
+
+<br>
+
+### 调整图像的宽度
+
+目前，我们使用的边框图像都根据 border-width 的值确定边框区域的大小，让边框图像完全填满区域。也就是说，如果上边框的宽度为 25 像素，那么填充在这一边的边框图像高度也是 25 像素。假如你想让图像的尺寸不同于 border-width 定义的宽度，使用 border-image-width 属性设定。
+
+```css
+border-image-width
+
+取值：[ <length> | <percentage> | <number> | auto ]{1,4}
+初始值：1
+适用于：除 border-collapse 属性的值为 collapse 的表格元素之外的所有元素
+百分数：相对整个边框图像区域（即边框区域的外边界）的宽度 / 高度计算
+计算值：四个值均为百分数、数字、auto 关键字或绝对长度
+继承性：否
+动画性：是
+备注：不能取负值
+```
+
+border-image-width 的基本作用与 border-image-slice 十分相似，只不过前者裁剪的是边框框自身。
+
+为了弄清这个属性的作用，我们从长度值入手。下述声明设定 1em 宽的边框：
+
+```css
+border-image-width: 1em;
+```
+
+这个声明把裁剪线放在距边框区域四边均为 1em 的地方，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E6%94%BE%E7%BD%AE%E8%A3%81%E5%89%AA%E7%BA%BF%EF%BC%8C%E7%A1%AE%E5%AE%9A%E8%BE%B9%E6%A1%86%E5%9B%BE%E5%83%8F%E7%9A%84%E5%AE%BD%E5%BA%A6.png)
+
+因此，上下边框的高度为 1em，左右边框的宽度为 1em，四个角的宽度和高度均为 1em。在这种情况下，由 border-image-slice 确定的边框图像将根据 border-image-repeat（稍后介绍）规定的方式填充限定的边框区域，因此，下述样式得到的结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E5%A1%AB%E5%85%85%E8%BE%B9%E6%A1%86%E5%8C%BA%E5%9F%9F.png)
+
+```css
+border-image-width: 1em;
+border-image-slice: 33.3333%;
+```
+
+注意，各裁剪区域的尺寸与 border-width 无关。在上图中，即便把 border-width 的值设为零，通过 border-image-width 也能让边框图像无法加载，但是又不让实线跟图像的高度 / 宽度一样宽。
+
+例如：
+
+```css
+border: 2px solid;
+border-image-source: url(starts.gif);
+border-image-width: 12px;
+border-image-slice: 33.333%;
+```
+
+此时，如果 12 像素宽的边框图像无法加载，将显示 2 像素宽的实线边框。注意，你要留出足够的空间，确保图像正常加载时不会与内容重叠（默认情况下会重叠，下一节将介绍解决方法）。
+
+知道宽度为具体值的裁剪线是如何放置的之后，百分数值就好理解了，不过要注意，百分数偏移是相对边框框的整体尺寸，而不是各边的尺寸。来看下面的声明，裁剪线的位置如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E4%BD%BF%E7%94%A8%E7%99%BE%E5%88%86%E6%95%B0%E6%8C%87%E5%AE%9A%E5%81%8F%E7%A7%BB%E6%97%B6%E8%A3%81%E5%89%AA%E7%BA%BF%E7%9A%84%E4%BD%8D%E7%BD%AE.png)
+
+```css
+border-image-width: 33%;
+```
+
+与使用长度值一样，裁剪线从边框框向内偏移指定的量。此时，具体的偏移量相对边框框的尺寸计算。不要以为百分数偏移是相对 border-width 定义的边框区域计算的。比如，border-width 的值为 30px 时，border-image-width: 33.333%。结果为 10 像素。这是错的。应该是相对边框框的整体尺寸沿着各轴偏移。
+
+border-image-width 和 border-image-slice 处理裁剪线错过的行为也不同。例如：
+
+```css
+border-image-width: 75%;
+```
+
+你可能还记得，如果 border-image-slice 的值导致裁剪线错过了，那么各边上的区域（上下左右）是空的。而对 border-image-width 来说，倘若提供的值导致裁剪线错过，用户代理会按比例减少各值，避免两线错过。因此，对上面设定的 75% 而言，浏览器将视其为 50%。类似地，下面两个声明得到的结果是相同的：
+
+```css
+border-image-width: 25% 80% 25% 40%;
+border-image-width: 25% 66.6667% 25% 33.3333%;
+```
+
+注意，在两个声明中，右侧偏移都是左侧偏移的两倍。这就是按比例减少各值，避免两线错过的意思，即直到二者之和不大于 100%。上下两边的处理方式一样。
+
+为 border-image-width 谁当数字值得情况更有趣。如果声明 border-image-width: 1，边框图像区域的宽度将由 border-width 确定。这也是默认行为。因此，下面两个声明得到的结果一样：
+
+```css
+border-width: 1em 2em;
+border-image-width: 1em 2em;
+border-width: 1em 2em;
+border-image-width: 1;
+```
+
+数字值不管多大，都作为 border-width 值的倍数。下图中有几个例子。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E8%BE%B9%E6%A1%86%E5%9B%BE%E5%83%8F%E5%AE%BD%E5%BA%A6%E7%9A%84%E4%B8%8D%E5%90%8C%E6%95%B0%E5%AD%97%E5%80%BC.png)
+
+此外，border-image-width 的值还可以设为 auto。这个值得计算结果取决于另外两个属性。如果定义了 border-image-slice 属性，border-image-width: auto 声明将使用 border-image-slice 得到的结果。否则使用 border-width 的值。下面两个声明得到的结果相同：
+
+```css
+border-width: 1em 2em;
+border-image-width: auto;
+border-iamge-slice: 1em 2em;
+border-image-width: auto;
+```
+
+这与 border-image-width: 1 的作用不同，因为设定数字 1 时，结果始终等于 border-width 的值，与 border-image-slice 一点关系也没有。
+
+注意，border-image-width 的值可以混用不同类型的值。下面三个声明都有效，得到的效果比较有趣，你可以自己写个网页试试：
+
+```css
+border-image-width: auto 10px;
+border-image-width: 5 15% auto;
+border-image-width: 0.42em 13% 3.14 auto;
+```
+
+<br>
+
+### 外推边框
+
+好的，现在我们知道如何裁剪大图并设定边框图像的宽度了，那么应该如何保证大图不与内容重叠？我们可以添加大量内边距，可是一旦图像加载失败，或者浏览器不支持图像边框，就会留出多余的空白。为了处理这种情况，规范引入了 border-image-outset 属性。
+
+```css
+border-image-outset
+
+取值：[ <length> | <number> ]{1,4}
+初始值：0
+适用于：除 border-collapse 属性的值为 collapse 的表格内的元素之外的所有元素
+百分数：N/A
+计算值：四个数字或绝对长度
+继承性：否
+动画性：是
+备注：不能取负值
+```
+
+不管使用长度还是数字，border-image-outset 都把边框图像向边框框外侧推，类似裁剪线的偏移方式，只不过这里是向外偏移。与 border-image-width 一样，border-image-outset 的数字值也是 border-width（不是 border-image-width）所定义宽度的倍数。
+
+下面举个例子说明这个属性的用途。假设你想使用图像做边框，但是在图像不可用时回落到细实线边框。最初你可能会这样编写：
+
+```css
+border: 2px solid;
+padding: 0.5em;
+border-image-slice: 10;
+border-image-width: 1;
+```
+
+我们定义了 0.5em 的内边距，在浏览器默认的配置下，计算结果为 8 像素。加上 2 像素宽的边框，从内容区边界到边框外边界的距离为 10 像素。因此，如果能正常渲染边框图像，图像不仅会填满边框区域，还会填充到与内容毗邻的内边距区域。
+
+我们可以增加内边距的大小，但是倘若图像无法显示，在内容和细实线边框之间将出现大量空白。为了避免出现这种情况，我们可以把边框图像向外推，如下所示：
+
+```css
+border: 2px solid;
+padding: 0.5em;
+border-image-slice: 10;
+border-image-width: 1;
+border-image-outset: 8px;
+```
+
+结果如下图所示。图中还给出了没有外推和没有边框图像的情况，以作比较。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E5%A4%96%E6%8E%A8%E5%9B%BE%E5%83%8F%E8%BE%B9%E6%A1%86.png)
+
+在第一种情况中，图像边框向外推了足够的距离，恰好避免图像与内边距区域重叠。此时，边框图像其实是叠加到外边距区域上了。此外，也可以向外推一半的距离，让图像边框基本放在边框区域的中部，如下所示：
+
+```css
+border: 2px solid;
+padding: 0.5em;
+border-image-slice: 10;
+border-image-width: 1;
+border-image-outset: 2; /* border-width 值的两倍 */
+```
+
+使用时要留意的是，不要向外推太多，以防图像边框与其他内容重叠，或者（以及）被浏览器窗口的边界截断。
+
+<br>
+
+### 调整重复方式
+
+目前的示例，各边上的图像大都是拉伸的。某些情况下确实可以拉伸，但是其他情况下，拉伸就不那么好看了。使用 border-image-repeat 属性可以改变各边上边框图像的处理方式。
+
+```css
+border-image-repeat
+
+取值：[ stretch | repeat | round | space ]{1,2}
+初始值：stretch
+适用于：除 border-collapse 属性的值为 collapse 的表格内的元素之外的所有元素
+计算值：两个关键字，分别针对纵横轴
+继承性：否
+动画性：否
+```
+
+先看各值的效果，然后再分别讨论。
+
+我们已经见过拉伸，那么 stretch 的效果你应该熟悉了。各边显示一个图像，经拉伸后填满边框区域的高度和宽度范围。
+
+repeat 的作用是平铺图像，直到占满每一边的边框区域为止。具体的操作方式是，先把图像放在每一边的边框区域中点，然后向两边平铺，直至边框左右边界为止。达到边界处的图像可能会被截断，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E5%9B%BE%E5%83%8F%E9%87%8D%E5%A4%8D%E7%9A%84%E4%B8%8D%E5%90%8C%E6%96%B9%E5%BC%8F.png)
+
+round 稍有不同。设为这个值时，浏览器拿各边的边框区域长度除以图像的尺寸，然后取整为最近的整数，平铺这一数量的图像。在这个过程中，浏览器可能会拉伸或压缩图像的尺寸，保证平铺的图像恰好相互接触。
+
+举个例子。假设上边框区域的宽度为 420 像素，要平铺的图像宽度为 50 像素。420 除以 50 等于 8.4，取整为 8。因此，将平铺 8 个图像。然而，每个图像的宽度会被拉大为 52.5 像素（420 ÷ 8 = 52.5）。类似地，如果右边框区域的高度为 280 像素，50 像素高的图像平铺 6 次（280 ÷ 50 = 5.6，取整为 6），而且各图像的高度将缩小为 46.6667 像素（280 ÷ 6 = 46.667）。仔细观察上图，你会发现，上下两边的圆形有点拉伸，而左右两边的圆形有些压缩。
+
+最后一个值，space 的作用类似于 round，每一边的边框区域也是先除以要平铺的图像的尺寸，然后取整。只不过，此时始终向下取整，而且图像不扭曲，而是均匀分布在边框区域中。
+
+因此，对 420 像素宽的上边框区域来说，50 像素宽的图像将重复 8 次（8.4 向下取整为 8）。8 个副本占用 400 像素的空间，余下 20 像素。这 20 像素除以 8，得到 2.5 像素。这个值再一分为二，分别放到各副本的两侧，即图像两边各得 1.25 像素。因此，图像之间将有 2.5 像素的间隙，第一个图像的前面和最后一个图像的后面将有 1.25 像素的空白。下图展示了 space 重复方式的几个示例。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/space%20%E9%87%8D%E5%A4%8D%E6%96%B9%E5%BC%8F%E7%9A%84%E5%87%A0%E4%B8%AA%E7%A4%BA%E4%BE%8B.png)
+
+>截至 2017 年年末，chrome 和 opera 不支持使用 space 方式重复边框图像。
+
+<br>
+
+### 边框图像的简写属性
+
+边框图像有个简写属性，（毫无意外）名为 border-image。这个属性的值排列方式很独特，但是能节省大量输入时间。
+
+```css
+border-image
+
+取值：<border-image-source> || <border-image-slice> [ / <border-image-width> | / <border-image-width> ? / <border-image-outset> ]? || <border-image-repeat>
+初始值：参见各单独属性
+适用于：参见各单独属性
+计算值：参见各单独属性
+继承性：否
+动画性：参见各单独属性
+```
+
+不得不说，这个属性的值在句法上有些独特。为了区分哪些是裁剪值，哪些是宽度值，哪些是偏移值，规范制定人员最终决定在不同的值之间加上斜线（/），而且必须按指定的顺序列出：先是裁剪，后跟宽度，最后是偏移。这三组值的顺序定好之后，图像来源和重复方式可以写在任何位置。因此，下述几个规则是等效的：
+
+```css
+.example {
+    border-image-source: url(eagles.png);
+    border-image-slice: 40% 30% 20% fill;
+    border-image-width: 10px 7px;
+    border-image-outseet: 5px;
+    border-image: repeat: space;
+}
+```
+
 
 
 
