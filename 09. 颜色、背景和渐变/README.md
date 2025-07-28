@@ -1,74 +1,826 @@
-<h2 id="SFpjV">9.1 颜色</h2>
-<h3 id="VA2Pe">前景色</h3>
-|                                                                             color<br/>取值：<color><br/>初始值：由用户代理指定<br/>适用于：所有元素<br/>计算值：指定的值<br/>继承性：是<br/>动画性：是 |
-| --- |
+# 1. 颜色
+
+对网页的设计要提前做好规划，这样你才能有个粗略的整体构思，尤其要定好配色。如果你打算以黄色显示超链接，就要考虑会不会与文档中某部分的背景色冲突？如果使用过多的颜色，用户会不会看花眼（提示，会的）？如果把超链接的默认颜色换掉了，用户还能不能分辨哪些是链接（例如，如果以相同的颜色显示常规文本和超链接文本，用户就非常难以发现链接。如果未加下划线，用户几乎不可能找到链接）？
+
+css 可以为任何元素设置前景色和背景色。为了彻底弄明白，你要知道元素的前景中有什么、没有什么。一般来说，前景指元素的文本，不过也包括元素四周的边框。因此，有两种方式能直接影响元素的前景色。一是使用 color 属性，二是使用一些边框属性设置边框颜色。
+
+## 1. 前景色
+
+设置元素前景色最简单的方法是使用 color 属性。
+
+```css
+color
+
+取值：<color>
+初始值：由用户代理指定
+适用于：所有元素
+计算值：指定的值
+继承性：是
+动画性：是
+```
+
+这个属性的值是一个颜色值，任何有效的类型都可以，例如 #FFCC00 或 rgba(100%, 80%, 0%, 0.5)。
+
+对非置换元素来说，例如段落或 em 元素，color 设定元素中文本的颜色。下述代码得到的结果如下图所示。
+
+```html
+<p style="color: gray;">This paragraph has a gray foreground.</p>
+<p>This paragraph has the default foreground.</p>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%A3%B0%E6%98%8E%E7%9A%84%E9%A2%9C%E8%89%B2%E5%92%8C%E9%BB%98%E8%AE%A4%E7%9A%84%E9%A2%9C%E8%89%B2.png)
+
+在上图中，默认的前景色是黑色。但不是所有情况下都是如此，用户可能会在浏览器（或其他用户代理）中把默认色设为其他颜色。如果浏览器的默认文本颜色是 green，那么上述示例中的第二段将显示为绿色，而非黑色。但是第一段仍为灰色。
+
+当然，这只是基本的操作，color 的用途不仅限于此。有些段落中的文本可能是提醒用户有潜在的问题。为了突出显示这样的文本，或许你会决定使用红色。此时，只需为每个这样的段落设定 warn 类（`<p class="warn">`），然后应用下述规则：
+
+```css
+p.warn {
+    color: red;
+}
+```
+
+在这个文档中，你可能会想让提醒段落中未访问的超链接显示为绿色：
+
+```css
+p.warn {
+    color: red;
+}
+
+p.warn a:link {
+    color: green;
+}
+```
+
+后来，你又改主意了，决定提醒文本应该显示为暗红色，其中的未访问链接应该显示为中紫色。这没什么，我们只需把上述规则改成下面这样，结果如下图所示。
+
+```css
+p.warn {
+    color: #600;
+}
+
+p.warn a:link {
+    color: #400040;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E6%94%B9%E5%8F%98%E9%A2%9C%E8%89%B2.png)
+
+利用 color 属性还可以让特定类型的文本吸引注意力。例如，粗体文本虽然已经够突出了，但是可以使用其他颜色显示，进一步增强效果，例如红褐色：
+
+```css
+b, strong {
+    color: maroon;
+}
+```
+
+而后，你又决定把类为 highlight 的单元格中的文本设为淡黄色：
+
+```css
+td.highlight {
+    color: #FF9;
+}
+```
+
+如果不为文本设置背景色，用户自定义的颜色可能与你设置的颜色不协调。例如，如果用户把浏览器的背景设为浅黄色，例如 #FFC，那么前述规则的结果将是浅黄色的背景上显示淡黄色的文本。即便背景仍是默认的白色，淡黄色的文本也看不太清。因此，一版建议同时设定前景色和背景色（稍后讨论背景色）。
+
+<br>
+
+## 2. 对边框的影响
+
+color 属性的值将对元素四周的边框产生影响。假设你声明了下述样式，结果如下图所示。
+
+```css
+p.aside {
+    color: gray;
+    border-style: solid;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E8%BE%B9%E6%A1%86%E9%A2%9C%E8%89%B2%E5%8F%96%E8%87%AA%E5%86%85%E5%AE%B9%E7%9A%84%E9%A2%9C%E8%89%B2.png)
+
+`<p class="aside">` 元素的文本为灰色，边框为中等宽度的灰色实线。这是因为前景色默认应用到边框上。如果愿意，可以使用 border-color 属性覆盖：
+
+```css
+p.aside {
+    color: gray;
+    border-style: solid;
+    border-color: black;
+}
+```
+
+这个规则把文本设为灰色，而边框依然为黑色。border-color 属性的值始终覆盖 color 属性的值。
+
+边框采用前景色行为的根源在于一个特殊的颜色关键字，即 currentColor。元素的 currentColor 值始终未 color 属性的计算值。因此，用户代理的默认样式中有类似下面的规则：
+
+```css
+* {
+    border-color: currentColor;
+}
+```
+
+所以，如果没有为边框设定颜色，这条内置的规则将把 color 的值应用到可见的边框上。然而如果为边框设定了颜色，你指定的颜色将覆盖内置的 currentColor 样式。
+
+鉴于此，你还可以改变图像的前景色。图像色彩纷呈，不受 color 属性的影响，但是可以改变图像四周边框的颜色，而且使用 color 或 border-color 属性都可以。因此，虽然下面两个规则分别应用到类为 type1 和 type2 的两个图像上，但是得到的视觉效果却是一样的，如下图所示。
+
+```css
+img.type1 {
+    border-style: solid;
+    color: gray;
+}
+
+img.type2 {
+    border-style: solid;
+    border-color: gray;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E8%AE%BE%E7%BD%AE%E5%9B%BE%E5%83%8F%E7%9A%84%E8%BE%B9%E6%A1%86%E9%A2%9C%E8%89%B2.png)
+
+<br>
+
+## 3. 对表单元素的影响
+
+理论上，可以为表单元素设置 color 属性。若想把 select 元素的文本设为深灰色，只需这样声明：
+
+```css
+select {
+    color: rgb(33%, 33%, 33%);
+}
+```
+
+这个规则可能还会设定 select 元素四周的边框颜色，可能也不会。到底会不会，完全取决于用户代理及其默认样式。
+
+此外，还可以设置输入元素的前景色，但是如下图所示，所有输入元素都将受到影响，包括文本输入框、单选按钮和复选框。
+
+```css
+select {
+    color: rgb(33%, 33%, 33%);
+}
+
+input {
+    color: red;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E4%BF%AE%E6%94%B9%E8%A1%A8%E5%8D%95%E5%85%83%E7%B4%A0%E7%9A%84%E5%89%8D%E6%99%AF%E8%89%B2.png)
+
+注意，上图中复选框旁的文本依然是黑色。这是因为上述规则只把样式应用到 input 和 select 等元素上，对常规段落等没有影响。
+
+此外注意，复选框中的勾号是黑色的。这是因为某些 web 浏览器通常根据操作系统的用户界面构建表单中的小组件。你见到的复选框和勾号其实不是 HTML 文档中的内容，而是插入文档的用户界面小组件，就像图像一样。其实，表单输入框与图像一样，也是置换元素。理论上，css 无法装饰置换元素的内容。
+
+实际上，这条规则执行得并没那么严格，如上图所示，有些输入元素的文本颜色变了，甚至部分 UI 也变了，而有些输入元素则没变。而且，这不是明文规定，因此在不同的浏览器中并不一致。总之，表单元素的样式极难调整，需要格外小心。
+
+<br>
+
+## 4. 继承颜色
+
+color 属性的定义指出，这个属性会被继承。这是合理的行为，因为你声明 `p { color: gray; }` 的意图是想让段落中的所有文本都显示为灰色，包括强调或粗体等。如果的确想让这些元素显示为不同的颜色，也不难，声明下述规则即可，如下图所示。
+
+```css
+em {
+    color: red;
+}
+
+p {
+    color: gray;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E4%B8%8D%E5%90%8C%E7%9A%84%E5%85%83%E7%B4%A0%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%90%8C%E7%9A%84%E9%A2%9C%E8%89%B2.png)
+
+鉴于此，理论上可以把所有常规文本都设为同一个颜色，例如使用 `body { color: red; }` 设为红色。此时，没有特别声明的文本（例如锚记，它们通常使用不同的颜色）都将显示为红色。
+
+<br>
+
+# 2. 背景
+
+默认情况下，背景区域从前景背后的空间一直延伸到边框的外边界。因此，内容框和内边距都子啊元素的背景中，而边框在背景之上绘制（不过可以使用 css 改变这种行为，方法见后）。
+
+通过 css 可以把元素的背景设为纯色，也可以设为一个或多个图像，甚至还可以设为线性渐变或径向渐变。
+
+## 1. 背景色
+
+元素背景的颜色使用 background-color 属性声明，值为任何有效的颜色值。
+
+```css
+background-color
+
+取值：<color>
+初始值：transparent
+适用于：所有元素
+计算值：指定的值
+继承性：否
+动画性：是
+```
+
+如果想让背景色稍微超出元素的文本，加上一些内边距。下述代码得到的结果如下图所示。
+
+```css
+p {
+    background-color: #AEA;
+}
+
+p.padded {
+    padding: 1em;
+}
+```
+
+```html
+<p>A paragraph.</p>
+<p class="padded">A padded paragraph.</p>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%86%85%E8%BE%B9%E8%B7%9D%E5%AF%B9%E8%83%8C%E6%99%AF%E7%9A%84%E5%BD%B1%E5%93%8D.png)
+
+几乎任何元素都可以有背景色，从 body 到 em 和 a 等行内元素都不例外。background-color 属性的值不继承。这个属性的默认值为 transparent，这是比较合理的，透过没有背景色的元素将能看到祖辈元素的背景。
+
+你可以这样想：一个透明的塑料标志贴在有纹理的墙上，透过标志可以看到墙，但是看到的并不是标志的背景，而是墙的背景（按 css 的术语来说，是这样）。如果为页面设备了背景，透过文档中没有背景的元素将能看到页面的背景。文档中的元素不继承页面的背景，而是透明的。对背景色来说这貌似无关紧要，但是讨论背景图时便能体现着一点的重要性了。
+
+多数时候无需使用关键字 transparent，因为这就是默认值。然而，transparent 还是有其用处的。假如用户在自己的浏览器中为链接设置了白色的背景。设计页面时，你想把锚记的前景设为白色，因此就不能让锚记的背景为白色。为了实现你的设计，要这么声明：
+
+```css
+a {
+    color: white;
+    background-color: transparent;
+}
+```
+
+如果没设置背景色，白色的前景加上用户设置的白色背景，链接就完全不可见了。这个例子可能不太恰当，但的确有可能发生。
+
+就是因为创作人员和读者都可以设置样式，所以 css 验证工具才会发出这样的警告：设置 color 时没有设置 background-color。这是在提醒你，创作人员设置的颜色可能与用户设置的颜色冲突，而你没有考虑到这种可能性。出现这样的警告不代表你的样式是无效的，只有错误才会导致验证失败。
+
+<br>
+
+### 特殊效果
+
+结合 color 和 background-color 两个属性可以实现一些有趣的效果：
+
+```css
+h1 {
+    color: white;
+    background-color: rgb(20%, 20%, 20%);
+    font-family: Airal, sans-serif;
+}
+```
+
+结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/h1%20%E5%85%83%E7%B4%A0%E7%9A%84%E5%8F%8D%E7%99%BD%E6%95%88%E6%9E%9C.png)
+
+有多少颜色就有多少组合颜色的方式，多到我无法一一列举。不过我将展示一些例子，权当抛砖引玉。
+
+下述规则则稍微有点复杂，结果如下图所示。
+
+```css
+body {
+    color: black;
+    background-color: white;
+}
+
+h1, h2 {
+    color: yellow;
+    background-color: rgb(0, 51, 0);
+}
+
+p {
+    color: #555;
+}
+
+a:link {
+    color: black;
+    background-color: silver;
+}
+
+a:visited {
+    color: gray;
+    background-color: white;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E4%B8%80%E4%B8%AA%E6%9B%B4%E4%B8%BA%E5%A4%8D%E6%9D%82%E7%9A%84%E6%A0%B7%E5%BC%8F%E8%A1%A8%E5%BE%97%E5%88%B0%E7%9A%84%E7%BB%93%E6%9E%9C.png)
+
+想一想，为置换元素（例如一个图像）设置背景将得到怎样的效果？暂且不管有透明部分的图像，例如 GIF87a 或 PNG 格式。假设你想为一个 JPEG 图像添加双色边框。此时，可以像下述规则那样为图像设置背景色，再添加一点内边距，结果如下图所示。
+
+```css
+img.twotone {
+    background-color: red;
+    padding: 5px;
+    border: 5px solid gold;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E4%BD%BF%E7%94%A8%E8%83%8C%E6%99%AF%E5%92%8C%E8%BE%B9%E6%A1%86%E4%B8%BA%E5%9B%BE%E5%83%8F%E6%B7%BB%E5%8A%A0%E5%8F%8C%E8%89%B2%E8%BE%B9%E6%A1%86.png)
+
+严格来说，背景延伸到边框的外边界，但是这个边框是连续的纯色，因为看不见背后的背景。哪怕只有一像素的内边距，在图像及其边框之间都会出现一圈背景，实现内部边框的视觉效果。这种技术延伸一下，利用背景图（例如渐变，本章后文讨论）可以实现更复杂的效果。
+
+>注意，css 提供了十分强大的边框功能，结合背景和内边距是一种不错的技巧，但不一定有实际意义。详情参见第 8 章。
+
+还记得表单输入元素？几乎所有输入元素都是置换元素，用户代理会特别对待它们，把内边距应用到表单元素上往往不到应用到图像上的效果。况且，表单中还有非置换元素（如段落）。与表单输入元素的多数样式一样，添加背景色时要小心测试，如无必要，应尽量避免。
+
+<br>
+
+## 2. 裁剪背景
+
+在前一节我们看到，背景会填满元素的整个背景区域。一直以来，背景一直延伸到边框的外边界，因此如果边框有透明部分的话（例如虚线或点线），透过透明的部分将能看到背景色。如今，有个 css 属性能控制背景延伸到何处。这个属性名为 background-clip。
+
+```css
+background-clip
+
+取值：[ border-box | padding-box | content-box | text ]#
+初始值：border-box
+适用于：所有元素
+计算值：声明的值
+继承性：否
+动画性：否
+```
+
+默认值是以前一直采用的行为，即背景绘制区域（由 background-clip 定义）延伸到边框的外边界。背景始终绘制到边框的可见部分背后。
+
+如果设为 padding-box，背景只延伸到内边距区域的外边界（即边框的内边界）。因此，边框背后不绘制背景。而 content-box 值把背景限制在元素的内容区内。
+
+下述规则演示这三个值的效果，结果如下图所示。
+
+```css
+div[id] {
+    color: navy;
+    background: silver;
+    padding: 1em;
+    border: 5px dashed;
+}
+
+#ex01 {
+    background-clip: border-box;
+}
+
+#ex02 {
+    background-clip: padding-box;
+}
+
+#ex03 {
+    background-clip: content-box;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E4%B8%89%E4%B8%AA%E4%B8%8E%E6%A1%86%E4%BD%93%E6%9C%89%E5%85%B3%E7%9A%84%E8%83%8C%E6%99%AF%E8%A3%81%E5%89%AA%E6%96%B9%E5%BC%8F.png)
+
+看起来很简单，但是有些问题要注意。首先，background-clip 对根元素（在 HTML 中，可能是 html 或 body 元素，这取决于样式是如何编写的）没有效果。原因与根元素背景的绘制方式有关。
+
+其次，background-clip 与 background-repeat 一起使用时可能得到意料之外的结果。稍后讨论。
+
+最后，background-clip 定义背景的裁剪区域，对其他背景属性没有影响。对纯背景色来说，这没什么深层定义，不过下一节讨论背景图时你就会发现这一点的重要性了。
+
+最后一个值，text，把背景裁剪到元素的文本线条。意即，文本将使用背景填充，文本线条之外的背景是透明的。这是为文本添加纹理的一种简单方式。
+
+不过要注意，若想看到效果，要删除元素的前景色。否则，前景色将遮盖背景。下述规则得到的结果如下图所示。
+
+```css
+div {
+    color: rgb(255, 0, 0);
+    background: rgb(0, 0, 255);
+    padding: 0 1em;
+    margin: 1.5em 1em;
+    border: 5px dashed;
+    font-weight: bold;
+}
+
+#ex01 {
+    background-clip: text;
+    color: transparent;
+}
+
+#ex02 {
+    background-clip: text;
+    color: rgba(255, 0, 0, 0.5);
+}
+
+#ex03 {
+    background-clip: text;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E8%A3%81%E5%89%AA%E8%83%8C%E6%99%AF%E5%88%B0%E6%96%87%E6%9C%AC%E7%BA%BF%E6%9D%A1.png)
+
+在第一个示例中，前景色是完全透明的，蓝色背景只在文本线条中可见。但是，透过段落中的图像看不到背景，因为图像的前景无法设为 transparent。
+
+上图中的第二个示例把前景色设为 rgba(255, 0, 0, 0.5)，即半透明的红色。这一段文本显示为紫色，因为半透明的红色与背后的蓝色混合了。而边框的颜色由半透明的红色与背后的白色背景混合，得到的是淡红色。
+
+在第三个示例中，前景色是不透明的纯红色。文本和边框都是纯红色，完全没有蓝色背景的影子。之所以看不到，是因为背景裁剪到文本线条了，而前景色又把背景色遮盖了。
+
+裁剪到文本线条的行为适用于所有背景，包括稍后讨论的渐变背景和图像背景。然而要注意，如果由于什么原因导致背景没有出现在文本背后，本该使用背景填充的透明文本将完全不可见。
+
+>截至 2017 年年末，只有 firefox 支持 background-clip: text 这种确切形式。然而，几乎每个浏览器，包括 firefox，都支持 -webkit-background-clip: text。
+
+<br>
+
+## 3. 背景图
+
+介绍完前景色和背景色的基础知识之后，下面开始讨论背景图。在 HTML 3.2 时代，可以通过 BODY 元素的 BACKGROUND 属性为文档设定一个背景图：
+
+```html
+<BODY BACKGROUND="bg23.gif>"
+```
+
+用户代理遇到这样的元素时会加载 bg23.gif 文件，将其平铺在文档的背景中，而且是沿横向和纵向平铺，占满整个文档背景。这个效果通过 css 可以轻易实现，而且 css 提供的功能远比这复杂得多。先从基础讲起。
+
+### 使用图像
+
+首先，要使用 background-image 属性把图像放到背景中。
+
+```css
+background-image
+
+取值：[ <image># | none ]
+初始值：none
+适用于：所有元素
+计算值：指定的值，不过所有 URL 都会变成绝对 URL
+继承性：否
+动画性：否
+
+<image> = [ <uri> | <linear-gradient> | <repeating-linear-gradient> | <radial-gradient> | <repeating-radial-gradient> ]
+```
+
+默认值 none 的效果跟你想的一样，即不把任何图像放到背景中。如果需要背景图，至少要为这个属性提供一个其他可用的值，例如：
+
+```css
+body {
+    background-image: url(bg23.gif);
+}
+```
+
+加上其他背景属性的默认值，上述规则把 bg23.gif 图像平铺在文档的背景中，如下图所示。稍后你将看到，这不是唯一的选择。
+
+通常，除了背景图之外最好再指定背景色。具体原因稍后再讲（后文还会说明如何同时指定多个图像，不过我们暂且只关注一个元素有一个背景图的情况）。
+
+任何元素，不管是块级元素还是行内元素，都可以有背景图：
+
+```css
+p.starry {
+    background-image: url(http://www/site.web/pix/stars.gif);
+    color: white;
+}
+
+a.grid {
+    background-image: url(smallgrid.gif);
+}
+```
+
+```html
+<p class="starry">It's the end fo autumn, which means the stars will be brighter than ever!<a href="join.html" class="grid">Join us</a> for a fabulous evening of planets, starts, nebulae, and more...</p>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E9%80%9A%E8%BF%87%20css%20%E6%8C%87%E5%AE%9A%E8%83%8C%E6%99%AF%E5%9B%BE.png)
+
+从下图可以看出，我们只为段落指定了背景图，文档中的其他部分都没有。我们可以更深入一层，为行内元素指定背景图，例如下图中的超链接。如果你想看到平铺效果，图像要特别小，毕竟几个字母占不了多少空间。
+
+利用背景图可以实现很多效果。你可以为 strong 元素设定背景图，达到强调作用。你也可以为标题设定背景图，添加波浪图案或小点。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E4%B8%BA%E5%9D%97%E7%BA%A7%E5%85%83%E7%B4%A0%E5%92%8C%E8%A1%8C%E5%86%85%E5%85%83%E7%B4%A0%E8%AE%BE%E5%AE%9A%E8%83%8C%E6%99%AF%E5%9B%BE.png)
+
+你还可以发挥创意，通过属性选择符指定简单的图标，标出指向 PDF、word 文档、电子邮件地址等非常规资源的链接。下述代码得到的结果如下图所示。
+
+```css
+a[href] {
+    padding-left: 1em;
+    background-repeat: no-repeat;
+}
+
+a[href$=".pdf"] {
+    background-image: url(/i/pdf-icon.png);
+}
+
+a[href$=".doc"] {
+    background-image: url(/i/msword-icon.png);
+}
+
+a[href^="mailto:"] {
+    background-image: url(/i/email-icon.png);
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E9%80%9A%E8%BF%87%E8%83%8C%E6%99%AF%E5%9B%BE%E4%B8%BA%E9%93%BE%E6%8E%A5%E6%B7%BB%E5%8A%A0%E5%9B%BE%E6%A0%87.gif)
+
+与 background-color 一样，background-image 也不继承。其实，背景相关的属性都不继承。注意，使用 URL 指定背景图时，url() 中的值与常规的处理方式一样，即相对 URL 相对样式表而言。
+
+<br>
+
+### 背景为什么不继承
+
+前文特别指出，背景不继承。通过背景图可以体现继承背景的恶果。假设背景是继承的，如果为 body 指定一个背景图，那个图像会出现在文档中每个元素的背景中，而且在每个元素中都单独平铺中，如下图所示。
+
+注意，图案在每个元素的左上角都重新出现，包括链接。多数时候，这并不是创作人员想要的效果，因此背景相关的属性不会被继承。如果确实想要这样的效果，可以使用类似下面的规则：
+
+```css
+* {
+    background-image: url(yinyang.png);
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E7%BB%A7%E6%89%BF%E8%83%8C%E6%99%AF%E5%AF%B9%E5%B8%83%E5%B1%80%E7%9A%84%E5%BD%B1%E5%93%8D.png)
+
+此外，也可以使用 inherit 值：
+
+```css
+body {
+    background-image: url(yinyang.png);
+}
+
+* {
+    background-image: inherit;
+}
+```
+
+<br>
+
+### 关于背景的良好实践
+
+图像放在所指定的背景色之上。如果完全平铺 JPEG 或其他不透明的图像类型，这一点其实没什么差别，因为完全平铺的图像占满整个背景区域，无法透过图像看到背景色。然而，有 alpha 通道的图像格式（例如 PNG 或 SVG）可能有部分或整体是透明的。导致图像与背景色融合在一起。此外，倘若无法加载图像，用户代理将使用指定的颜色填充背景。试想一下，对一个本该布满星星的段落，如果无法加载背景图，将是怎样一番情景，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E7%BC%BA%E5%B0%91%E8%83%8C%E6%99%AF%E5%9B%BE%E7%9A%84%E5%90%8E%E6%9E%9C.png)
+
+上图表明，使用背景图时最好同时指定背景色，这样至少能保证文本是可见的：
+
+```css
+p.starry {
+    background-image: url(http://www.site.web/pix/stars.gif);
+    background-color: black;
+    color: white;
+}
+
+a.grid {
+    background-image: url(smallgrid.gif);
+}
+```
+
+```html
+<p class="starry">It's the end of autumn, which means the stars will be brighter than ever!<a href="join.html" class="grid">Join us</a> for a fabulous evening of planets, stars, nebulae, and more...</p>
+```
+
+此时，如果星空图像无法加载，背景将填满纯黑色。背景色还会填充背景图中的透明区域，或者由于什么原因没有被背景图覆盖的区域（有几个因素会导致后一种情况，稍后说明）。
+
+<br>
+
+## 4. 背景定位
+
+在元素的背景中放好图像之后，能不能指定图像的具体位置？当然没问题，使用 background-position 属性。
+
+```css
+background-position
+
+取值：<position>#
+初始值：0% 0%
+适用于：块级元素和置换元素
+百分数：指代元素或源图像上相应的点（参见百分数值一节）
+计算值：指定 <length> 时是绝对长度偏移，否则是百分数值
+继承性：否
+动画性：是
+
+<position> = [ [ left | center | right | top | bottom | <percentage> | <length> ] | [ left | center | right | <percentage> | <length> ] [ top | center | bottom | <percentage> | <length> ] | [ center | [ left | right ] [ <percentage> | <length> ]?] && [ center | [ top | bottom ] [ <percentage> | <length> ]? ]]
+```
+
+取值的句法看起来相当吓人，其实也没多么复杂。之所以变成这样，是因为新技术刚刚出现，实现方式还没定下来，而与此同时还要兼顾旧句法（好吧，是有这么一点吓人）。其实，background-position 十分简单。
+
+>本节将使用 background-repeat: no-repeat 禁止平铺背景图。别急，我们还没讲到 background-repeat 属性。在此之前，也别管它的作用。本节用这个声明限制背景图只出现一次。
+
+例如，我们可以使用下述代码把背景图放在 body 元素的中间，如下图所示。
+
+```css
+body {
+    background-image: url(yinyang.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%B1%85%E4%B8%AD%E6%98%BE%E7%A4%BA%E5%8D%95%E4%B8%AA%E8%83%8C%E6%99%AF%E5%9B%BE.png)
+
+这里，我们只在背景中放了一个图像，然后通过 background-repeat 属性（下一节讨论）禁止重复。任何背景效果都建立在这一个图像之上。这个图像称为源图像。
+
+源图像的位置由 background-position 属性指定，这个属性的值有多种指定方式。首先是关键字：top、bottom、left、right 和 center。通常，关键字成对出现，但也不尽然（如上例所示）。其次是长度值，例如 50px 或 2cm。最后是百分数值，例如 43%。这几种值对背景图位置的影响稍有不同。
+
+<br>
+
+### 关键字
+
+在各种定位方式中，关键字最好理解。各关键字的值就表明了其作用。例如，top right 把源图像放在元素背景的右上角。以一个小的阴阳符号为例：
+
+```css
+p {
+    background-image: url(yinyang-sm.png);
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+```
+
+这个规则在每个段落背景的右上角放一个源图像，而且没有重复。把位置声明为 right top 得到的结果就是下图那样。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E6%8A%8A%E8%83%8C%E6%99%AF%E5%9B%BE%E6%94%BE%E5%9C%A8%E6%AE%B5%E8%90%BD%E7%9A%84%E5%8F%B3%E4%B8%8A%E8%A7%92.png)
+
+位置关键字的顺序随意，只要不超过两个：一个指定横向位置，一个指定纵向位置。如果使用两个横向位置关键字（right right）或两个纵向位置关键字（top top），整个值将被忽略。
+
+如果只有一个关键字，另一个假定为 center。因此，如果想把背景图放在各个段落的上部居中位置，只需这样声明：
+
+```css
+p {
+    background-image: url(yinyang-sm.png);
+    background-repeat: no-repeat;
+    background-position: top;
+}
+```
+
+<br>
+
+### 百分数值
+
+百分数值的作用与关键字十分接近，不过行为更加复杂。假设你想使用百分数值居中显示源图像，可以轻易做到：
+
+```css
+p {
+    background-image: url(chrome.jpg);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+```
+
+这个规则把源图像的中点与元素背景的中点对齐。也就是说，百分数值同时应用到元素和源图像上。
+
+为了弄清这句话的意思，下面深入分析具体处理过程。把源图像居中显示在元素的背景中时，图像上以 50% 50% 表示的点（中点）与背景区域以相同值表示的点对齐。如果把图像放在 0% 0% 处，图像的左上角与元素背景的左上角对齐。100% 100% 则把源图像的右下角与背景区域的右下角对齐。这几个值及其他值的对齐方式如下图所示。
+
+因此，如果想把源图像放在背景区域横向 1/3、纵向 2/3 位置处，要这样声明规则：
+
+```css
+p {
+    background-image: url(yinyang-sm.png);
+    background-repeat: no-repeat;
+    background-position: 33% 66%;
+}
+```
+
+根据上述规则，源图像上横向距左上角 1/3、纵向距左上角 2/3 处的点将于背景中以相同方式确定的点对齐。注意，第一个百分数值始终是横向偏移。如果把上例中的两个百分数对调，那么源图像将放在横向 2/3、纵向 1/3 处。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E4%B8%8D%E5%90%8C%E7%9A%84%E7%99%BE%E5%88%86%E6%95%B0%E5%AE%9A%E4%BD%8D%E7%BB%93%E6%9E%9C.png)
+
+如果只提供一个百分数值，那个值将作为横向偏移，而纵向偏移假定为 50%。例如：
+
+```css
+p {
+    background-image: url(yinyang-sm.png);
+    background-repeat: no-repeat;
+    background-position: 25%;
+}
+```
+
+这个源图像放在段落背景的横向 1/4、纵向一半处，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%8F%AA%E5%A3%B0%E6%98%8E%E4%B8%80%E4%B8%AA%E7%99%BE%E5%88%86%E6%95%B0%E5%80%BC%E6%97%B6%E7%BA%B5%E5%90%91%E4%BD%8D%E7%BD%AE%E4%B8%BA50%25.png)
+
+下表是关键字与百分数的对应关系。
+
+| 关键字       | 等效的关键字                   | 等效的百分数     |
+| ------------ | ------------------------------ | ---------------- |
+| center       | center center                  | 50% 50%<br>50%   |
+| right        | center right<br>right center   | 100% 50%<br>100% |
+| left         | center left<br>left center     | 0% 50%<br>0%     |
+| top          | top center<br>center top       | 50% 0%           |
+| bottom       | bottom center<br>center bottom | 50% 100%         |
+| top left     | left top                       | 0% 0%            |
+| top right    | right top                      | 100% 0%          |
+| bottom right | right bottom                   | 100% 100%        |
+| bottom left  | left bottom                    | 0% 100%          |
+
+你可能不知道，background-position 的默认值是 0% 0%，其作用与 top left 一样。正是因为这样，在没有指定其他位置时，背景图始终从元素背景的左上角开始平铺。
+
+<br>
+
+### 长度值
+
+最后，位置还可以使用长度值指定。这种情况下，长度值是相对元素背景左上角的偏移。源图像上的偏移是左上角。因此，设为 20px 30px 时，源图像的左上角将相对元素背景的左上角向右偏移 20 像素、向下偏移 30 像素。下述代码得到的结果如下图所示（图中还有其他长度值的示例）。
+
+```css
+background-image: url(chrome.jpg);
+background-repeat: no-repeat;
+background-position: 20px 30px;
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E4%BD%BF%E7%94%A8%E9%95%BF%E5%BA%A6%E5%80%BC%E5%81%8F%E7%A7%BB%E8%83%8C%E6%99%AF%E5%9B%BE.png)
+
+这与百分数值完全不同，这里计算偏移时是相对左上角而言的。也就是说，是源图像的左上角与 background-position 声明的点对齐。
+
+我们可以结合长度值和百分数值，以两种不同的方式实现各种效果。如果想把源图像放在背景的右边，而且向下偏移 10 像素，可以像下面这样声明规则，得到的结果如下图所示。同样，横向值写在首位。
+
+```css
+p {
+    background-image: url(yinyang.png);
+    background-repeat: no-repeat;
+    background-position: 100% 10px;
+    border: 1px dotted gray;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E6%B7%B7%E7%94%A8%E7%99%BE%E5%88%86%E6%95%B0%E5%80%BC%E5%92%8C%E9%95%BF%E5%BA%A6%E5%80%BC.png)
+
+类似地，上图中的效果还可以使用 right 10px 实现，因为关键字和长度值及百分数值也可以混用。注意，关键字以外的值对轴的顺序有要求。也就是说，如果使用长度值或百分数值，横向值必须写在首位，纵向值必须写在末位。因此，right 10px 是有效的，而 10px right 是无效的，将被忽略（因为 right 不是有效的纵向关键字）。
+
+<br>
+
+### 负值
+
+使用长度值或百分数值时，可以使用负值把源图像拉到元素的背景区域之外。假如背景中有个特别大的阴阳符号，我们可以居中显示源图像，但是有时我们只想让一部分显示在元素背景的左上角。这个效果是可以实现的，至少在理论上可行。
+
+假设源图像的宽和高都是 300 像素，而且我们只想看到图像右下角的三分之一。这个效果可以这样实现（见下图）：
+
+```css
+body {
+    background-image: url(yinyang.png);
+    background-repeat: no-repeat;
+    background-position: -200px -200px;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E4%BD%BF%E7%94%A8%E8%B4%9F%E7%9A%84%E9%95%BF%E5%BA%A6%E5%80%BC%E5%AE%9A%E4%BD%8D%E6%BA%90%E5%9B%BE%E5%83%8F.png)
+
+如果只想看到图像的右半边，而且纵向居中显示在元素的背景区域中：
+
+```css
+body {
+    background-image: url(yinyang.png);
+    background-repeat: no-repeat;
+    background-position: -150px 50%;
+}
+```
+
+百分数也可以是负的，不过计算过程略为复杂。源图像和元素的尺寸有可能差异很大，这会导致意料之外的结果。例如，下述规则得到的结果如下图所示。
+
+```css
+p {
+    background-image: url(pix/yinyang.png);
+    background-repeat: no-repeat;
+    background-position: -10% -10%;
+    width: 500px;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E8%B4%9F%E7%99%BE%E5%88%86%E6%95%B0%E5%80%BC%E5%BE%97%E5%88%B0%E7%9A%84%E4%B8%8D%E5%90%8C%E7%BB%93%E6%9E%9C.png)
+
+上述规则把源图像外部由 -10% -10% 定义的点与各个段落中以相同值定义的点对齐。图像的尺寸是 300 ⨉ 300 像素，因此对齐的是图像上部 30 像素和左边 30 像素确定的点（即 -30px 和 -30px）。上图中几个段落的宽度是相同的（500px），因此背景的横向偏移是左边向左 50 像素。这意味着，源图像的左边在段落内边距左边界左边的 20 像素处。这是由于图像上的 -30px 对齐点要与段落背景的 -50px 对齐点对齐，二者之差为 20 像素。
+
+然而，各段落的高度是不同的，因此每个段落的纵向对齐点是不一样的。假设某个段落的高度恰好也是 300 像素，那么源图像的顶边将正好与元素背景区域的顶边对齐，因为纵向对齐都是 -30px。如果段落的高度是 50 像素，那么对齐点是 -5px，源图像的顶边在背景区域顶边的下部，相距 25 像素。这就是上图中每个背景图的顶部都可见的原因，因为段落的高度都比背景图的高度小。
+
+<br>
+
+### 改变偏移边
+
+好吧，我承认，在前面的讨论中我隐瞒了两件事：第一，background-position 的关键字值不能超过两个。第二，偏移始终相对背景区域的左上角。
+
+在 css 的发展过程中，很长一段时间内确实是这样，但是现在情况变了。其实，只要格式正确，最多可以使用四个关键字实现特殊的功能：指定相对哪边计算偏移。
+
+先来看一个简单的例子：把源图像放在距左上角横向 1/3、纵向 30 像素处。根据前几节的知识，可以这样声明：
+
+```css
+background-position: 33% 30px;
+```
+
+下面使用四个值的句法实现相同的效果：
+
+```css
+background-position: left 33% top 30px;
+```
+
+这四个值的意思是，相对左边界横向偏移 33%，相对上边界纵向偏移 30px。
+
+这是默认行为，只不过我们显式指明了。现在，我们把源图像放在距右下角横向 1/3、纵向 30 像素处，如下图所示（简单起见，假设背景图不重复）：
+
+```css
+background-position: right 33% bottom 30px;
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E6%94%B9%E5%8F%98%E6%BA%90%E5%9B%BE%E5%83%8F%E7%9A%84%E5%81%8F%E7%A7%BB%E8%BE%B9.png)
 
 
-<h3 id="ns9ll">对边框的影响</h3>
-<h3 id="ebEir">对表单元素的影响</h3>
-<h3 id="aCznD">继承颜色</h3>
-
-
----
-
-<h2 id="dJYw4">9.2 背景</h2>
-<h3 id="QsSs3">背景色</h3>
-|                                                                             background-color<br/>取值：<color><br/>初始值：transparent<br/>适用于：所有元素<br/>计算值：指定的值<br/>继承性：否<br/>动画性：是 |
-| --- |
 
 
 
 
-<h3 id="t0p3a">裁剪背景</h3>
-|                                                                             background-clip<br/>取值：[ border-box  |  padding-box  |  content-box  |  text ]#<br/>初始值：border-box<br/>适用于：所有元素<br/>计算值：声明的值<br/>继承性：否<br/>动画性：否 |
-| --- |
 
 
 
 
-![](https://cdn.nlark.com/yuque/0/2024/png/166664/1730603957160-77e88f77-9e47-49a0-b1c4-5e722e93b16b.png)
-
-
-
-<h3 id="bznxb">背景图</h3>
-|                                                                      background-image<br/>取值：[  <image>#  |  none]<br/>初始值：none<br/>适用于：所有元素<br/>计算值：指定的值，不过所有 URL 都会变成绝对 URL<br/>继承性：否<br/>动画性：否 |
-| --- |
-
-
-<h3 id="T5J2P">背景定位</h3>
-|                                                                       background-position<br/>取值：<position>#<br/>初始值：0% 0%<br/>适用于：块级元素和置换元素<br/>百分数：指代元素或源图像上相应的点<br/>计算值：指定 <length> 时是绝对长度偏移，否则是百分数值<br/>继承性：否<br/>动画性：是 |
-| --- |
 
 
 
 
-<h3 id="O4wJK">改变定位框</h3>
-|                                                                        background-origin<br/>取值：[  border-box  |  padding-box  |  content-box  ]#<br/>初始值：padding-box<br/>适用于：所有元素<br/>计算值：声明的值<br/>继承性：否<br/>动画性：否 |
-| --- |
-
-
-<h3 id="KVsrn">背景重复方式（或不重复）</h3>
-|                                                                        background-repeat<br/>取值：<repeat-style>#<br/>展开：<repeat-style> = repeat-x  |  repeat-y  |  [  repeat  |  space  |  round  |  no-repeat  ]{1,2}<br/>初始值：repeat<br/>适用于：所有元素<br/>计算值：指定的值<br/>继承性：否<br/>动画性：否 |
-| --- |
 
 
 
 
-<h3 id="RL5VW">背景黏附</h3>
-|                                                                         background-attachment<br/>取值：[  scroll  |  fixed  |  local  ]#<br/>初始值：scroll<br/>适用于：所有元素<br/>计算值：指定的值<br/>继承性：否<br/>动画性：否 |
-| --- |
-
-
-<h3 id="ZBkZl">控制背景图的尺寸</h3>
-|                                                                        background-size<br/>取值：[ [ <length>  |  <percentage>  |  auto  ]{1,2}  |  cover  |  contain  ]#<br/>初始值：auto<br/>适用于：所有元素<br/>计算值：声明的值，不过长度会计算出绝对值，缺少的部分由 auto 关键字补全<br/>继承性：否<br/>动画性：是 |
-| --- |
 
 
 
 
-<h3 id="i78jM">写为一个属性</h3>
-|                                                                        background<br/>取值：<br/>初始值：参见各单独属性<br/>适用于：所有元素<br/>百分数：参见各单独属性<br/>计算值：参见各单独属性<br/>继承性：否<br/>动画性：参见各单独属性 |
-| --- |
+
+
+
+
 
 
 

@@ -1722,6 +1722,532 @@ border-image: url(orbit.svg) stretch 100% / 1 / 0;
 
 <br>
 
+# 4. 轮廓
+
+css 定义了一种特殊的装饰方式，名为轮廓（outline）。实际使用中，轮廓一般直接绘制在边框外侧，但情况并不总是这么简单（稍后就将看到）。根据规范，轮廓与边框的区别体现在三个方面：
+
+1. 轮廓不占空间。
+2. 轮廓可以不是矩形。
+3. 用户代理通常在元素处于 :focus 状态时渲染轮廓。
+
+不过，我还要再加一点：
+
+4. 轮廓更极端，无法单独为一边设置独特的轮廓。
+
+下面详细说明。首先介绍相关的各个属性，并与对应的边框属性比较。
+
+## 1. 轮廓样式
+
+与边框一样，轮廓的样式也可以设定。其实，如果你装饰过边框，这些值对你来说已经非常熟悉了。
+
+```css
+outline-style
+
+取值：auto | none | solid | dotted | dashed | double | groove | ridge | inset | outset
+初始值：none
+适用于：所有元素
+计算值：指定的值
+继承性：否
+动画性：否
+```
+
+与边框最大的两点不同是，轮廓没有 hidden 样式（边框有），但是多了个 auto 样式。这个样式给用户代理流出了足够的自由权，可以实现丰富的轮廓外观。css 规范是这样说的：
+
+​	用户代理在处理 auto 值时可以自定义轮廓的样式，可以结合所在平台的用户界面，也可以比 css 所能描述的更加华丽，例如带圆角的外发光轮廓。
+
+除了这两点之外，轮廓的其他样式都与边框一样，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E4%B8%8D%E5%90%8C%E7%9A%84%E8%BD%AE%E5%BB%93%E6%A0%B7%E5%BC%8F.png)
+
+此外还有一个不太明显的区别：border-style 是简写属性，而 outline-style 不是。你不能使用 outline-style 为各边设定不同的样式，因为轮廓不支持这么做。css 没有 outline-top-style 属性。其他轮廓属性也是如此，但 outline 除外。
+
+<br>
+
+## 2. 轮廓宽度
+
+确定轮廓的样式之后（假设不是 none），接下来该定义轮廓的宽度了。
+
+```css
+outline-width
+
+取值：<length> | thin | medium | thick
+初始值：medium
+适用于：所有元素
+计算值：绝对长度，样式为 none 时为 0
+继承性：否
+动画性：是
+```
+
+边框宽度已经讨论这么细致了，轮廓宽度没什么好讲的了。如果轮廓样式为 none，那么轮廓的宽度为 0。thick 比 medium 宽，medium 又比 thin 宽，但是规范没有为这些关键字定义具体的宽度。下图展示了几个不同的轮廓宽度。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E4%B8%8D%E5%90%8C%E7%9A%84%E8%BD%AE%E5%BB%93%E5%AE%BD%E5%BA%A6.png)
+
+跟前面一样，真正的区别是，outline-width 不是简写属性。整个轮廓的宽度必须相等，不能为某一边设定不同的宽度（原因稍后介绍）。
+
+<br>
+
+## 3. 轮廓颜色
+
+你的轮廓有样式和宽度了？很好，再给它选个颜色。
+
+```css
+outline-color
+
+取值：<color> | invert
+初始值：invert
+适用于：所有元素
+计算值：指定的值
+继承性：否
+动画性：是
+```
+
+这个属性的作用与 border-color 基本一样，只不过没有针对单边的属性，例如没有 outline-left-color。
+
+最大的区别是默认值 invert。这个值得作用是对轮廓可见部分中的所有像素进行颜色转换。听着很抽象，通过示例一看就明白了。下述样式的预期结果如下图所示。
+
+```css
+h1 {
+    outline-style: dashed;
+    outline-width: 10px;
+    outline-color: invert;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E9%A2%9C%E8%89%B2%E5%8F%8D%E8%BD%AC.png)
+
+颜色反转的好处是，不管背景是什么颜色，在很多情况下都能清楚地看到轮廓。不过有个例外：gray 色（rgb(20%, 50%, 50%) 或 hsl(0, 0%, 50%)，抑或其他等效的表示方式）反转得到的还是原本的颜色。因此，outline-color: invert 声明将把轮廓隐藏在灰色的背景中。接近 gray 的背景色也是如此。
+
+>截至 2017 年年末，只有 microsoft edge 和 ie11 支持 invert。其他多数浏览器都把这个值当做错误，转而使用默认颜色（元素的 color 属性值）。
+
+<br>
+
+## 4. 唯一的轮廓简写属性
+
+目前介绍的三个轮廓属性看起来像是简写属性，但其实它们不是。轮廓只有一个简写属性：outline。
+
+```css
+outline
+
+取值：[ <outline-color> || <outline-style> || <ouotline-width> ]
+初始值：none
+适用于：所有元素
+计算值：指定的值
+继承性：否
+动画性：参见各单独属性
+```
+
+没什么奇怪的，与 border 类似，这个属性能一次性设置轮廓的样式、宽度和颜色。下图展示了几个不同的轮廓。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E5%87%A0%E4%B8%AA%E4%B8%8D%E5%90%8C%E7%9A%84%E8%BD%AE%E5%BB%93.png)
+
+目前来看，轮廓与边框很像。那么，二者之间到底有什么区别？
+
+<br>
+
+## 5. 轮廓与边框的区别
+
+轮廓与边框之间的第一个重要区别是，轮廓对布局完全没有影响。任何影响都没有。轮廓只是视觉上的效果。
+
+来看下述样式，结果如下图所示。
+
+```css
+h1 {
+    padding: 10px;
+    border: 10px solid green;
+    outline: 10px dashed #9AB;
+    margin: 10px;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E8%BD%AE%E5%BB%93%E5%8F%A0%E5%8A%A0%E5%88%B0%E5%A4%96%E8%BE%B9%E8%B7%9D%E4%B8%8A.png)
+
+看起来没什么？那是你没发现轮廓完全不叠加到外边距上了。如果在外边距的边缘画一条点线，那条线将正好沿着轮廓的外边界（下一节讨论外边距）。
+
+这就是轮廓不影响布局的原因。再看一例。这一次我们为两个 span 元素设定轮廓，结果如下图所示。
+
+```css
+span {
+    outline: 1em solid rgba(0, 128, 0, 0.5);
+}
+
+span + span {
+    outline: 0.5em double purple;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E8%BD%AE%E5%BB%93%E9%87%8D%E5%8F%A0%E4%BA%86.png)
+
+这两个轮廓没有影响行的高度，也没有把 span 元素向哪一边推开。文本的位置就像根本没有轮廓时一样。
+
+这又引出了轮廓的另一个有趣特性：轮廓不一定是矩形的，也不一定是连续的。假如 strong 元素断成两行后，应用下述样式后，得到的结果如下图所示。
+
+```css
+strong {
+    outline: 2px dotted gray;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E4%B8%8D%E8%BF%9E%E7%BB%AD%E5%8F%8A%E4%B8%8D%E6%98%AF%E7%9F%A9%E5%BD%A2%E7%9A%84%E8%BD%AE%E5%BB%93.png)
+
+在第一种情况下，strong 元素的两部分都有独立的轮廓线。在第二种情况中，strong 元素的两部分接在一起，轮廓也合并为一个多边形，包含各部分。边框是绝对不会出现这种情况的。
+
+正式因为这样，才没有单边轮廓属性（例如 outline-right-style）。想想，如果轮廓不是矩形，那么哪一边是右边？
+
+>截至 2017 年年末，不是所有浏览器都会把多个片段合并为一整个多边形。在不支持这一行为的浏览器中，各部分依然是自成一体的矩形，就像上图中的第一个例子那样。
+
+<br>
+
+# 5. 外边距
+
+常规流动模式下，元素之间有间隔的原因是元素有外边距（margin）。外边距在元素周围添加额外的空白。空白一般指其他元素不能共存的区域，而且在这片区域中，父元素的背景是可见的。下图所示的两种情况，一种在两个段落之间有外边距，而另一种没有。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E6%9C%89%E5%92%8C%E6%B2%A1%E6%9C%89%E5%A4%96%E8%BE%B9%E8%B7%9D%E7%9A%84%E6%AE%B5%E8%90%BD.png)
+
+设定外边距最简单的方法是使用 margin 属性。
+
+```css
+margin
+
+取值：[ <length> | <percentage> | auto ]{1,4}
+初始值：未定义
+适用于：所有元素
+百分数：相对容纳块的宽度计算
+计算值：参见各单独属性
+继承性：否
+动画性：是
+```
+
+假设你想为 h1 元素设置 1/4 英寸的外边距，结果如下图所示（为了能清楚地看到内容区的边界，加上了背景色）：
+
+```css
+h1 {
+    margin: 0.25in;
+    background-color: silver;
+}
+```
+
+这个规则在 h1 元素的四周加上了 1/4 英寸的空白。下图中的虚线表示空白的范围，只是为了说明方便，并不会真的出现在 web 浏览器中。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E4%B8%BA%20h1%20%E5%85%83%E7%B4%A0%E8%AE%BE%E7%BD%AE%E5%A4%96%E8%BE%B9%E8%B7%9D.png)
+
+margin 属性的值可以是任何长度值，包括像素、英寸、毫米和 em。然而，外边距的默认值是 .0（零）。因此，如果未声明值，默认没有外边距。
+
+不过，浏览器通常会为很多元素提供预设样式，这其中就包含外边距。例如，在启用 css 的浏览器中，通常会在段落上下添加一个空行。因此，如果没有为 p 元素设定外边距的话，浏览器会自行添加。只要声明了，默认的样式就会被覆盖。
+
+最后，margin 属性的值也可以是百分数。这种值在 8.5.2 节详细说明。
+
+## 1. 外边距的长度值
+
+任何长度值都能用于设置元素的外边距。若想在段落周围添加 10 像素的空白，是轻而易举的事。下述规则为段落设置银色的背景、10 像素的内边距和 10 像素的外边距：
+
+```css
+p {
+    background-color: silver;
+    padding: 10px;
+    margin: 10px;
+}
+```
+
+这里，10 像素的空白添加到段落的每一边上，而且都在边框外边界外侧。使用 margin 属性还能再图像四周添加额外的空白。假设你想再所有图像周围添加 1em 的空白：
+
+```css
+img {
+    margin: 1em;
+}
+```
+
+就这么简单。
+
+有时，你可能想为不同的边设置不同的外边距。这也不难，前面讲过的值复制行为在这里适用。如果想为所有 h1 元素添加 10 像素上外边距、20 像素右外边距、15 像素下外边距和 5 像素左外边距，只需这么写：
+
+```css
+h1 {
+    margin: 10px 20px 15px 5px;
+}
+```
+
+不同类型的长度值还可以混用。一个规则中并不一定非要使用同一种长度值，例如：
+
+```css
+/* 不同类型的长度值 */
+h2 {
+    margin: 14px 5em 0.1in 3ex;
+}
+```
+
+这个规则的结果如下图所示（添加了辅助线）。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%9E%8B%E7%9A%84%E9%95%BF%E5%BA%A6%E5%80%BC%E8%AE%BE%E5%AE%9A%E5%A4%96%E8%BE%B9%E8%B7%9D.png)
+
+<br>
+
+## 2. 外边距的百分数值
+
+元素的外边距可以使用百分数值设定。与内边距一样，百分数外边距值相对父元素的内容区宽度计算，因此外边距的具体值将随父元素的宽度而变。例如下述规则和标记，结果如下图所示。
+
+```css
+p {
+    margin: 10%;
+}
+```
+
+```html
+<div style="width: 600px;">
+	<p>
+		This paragraph is contained within a DIV that has a width of 600 pixels, so its margin will be 10% of the width of the paragraph's parent element. Given the declared width of 600 pixels, the margin will be 60 pixels on all sides.
+	</p>
+</div>
+<div style="width: 300px;">
+	<p>
+		This paragraph is contained within a DIV with a width of 300 pixels, so its margin will still be 10% of the width of the paragraph's parent. There will, therefore, be half as much margin on this paragraph as that on the first paragraph.
+	</p>
+</div>
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E7%88%B6%E5%85%83%E7%B4%A0%E7%9A%84%E5%AE%BD%E5%BA%A6%E5%AF%B9%E7%99%BE%E5%88%86%E6%95%B0%E5%80%BC%E7%9A%84%E5%BD%B1%E5%93%8D.png)
+
+>与内边距一样，定位元素、弹性布局中的元素和栅格布局中的元素，其上下外边距的百分数值采用不同的方式计算：相对格式化上下文的高度计算。
+
+<br>
+
+## 3. 单边外边距属性
+
+你应该猜到了，每一边的外边距都有专门的属性可以单独设置，对其他边没有影响。
+
+```css
+margin-top, margin-right, margin-bottom, margn-left
+
+取值：<length> | <percentage> | auto
+初始值：0
+适用于：所有元素
+百分数：相对容纳块的宽度计算
+计算值：百分数值为百分数自身，否则为绝对长度
+继承性：否
+动画性：是
+```
+
+这些属性的用法与你预期一样。例如，下面两个规则得到的外边距量是一样的：
+
+```css
+h1 {
+    margin: 0 0 0 0.25in;
+}
+
+h2 {
+    margin-left: 0.25in;
+}
+```
+
+<br>
+
+## 4. 外边距折叠
+
+块级框的上下外边距有个有趣的行为，而这个行为往往被人忽略：上下外边距会折叠。相邻的两个（或多个）上下外边距会折叠为其中最大的那个外边距。
+
+段落之间的空白是最经典的例子。一般来说，段落之间的间隔使用类似下面的规则实现：
+
+```css
+p {
+    margin: 1em 0;
+}
+```
+
+这个规则把每个段落的上下外边距都设为 1em。如果外边距不折叠，相邻的两个段落之间就会出现 2em 的间隔。而事实上，段落之技安只有 1em 的间隔，因为两个外边距折叠了。
+
+为了更清楚地说明这一行为，我们继续以百分数值外边距为例，不过这一次我们加上了虚线，指明外边距的范围，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E6%8A%98%E5%8F%A0%E5%A4%96%E8%BE%B9%E8%B7%9D.png)
+
+这个例子揭示了两部分内容之间的间隔距离是 60 像素，因为这是两个相邻的外边距中较大的那个。第二个段落的 30 像素上外边距被折叠了，所有空白都由第一个段落的下外边距提供。
+
+上图在某种程度上是不对的，如果字斟句酌研读 css 规范，你会发现，根据规范，其实是第二个段落的上外边距被重置为零了。折叠时，并不是第二个段落的上外边距融入了第一个段落的下外边距，而是第二个段落的上外边距根本不存在了。不过，最终结果是一样的。
+
+当一个元素位于另一个元素内部时，外边距折叠还是导致一些奇怪的现象。以下述规则和标记为例：
+
+```css
+header {
+    background: goldenrod;
+}
+
+h1 {
+    margin: 1em;
+}
+```
+
+```html
+<header>
+    <h1>Welcome to ConHugeCo</h1>
+</header>
+```
+
+h1 的外边距会把 header 的边界向外推开，对吧？其实，并不完全是这样。如下图所示。
+
+怎么回事？两侧的外边距起作用了，从文本的位置变化可以看出来，但是上下外边距不见了。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E6%9C%89%E7%88%B6%E5%85%83%E7%B4%A0%E6%97%B6%E7%9A%84%E5%A4%96%E8%BE%B9%E8%B7%9D%E6%8A%98%E5%8F%A0.png)
+
+其实上下外边距花还是那儿，只不过超出了 header 元素，与 header 元素的上外边距（高度为零）融合在一起了。加上虚线你就能看出来这里的玄机了，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E6%8F%AD%E9%9C%B2%E6%9C%89%E7%88%B6%E5%85%83%E7%B4%A0%E6%97%B6%E7%9A%84%E5%A4%96%E8%BE%B9%E8%B7%9D%E6%8A%98%E5%8F%A0%E7%8E%84%E6%9C%BA.png)
+
+看到没有，外边距在 header 元素的前后，但是没有导致 header 元素的边界向外扩展。这是符合预期的结果，然而往往不是我们想要的效果。为什么说符合预期？想想把段落在列表项目的情况。如果没有这样的外边距折叠行为，段落的上外边距将使段落下移，从而导致列表项目无法与项目符号（或序号）对齐。
+
+>在父元素上设定内边距或边框等可以阻止外边距折叠。详细说明参见 basic visual formatting (O' Reilly 一书中的 collapsing vertical margins 一节。
+
+<br>
+
+## 5. 负外边距
+
+元素的外边距可以设为负值。这可能会使元素框从父元素中冒出来，或者与其他元素重叠。以下述规则为例，其结果如下图所示。
+
+```css
+div {
+    border: 1px solid gray;
+    margin: 1em;
+}
+
+p {
+    margin: 1em;
+    border: 1px dashed silver;
+}
+
+p.one {
+    margin: 0 -1em;
+}
+
+p.two {
+    margin: -1em 0;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E8%B4%9F%E5%A4%96%E8%BE%B9%E8%B7%9D%E7%A4%BA%E4%BE%8B.png)
+
+第一个例子中，经过数学计算，段落的宽度加上左右外边距正好等于父级 div 元素的宽度。因此，那个段落看起来比父元素宽 2em，但实际上并不宽（从数学的角度看）。在第二个例子中，上下外边距实际上减少了元素的高度，导致上下外边界向内收缩了，因此与前后两个段落出现了重叠。
+
+正负外边距结合起来特别有用。例如，合理设定正负外边距可以让一个段落额从父元素中冲出来，或者实现 mondrian 效果，让几个随机摆放的框体重叠在一起，如下图所示。
+
+```css
+div {
+    background: hsl(42, 80%, 80%);
+    border: 1px solid;
+}
+
+p {
+    margin: 1em;
+}
+
+p.punch {
+    background: white;
+    margin: 1em -1px 1em 25%;
+    border: 1px solid;
+    border-right: none;
+    text-align: center;
+}
+
+p.mond {
+    background: rgba(5, 5, 5, 0.5);
+    color: white;
+    margin: 1em 3em -3em -3em;
+}
+```
+
+因为 mond 那段的下外边距为负值，所以父元素的底边上移了，从而导致段落的底部从父元素的底部突出来了。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E4%BB%8E%E7%88%B6%E5%85%83%E7%B4%A0%E4%B8%AD%E7%AA%81%E5%87%BA%E6%9D%A5.png)
+
+<br>
+
+## 6. 行内元素的外边距
+
+行内元素也可以设定外边距。比如说，下述规则为粗体强调文本设置上下外边距：
+
+```css
+strong {
+    margin-top: 25px;
+    margin-bottom: 50px;
+}
+```
+
+这是符合规范的，但是由于外边距应用在行内非置换元素上，而外边距始终是透明的，所以外边距对行高没有任何影响。其实，在其他方面也完全没有影响。
+
+但是，换成左右外边距就不一样了，如下图所示。
+
+```css
+strong {
+    margin-left: 25px;
+    background: silver;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E8%AE%BE%E7%BD%AE%E4%BA%86%E5%B7%A6%E5%A4%96%E8%BE%B9%E8%B7%9D%E7%9A%84%E8%A1%8C%E5%86%85%E9%9D%9E%E7%BD%AE%E6%8D%A2%E5%85%83%E7%B4%A0.png)
+
+注意，行内非置换元素前面那个单词的后面多了一些空白。另外请注意行内元素背景的边界。如果需要，可以在行内元素的两端都添加额外的空白：
+
+```css
+strong {
+    margin: 25px;
+    background: silver;
+}
+```
+
+如下图所示，行内元素的左右两侧都有一些额外的空白，但是上下没有，这正是预期的结果。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E8%A1%8C%E5%86%85%E9%9D%9E%E7%BD%AE%E6%8D%A2%E5%85%83%E7%B4%A0%E7%9A%84%E4%B8%A4%E4%BE%A7%E6%9C%89%2025%20%E5%83%8F%E7%B4%A0%E5%AE%BD%E7%9A%84%E5%A4%96%E8%BE%B9%E8%B7%9D.png)
+
+如果行内非置换元素断成多行，情况又变了。下图展示了行内非置换元素显示为多行时的外边距分布情况：
+
+```css
+strong {
+    margin: 25px;
+    background: silver;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E4%B8%A4%E4%BE%A7%E6%9C%89%2025%20%E5%83%8F%E7%B4%A0%E5%A4%96%E8%BE%B9%E8%B7%9D%E7%9A%84%E8%A1%8C%E5%86%85%E9%9D%9E%E7%BD%AE%E6%8D%A2%E5%85%83%E7%B4%A0%E6%98%BE%E7%A4%BA%E4%B8%BA%E5%A4%9A%E8%A1%8C.png)
+
+可以看到，左外边距在元素的开头，而右外边距在元素的末尾。外边距不会出现在第一个片段的右侧，也不会出现在第二个片段的右侧，也不会出现在第二个片段的右侧，也不会出现在第二个片段的左侧。此外，如果没有外边距，margin 之后就会断行，而现在是在 and a 后面断行。外边距对断行的影响只是改变新一行从何处开始。
+
+>使用 box-decoration-break 属性可以改变断行后每一行两侧应用外边距的方式。详情参见第 7 章。
+
+为行内非置换元素设置负外边距能实现更有趣的效果。此时，元素的上下两边不受影响，行高也不受影响，但是元素的两端可能会与周围的内容重叠，如下图所示。
+
+```css
+strong {
+    margin: -25px;
+    background: silver;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E5%A4%96%E8%BE%B9%E8%B7%9D%E4%B8%BA%E8%B4%9F%E5%80%BC%E7%9A%84%E8%A1%8C%E5%86%85%E9%9D%9E%E7%BD%AE%E6%8D%A2%E5%85%83%E7%B4%A0.png)
+
+行内置换元素又是另一番景象：外边距对行高有影响，具体是增大还是减少取决于上下外边距的值。行内置换元素左右外边距的行为与行内非置换元素一样。下图展示了行内置换元素上的不同外边距值对布局的影响。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC8%E7%AB%A0%EF%BC%9A%E5%86%85%E8%BE%B9%E8%B7%9D%E3%80%81%E8%BE%B9%E6%A1%86%E3%80%81%E8%BD%AE%E5%BB%93%E5%92%8C%E5%A4%96%E8%BE%B9%E8%B7%9D/%E5%85%B7%E6%9C%89%E4%B8%8D%E5%90%8C%E5%A4%96%E8%BE%B9%E8%B7%9D%E5%80%BC%E7%9A%84%E8%A1%8C%E5%86%85%E7%BD%AE%E6%8D%A2%E5%85%83%E7%B4%A0.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
