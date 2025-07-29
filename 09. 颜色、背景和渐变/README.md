@@ -796,6 +796,251 @@ background-position: right 33% bottom 30px;
 
 ![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E6%94%B9%E5%8F%98%E6%BA%90%E5%9B%BE%E5%83%8F%E7%9A%84%E5%81%8F%E7%A7%BB%E8%BE%B9.png)
 
+这里，值的意思是相对右边界横向偏移 33%，相对下边界纵向偏移 30px。
+
+可以看出，基本的句法是：一个边界关键字、一个偏移距离、一个边界关键字和一个偏移距离。横向和纵向的顺序随意，例如 bottom 30px right 25% 的作用与 right 25% bottom 30px 完全一样。但是，不能省略任何一个边界关键字，例如 30px right 25% 是无效的，将被忽略。
+
+如果某一个方向的偏移量为零，可以将其省略。例如，right bottom 30px 将把源图像放在紧靠右边界的位置，并距背景区域底边向上 30 像素。right 25% bottom 把源图像放在距右边界 1/4 处，而且紧靠底边。这两种情况如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E9%95%BF%E5%BA%A6%E4%B8%BA%E9%9B%B6%E7%9A%84%E5%81%8F%E7%A7%BB%E8%87%AA%E5%8A%A8%E6%8E%A8%E5%AF%BC.png)
+
+巧的是，只能把元素的边界作为偏移基准，中线不行。例如 center 25% center 25px 将被忽略。
+
+<br>
+
+## 5. 改变定位框
+
+不错，现在我们不仅能在背景中放置图像了，还能改变源图像的位置。但是，如果不想让位置相对元素内边距的外边界（默认行为）计算？这一点可以使用 background-origin 属性改变。
+
+```css
+background-origin
+
+取值：[ border-box | padding-box | content-box ]#
+初始值：padding-box
+适用于：所有元素
+计算值：声明的值
+继承性：否
+动画性：否
+```
+
+这个属性的作用看起来跟 background-clip 很像，你这么想我也能理解，但是它们之间的区别还是很大的。background-origin 属性确定计算源图像的位置时以什么的边界为基准，定义的是背景定位区域（你应该还记得，background-clip 定义的是背景绘制区域）。
+
+默认值 padding-box 的意思是，源图像的左上角放在内边距外边界（就是边框内侧）的左上角（假设没做其他改动）。
+
+设为 border-box 时，源图像的左上角将在边框的左上角。如果有边框的话，边框将在源图像之上绘制（假设背景绘制区域没有改为 padding-box 或 content-box）。
+
+设为 content-box 时，源图像的左上角将放在内容区的左上角。三者之间的区别如下图所示。
+
+```css
+div[id] {
+    color: navy;
+    background: silver;
+    background-image: url(yinyang.png);
+    background-repeat: no-repeat;
+    padding: 1em;
+    border: 5px dashed;
+}
+
+#ex01 {
+    background-origin: border-box;
+}
+
+/* 默认值 */
+#ex02 {
+    background-origin: padding-box;
+}
+
+#ex03 {
+    background-origin: content-box;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E8%83%8C%E6%99%AF%E5%8E%9F%E7%82%B9%E7%9A%84%E4%B8%89%E7%A7%8D%E6%83%85%E5%86%B5.png)
+
+注意，相对左上角放置是默认的行为，这一点可以使用 background-position 改变。即便不把图像放在左上角，其位置也始终相对 background-origin 定义的框体计算：边框边界、内边距边界或内容边界。例如，下述代码在前例的基础上做了一点修改，得到的结果如下图所示。
+
+```css
+div[id] {
+    color: navy;
+    background: silver;
+    background-image: url(yinyang);
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    padding: 1em;
+    border: 5px dotted;
+}
+
+#ex01 {
+    background-origin: border-box;
+}
+
+#ex02 {
+    background-origin: padding-box; /* 默认值 */
+}
+
+#ex03 {
+    background-origin: content-box;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E8%83%8C%E6%99%AF%E5%8E%9F%E7%82%B9%E7%9A%84%E4%B8%89%E7%A7%8D%E6%83%85%E5%86%B5%E5%86%8D%E6%8E%A2.png)
+
+如果定义了背景原点，又把背景裁剪到不同的框体，那结果就有趣了。假设原点相对内边距的边界放置，但是背景裁剪到内容区域，或者反过来了，如下述代码所示，结果如下图所示。
+
+```css
+#ex01 {
+    background-origin: padding-box;
+    background-clip: content-box;
+}
+
+#ex02 {
+    background-origin: content-box;
+    background-clip: padding-box;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%8E%9F%E7%82%B9%E5%92%8C%E8%A3%81%E5%89%AA%E5%8C%BA%E5%9F%9F%E4%B8%8D%E5%90%8C.png)
+
+上图中的第一个示例，源图像靠边的部分被裁剪掉了，这是因为其位置相对内边距框确定，但是背景绘制区域却被裁剪到内容框的边界。在第二个示例中，源图像的位置相对内容框，但是绘制区域却延伸到内边距框，因此一直到内边距的下边界都可以看到源图像，但是上部不紧靠内边距的上边界。
+
+<br>
+
+## 6. 背景重复方式（或不重复）
+
+过去，如果想实现某种边栏式背景效果，要创建一个比较矮，但是特别宽的图像，放在背景中。有一段时间，人们喜欢创建 10 像素高、1500 像素宽的图像。这样的图像大部分是空白的，只有左边 100 像素左右是实现边栏式效果所需的图像。空白的部分基本上就浪费了。
+
+如果创建一个 10 像素高、100 像素宽的图像，没有那么被浪费的空白部分，只在纵向上重复。这样不是更高效？倘若真能这样，设计工作将变得轻而易举，用户的下载时间也将大大减少。background-repeat 属性应运而生。
+
+```css
+background-repeat
+
+取值：<repeat-style>#
+展开：<repeat-style> = repeat-x | repeat-y | [ repeat | space | round | no-repeat ]{1,2}
+初始值：repeat
+适用于：所有元素
+计算值：指定的值
+继承性：否
+动画性：否
+```
+
+初一看，background-repeat 的取值句法有点复杂，但其实相当简单。说到底，只有四个值：repeat、no-repeat、space 和 round。另外两个值，repeat-x 和 repeat-y，算式其他组合值得简写。具体分析见下表。
+
+如果提供两个值，第一个值应用于横向，第二个值应用于纵向。如果只有一个值，同时应用于横向和纵向，不过下表所示，repeat-x 和 repeat-y 例外。
+
+| 单个关键字 | 等效的关键字        |
+| ---------- | ------------------- |
+| repeat-x   | repeat no-repeat    |
+| repeat-y   | no-repeat repeat    |
+| repeat     | repeat repeat       |
+| no-repeat  | no-repeat no-repeat |
+| space      | space space         |
+| round      | round round         |
+
+ 你可能猜到了，repeat 关键字的效果是沿所有方向无限平铺图像，就像前文刚介绍背景图时那样。repeat-x 和 repeat-y 分别在横向和纵向上重复图像，而 no-repeat 则禁止图像沿指定的轴平铺。
+
+默认情况下，背景图从元素的左上角开始显示。因此，下述规则得到的结果如下图所示：
+
+```css
+body {
+    background-image: url(yinyang-sm.png);
+    background-repeat: repeat-y;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E7%BA%B5%E5%90%91%E5%B9%B3%E9%93%BA%E8%83%8C%E6%99%AF%E5%9B%BE.png)
+
+假设我们想让背景图在文档的顶部横展。此时无需专门创建一个下部有大量空白的图像，只需对后一条规则做个小改动：
+
+```css
+body {
+    background-image: url(yinyang-sm.png);
+    background-repeat: repeat-x;
+}
+```
+
+如下图所示，图像从起点（这里是 body 元素背景区域的左上角）开始沿着 x 轴重复。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E6%A8%AA%E5%90%91%E5%B9%B3%E9%93%BA%E8%83%8C%E6%99%AF%E5%9B%BE.png)
+
+最后，你可能根本不想重复背景图。此时，使用 no-repeat 值：
+
+```css
+body {
+    background-image: url(yinyang-sm.png);
+    background-repeat: no-repeat;
+}
+```
+
+这个值看似没有什么用途，上述声明只不过是把一个小图放在文档的左上角罢了，但是让我们来试试一个大得多的符号。下述代码得到的结果如下图所示：
+
+```css
+body {
+    background-image: url(yinyang.png);
+    background-repeat: no-repeat;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E6%94%BE%E7%BD%AE%E4%B8%80%E4%B8%AA%E5%A4%A7%E8%83%8C%E6%99%AF%E5%9B%BE.png)
+
+对重复方向的控制大大增加了可以实现的效果。假设你想在文档中的每个 h1 元素左边放一个三线边框。又或者，在 h2 元素的上边放波浪形的边框。图像的角色做了特殊处理，与背景色融合之后得到下图中的波浪效果。所用的代码如下：
+
+```css
+h1 {
+    background-image: url(triplebor.gif);
+    background-repeat: repeat-y;
+}
+
+h2 {
+    background-image: url(wavybord.gif);
+    background-repeat: repeat-x;
+    background-color: #CCC;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E4%BD%BF%E7%94%A8%E8%83%8C%E6%99%AF%E5%9B%BE%E4%B8%BA%E5%85%83%E7%B4%A0%E6%B7%BB%E5%8A%A0%E8%BE%B9%E6%A1%86.png)
+
+>如今，实现这种波浪边框效果有更好的方式，比如 8.3.8 节探讨的图像边框属性就可以。
+
+<br>
+
+### 位置对重复的影响
+
+前一节探讨了 repeat-x、repeat-y 和 repeat 对背景图平铺方式的影响。每一种重复方式中，背景图始终从元素背景区域的左上角开始平铺。这是因为，background-position 的默认值是 0% 0%。知道如何改变源图像的位置后，还要知道用户代理是如何处理的。
+
+先看一个例子，然后再解说。下述代码得到的结果如下图所示：
+
+```css
+p {
+    background-image: url(yinyang-sm.png);
+    background-position: center;
+    border: 1px dotted gray;
+}
+
+p.c1 {
+    background-repeat: repeat-y;
+}
+
+p.c2 {
+    background-repeat: repeat-x;
+}
+```
+
+如你所见，元素的中间出现了一条带状图。你可能觉得这是错的，其实不然。
+
+下图展示的结果是正确的，因为在第一个 p 元素中，源图像先放到中间，然后再沿着 y 轴向上下两个方向平铺。在第二个段落中，源图像向左右平铺。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%B1%85%E4%B8%AD%E6%BA%90%E5%9B%BE%E5%83%8F%E5%B9%B6%E9%87%8D%E5%A4%8D%E6%98%BE%E7%A4%BA.png)
+
+如果把图像放在 p 元素的中间，然后全方位重复，那么图像将沿着四个方向平铺：上下左右。background-position 控制的只是从何处开始平铺。从元素中间开始平铺与从左上角开始平铺的区别如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E4%BB%8E%E4%B8%AD%E9%97%B4%E5%BC%80%E5%A7%8B%E5%B9%B3%E9%93%BA%E4%B8%8E%E4%BB%8E%E5%B7%A6%E4%B8%8A%E8%A7%92%E5%BC%80%E5%A7%8B%E5%B9%B3%E9%93%BA%E7%9A%84%E5%8C%BA%E5%88%AB.png)
+
+注意元素边界处的区别。从中间开始平铺背景图时，如图中的第一个段落，阴阳符号构成的网格居中显示在元素背景区域内，边界处被均匀裁剪。在第二个段落中，源图像从内边距区域的左上角开始平铺，因此裁剪并不均匀。
+
+>别想了，没有单方向值，例如 repeat-left 或 repeat-up。
+
+<br>
+
 
 
 
