@@ -1041,41 +1041,771 @@ p.c2 {
 
 <br>
 
+### 间排和取整
 
+除了目前所见的基本平铺方式之外，background-repeat 还能完全填满整个背景区域。例如，把平铺方式设为 space 得到的结果如下图所示。
 
+```css
+div#example {
+    background-image: url(yinyang.png);
+    background-repeat: space;
+}
+```
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%B9%B3%E9%93%BA%E8%83%8C%E6%99%AF%E5%9B%BE%E6%97%B6%E7%95%99%E6%9C%89%E9%97%B4%E9%9A%99.png)
 
+仔细看，你会发现，元素的四个角上都有背景图。而且，背景图均匀排列，在横向和纵向上均匀分布。
 
+这就是 space 的作用：确定沿某一轴能完全重复多少次，然后从背景区域的一边到对边均匀排列图像。得到的效果并不一定是正方形网络，即横向和纵向的间隔并不一定相同。均匀排列得到的是一种类似行和列的效果，横向和纵向的间隔可以不等。下图中有一些例子。
 
+>注意，透过 space 方式排列的背景图的间隙能看到元素的背景色或祖辈元素的背景。
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%9D%87%E5%8C%80%E5%B9%B3%E9%93%BA%EF%BC%8C%E4%BD%86%E9%97%B4%E9%9A%94%E4%B8%8D%E7%AD%89.png)
 
+如果图像太大，在某个方向放不下怎么办？那就只出现一次，位置则由 background-position 的值确定。反过来，如果在某个方向上要重复多次，那个方向上的 background-position 值将被忽略。下述代码得到的结果如下图所示：
 
+```css
+div#example {
+    background-image: url(yinyang.png);
+    background-position: center;
+    background-repeat: space;
+}
+```
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%8F%AA%E6%B2%BF%E4%B8%80%E4%B8%AA%E8%BD%B4%E5%9D%87%E5%8C%80%E6%8E%92%E5%88%97.png)
 
+注意，图像在横轴上均匀排列，该方向上的 center 位置将被覆盖，但是纵向没有排列（没有足够的空间），因此依然居中。这里，space 覆盖一个轴的 center 值，但不覆盖另一个轴的定位方式。
 
+相比之下，round 值在重复背景图的过程中很有可能会缩放图像，而且（奇怪的是）不覆盖 background-position 的值。如果从背景区域的一边到对边之间无法重复整数次，那么图像将被放大或缩小，恰好重复整数次。
 
+此外，图像沿各轴的缩放程度可以不同。这是唯一一个会自动调整图像本身宽高比的背景属性（background-size 属性仅在创作人员明确指明下才会改变宽高比）。下图是一个例子，由下述代码得到：
 
+```css
+body {
+    background-image: url(yinyang.png);
+    background-position: top left;
+    background-repeat: round;
+}
+```
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%B9%B3%E9%93%BA%E8%83%8C%E6%99%AF%E5%9B%BE%E6%97%B6%E7%BC%A9%E6%94%BE.png)
 
+如果背景区域的宽度是 850 像素，图像的宽度为 300 像素，那么浏览器会缩小图像，在 850 像素宽的区域中横排三个图像（缩小后的三个图像均为 283.333 像素宽）。换作 space 的话，横向将放置两个图像，二者之间间隔 250 像素，不像 round 方式那么局促。
 
+round 有个怪异的行为：为了放下整数个背景图，虽然会调整图像的尺寸，但是并不移动图像，让图像紧靠背景区域的边界。换句话说，为了确保重复时不裁剪背景图，源图像只能放在某个角落。一旦把源图像放在别的地方，就会裁剪，如下图所示，所用的代码如下：
 
+```css
+body {
+    background-image: url(yinyang.png);
+    background-position: center;
+    background-repeat: round;
+}
+```
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%8F%96%E6%95%B4%E7%9A%84%E8%83%8C%E6%99%AF%E5%9B%BE%E8%A2%AB%E8%A3%81%E5%89%AA.png)
 
+图像仍然会被缩放，这样才能完全填满背景定位区域。只是在这个过程中不会重复定位图像。因此，使用 round 时，如果不想让平铺的图像被裁剪，必须从四个角中的某一个开始平铺（而且要保证背景定位区域和背景绘制区域是相同的，参见本章后面平铺与裁剪）。
 
+转过头来看，利用 round 的行为其实能实现不少有趣的效果。如果并排放置的两个元素的尺寸是一样的，取整的背景图在平铺时将连在一起，就像一个整体。
 
+<br>
 
+### 平铺与裁剪
 
+还记得吗，background-clip 能改变背景的绘制区域，而 background-origin 确当源图像的位置。那么，如果裁剪区域和定位区域不同，而且使用的是 space 或 round 平铺方式，会出现什么状况？
 
+简单来说，如果 background-origin 和 background-clip 的值不同，会出现部分裁剪情况。这是因为 space 和 round 是相对背景定位区域计算的，而不是背景绘制区域。下图是可能出现的几种情况。
 
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%9B%A0%E8%A3%81%E5%89%AA%E5%92%8C%E6%BA%90%E5%9B%BE%E5%83%8F%E4%BD%8D%E7%BD%AE%E7%9A%84%E5%80%BC%E4%B8%8D%E5%90%8C%E8%80%8C%E5%AF%BC%E8%87%B4%E7%9A%84%E8%A3%81%E5%89%AA.png)
 
+其实，鉴于 css 的遗留行为，始终会出现裁剪现象。这里所说的遗留行为是指元素的位置相对边框的内边界确定，而裁剪时却相对边框的外边界。因此，即便你精心控制元素的尺寸，恰好平铺偶数个背景图，添加边框后也可能导致部分图像被裁剪（尤其是把边框的颜色设为 transparent 时）。
 
+到底适合使用什么值，视个人偏好和情况而定。多数情况下，把 background-origin 和 background-clip 都设为 padding-box 基本上能得到你想要的结果。然而，如果你希望能透过边框看到背景，border-box 或许是更好的选择。
 
+<br>
 
+## 7. 背景黏附
 
+至此，我们可以把源图像放在元素背景中的任何位置，也可以（在很大程度上）控制如何平铺了。你可能已经意识到了，如果文档太长，把图像放在 body 元素的中间，一开始可能看不到背景图。毕竟，浏览器只显示当前位于窗口中的部分文档。如果文档很长，无法在一个窗口的范围内显示完，用户可以上下滚动文档。文档的中间可能距文档顶部两三屏远，也可能比这更远，要滚动很久。
 
+此外，即便一开始能看到源图像，图像也会随文档一起滚动，错过图像所在的位置就看不到了。别担心，我们有办法阻止背景图随文档一起滚动。
 
+```css
+background-attachment
 
+取值：[ scroll | fixed | local ]#
+初始值：scroll
+适用于：所有元素
+计算值：指定的值
+继承性：否
+动画性：否
+```
 
+使用 background-attachment 属性可以把源图像声明为固定在视区中，从而免受滚动的影响：
+
+```css
+body {
+    background-image: url(yinyang.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+```
+
+这样声明由两个直接后果，如下图所示。第一，源图像不随文档一起滚动。第二，源图像的位置由视区的尺寸确定，与所在元素的尺寸（或在视区中的位置）无关。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%9B%BA%E5%AE%9A%E8%83%8C%E6%99%AF%E5%9B%BE%E7%9A%84%E4%BD%8D%E7%BD%AE.gif)
+
+在 web 浏览器中，用户改变浏览器窗口的尺寸后视区大小随之变化，视区大小发生变化后，背景中源图像的位置也会有所变化。下图是相同的文档，不过向下滚动了一些。
+
+与 fixed 的作用基本相反的是 local，即背景图随内容一起滚动。不过，仅当元素的内容足够滚动时才会看到效果。这一点一开始可能不那么容易理解。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E8%83%8C%E6%99%AF%E5%9B%BE%E8%BF%98%E5%9C%A8%E4%B8%AD%E9%97%B4.gif)来看下述代码，这里没有设定 background-attachment 属性：
+
+```css
+aside {
+    background-image: url(yinyang.png);
+    background-position: top right;
+    max-height: 20em;
+    overflow: scroll;
+}
+```
+
+对此，如果 aside 元素的内容高度超过 20em，余下的内容要拖动滚动条才能看到。然而，背景图不会随内容一起滚动，而是一直在元素框的左上角。
+
+加上 background-attachment: local 后，背景图则粘附到局部上下文。如果你用过 iframe，现在的视觉效果与之相当。上述代码示例及下述代码得到的结果对比如下图所示。
+
+```css
+aside {
+    background-image: url(yinyang.png);
+    background-position: top right;
+    background-attachment: local; /* 粘附到内容上 */
+    max-height: 20em;
+    overflow: scroll;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E9%BB%98%E8%AE%A4%E7%B2%98%E9%99%84%E6%96%B9%E5%BC%8F%E4%B8%8E%E5%B1%80%E9%83%A8%E7%B2%98%E9%99%84%E6%96%B9%E5%BC%8F.gif)
+
+background-attachment 属性还能取另一个值，即默认值 scroll。跟你想的一样，设为这个值时，在 web 浏览器滚动文档时，背景图随之一起滚动。如果文档的宽度是固定的（可能是明确为 body 元素设定了 width 属性），即使改变视区的大小，滚动粘附方式下的源图像所在的位置也不受影响。
+
+<br>
+
+### 有趣的效果
+
+用术语来讲，固定位置的背景图，其位置相对视区确定，而非所在的元素。然而，背景只在所在的元素中可见。这就可能带来一些有趣的结果。
+
+假设一个文档的背景是平铺的，而且看起来确实是平铺效果，h1 和 h2 元素的背景都这样设定，只是颜色不同。使用下述代码把 body 和着两级标题的背景粘附方式设为固定后，得到的结果如下图所示。
+
+```css
+body {
+    background-image: url(grid1.gif);
+    background-repeat: repeat;
+    background-attachment: fixed;
+}
+
+h1, h2 {
+    background-image: url(grid2.gif);
+    background-repeat: repeat;
+    background-attachment: fixed;
+}
+```
+
+你可能会想，怎么可能对齐得这么完美？还记得吧，固定黏附方式下，源图像得位置由视区确定。因此，两个背景图都从视区的左上角开始平铺，而不是从各元素的左上角开始。body 的背景可以全部看到，但是 h1 的背景只在内容区和内边距区域可见。既然两个背景图的尺寸一样，而且从同一个原点开始平铺，得到的结果必然是对齐的，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%AE%8C%E7%BE%8E%E5%AF%B9%E9%BD%90%E8%83%8C%E6%99%AF.gif)
+
+利用这种行为可以实现非常复杂的效果。其中一个最著名的示例是复螺旋透镜，如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%A4%8D%E8%9E%BA%E6%97%8B%E9%80%8F%E9%95%9C.gif)
+
+这个效果由几个非 body 元素固定粘附的背景图实现。整个示例只有一个 HTML 文档、四个 JPEG 图像和一个样式表。四个背景图都放在浏览器窗口的左上角，而且仅在与元素重合的地方才能看得到，叠加在一起便得到了半透明毛玻璃效果。
+
+在分页媒体（例如打印件）中也能实现有趣的效果，因为每一页单属一个视区。因此，固定粘附的背景会出现在打印件的每一页中。你可以利用着一点为文档中的每一页添加水印。
+
+>可惜，截至 2017 年年末，对在分页媒体的每一页中放一个固定粘附背景的支持十分有限，而且多数浏览器默认不打印背景图。
+
+<br>
+
+## 8. 控制背景图的尺寸
+
+截至目前，我们把各种尺寸的图像放在元素的背景中，指定了重复方式（或不重复）、定位方式、裁剪方式和粘附方式。在每个情景中，我们都使用图像的原始尺寸（唯有 round 重复方式例外，它会自动调整尺寸）。你想改变源图像及平铺时由它派生出来的图像的尺寸。
+
+```css
+background-size
+
+取值：[[ <length> | <percentage> | auto ]{1,2} | cover | contain]#
+初始值：auto
+适用于：所有元素
+计算值：声明的值，不过长度会计算出绝对长度，缺少的部分由 auto 关键字补全
+继承性：否
+动画性：是
+```
+
+先来看显式改变背景图尺寸的情况。我们将在背景中放一个 200 ⨉ 200 像素的图像，然后把它放大为原来的两倍，所用的代码如下，得到的结果如下图所示。
+
+```css
+main {
+    background-image: url(yinyang.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 400px 400px;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E6%94%B9%E5%8F%98%E6%BA%90%E5%9B%BE%E5%83%8F%E7%9A%84%E5%B0%BA%E5%AF%B8.png)
+
+此外，还可以缩小源图像，而且不限于像素值。相对元素中文本的当前大小缩放图像也很容易，例如：
+
+```css
+main {
+    background-image: url(yinyang.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 4em 4em;
+}
+```
+
+不同的单位可以混用，源图像会相应地压缩或拉伸：
+
+```css
+main {
+    background-image: url(yinyang.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 400px 4em;
+}
+```
+
+你可能想到了，如果允许图像重复，所有重复的图像将与源图像具有相同的尺寸。下述代码和前例得到的结果如下图所示。
+
+```css
+main {
+    background-image: url(yinyang.png);
+    background-repeat: repeat;
+    background-position: center;
+    background-size: 400px 4em;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E6%94%B9%E5%8F%98%E5%B0%BA%E5%AF%B8%E5%90%8E%E6%BA%90%E5%9B%BE%E5%83%8F%E6%89%AD%E6%9B%B2%E4%BA%86.png)
+
+从最后一个示例可以看出，为 background-size 提供两个值时，第一个值是横向尺寸，第二个值是纵向尺寸（在 css 中通常都是这样）。
+
+百分数值有点复杂。声明的百分数值相对背景定位区域计算，即由 background-origin 定义的区域，而非 background-clip 定义的区域。假如想让背景图的尺寸为定位区域宽度和高度的各一半，可以这样声明，结果如下图所示。
+
+```css
+mian {
+    background-image: url(yinyang.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50% 50%;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E4%BD%BF%E7%94%A8%E7%99%BE%E5%88%86%E6%95%B0%E6%94%B9%E5%8F%98%E6%BA%90%E5%9B%BE%E5%83%8F%E7%9A%84%E5%B0%BA%E5%AF%B8.png)
+
+而且，长度值和百分数值也可以混用：
+
+```css
+main {
+    background-image: url(yinyang.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25px 100%;
+}
+```
+
+>background-size 的值不能设为负的长度值和百分数值。
+
+那么，默认值 auto 有什么作用？首先，如果只提供一个值，设定的是横向尺寸，纵向尺寸将设为 auto（因此，background-size: auto 等价于 background-size: auto）。如果只想改变源图像的纵向尺寸，而让横向尺寸自动确定，即保留图像自身的宽高比，必须把横向尺寸的默认值明确写出来，如下所示：
+
+```css
+background-size: auto 333px;
+```
+
+但是，auto 到底做了什么？这是一个三步回落过程：
+
+1. 如果一个轴的尺寸设为 auto，另一轴不是，而且图像含有宽高比信息，那么设为 auto 的那个轴将根据另一个轴的尺寸和图像的宽高比计算。因此，如果一个图像的宽度是 300 像素、高度是 200 像素（宽高比为 3:2），声明 background-size: 100px 后，图像的宽度将变成 100 像素，而高度则变为 66.6667 像素。如果声明 background-size: auto 100px。图像的高度将变成 150 像素，高度则变为 100 像素。所有光栅图像（GIF、JPEG、PNG 等）都是这样，因为这些格式含有宽高比的信息。如果明确声明了尺寸信息，SVG 图像也是如此。
+2. 如果出于什么原因，第一步失败了，但是图像含有尺寸信息，那么 auto 将计算为相应轴的固有尺寸。假设一个图像的固有尺寸为 300 像素宽和 200 像素高，但是没有宽高比信息，那么声明 background-size: auto 100px。之后，图像的宽度仍为 300 像素，而高度则变成 100 像素。
+3. 如果出于什么原因第一步和第二步都失败了，auto 解析为 100%。因此，如果一个图像没有固有尺寸，声明 background-size: auto 100px。后图像的宽度将与背景定位区域的宽度一样，而高度为 100 像素。如果矢量图（例如 SVG）没有明确设定尺寸信息就会发生这种情况，css 渐变则始终如此（详见 9.3 节）。
+
+从上述过程可以看出，background-size 的 auto 值在很多方面都与置换元素（例如图像）height 和 width 的 auto 值类似。因此，下述两个规则基本上将得到相似的结果（假设用的图像相同）：
+
+```css
+img.yinyang {
+    width: 300px;
+    height: auto;
+}
+
+main {
+    background-image: url(yinyang.png);
+    background-repeat: no-repeat;
+    background-size: 300px auto;
+}
+```
+
+<br>
+
+### 覆盖和容纳
+
+下面来看特别有趣的效果。假设你想让图像完全覆盖元素的背景，而且不在乎有部分图像超出背景绘制区域。此时，可以使用 cover。下述代码得到的结果如下图所示。
+
+```css
+main {
+    background-image: url(yinyang.png);
+    background-position: center;
+    background-size: cover;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E8%AE%A9%E6%BA%90%E5%9B%BE%E5%83%8F%E8%A6%86%E7%9B%96%E8%83%8C%E6%99%AF.png)
+
+此时，为了覆盖整个背景定位区域，源图像会被缩放，但是固有宽高比不变（如果图像含有这个信息的话）。下图就是这种情况，200 ⨉ 200 像素的图像被放大，覆盖 800 ⨉ 400 像素的背景区域，所用的代码如下：
+
+```css
+main {
+    width: 800px;
+    height: 400px;
+    background-image: url(yinyang.png);
+    background-position: center;
+    background-size: cover;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E6%BA%90%E5%9B%BE%E5%83%8F%E8%A6%86%E7%9B%96%E8%83%8C%E6%99%AF%E7%9A%84%E5%8F%A6%E4%B8%80%E7%A7%8D%E6%96%B9%E5%BC%8F.png)
+
+注意，这里没有设定 background-repeat。毕竟我们是想让图像填满整个背景，其实是否重复并无大碍。
+
+从这个示例也可以看出 cover 的作用与 100% 100% 有很大差别。如果使用后者，源图像将被拉伸为 800 像素宽、400 像素高。而设为 cover 时，源图像的宽度和高度都将变成 800 像素，然后再放到背景定位区域的中间。这里，cover 的作用与 100% auto 一样，不过 cover 更便利，无需考虑宽度比高度达或者高度比宽度大。
+
+与之相比，contain 会将图像缩放为正好放在背景定位区域中的尺寸，允许有部分区域不被图像覆盖。下图是一例，所用的代码如下：
+
+```css
+main {
+    width: 800px;
+    height: 400px;
+    background-image: url(yinyang.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E6%BA%90%E5%9B%BE%E5%83%8F%E5%AE%B9%E7%BA%B3%E5%9C%A8%E8%83%8C%E6%99%AF%E5%8C%BA%E5%9F%9F%E4%B8%AD.png)
+
+这里，因为元素的宽度比高度大，所以源图像经缩放后的高度与背景定位区域的高度相等，而宽度将按比例缩放，就跟 auto 100% 的作用一样。如果元素的高度比宽度大，contain 的作用类似于 100% auto。
+
+注意，这里我们把重复方式设为 no-repeat，以防最终结果扰乱视线。如果确实需要重复，可以把那个声明去掉，得到的结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E9%87%8D%E5%A4%8D%E5%AE%B9%E7%BA%B3%E5%9C%A8%E8%83%8C%E6%99%AF%E4%B8%AD%E7%9A%84%E6%BA%90%E5%9B%BE%E5%83%8F.png)
+
+一定要注意，使用 cover 和 contain 限定尺寸的图像，其尺寸始终相对背景定位区域计算，即 background-origin 定义的区域。即便 background-clip 定义的背景绘制区域与此不同，也是如此。以下述规则为例，得到的结果如下图所示：
+
+```css
+div {
+    border: 1px solid red;
+    background: green url(yinyang-sm.png) center no-repeat;
+}
+
+.cover {
+    background-size: cover;
+}
+
+.contain {
+    background-size: contain;
+}
+
+.clip-content {
+    background-clip: content-box;
+}
+
+.clip-padding {
+    background-clip: padding-box;
+}
+
+.origin-content {
+    background-origin: content-box;
+}
+
+.origin-padding {
+    background-origin: padding-box;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AE%9A%E4%BD%8D%E5%8C%BA%E5%9F%9F%E5%92%8C%E7%BB%98%E5%88%B6%E5%8C%BA%E5%9F%9F%E5%BA%A6i%E8%A6%86%E7%9B%96%E5%92%8C%E5%AE%B9%E7%BA%B3%E6%96%B9%E5%BC%8F%E7%9A%84%E5%BD%B1%E5%93%8D.png)
+
+可以看到，有时能在边缘看到背景色，而有些则被裁剪了。这就是绘制区域与定位区域的区别所在。不要以为 cover 和 contain 限定的尺寸是相对绘制区域计算的，使用这两个值时一定要记住这一点。
+
+>这一节我用的是光栅图像（具体而言是 GIF），尽管这类图像放大后的效果极差，而且缩小时会浪费网络资源（我选择这种图像是为了让你明显看出图像有没有放大）。这是缩放光栅图像不可避免的问题。如果想规避这些问题，可以使用 SVG 图像，这种图像放大或缩小后画质没有损失，也不浪费带宽。以前，SVG 的用处不大，因为浏览器不支持，而现在今非昔比了。如果背景图可能被缩放，而且不是照片的话，强烈建议使用 SVG。
+
+<br>
+
+## 9. 写为一个属性
+
+与 css 中的其他特殊区域一样，背景相关的属性也可以集中在一起，使用一个简写属性声明：background。但是你该不该这样左又是另外一回事。
+
+```css
+background
+
+取值：[ <bg-layer>,]*<final-bg-layer>
+初始值：参见各单独属性
+适用于：所有元素
+百分数：参见各单独属性
+计算值：参见各单独属性
+继承性：否
+动画性：参见各单独属性
+
+<bg-layer> = <bg-image> || <position> [ /<bg-size> ]? || <repeat-style> || <attachment> || <box> || <box>
+<final-bg-layer> = <bg-image> || <position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box> || <background-color>
+```
+
+句法有点凌乱，先从简单的情况入手。
+
+下面几个样式的作用是等效的，得到的结果如下图所示。
+
+```css
+body {
+    background-color: white;
+    background-image: url(yinyang.png);
+    background-position: top left;
+    background-repeat: repeat-y;
+    background-attachment: fixed;
+    background-origin: padding-box;
+    background-clip: border-box;
+    background-size: 50% 50%;
+}
+
+body {
+    background: white url(yinyang.png) repeat-y top left/50% 50% fixed padding-box border-box;
+}
+
+body {
+    background: fixed url(yinyang.png) padding-box border-box white repeat-y top left/50% 50%;
+}
+
+body {
+    background: url(yinyang.png) top left/50% 50% padding-box white repeat-y fixed border-box;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E4%BD%BF%E7%94%A8%E7%AE%80%E5%86%99%E5%B1%9E%E6%80%A7.png)
+
+这些值的顺序基本上没有严格要求，不过有三个限制规则。第一，background-size 值必须紧随 background-position 值后面，而且二者之间要以一条斜线（/）隔开。第二，值的常用规则依然适用，即横向值在前，纵向值在后（假设使用的是轴向值，而不是 cover 等值）。
+
+第三条限制规则是，如果同时为 background-origin 和 background-clip 提供值，前一个分配给 background-origin，后一个分配给 background-clip。因此，下面两个规则的作用是相同的：
+
+```css
+body {
+    background: url(yinyang.png) top left/50% 50% padding-box border-box white repeat-y fixed;
+}
+
+body {
+    background: url(yinyang.png) top left/50% 50% padding-box white repeat-y fixed border-box;
+}
+```
+
+与之相关的一条规则是，如果只提供一个这样的值，同时设定 background-origin 和 background-clip。因此，下述简写样式把背景定位区域和背景绘制区域都设为内边距框：
+
+```css
+body {
+    background: url(yinyang.png) padding-box top left/50% 50%;
+}
+```
+
+简写时，省略的值自动使用对应属性的默认值。因此，下面两个规则是等效的：
+
+```css
+body {
+    background: white url(yinyang.png);
+}
+
+body {
+    background: white url(yinyang.png) transparent 0% 0%/auto repeat scroll padding-box border-box;
+}
+```
+
+更方便的是，background 不要求必须设定任何值，只要有一个值，其他都可以省略。使用简写属性可以只设定背景颜色，而且这是很常见的做法：
+
+```css
+body {
+    background: white;
+}
+```
+
+不过要注意，因为 background 是简写属性，所以默认值可能会覆盖之前设定的值。例如：
+
+```css
+h1, h2 {
+    background: gray url(thetrees.jpg) center/contain repeat-x;
+}
+
+h2 {
+    background: silver;
+}
+```
+
+这里，h1 元素将根据第一个规则装饰，h2 元素将根据第二个规则装饰。因此，h2 元素只有纯银色背景，而没有背景图，因此也就没有居中和横向重复效果。创作人员的本意更有可能是这样：
+
+```css
+h1, h2 {
+    background: gray url(thetrees.jpg) center/contain repeat-x;
+}
+
+h2 {
+    background-color: silver;
+}
+```
+
+此时，只改变背景色，其他值都不受影响。
+
+为了引出下一节的内容，再讲一个限制规则：只有终结背景层可以设置背景色。其他背景层不能声明纯色背景。这到底是什么意思？很高兴你能这么问。
+
+<br>
+
+## 10. 多个背景
+
+截至目前，我顺利隐瞒了一个事实，即几乎所有背景属性都能接受以逗号分隔的多个值。例如，若想添加三个不同的背景图，可以这么做：
+
+```css
+section {
+    background-image: url(bg01.png), url(bg02.gif), url(bg03.jpg);
+    background-repeat: no-repeat;
+}
+```
+
+真的，我没骗你。得到的结果如下图所示。
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%A4%9A%E4%B8%AA%E8%83%8C%E6%99%AF%E5%9B%BE.png)
+
+上述规则创建三个背景层，一层放一个图像。严格来讲，是两个背景层和一个终结背景层（即这里的第三个背景层）。
+
+如上图所示，三个图像都堆在元素的左上角，而且没有重复。之所以没有重复，是因为我们声明了 background-repeat: no-repeat。而都堆在左上角是因为 background-position 的默认值是 0% 0%（即左上角）。但是，如果我们想把第一个图像放在右上角，把第二个图像放在左边居中的位置，把第三个图像放在底部居中的位置，该怎么办？很简单，background-position 也可以分层设定，如下图所示，所用的代码如下：
+
+```css
+section {
+    background-image: url(bg01.png), url(bg02.gif), url(bg03.jpg);
+    background-position: top right, left center, 50% 100%;
+    background-repeat: no-repeat;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%88%86%E5%88%AB%E5%AE%9A%E4%BD%8D%E5%90%84%E4%B8%AA%E8%83%8C%E6%99%AF%E5%9B%BE.png)
+
+现在，假设我们不想重复前两个图像，但是想横向重复第三个图像：
+
+```css
+section {
+    background-image: url(bg01.png), url(bg02.gif), url(bg03.jpg);
+    background-position: top right, left center, 50% 100%;
+    background-repeat: no-repeat, no-repeat, repeat-x;
+}
+```
+
+几乎每个背景属性都可以像这样设定以逗号分隔的多个值。原点、裁剪框、尺寸等几乎一切都可以分别为每个背景层设置。严格来说，背景层的数量不限，想创建多少都可以，但是也别太多了。
+
+就连简写的 background 属性也接受以逗号分隔的多个值。下述示例的作用与前一个完全一样，得到的结果如下图所示：
+
+```css
+section {
+    background: url(bg01.png) right top no-repeat,
+        		url(bg02.gif) center left no-repeat.
+        		url(bg03.jpg) 50% 100% repeat-x;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E9%80%9A%E8%BF%87%E7%AE%80%E5%86%99%E5%B1%9E%E6%80%A7%E8%AE%BE%E7%BD%AE%E5%A4%9A%E4%B8%AA%E8%83%8C%E6%99%AF%E5%B1%82.png)
+
+这里，唯一的限制是，不能为 background-color 指定多个值。如果在简写的 background 属性中列出多个值，背景色只能出现子啊最后一个背景层中。倘若在其他背景层中设置了颜色，整个 background 声明都将无效。因此，如果想为前例添加绿色背景，可以采用下面两种方式中的一种：
+
+```css
+section {
+    background: url(bg01.png) right top no-repeat,
+        		url(bg02.gif) center left no-repeat,
+        		url(bg03.jpg) 50% 100% repeat-x green;
+}
+
+section {
+    background: url(bg01.png) right top no-repeat,
+        		url(bg02.gif) center left no-repeat,
+        		url(bg03.jpg) 50% 100% repeat-x;
+    background-color: green;
+}
+```
+
+这一限制的缘由不难理。假如为第一个背景层添加了纯色背景，它将覆盖随后的全部背景层。因此，如果想设定背景色，只能在最后一层（即最底下的那一层）中设置。
+
+这个顺序很重要，一定要尽快掌握，因为它违背了在使用 css 的过程中建立起来的本能。我想，你肯定知道下述规则的结果：h1 元素的背景将是绿色的。
+
+```css
+h1 {
+    background-color: red;
+}
+
+h1 {
+    background-color: green;
+}
+```
+
+相比之下，下述设置了多个背景的规则将把 h1 元素的背景设为红色，如下图所示。
+
+```css
+h1 {
+    background: url(box-red.gif),
+        		url(box-green.gif) green;
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E8%83%8C%E6%99%AF%E5%B1%82%E7%9A%84%E9%A1%BA%E5%BA%8F.png)
+
+是的，红色。红色的 GIF 图像平铺后覆盖整个背景区域，绿色的 GIF 图像也是如此，但是红色的 GIF 图像在绿色的 GIF 图像上面，即离你更近。这与层叠机制中后一个胜出规则完全相反。
+
+我是这样理解的：多个背景相当于绘图程序（例如 photoshop 或 illustrator）中的图层那样放置。在绘图程序的图层面板中，位于上部的图层在底部的图层之上绘制。这里也是如此，先列出的背景层在后列出的背景层之上绘制。
+
+然而，你很有可能偶尔会错误排列多个背景层，因为层叠机制规定的顺序先入为主了（笔者有时也会犯这样的错误，所以别责怪自己）。
+
+刚开始使用多个背景的人还容易犯另一个错误：忘记禁止平铺背景，导致后面的背景层被遮盖，只能看到第一个背景层。下图就是一例，所用的代码如下：
+
+```css
+section {
+    background-image: url(bg02.gif), url(bg03.jpg);
+}
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E9%87%8D%E5%A4%8D%E7%9A%84%E5%9B%BE%E5%83%8F%E9%81%AE%E7%9B%96%E4%BA%86%E5%90%8E%E9%9D%A2%E7%9A%84%E8%83%8C%E6%99%AF%E5%B1%82.png)
+
+这里只能看到最上面一层，因为 background-repeat 的默认值是无限平铺。这就是为什么本节开头那个例子要声明 background-repeat: no-repeat。但是浏览器怎么知道要把我们设定的的那一个重复方式应用到所有背景层上？因为 css 定义了补足缺少部分的算法。
+
+<br>
+
+### 补足缺少的值
+
+多个背景能实现很酷的效果，但是如果忘记为每一层提供全部值会发生什么？例如，对下述代码来说，背景是怎样裁剪的？
+
+```css
+section {
+    background-image: url(bg01.png), url(bg02.gif), url(bg03.jpg);
+    background-position: top right, left center, 50% 100%;
+    background-clip: content-box;
+}
+```
+
+其实，缺少的值将使用声明的那个值补足。因此上述代码的作用等效于：
+
+```css
+section {
+    background-image: url(bg01.png), url(bg02.gif), url(bg03.jpg);
+    background-position: top right, left center, 50% 100%;
+    background-clip: content-box, content-box, content-box;
+}
+```
+
+这不难理解。但是，如果有人又在一个背景层中增加了一个图像？
+
+```css
+section {
+    background-image: url(bg01.png), url(bg02.gif), url(bg03.jpg), url(bg04.svg);
+    background-position: top right, left center, 50% 100%;
+    background-clip: content-box, content-box, content-box;
+}
+```
+
+此时，声明的值将一直重复，直到全部补足为止。这里，相当于是下面这样声明的：
+
+```css
+section {
+    background-image: url(bg01.png), url(bg02.gif), url(bg03.jpg), url(bg04.svg);
+    background-position: top right, left center, 50% 100%, top right;
+    background-clip: content-box, content-box, content-box, content-box;
+}
+```
+
+注意，第四个 background-position 值与第一个是相同的。其实，第四个 background-clip 值也是如此，只是不那么明显而已。下面两个规则的作用完全一样，尽管提供的值稍有不同。
+
+```css
+body {
+    background-image: url(bg01.png), url(bg02.gif), url(bg03.jpg), url(bg04.svg);
+    background-position: top left, bottom center, 33% 67%;
+    background-origin: border-box, padding-box;
+    background-repeat: no-repeat;
+    background-color: navy;
+}
+
+body {
+    background-image: url(bg01.png), url(bg02.gif), url(bg03.jpg), url(bg04.svg);
+    background-position: top left, bottom center, 33% 67%, top left;
+    background-origin: border-box, padding-box, border-box, padding-box;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+    background-color: gray;
+}
+```
+
+没错，颜色不重复，因为只能有一个背景色。
+
+如果去掉两个背景图，相应位置的值将被忽略。下面两个规则的作用依然是完全一样的：
+
+```css
+body {
+    background-image: url(bg01.png), url(bg04.svg);
+    background-position: top left, bottom center, 33% 67%;
+    background-origin: border-box, padding-box;
+    background-repeat: no-repeat;
+    background-color: gray;
+}
+
+body {
+    background-image: url(bg01.png), url(bg04.svg);
+    background-position: top left, bottom center;
+    background-origin: border-box, padding-box;
+    background-repeat: no-repeat, no-repeat;
+    background-color: gray;
+}
+```
+
+注意，第二个和第三个图像（bg02.gif 和 bg03.jpg）删除了。因为只剩下两个图像。所以 background-position 的第三个值没用了。浏览器不记得你上次用过的 css，当然也不会（因为它不能）记录旧值和新值之间的异同。因此，从 background-image 中去掉部分值之后，要排除或重新排列其他属性的值，从而体现此次变化。
+
+为免这种情况发生，可以直接使用 background，例如：
+
+```css
+body {
+    background: url(bg01.png) top left border-box no-repeat,
+        		url(bg02.gif) bottom center padding-box no-repeat,
+				url(bg04.svg) bottom center padding-box no-repeat gray;
+}
+```
+
+这样，增减背景层后，背景层专用的值将随之而去。不过，如果某个属性（例如 background-origin）的值在所有背景层中都是相同的，这样做又显得繁琐。遇到这种情况，可以把两种方式结合起来，例如：
+
+```css
+body {
+    background: url(bg01.png) top left no-repeat,
+        		url(bg02.gif) bottom center no-repeat,
+        		url(bg04.svg) bottom center no-repeat gray;
+    background-origin: padding-box;
+}
+```
+
+如果无一例外都用相同的值，这样写不会出现任何问题。如果以后想改变各背景层的原点，根据具体要求一一列出各个值即可。
+
+注意，背景层的数量由背景图的数量决定，而按照定义，background-image 的值不会根据其他属性值的数量重复。想在元素的四个角都放相同的图像时，你可能觉得像下面这样可以实现：
+
+```css
+background-image: url(i/box-red.gif);
+background-position: top left, top right, bottom right, bottom left;
+background-repeat: no-repeat;
+```
+
+然而，结果却是只有元素的左上角有一个红色方块。若想在四个角都放置图像，如下图所示，同一个图像要列出四次：
+
+```css
+background-image: url(i/box-red.gif), url(i/box-red.gif), url(i/box-red.gif), url(ui/box-red.gif);
+background-position: top left, top right, bottom right, bottom left;
+background-repeat: no-repeat;
+```
+
+![](https://front-end-1257950569.cos.ap-guangzhou.myqcloud.com/CSS%20%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89/%E7%AC%AC9%E7%AB%A0%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E8%83%8C%E6%99%AF%E5%92%8C%E6%B8%90%E5%8F%98/%E5%9C%A8%E5%9B%9B%E4%B8%AA%E8%A7%92%E4%B8%8A%E9%83%BD%E6%94%BE%E7%BD%AE%E7%9B%B8%E5%90%8C%E7%9A%84%E5%9B%BE%E5%83%8F.png)
+
+<br>
 
 # 3. 渐变
 
