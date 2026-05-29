@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>浮动基础</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+    }
+
+    .container {
+      border: 2px solid #333;
+      padding: 10px;
+      margin-bottom: 20px;
+      overflow: auto;
+    }
+
+    .float-left {
+      float: left;
+      width: 150px;
+      height: 100px;
+      background: lightblue;
+      margin: 0 10px 10px 0;
+    }
+
+    .float-right {
+      float: right;
+      width: 150px;
+      height: 100px;
+      background: lightgreen;
+      margin: 0 0 10px 10px;
+    }
+
+    .float-none {
+      float: none;
+      width: 150px;
+      height: 100px;
+      background: lightyellow;
+      margin: 0 0 10px 0;
+    }
+
+    h3 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>浮动基础：float: left / right / none</h2>
+
+  <div class="container">
+    <div class="float-left">float: left</div>
+    <p>这段文本围绕左浮动元素流动。浮动元素脱离了常规文档流，但对布局仍有影响。其他内容将围绕浮动元素流动。</p>
+  </div>
+
+  <div class="container">
+    <div class="float-right">float: right</div>
+    <p>这段文本围绕右浮动元素流动。浮动元素脱离了常规文档流，但对布局仍有影响。其他内容将围绕浮动元素流动。</p>
+  </div>
+
+  <div class="container">
+    <div class="float-none">float: none</div>
+    <p>这段文本不围绕浮动元素流动，因为元素没有设置浮动。元素保持在常规文档流中。</p>
+  </div>
+</body>
+</html>

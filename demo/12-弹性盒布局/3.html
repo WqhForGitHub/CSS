@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>对齐与弹性</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .flex-container {
+      display: flex;
+      background-color: rgba(0, 0, 0, 0.1);
+      border: 1px dashed;
+      padding: 5px;
+      margin-bottom: 10px;
+      min-height: 80px;
+    }
+
+    .flex-container > div {
+      border: 1px solid;
+      padding: 10px;
+      margin: 5px;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    h3 { margin: 20px 0 5px; }
+    p { margin: 0 0 5px; font-family: monospace; font-size: 14px; }
+
+    /* justify-content */
+    .jc-start { justify-content: flex-start; }
+    .jc-center { justify-content: center; }
+    .jc-end { justify-content: flex-end; }
+    .jc-between { justify-content: space-between; }
+    .jc-around { justify-content: space-around; }
+    .jc-evenly { justify-content: space-evenly; }
+
+    /* align-items */
+    .ai-stretch { align-items: stretch; }
+    .ai-start { align-items: flex-start; }
+    .ai-center { align-items: center; }
+    .ai-end { align-items: flex-end; }
+
+    /* flex-grow */
+    .grow-1 { flex-grow: 1; }
+    .grow-2 { flex-grow: 2; }
+    .grow-0 { flex-grow: 0; }
+  </style>
+</head>
+<body>
+  <h2>对齐与弹性</h2>
+
+  <h3>justify-content（主轴对齐）</h3>
+
+  <p>justify-content: flex-start</p>
+  <div class="flex-container jc-start">
+    <div>A</div><div>B</div><div>C</div>
+  </div>
+
+  <p>justify-content: center</p>
+  <div class="flex-container jc-center">
+    <div>A</div><div>B</div><div>C</div>
+  </div>
+
+  <p>justify-content: flex-end</p>
+  <div class="flex-container jc-end">
+    <div>A</div><div>B</div><div>C</div>
+  </div>
+
+  <p>justify-content: space-between</p>
+  <div class="flex-container jc-between">
+    <div>A</div><div>B</div><div>C</div>
+  </div>
+
+  <p>justify-content: space-around</p>
+  <div class="flex-container jc-around">
+    <div>A</div><div>B</div><div>C</div>
+  </div>
+
+  <p>justify-content: space-evenly</p>
+  <div class="flex-container jc-evenly">
+    <div>A</div><div>B</div><div>C</div>
+  </div>
+
+  <h3>align-items（交叉轴对齐）</h3>
+
+  <p>align-items: stretch</p>
+  <div class="flex-container ai-stretch">
+    <div>A</div><div>B<br>多行</div><div>C</div>
+  </div>
+
+  <p>align-items: flex-start</p>
+  <div class="flex-container ai-start">
+    <div>A</div><div>B<br>多行</div><div>C</div>
+  </div>
+
+  <p>align-items: center</p>
+  <div class="flex-container ai-center">
+    <div>A</div><div>B<br>多行</div><div>C</div>
+  </div>
+
+  <p>align-items: flex-end</p>
+  <div class="flex-container ai-end">
+    <div>A</div><div>B<br>多行</div><div>C</div>
+  </div>
+
+  <h3>flex-grow（弹性增长）</h3>
+
+  <p>flex-grow: 1 / 1 / 1 - 均匀分配空间</p>
+  <div class="flex-container">
+    <div class="grow-1">grow: 1</div>
+    <div class="grow-1">grow: 1</div>
+    <div class="grow-1">grow: 1</div>
+  </div>
+
+  <p>flex-grow: 1 / 2 / 1 - 中间元素占双倍空间</p>
+  <div class="flex-container">
+    <div class="grow-1">grow: 1</div>
+    <div class="grow-2">grow: 2</div>
+    <div class="grow-1">grow: 1</div>
+  </div>
+</body>
+</html>

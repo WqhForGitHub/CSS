@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>浮动形状</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+    }
+
+    .container {
+      border: 2px solid #333;
+      padding: 10px;
+      margin-bottom: 30px;
+      overflow: auto;
+    }
+
+    /* 圆形浮动形状 */
+    .shape-circle {
+      float: left;
+      width: 150px;
+      height: 150px;
+      background: lightblue;
+      border-radius: 50%;
+      shape-outside: circle();
+      margin: 10px;
+      clip-path: circle();
+    }
+
+    /* 椭圆形浮动形状 */
+    .shape-ellipse {
+      float: left;
+      width: 200px;
+      height: 120px;
+      background: lightgreen;
+      border-radius: 50%;
+      shape-outside: ellipse();
+      margin: 10px;
+      clip-path: ellipse();
+    }
+
+    /* 多边形浮动形状 */
+    .shape-polygon {
+      float: left;
+      width: 150px;
+      height: 150px;
+      background: lightyellow;
+      clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+      shape-outside: polygon(50% 0%, 100% 100%, 0% 100%);
+      margin: 10px;
+    }
+
+    h3 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>浮动形状：shape-outside</h2>
+
+  <div class="container">
+    <div class="shape-circle">circle()</div>
+    <p>这段文本围绕圆形浮动形状流动。使用 shape-outside: circle() 可以让内容沿圆形边缘流动，而不是默认的矩形边缘。</p>
+    <p>浮动形状使得内容可以沿非矩形边缘流动，这是 CSS 新增的功能。</p>
+  </div>
+
+  <div class="container">
+    <div class="shape-ellipse">ellipse()</div>
+    <p>这段文本围绕椭圆形浮动形状流动。使用 shape-outside: ellipse() 可以让内容沿椭圆边缘流动。</p>
+    <p>浮动形状让布局更加灵活和自然。</p>
+  </div>
+
+  <div class="container">
+    <div class="shape-polygon"></div>
+    <p>这段文本围绕三角形浮动形状流动。使用 shape-outside: polygon() 可以定义任意多边形形状，让内容沿多边形边缘流动。</p>
+    <p>多边形形状提供了最大的灵活性。</p>
+  </div>
+</body>
+</html>

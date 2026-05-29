@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>清除浮动</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+    }
+
+    .container {
+      border: 2px solid #333;
+      padding: 10px;
+      margin-bottom: 20px;
+      overflow: auto;
+    }
+
+    .float-left {
+      float: left;
+      width: 120px;
+      height: 80px;
+      background: lightblue;
+      margin: 0 10px 10px 0;
+    }
+
+    .float-right {
+      float: right;
+      width: 120px;
+      height: 80px;
+      background: lightgreen;
+      margin: 0 0 10px 10px;
+    }
+
+    .clear-left {
+      clear: left;
+    }
+
+    .clear-right {
+      clear: right;
+    }
+
+    .clear-both {
+      clear: both;
+    }
+
+    h3 {
+      margin-top: 0;
+      background: #eee;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h2>清除浮动：clear: left / right / both</h2>
+
+  <div class="container">
+    <div class="float-left">float: left</div>
+    <h3>没有清除浮动</h3>
+    <p>标题紧挨着浮动元素排列。</p>
+  </div>
+
+  <div class="container">
+    <div class="float-left">float: left</div>
+    <h3 class="clear-left">clear: left</h3>
+    <p>标题清除了左浮动，出现在浮动元素下方。</p>
+  </div>
+
+  <div class="container">
+    <div class="float-right">float: right</div>
+    <h3 class="clear-right">clear: right</h3>
+    <p>标题清除了右浮动，出现在浮动元素下方。</p>
+  </div>
+
+  <div class="container">
+    <div class="float-left">float: left</div>
+    <div class="float-right">float: right</div>
+    <h3 class="clear-both">clear: both</h3>
+    <p>标题清除了两侧浮动，出现在所有浮动元素下方。</p>
+  </div>
+</body>
+</html>

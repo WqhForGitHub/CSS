@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>动画属性详解</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    h3 { margin: 20px 0 10px; }
+
+    /* animation-direction 对比 */
+    @keyframes slideRight {
+      from { transform: translateX(0); }
+      to { transform: translateX(300px); }
+    }
+
+    .slide-container {
+      border: 1px dashed gray;
+      padding: 10px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .slider {
+      width: 60px;
+      height: 40px;
+      background: lightblue;
+      border: 2px solid #333;
+      animation-name: slideRight;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+    }
+
+    .normal { animation-direction: normal; }
+    .reverse { animation-direction: reverse; }
+    .alternate { animation-direction: alternate; }
+    .alternate-reverse { animation-direction: alternate-reverse; }
+
+    /* animation-fill-mode 对比 */
+    @keyframes moveDown {
+      from { transform: translateY(0); background: lightblue; }
+      to { transform: translateY(50px); background: lightgreen; }
+    }
+
+    .fill-container {
+      border: 1px dashed gray;
+      padding: 10px;
+      margin-bottom: 10px;
+      height: 100px;
+    }
+
+    .filler {
+      width: 100px;
+      height: 40px;
+      border: 2px solid #333;
+      animation-name: moveDown;
+      animation-duration: 2s;
+      animation-iteration-count: 1;
+    }
+
+    .fill-none { animation-fill-mode: none; }
+    .fill-forwards { animation-fill-mode: forwards; }
+    .fill-backwards { animation-fill-mode: backwards; }
+    .fill-both { animation-fill-mode: both; }
+
+    /* 简写属性 */
+    .shorthand {
+      width: 60px;
+      height: 60px;
+      background: lightyellow;
+      border: 2px solid #333;
+      /* animation: name duration timing-function delay iteration-count direction fill-mode */
+      animation: slideRight 2s ease-in-out 0.5s 3 alternate forwards;
+    }
+
+    p { margin: 0 0 5px; font-family: monospace; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <h2>动画属性详解</h2>
+
+  <h3>animation-direction</h3>
+
+  <p>normal（每次从头播放）</p>
+  <div class="slide-container">
+    <div class="slider normal"></div>
+  </div>
+
+  <p>reverse（每次反向播放）</p>
+  <div class="slide-container">
+    <div class="slider reverse"></div>
+  </div>
+
+  <p>alternate（交替正反向播放）</p>
+  <div class="slide-container">
+    <div class="slider alternate"></div>
+  </div>
+
+  <p>alternate-reverse（从反向开始交替）</p>
+  <div class="slide-container">
+    <div class="slider alternate-reverse"></div>
+  </div>
+
+  <h3>animation-fill-mode</h3>
+  <p>动画播放前后的状态：</p>
+
+  <p>none（动画结束后回到初始状态）</p>
+  <div class="fill-container">
+    <div class="filler fill-none"></div>
+  </div>
+
+  <p>forwards（保留动画结束时的状态）</p>
+  <div class="fill-container">
+    <div class="filler fill-forwards"></div>
+  </div>
+
+  <p>backwards（动画开始前应用起始关键帧）</p>
+  <div class="fill-container">
+    <div class="filler fill-backwards"></div>
+  </div>
+
+  <p>both（同时应用 forwards 和 backwards）</p>
+  <div class="fill-container">
+    <div class="filler fill-both"></div>
+  </div>
+
+  <h3>animation 简写属性</h3>
+  <p>animation: slideRight 2s ease-in-out 0.5s 3 alternate forwards;</p>
+  <div class="shorthand"></div>
+</body>
+</html>

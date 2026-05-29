@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>浮动元素与内容重叠</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+    }
+
+    .container {
+      border: 2px solid #333;
+      padding: 10px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .sideline {
+      float: left;
+      width: 80px;
+      height: 80px;
+      background: rgba(200, 200, 255, 0.7);
+      margin: 10px -15px 10px 10px;
+    }
+
+    p.box {
+      border: 1px solid gray;
+      background: hsl(117, 50%, 80%);
+      padding: 0.5em;
+    }
+
+    p.box strong {
+      border: 3px double;
+      background: hsl(215, 100%, 80%);
+      padding: 2px;
+    }
+
+    .overflow-container {
+      border: 2px solid #333;
+      padding: 10px;
+      margin-bottom: 20px;
+      overflow: auto;
+    }
+
+    .float-tall {
+      float: left;
+      width: 100px;
+      height: 150px;
+      background: lightblue;
+      margin: 0 10px 10px 0;
+    }
+
+    .bg-paragraph {
+      background: hsl(60, 50%, 85%);
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h2>浮动元素与内容重叠</h2>
+
+  <div class="container">
+    <div class="sideline">浮动元素（负外边距）</div>
+    <p class="box">
+      这是一个段落，包含一个<strong>行内元素（strong）</strong>。
+      行内框与浮动元素重叠时，其边框、背景和内容都在浮动元素之上渲染。
+      而块级框与浮动元素重叠时，边框和背景在浮动元素背后，只有内容在浮动元素之上。
+    </p>
+  </div>
+
+  <div class="overflow-container">
+    <div class="float-tall">浮动的元素比父元素高</div>
+    <p class="bg-paragraph">浮动元素从父元素的底部冒出来了。前述浮动规则只涉及了浮动元素及其父元素的左、右和顶边，没有提到底边。</p>
+  </div>
+</body>
+</html>

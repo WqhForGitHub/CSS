@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>栅格放置与间距</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .grid-container {
+      display: grid;
+      border: 2px solid #333;
+      padding: 5px;
+      margin-bottom: 20px;
+    }
+
+    .grid-container > div {
+      border: 1px solid;
+      padding: 15px;
+      text-align: center;
+    }
+
+    /* 栅格放置 */
+    .placement-grid {
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(3, 60px);
+      gap: 5px;
+    }
+
+    .span-col2 {
+      grid-column: span 2;
+      background: rgba(200, 200, 255, 0.5);
+    }
+
+    .span-row2 {
+      grid-row: span 2;
+      background: rgba(200, 255, 200, 0.5);
+    }
+
+    .span-both {
+      grid-column: span 2;
+      grid-row: span 2;
+      background: rgba(255, 200, 200, 0.5);
+    }
+
+    .normal {
+      background: rgba(255, 255, 200, 0.5);
+    }
+
+    /* 命名区域 */
+    .area-grid {
+      grid-template-areas:
+        "header header header"
+        "sidebar main main"
+        "sidebar footer footer";
+      grid-template-columns: 150px 1fr 1fr;
+      grid-template-rows: 60px 1fr 40px;
+      gap: 5px;
+      height: 250px;
+    }
+
+    .area-header {
+      grid-area: header;
+      background: rgba(200, 200, 255, 0.5);
+    }
+
+    .area-sidebar {
+      grid-area: sidebar;
+      background: rgba(200, 255, 200, 0.5);
+    }
+
+    .area-main {
+      grid-area: main;
+      background: rgba(255, 255, 200, 0.5);
+    }
+
+    .area-footer {
+      grid-area: footer;
+      background: rgba(255, 200, 200, 0.5);
+    }
+
+    h3 { margin: 15px 0 5px; }
+    p { margin: 0 0 5px; font-family: monospace; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h2>栅格放置与命名区域</h2>
+
+  <h3>跨行跨列</h3>
+  <p>使用 grid-column: span / grid-row: span</p>
+  <div class="grid-container placement-grid">
+    <div class="span-col2">span 2 列</div>
+    <div class="normal">1x1</div>
+    <div class="normal">1x1</div>
+    <div class="normal">1x1</div>
+    <div class="span-both">span 2x2</div>
+    <div class="normal">1x1</div>
+    <div class="span-row2">span 2 行</div>
+    <div class="normal">1x1</div>
+  </div>
+
+  <h3>命名区域 grid-template-areas</h3>
+  <p>header / sidebar / main / footer</p>
+  <div class="grid-container area-grid">
+    <div class="area-header">header</div>
+    <div class="area-sidebar">sidebar</div>
+    <div class="area-main">main</div>
+    <div class="area-footer">footer</div>
+  </div>
+</body>
+</html>

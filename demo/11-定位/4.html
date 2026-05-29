@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>粘滞定位</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+    }
+
+    #scrollbox {
+      overflow: scroll;
+      width: 30em;
+      height: 15em;
+      border: 2px solid #333;
+      margin-bottom: 30px;
+    }
+
+    #scrollbox h2 {
+      position: sticky;
+      top: 0;
+      background: hsla(0, 100%, 50%, 0.75);
+      margin: 0;
+      padding: 5px 10px;
+    }
+
+    /* 多个粘滞元素 */
+    #scrollbox2 {
+      overflow: scroll;
+      width: 30em;
+      height: 15em;
+      border: 2px solid #333;
+    }
+
+    #scrollbox2 h2 {
+      position: sticky;
+      top: 0;
+      width: 40%;
+      margin: 0;
+      padding: 5px 10px;
+    }
+
+    h2#h01 {
+      margin-right: 60%;
+      background: hsla(0, 100%, 50%, 0.75);
+    }
+
+    h2#h02 {
+      margin-left: 60%;
+      background: hsla(120, 100%, 50%, 0.75);
+    }
+
+    h2#h03 {
+      margin-left: auto;
+      margin-right: auto;
+      background: hsla(240, 100%, 50%, 0.75);
+    }
+
+    p {
+      padding: 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>粘滞定位：position: sticky</h2>
+
+  <h3>粘滞在顶部</h3>
+  <p>滚动下方容器，观察标题如何粘滞在容器顶部。</p>
+  <div id="scrollbox">
+    <h2>字母 A</h2>
+    <p>Apple, Ant, Arrow, Art, Autumn</p>
+    <p>Animal, Anchor, Armor, Atlas, Avenue</p>
+    <h2>字母 B</h2>
+    <p>Banana, Bear, Bird, Book, Bridge</p>
+    <p>Butterfly, Button, Basket, Beach, Bread</p>
+    <h2>字母 C</h2>
+    <p>Cat, Cloud, Coffee, Crown, Crystal</p>
+    <p>Candle, Castle, Cherry, Circle, Clock</p>
+    <h2>字母 D</h2>
+    <p>Diamond, Dragon, Dream, Dust, Dawn</p>
+    <p>Dance, Desert, Dolphin, Door, Drum</p>
+    <h2>字母 E</h2>
+    <p>Eagle, Earth, Echo, Emerald, Evening</p>
+    <p>Elephant, Energy, Engine, Eye, Extra</p>
+  </div>
+
+  <h3>多个粘滞元素堆叠</h3>
+  <div id="scrollbox2">
+    <h2 id="h01">标题1</h2>
+    <p>第一个标题下的内容。滚动时标题会粘滞在顶部。</p>
+    <p>更多内容。继续滚动查看效果。</p>
+    <h2 id="h02">标题2</h2>
+    <p>第二个标题下的内容。它会堆在第一个标题旁边。</p>
+    <p>更多内容。继续滚动查看效果。</p>
+    <h2 id="h03">标题3</h2>
+    <p>第三个标题下的内容。居中显示。</p>
+    <p>更多内容。继续滚动查看效果。</p>
+    <p>更多的内容来确保可以滚动。</p>
+    <p>更多的内容来确保可以滚动。</p>
+    <p>更多的内容来确保可以滚动。</p>
+  </div>
+</body>
+</html>

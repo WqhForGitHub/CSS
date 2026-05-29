@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>栅格基础</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .grid-container {
+      display: grid;
+      border: 2px solid #333;
+      padding: 5px;
+      margin-bottom: 20px;
+    }
+
+    .grid-container > div {
+      border: 1px solid;
+      padding: 15px;
+      background: rgba(200, 200, 255, 0.5);
+      text-align: center;
+    }
+
+    /* 基本栅格 */
+    .basic-grid {
+      grid-template-rows: 100px 100px;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* 不同尺寸的栅格 */
+    .sized-grid {
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: auto;
+      gap: 10px;
+    }
+
+    /* 固定和混合尺寸 */
+    .mixed-grid {
+      grid-template-columns: 100px 1fr 2fr;
+      grid-template-rows: 80px 80px;
+      gap: 10px;
+    }
+
+    h3 { margin: 15px 0 5px; }
+    p { margin: 0 0 5px; font-family: monospace; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h2>栅格布局：display: grid</h2>
+
+  <h3>基本栅格</h3>
+  <p>grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 100px 100px;</p>
+  <div class="grid-container basic-grid">
+    <div>1</div><div>2</div><div>3</div>
+    <div>4</div><div>5</div><div>6</div>
+  </div>
+
+  <h3>不同比例</h3>
+  <p>grid-template-columns: 2fr 1fr 1fr;</p>
+  <div class="grid-container sized-grid">
+    <div>2fr</div><div>1fr</div><div>1fr</div>
+    <div>2fr</div><div>1fr</div><div>1fr</div>
+  </div>
+
+  <h3>混合尺寸</h3>
+  <p>grid-template-columns: 100px 1fr 2fr;</p>
+  <div class="grid-container mixed-grid">
+    <div>100px</div><div>1fr</div><div>2fr</div>
+    <div>100px</div><div>1fr</div><div>2fr</div>
+  </div>
+</body>
+</html>

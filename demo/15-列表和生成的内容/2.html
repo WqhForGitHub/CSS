@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>生成的内容与计数器</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    h3 { margin: 20px 0 5px; }
+
+    /* ::before 和 ::after */
+    .generate::before {
+      content: ">> ";
+      color: blue;
+      font-weight: bold;
+    }
+
+    .generate::after {
+      content: " <<";
+      color: blue;
+      font-weight: bold;
+    }
+
+    /* 引号 */
+    .quote {
+      quotes: "「" "」" "『" "』";
+    }
+
+    .quote q::before {
+      content: open-quote;
+    }
+
+    .quote q::after {
+      content: close-quote;
+    }
+
+    /* 计数器 */
+    body {
+      counter-reset: h2-counter;
+    }
+
+    h2.counter-heading {
+      counter-reset: h3-counter;
+    }
+
+    h2.counter-heading::before {
+      content: "第" counter(h2-counter) "章 ";
+      counter-increment: h2-counter;
+    }
+
+    h3.counter-sub::before {
+      content: counter(h2-counter) "." counter(h3-counter) " ";
+      counter-increment: h3-counter;
+    }
+
+    /* 嵌套计数器 */
+    ol.nested {
+      counter-reset: item;
+      list-style-type: none;
+      padding-left: 20px;
+    }
+
+    ol.nested li::before {
+      content: counters(item, ".") " ";
+      counter-increment: item;
+      font-weight: bold;
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+  <h2>生成的内容与计数器</h2>
+
+  <h3>::before 和 ::after 伪元素</h3>
+  <p class="generate">这段文字前后有生成的内容。</p>
+  <p class="generate">另一段有生成内容的文字。</p>
+
+  <h3>引号 (quotes + q)</h3>
+  <div class="quote">
+    <p>他说：<q>这是一级引用</q>，然后补充道：<q>这里面有<q>二级引用</q></q></p>
+  </div>
+
+  <h3>计数器 (counter-reset / counter-increment)</h3>
+  <h2 class="counter-heading">定位</h2>
+  <h3 class="counter-sub">绝对定位</h3>
+  <h3 class="counter-sub">相对定位</h3>
+  <h3 class="counter-sub">粘滞定位</h3>
+  <h2 class="counter-heading">弹性盒布局</h2>
+  <h3 class="counter-sub">弹性容器</h3>
+  <h3 class="counter-sub">弹性项目</h3>
+
+  <h3>嵌套计数器 (counters)</h3>
+  <ol class="nested">
+    <li>第一项
+      <ol class="nested">
+        <li>子项 1</li>
+        <li>子项 2</li>
+      </ol>
+    </li>
+    <li>第二项
+      <ol class="nested">
+        <li>子项 1</li>
+        <li>子项 2</li>
+        <li>子项 3</li>
+      </ol>
+    </li>
+    <li>第三项</li>
+  </ol>
+</body>
+</html>

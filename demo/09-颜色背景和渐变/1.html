@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>颜色、背景和渐变</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #333;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 5px;
+    }
+
+    .demo-box {
+      border: 2px solid #333;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    /* 1. color 前景色 */
+    .color-gray { color: gray; }
+    .color-hex { color: #600; }
+    .color-rgb { color: rgb(100, 0, 0); }
+    .color-hsl { color: hsl(0, 80%, 30%); }
+
+    /* color 对边框的影响 */
+    .color-border {
+      color: gray;
+      border-style: solid;
+    }
+
+    .color-border-override {
+      color: gray;
+      border-style: solid;
+      border-color: black;
+    }
+
+    /* 2. background-color */
+    .bg-silver { background-color: silver; padding: 5px; }
+    .bg-hex { background-color: #aea; padding: 5px; }
+    .bg-transparent { background-color: transparent; }
+    .bg-combo { color: white; background-color: rgb(20%, 20%, 20%); padding: 10px; }
+
+    /* 3. background-clip */
+    .clip-demo {
+      color: navy;
+      background: silver;
+      padding: 1em;
+      border: 5px dashed;
+      margin-bottom: 10px;
+    }
+
+    .clip-border { background-clip: border-box; }
+    .clip-padding { background-clip: padding-box; }
+    .clip-content { background-clip: content-box; }
+
+    /* 4. background-image */
+    .bg-gradient-simple {
+      background-image: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+    }
+
+    .bg-repeat-x {
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 20px,
+        rgba(0,0,0,0.1) 20px,
+        rgba(0,0,0,0.1) 40px
+      );
+      padding: 20px;
+      background-color: #eef;
+    }
+
+    /* 5. linear-gradient */
+    .lg-top { background: linear-gradient(to top, white, black); height: 80px; }
+    .lg-right { background: linear-gradient(to right, white, black); height: 80px; }
+    .lg-45deg { background: linear-gradient(45deg, red, blue); height: 80px; }
+    .lg-multi { background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet); height: 80px; }
+
+    /* 6. radial-gradient */
+    .rg-circle { background: radial-gradient(circle, white, black); height: 120px; }
+    .rg-ellipse { background: radial-gradient(ellipse, white, black); height: 120px; }
+    .rg-closest { background: radial-gradient(circle closest-side, white, black); height: 120px; }
+    .rg-position { background: radial-gradient(circle at top left, white, black); height: 120px; }
+
+    /* 7. repeating gradients */
+    .rg-linear {
+      background: repeating-linear-gradient(
+        45deg,
+        #606dbc,
+        #606dbc 10px,
+        #465298 10px,
+        #465298 20px
+      );
+      height: 80px;
+    }
+
+    .rg-radial {
+      background: repeating-radial-gradient(
+        circle,
+        #606dbc,
+        #606dbc 10px,
+        #465298 10px,
+        #465298 20px
+      );
+      height: 120px;
+    }
+
+    /* 8. background-size */
+    .bg-size-demo {
+      border: 1px solid #333;
+      height: 120px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      background-size: 50% 50%;
+      background-repeat: no-repeat;
+      margin-bottom: 10px;
+    }
+
+    /* 9. background-position */
+    .bg-pos-demo {
+      border: 1px solid #333;
+      height: 120px;
+      background-color: #eee;
+      background-image: radial-gradient(circle, #667eea 0%, transparent 70%);
+      background-size: 60px 60px;
+      background-repeat: no-repeat;
+      background-position: center center;
+      margin-bottom: 10px;
+    }
+
+    /* 10. currentColor */
+    .current-color-demo {
+      color: blue;
+      border: 2px solid currentColor;
+      padding: 10px;
+    }
+
+    .current-color-demo em {
+      color: red;
+      border-bottom: 2px solid currentColor;
+    }
+
+    /* 11. opacity */
+    .opacity-1 { opacity: 1.0; background: #c00; color: white; padding: 10px; }
+    .opacity-07 { opacity: 0.7; background: #c00; color: white; padding: 10px; }
+    .opacity-04 { opacity: 0.4; background: #c00; color: white; padding: 10px; }
+    .opacity-01 { opacity: 0.1; background: #c00; color: white; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h1>第9章：颜色、背景和渐变</h1>
+
+  <h2>1. color 前景色</h2>
+  <div class="demo-box">
+    <p class="color-gray">color: gray（命名颜色）</p>
+    <p class="color-hex">color: #600（十六进制）</p>
+    <p class="color-rgb">color: rgb(100, 0, 0)（RGB）</p>
+    <p class="color-hsl">color: hsl(0, 80%, 30%)（HSL）</p>
+    <p>color 影响边框颜色：</p>
+    <p class="color-border">color: gray + border-style: solid → 边框也是灰色</p>
+    <p class="color-border-override">color: gray + border-color: black → 边框颜色覆盖为黑色</p>
+  </div>
+
+  <h2>2. background-color 背景色</h2>
+  <div class="demo-box">
+    <p class="bg-silver">background-color: silver</p>
+    <p class="bg-hex">background-color: #aea</p>
+    <p class="bg-combo">color: white + background-color: rgb(20%, 20%, 20%)（反色组合）</p>
+    <p>背景默认延伸到边框外边界，背景色不继承（默认 transparent）</p>
+  </div>
+
+  <h2>3. background-clip 背景裁剪</h2>
+  <div class="demo-box">
+    <div class="clip-demo clip-border">background-clip: border-box（默认，延伸到边框外边界）</div>
+    <div class="clip-demo clip-padding">background-clip: padding-box（延伸到内边距外边界）</div>
+    <div class="clip-demo clip-content">background-clip: content-box（仅内容区）</div>
+  </div>
+
+  <h2>4. 线性渐变 linear-gradient</h2>
+  <div class="demo-box">
+    <p>to top（白→黑）</p>
+    <div class="lg-top"></div>
+    <p>to right（白→黑）</p>
+    <div class="lg-right"></div>
+    <p>45deg（红→蓝）</p>
+    <div class="lg-45deg"></div>
+    <p>多色渐变（彩虹）</p>
+    <div class="lg-multi"></div>
+  </div>
+
+  <h2>5. 径向渐变 radial-gradient</h2>
+  <div class="demo-box">
+    <p>circle（圆形渐变）</p>
+    <div class="rg-circle"></div>
+    <p>ellipse（椭圆渐变）</p>
+    <div class="rg-ellipse"></div>
+    <p>circle closest-side</p>
+    <div class="rg-closest"></div>
+    <p>circle at top left</p>
+    <div class="rg-position"></div>
+  </div>
+
+  <h2>6. 重复渐变</h2>
+  <div class="demo-box">
+    <p>repeating-linear-gradient（条纹效果）</p>
+    <div class="rg-linear"></div>
+    <p>repeating-radial-gradient（同心圆效果）</p>
+    <div class="rg-radial"></div>
+  </div>
+
+  <h2>7. currentColor 关键字</h2>
+  <div class="demo-box">
+    <div class="current-color-demo">
+      外层 color: blue，边框使用 currentColor 也是蓝色。
+      <br><em>内层 color: red，边框使用 currentColor 变为红色</em>
+    </div>
+  </div>
+
+  <h2>8. opacity 不透明度</h2>
+  <div class="demo-box" style="background: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22%3E%3Crect width=%2210%22 height=%2210%22 fill=%22%23ddd%22/%3E%3Crect x=%2210%22 y=%2210%22 width=%2210%22 height=%2210%22 fill=%22%23ddd%22/%3E%3C/svg%3E'); background-size: 20px 20px;">
+    <div class="opacity-1">opacity: 1.0（完全不透明）</div>
+    <div class="opacity-07">opacity: 0.7</div>
+    <div class="opacity-04">opacity: 0.4</div>
+    <div class="opacity-01">opacity: 0.1（几乎透明）</div>
+    <p>注意：opacity 影响整个元素及其子元素，不同于 rgba 的半透明背景。</p>
+  </div>
+</body>
+</html>

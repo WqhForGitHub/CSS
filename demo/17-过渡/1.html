@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>CSS过渡</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    h3 { margin: 20px 0 10px; }
+
+    /* 基本过渡 */
+    .btn-basic {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: magenta;
+      background: white;
+      border: 2px solid magenta;
+      cursor: pointer;
+      transition: color 200ms ease-in 50ms, background 200ms ease-in 50ms;
+    }
+
+    .btn-basic:hover {
+      color: rebeccapurple;
+      background: rgba(102, 51, 153, 0.1);
+      transition: color 200ms ease-out 50ms, background 200ms ease-out 50ms;
+    }
+
+    /* 过渡属性 */
+    .box-transition {
+      width: 150px;
+      height: 80px;
+      background: lightblue;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition-property: width, background, border-radius;
+      transition-duration: 500ms;
+      transition-timing-function: ease-in-out;
+      transition-delay: 0;
+    }
+
+    .box-transition:hover {
+      width: 300px;
+      background: lightgreen;
+      border-radius: 40px;
+    }
+
+    /* 时序函数对比 */
+    .timing-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+
+    .timing-label {
+      width: 120px;
+      font-family: monospace;
+      font-size: 13px;
+    }
+
+    .timing-bar {
+      height: 30px;
+      background: lightblue;
+      border: 1px solid #333;
+      transition-property: width;
+      transition-duration: 1s;
+      width: 50px;
+      display: flex;
+      align-items: center;
+      padding-left: 5px;
+      font-size: 12px;
+    }
+
+    .timing-container:hover .timing-bar {
+      width: 300px;
+    }
+
+    .ease { transition-timing-function: ease; }
+    .linear { transition-timing-function: linear; }
+    .ease-in { transition-timing-function: ease-in; }
+    .ease-out { transition-timing-function: ease-out; }
+    .ease-in-out { transition-timing-function: ease-in-out; }
+
+    /* 变形过渡 */
+    .transform-box {
+      width: 120px;
+      height: 80px;
+      background: lightyellow;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 300ms ease;
+    }
+
+    .transform-box:hover {
+      transform: scale(1.2) rotate(5deg);
+    }
+  </style>
+</head>
+<body>
+  <h2>CSS过渡</h2>
+
+  <h3>基本过渡（颜色变化）</h3>
+  <button class="btn-basic">悬停查看过渡效果</button>
+
+  <h3>多属性过渡</h3>
+  <p>悬停查看宽度、背景色、圆角的过渡：</p>
+  <div class="box-transition">悬停我</div>
+
+  <h3>时序函数对比</h3>
+  <p>悬停在下方区域查看不同时序函数的对比：</p>
+  <div class="timing-container" style="border: 1px dashed gray; padding: 10px;">
+    <div class="timing-row">
+      <span class="timing-label">ease</span>
+      <div class="timing-bar ease">ease</div>
+    </div>
+    <div class="timing-row">
+      <span class="timing-label">linear</span>
+      <div class="timing-bar linear">linear</div>
+    </div>
+    <div class="timing-row">
+      <span class="timing-label">ease-in</span>
+      <div class="timing-bar ease-in">ease-in</div>
+    </div>
+    <div class="timing-row">
+      <span class="timing-label">ease-out</span>
+      <div class="timing-bar ease-out">ease-out</div>
+    </div>
+    <div class="timing-row">
+      <span class="timing-label">ease-in-out</span>
+      <div class="timing-bar ease-in-out">ease-in-out</div>
+    </div>
+  </div>
+
+  <h3>变形过渡</h3>
+  <p>悬停查看变形的过渡效果：</p>
+  <div class="transform-box">悬停缩放+旋转</div>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>裁剪和遮罩</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    h3 { margin: 20px 0 10px; }
+
+    .clip-row {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .clip-container {
+      text-align: center;
+    }
+
+    .clip-box {
+      width: 150px;
+      height: 150px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      transition: clip-path 500ms ease;
+    }
+
+    /* clip-path 形状 */
+    .clip-circle { clip-path: circle(50% at 50% 50%); }
+    .clip-ellipse { clip-path: ellipse(60% 40% at 50% 50%); }
+    .clip-polygon-triangle { clip-path: polygon(50% 0%, 100% 100%, 0% 100%); }
+    .clip-polygon-diamond { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+    .clip-polygon-star { clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+    .clip-inset { clip-path: inset(20px 20px 20px 20px round 10px); }
+
+    /* 遮罩 */
+    .mask-row {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .mask-box {
+      width: 150px;
+      height: 150px;
+      background: linear-gradient(135deg, #e66465, #9198e5);
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .mask-linear {
+      -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    }
+
+    .mask-radial {
+      -webkit-mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 70%);
+      mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 70%);
+    }
+
+    .label {
+      font-family: monospace;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h2>裁剪和遮罩</h2>
+
+  <h3>clip-path（裁剪路径）</h3>
+
+  <div class="clip-row">
+    <div class="clip-container">
+      <div class="clip-box clip-circle">circle</div>
+      <div class="label">circle(50%)</div>
+    </div>
+    <div class="clip-container">
+      <div class="clip-box clip-ellipse">ellipse</div>
+      <div class="label">ellipse(60% 40%)</div>
+    </div>
+    <div class="clip-container">
+      <div class="clip-box clip-polygon-triangle">triangle</div>
+      <div class="label">polygon(三角)</div>
+    </div>
+    <div class="clip-container">
+      <div class="clip-box clip-polygon-diamond">diamond</div>
+      <div class="label">polygon(菱形)</div>
+    </div>
+  </div>
+
+  <div class="clip-row">
+    <div class="clip-container">
+      <div class="clip-box clip-polygon-star">star</div>
+      <div class="label">polygon(星形)</div>
+    </div>
+    <div class="clip-container">
+      <div class="clip-box clip-inset">inset</div>
+      <div class="label">inset(20px round 10px)</div>
+    </div>
+  </div>
+
+  <h3>mask（遮罩）</h3>
+
+  <div class="mask-row">
+    <div class="clip-container">
+      <div class="mask-box mask-linear">线性遮罩</div>
+      <div class="label">linear-gradient 遮罩</div>
+    </div>
+    <div class="clip-container">
+      <div class="mask-box mask-radial">径向遮罩</div>
+      <div class="label">radial-gradient 遮罩</div>
+    </div>
+  </div>
+</body>
+</html>

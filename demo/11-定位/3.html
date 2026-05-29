@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Z轴堆叠</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      position: relative;
+      height: 15em;
+      border: 1px solid #333;
+      margin-bottom: 30px;
+    }
+
+    .box {
+      position: absolute;
+      border: 1px solid;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    #first {
+      top: 0;
+      left: 0;
+      width: 40%;
+      height: 10em;
+      z-index: 8;
+      background: rgba(255, 200, 200, 0.9);
+    }
+
+    #second {
+      top: -0.75em;
+      left: 15%;
+      width: 60%;
+      height: 5.5em;
+      z-index: 4;
+      background: rgba(200, 255, 200, 0.9);
+    }
+
+    #third {
+      top: 23%;
+      left: 25%;
+      width: 30%;
+      height: 10em;
+      z-index: 1;
+      background: rgba(200, 200, 255, 0.9);
+    }
+
+    #fourth {
+      top: 10%;
+      left: 10%;
+      width: 80%;
+      height: 10em;
+      z-index: 0;
+      background: rgba(255, 255, 200, 0.9);
+    }
+
+    /* 局部堆叠上下文 */
+    .local-context {
+      position: relative;
+      height: 12em;
+      border: 1px solid #333;
+    }
+
+    #one {
+      position: absolute;
+      top: 1em;
+      left: 0;
+      width: 40%;
+      height: 8em;
+      z-index: 3;
+      background: rgba(255, 200, 200, 0.8);
+    }
+
+    #two {
+      position: absolute;
+      top: -0.75em;
+      left: 15%;
+      width: 60%;
+      height: 5.5em;
+      z-index: 10;
+      background: rgba(200, 255, 200, 0.8);
+    }
+
+    #three {
+      position: absolute;
+      top: 10%;
+      left: 30%;
+      width: 30%;
+      height: 8em;
+      z-index: 8;
+      background: rgba(200, 200, 255, 0.8);
+    }
+
+    #one em {
+      position: absolute;
+      top: -1em;
+      left: -1em;
+      width: 10em;
+      height: 5em;
+      z-index: 100;
+      background: hsla(0, 50%, 70%, 0.9);
+      font-style: normal;
+    }
+
+    #two em {
+      position: absolute;
+      top: -1em;
+      left: -1em;
+      width: 10em;
+      height: 5em;
+      z-index: 10;
+      background: hsla(120, 50%, 70%, 0.9);
+      font-style: normal;
+    }
+
+    #three em {
+      position: absolute;
+      top: -1em;
+      left: -1em;
+      width: 10em;
+      height: 5em;
+      z-index: -343;
+      background: hsla(240, 50%, 70%, 0.9);
+      font-style: normal;
+    }
+  </style>
+</head>
+<body>
+  <h2>Z轴堆叠：z-index</h2>
+
+  <h3>z-index 控制堆叠次序</h3>
+  <div class="container">
+    <div id="first" class="box">z-index: 8</div>
+    <div id="second" class="box">z-index: 4</div>
+    <div id="third" class="box">z-index: 1</div>
+    <div id="fourth" class="box">z-index: 0</div>
+  </div>
+
+  <h3>局部堆叠上下文</h3>
+  <p>子元素的 z-index 相对父元素确定。即使 em 的 z-index 为 -343，仍在父元素之上。</p>
+  <div class="local-context">
+    <div id="one" class="box">z-index: 3 <em>em: z-index: 100</em></div>
+    <div id="two" class="box">z-index: 10 <em>em: z-index: 10</em></div>
+    <div id="three" class="box">z-index: 8 <em>em: z-index: -343</em></div>
+  </div>
+</body>
+</html>

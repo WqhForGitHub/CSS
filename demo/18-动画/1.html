@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>CSS动画基础</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    h3 { margin: 20px 0 10px; }
+
+    /* 淡出动画 */
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    .fade-out {
+      animation-name: fadeOut;
+      animation-duration: 3s;
+      animation-fill-mode: forwards;
+      background: lightblue;
+      padding: 20px;
+      border: 2px solid #333;
+    }
+
+    /* 颜色弹出动画 */
+    @keyframes colorPop {
+      0% {
+        color: black;
+        background-color: white;
+      }
+      33% {
+        color: gray;
+        background-color: yellow;
+      }
+      100% {
+        color: white;
+        background-color: orange;
+      }
+    }
+
+    .color-pop {
+      animation-name: colorPop;
+      animation-duration: 4s;
+      animation-fill-mode: forwards;
+      padding: 20px;
+      border: 2px solid #333;
+    }
+
+    /* 弹跳动画 */
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      25% {
+        transform: translateY(-30px);
+      }
+      50% {
+        transform: translateY(0);
+      }
+      75% {
+        transform: translateY(-15px);
+      }
+    }
+
+    .bounce {
+      animation-name: bounce;
+      animation-duration: 1.5s;
+      animation-iteration-count: infinite;
+      width: 60px;
+      height: 60px;
+      background: lightcoral;
+      border: 2px solid #333;
+      border-radius: 50%;
+    }
+
+    /* 旋转动画 */
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .spin {
+      animation-name: spin;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      width: 60px;
+      height: 60px;
+      background: lightgreen;
+      border: 2px solid #333;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 暂停/播放控制 */
+    .controls {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .pulse {
+      animation-name: pulse;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+      animation-direction: alternate;
+    }
+
+    @keyframes pulse {
+      from {
+        transform: scale(1);
+        background: lightblue;
+      }
+      to {
+        transform: scale(1.3);
+        background: lightyellow;
+      }
+    }
+
+    .paused {
+      animation-play-state: paused;
+    }
+  </style>
+</head>
+<body>
+  <h2>CSS动画基础</h2>
+
+  <h3>淡出动画 (@keyframes fadeOut)</h3>
+  <div class="fade-out">这段文字会在 3 秒内淡出（opacity: 1 -> 0）</div>
+
+  <h3>颜色动画 (@keyframes colorPop)</h3>
+  <div class="color-pop">这段文字在 4 秒内经历颜色变化：白底黑字 -> 黄底灰字 -> 橙底白字</div>
+
+  <h3>弹跳动画 (animation-iteration-count: infinite)</h3>
+  <div class="bounce"></div>
+
+  <h3>旋转动画 (animation-timing-function: linear)</h3>
+  <div class="spin">*</div>
+
+  <h3>脉冲动画（alternate 方向 + 暂停/播放）</h3>
+  <div class="controls">
+    <div class="pulse" id="pulseBox" style="width: 80px; height: 80px; border: 2px solid #333; display: flex; align-items: center; justify-content: center;">
+      Pulse
+    </div>
+    <button onclick="document.getElementById('pulseBox').classList.toggle('paused')">暂停/播放</button>
+  </div>
+</body>
+</html>
