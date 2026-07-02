@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>inline-block 间隙 - Gap Between Inline-Block Elements</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            padding: 30px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        h2 {
+            margin: 30px 0 15px;
+            padding-left: 12px;
+            border-left: 4px solid #1abc9c;
+            color: #2c3e50;
+        }
+
+        .desc {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            background: #fff;
+            border-radius: 6px;
+            color: #555;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .desc code {
+            padding: 2px 6px;
+            background: #ecf0f1;
+            border-radius: 3px;
+            color: #e74c3c;
+            font-family: Consolas, monospace;
+        }
+
+        .method {
+            margin-bottom: 10px;
+            display: inline-block;
+            padding: 3px 10px;
+            background: #34495e;
+            color: #fff;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+        .item {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            background: #1abc9c;
+            color: #fff;
+            text-align: center;
+            line-height: 80px;
+            font-size: 20px;
+            border-radius: 4px;
+        }
+
+        .wrap {
+            background: #ecf0f1;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        /* ========== 问题展示 ========== */
+        /* 默认情况下，HTML 源码中标签之间的空白（空格/换行）会被渲染为一个空格，产生约 4px 间隙 */
+
+        /* ========== 方式一：标签紧挨着写在一行 ========== */
+        /* 无需 CSS，靠修改 HTML 结构 */
+
+        /* ========== 方式二：父元素 font-size: 0 ========== */
+        .fix-fontsize {
+            font-size: 0;
+        }
+
+        .fix-fontsize .item {
+            font-size: 20px; /* 子元素需重新设置字号 */
+        }
+
+        /* ========== 方式三：负 margin 抵消 ========== */
+        .fix-margin .item {
+            margin-right: -4px;
+        }
+
+        /* ========== 方式四：float ========== */
+        .fix-float::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .fix-float .item {
+            float: left;
+            margin-right: 10px;
+        }
+
+        .fix-float .item:last-child {
+            margin-right: 0;
+        }
+
+        /* ========== 方式五：改用 flex（根本方案） ========== */
+        .fix-flex {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>inline-block 间隙问题</h1>
+    <div class="desc">
+        当多个 <code>inline-block</code> 元素在 HTML 中换行书写时，标签之间的空白字符（空格、换行、Tab）会被渲染成一个空格，
+        导致元素之间出现约 <code>4px</code> 的间隙。下面展示问题及几种解决方案。
+    </div>
+
+    <!-- 问题展示 -->
+    <h2>问题：默认有间隙</h2>
+    <span class="method">HTML 标签换行书写 → 产生约 4px 空隙</span>
+    <div class="wrap">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+    </div>
+
+    <!-- 方式一 -->
+    <h2>方式一：标签写在一行（无空白字符）</h2>
+    <span class="method">移除标签间的换行/空格</span>
+    <div class="wrap"><div class="item">1</div><div class="item">2</div><div class="item">3</div></div>
+
+    <!-- 方式二 -->
+    <h2>方式二：父元素 <code>font-size: 0</code></h2>
+    <span class="method">父: font-size: 0；子: 重新设置 font-size</span>
+    <div class="wrap fix-fontsize">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+    </div>
+
+    <!-- 方式三 -->
+    <h2>方式三：负 <code>margin</code> 抵消</h2>
+    <span class="method">item: margin-right: -4px（不精确，依赖字号）</span>
+    <div class="wrap fix-margin">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+    </div>
+
+    <!-- 方式四 -->
+    <h2>方式四：改用 <code>float</code></h2>
+    <span class="method">item: float: left</span>
+    <div class="wrap fix-float">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+    </div>
+
+    <!-- 方式五 -->
+    <h2>方式五：改用 <code>flex</code>（推荐）</h2>
+    <span class="method">display: flex; gap: 10px;（从根本避免，且可控制间距）</span>
+    <div class="wrap fix-flex">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+    </div>
+</body>
+</html>

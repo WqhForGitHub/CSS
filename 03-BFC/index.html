@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BFC - 块级格式化上下文</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            padding: 30px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        h2 {
+            margin: 30px 0 15px;
+            padding-left: 12px;
+            border-left: 4px solid #1abc9c;
+            color: #2c3e50;
+        }
+
+        .desc {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            background: #fff;
+            border-radius: 6px;
+            color: #555;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .desc code {
+            padding: 2px 6px;
+            background: #ecf0f1;
+            border-radius: 3px;
+            color: #e74c3c;
+            font-family: Consolas, monospace;
+        }
+
+        /* ========== 触发 BFC 的常见方式 ========== */
+        /*
+         * 以下属性任一即可触发 BFC：
+         *   float: left / right (不为 none)
+         *   position: absolute / fixed
+         *   display: inline-block / flex / grid / table-cell / flow-root
+         *   overflow: hidden / auto / scroll (不为 visible)
+         */
+
+        /* ========== Demo 1：BFC 清除浮动（解决父元素高度塌陷） ========== */
+        .float-parent {
+            border: 2px dashed #e67e22;
+            /* overflow: hidden; 触发 BFC，包裹住浮动子元素 */
+        }
+
+        .float-parent.bfc {
+            overflow: hidden;
+        }
+
+        .float-child {
+            float: left;
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            background: #e67e22;
+            color: #fff;
+            text-align: center;
+            line-height: 100px;
+        }
+
+        /* ========== Demo 2：BFC 阻止外边距折叠（margin collapse） ========== */
+        .margin-box {
+            width: 200px;
+            height: 80px;
+            background: #3498db;
+            color: #fff;
+            text-align: center;
+            line-height: 80px;
+            margin: 20px;
+        }
+
+        /* 普通情况下两个相邻块级元素上下 margin 会合并 */
+        .margin-wrapper {
+            border: 2px dashed #3498db;
+            padding: 10px;
+        }
+
+        /* 父元素触发 BFC 后，子元素 margin 不会与外部折叠 */
+        .margin-wrapper.bfc {
+            overflow: hidden;
+        }
+
+        /* ========== Demo 3：BFC 阻止文字环绕浮动元素（实现两栏自适应） ========== */
+        .float-sidebar {
+            float: left;
+            width: 120px;
+            height: 160px;
+            background: #9b59b6;
+            color: #fff;
+            text-align: center;
+            line-height: 160px;
+            margin-right: 15px;
+        }
+
+        .text-content {
+            background: #1abc9c;
+            color: #fff;
+            padding: 15px;
+            line-height: 1.8;
+            /* 默认文字会环绕浮动元素 */
+        }
+
+        /* 触发 BFC 后，文字不再环绕浮动元素，形成独立区域 */
+        .text-content.bfc {
+            overflow: hidden;
+        }
+
+        .compare {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .compare > div {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .label {
+            display: inline-block;
+            margin-bottom: 8px;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 13px;
+            color: #fff;
+        }
+
+        .label-bad {
+            background: #e74c3c;
+        }
+
+        .label-good {
+            background: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <h1>BFC - Block Formatting Context 块级格式化上下文</h1>
+
+    <div class="desc">
+        BFC 是一个独立的渲染区域，内部元素的布局不会影响到外部。<br>
+        触发方式：<code>float</code>、<code>position: absolute/fixed</code>、
+        <code>display: inline-block/flex/grid/flow-root</code>、<code>overflow: hidden/auto/scroll</code> 等。
+    </div>
+
+    <!-- Demo 1：清除浮动 -->
+    <h2>Demo 1：清除浮动（解决父元素高度塌陷）</h2>
+    <div class="compare">
+        <div>
+            <span class="label label-bad">未触发 BFC：父元素高度塌陷</span>
+            <div class="float-parent">
+                <div class="float-child">浮动</div>
+                <div class="float-child">浮动</div>
+            </div>
+        </div>
+        <div>
+            <span class="label label-good">触发 BFC：overflow: hidden 包裹浮动</span>
+            <div class="float-parent bfc">
+                <div class="float-child">浮动</div>
+                <div class="float-child">浮动</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demo 2：阻止 margin 折叠 -->
+    <h2>Demo 2：阻止外边距折叠（margin collapse）</h2>
+    <div class="compare">
+        <div>
+            <span class="label label-bad">未触发 BFC：相邻块 margin 合并</span>
+            <div class="margin-wrapper">
+                <div class="margin-box">Box 1</div>
+                <div class="margin-box">Box 2</div>
+            </div>
+        </div>
+        <div>
+            <span class="label label-good">触发 BFC：margin 不再折叠</span>
+            <div class="margin-wrapper bfc">
+                <div class="margin-box">Box 1</div>
+                <div class="margin-box">Box 2</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demo 3：阻止文字环绕 -->
+    <h2>Demo 3：阻止文字环绕浮动元素（两栏自适应布局）</h2>
+    <div class="compare">
+        <div>
+            <span class="label label-bad">未触发 BFC：文字环绕浮动</span>
+            <div>
+                <div class="float-sidebar">浮动栏</div>
+                <div class="text-content">
+                    这是一段自适应文字内容。在未触发 BFC 时，文字会环绕在浮动元素周围，
+                    形成类似报纸排版的环绕效果。这是一段示例文字，用于展示环绕效果。
+                </div>
+            </div>
+        </div>
+        <div>
+            <span class="label label-good">触发 BFC：overflow: hidden 独立成块</span>
+            <div>
+                <div class="float-sidebar">浮动栏</div>
+                <div class="text-content bfc">
+                    触发 BFC 后，该元素不再与浮动元素重叠，而是占据浮动元素右侧的剩余空间，
+                    自动形成两栏自适应布局。这是 BFC 的经典应用场景。
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文字溢出省略 - Text Overflow Ellipsis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            padding: 30px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        h2 {
+            margin: 30px 0 15px;
+            padding-left: 12px;
+            border-left: 4px solid #1abc9c;
+            color: #2c3e50;
+        }
+
+        .desc {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            background: #fff;
+            border-radius: 6px;
+            color: #555;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .desc code {
+            padding: 2px 6px;
+            background: #ecf0f1;
+            border-radius: 3px;
+            color: #e74c3c;
+            font-family: Consolas, monospace;
+        }
+
+        .method {
+            margin-bottom: 10px;
+            display: inline-block;
+            padding: 3px 10px;
+            background: #34495e;
+            color: #fff;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+        .demo-row {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .demo-item {
+            flex: 0 0 300px;
+        }
+
+        .demo-item .label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #888;
+        }
+
+        /* ========== 问题展示：默认换行 ========== */
+        .text-normal {
+            width: 300px;
+            padding: 10px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            color: #2c3e50;
+        }
+
+        /* ========== 单行省略核心代码 ========== */
+        .ellipsis-1 {
+            width: 300px;
+            padding: 10px;
+            background: #1abc9c;
+            color: #fff;
+            border-radius: 4px;
+
+            white-space: nowrap;        /* 1. 不换行 */
+            overflow: hidden;          /* 2. 溢出隐藏 */
+            text-overflow: ellipsis;   /* 3. 用省略号表示被截断的文本 */
+        }
+
+        /* ========== 不同宽度对比 ========== */
+        .ellipsis-w200 {
+            width: 200px;
+            padding: 10px;
+            background: #e67e22;
+            color: #fff;
+            border-radius: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ellipsis-w400 {
+            width: 400px;
+            padding: 10px;
+            background: #9b59b6;
+            color: #fff;
+            border-radius: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ========== 应用场景：表格单元格（需配合 table-layout: fixed） ========== */
+        .demo-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .demo-table table {
+            width: 100%;
+            table-layout: fixed; /* 关键：固定布局才能让 td 省略生效 */
+            border-collapse: collapse;
+        }
+
+        .demo-table th,
+        .demo-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .demo-table th {
+            background: #34495e;
+            color: #fff;
+        }
+
+        .demo-table td.ellipsis {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ========== 带标题提示（hover 显示完整内容） ========== */
+        .ellipsis-title {
+            width: 300px;
+            padding: 10px;
+            background: #3498db;
+            color: #fff;
+            border-radius: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>文字溢出省略（单行）- Text Overflow Ellipsis</h1>
+    <div class="desc">
+        单行文本溢出显示省略号需要三个属性配合：
+        <code>white-space: nowrap</code>（不换行）+
+        <code>overflow: hidden</code>（隐藏溢出）+
+        <code>text-overflow: ellipsis</code>（用省略号代替截断）。
+        多行省略见 <a href="../12-多行省略/index.html">12-多行省略</a>。
+    </div>
+
+    <!-- 问题展示 -->
+    <h2>问题：默认会自动换行撑高容器</h2>
+    <span class="method">未做处理，文本换行</span>
+    <div class="text-normal">
+        这是一段很长的文字内容，用于演示当容器宽度有限时，文字默认会自动换行，从而把容器撑得很高，影响布局美观。
+    </div>
+
+    <!-- 核心实现 -->
+    <h2>核心实现：三步走</h2>
+    <span class="method">white-space: nowrap + overflow: hidden + text-overflow: ellipsis</span>
+    <div class="ellipsis-1" title="这是一段很长的文字内容，用于演示当容器宽度有限时，文字默认会自动换行，从而把容器撑得很高，影响布局美观。">
+        这是一段很长的文字内容，用于演示当容器宽度有限时，文字默认会自动换行，从而把容器撑得很高，影响布局美观。
+    </div>
+
+    <!-- 不同宽度对比 -->
+    <h2>不同容器宽度对比</h2>
+    <span class="method">同样文本，不同 width 下省略位置不同</span>
+    <div class="demo-row">
+        <div class="demo-item">
+            <span class="label">width: 200px</span>
+            <div class="ellipsis-w200">前端开发者需要掌握 HTML CSS JavaScript 以及各种框架和工程化工具。</div>
+        </div>
+        <div class="demo-item">
+            <span class="label">width: 300px</span>
+            <div class="ellipsis-1">前端开发者需要掌握 HTML CSS JavaScript 以及各种框架和工程化工具。</div>
+        </div>
+        <div class="demo-item">
+            <span class="label">width: 400px</span>
+            <div class="ellipsis-w400">前端开发者需要掌握 HTML CSS JavaScript 以及各种框架和工程化工具。</div>
+        </div>
+    </div>
+
+    <!-- 应用场景：表格 -->
+    <h2>应用场景：表格单元格省略</h2>
+    <span class="method">table-layout: fixed + td 三件套</span>
+    <div class="demo-table">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:60px;">ID</th>
+                    <th>标题（超长时省略）</th>
+                    <th style="width:100px;">作者</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td class="ellipsis">这是一个非常非常非常非常非常非常长的文章标题，用来演示表格中的单行省略效果</td>
+                    <td>张三</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td class="ellipsis">另一个同样很长很长很长很长很长很长的标题内容</td>
+                    <td>李四</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 提示 -->
+    <h2>小技巧：配合 <code>title</code> 属性</h2>
+    <span class="method">鼠标悬停显示完整内容</span>
+    <div class="ellipsis-title" title="鼠标悬停时通过浏览器原生 title 提示显示完整文本，无需 JS。">
+        鼠标悬停时通过浏览器原生 title 提示显示完整文本，无需 JS。
+    </div>
+</body>
+</html>

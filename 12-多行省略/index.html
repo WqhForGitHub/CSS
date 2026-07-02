@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多行省略 - Multi-line Ellipsis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            padding: 30px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        h2 {
+            margin: 30px 0 15px;
+            padding-left: 12px;
+            border-left: 4px solid #1abc9c;
+            color: #2c3e50;
+        }
+
+        .desc {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            background: #fff;
+            border-radius: 6px;
+            color: #555;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .desc code {
+            padding: 2px 6px;
+            background: #ecf0f1;
+            border-radius: 3px;
+            color: #e74c3c;
+            font-family: Consolas, monospace;
+        }
+
+        .method {
+            margin-bottom: 10px;
+            display: inline-block;
+            padding: 3px 10px;
+            background: #34495e;
+            color: #fff;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+        .demo-row {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .demo-item {
+            flex: 0 0 320px;
+        }
+
+        .demo-item .label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #888;
+        }
+
+        /* ========== 方式一：-webkit-line-clamp（现代主流） ========== */
+        .clamp-2 {
+            width: 320px;
+            padding: 10px;
+            background: #1abc9c;
+            color: #fff;
+            border-radius: 4px;
+
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;   /* 显示行数 */
+            overflow: hidden;
+        }
+
+        .clamp-3 {
+            width: 320px;
+            padding: 10px;
+            background: #e67e22;
+            color: #fff;
+            border-radius: 4px;
+
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+        }
+
+        .clamp-4 {
+            width: 320px;
+            padding: 10px;
+            background: #9b59b6;
+            color: #fff;
+            border-radius: 4px;
+
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+            overflow: hidden;
+        }
+
+        /* ========== 方式二：兼容方案（line-height + height + 伪元素遮罩） ========== */
+        /*
+         * 原理：固定行高与高度，超出部分 hidden；用 ::after 定位在右下角
+         *       渐变遮罩 + "..." 模拟省略号。兼容老浏览器。
+         * 注意：当最后一行恰好填满时，省略号会多出来，需 JS 判断（此处仅演示 CSS）。
+         */
+        .clamp-fallback {
+            position: relative;
+            width: 320px;
+            padding: 10px;
+            background: #3498db;
+            color: #fff;
+            border-radius: 4px;
+            line-height: 24px;     /* 行高 */
+            height: 72px;          /* 行高 × 行数 = 24 × 3 = 72 */
+            overflow: hidden;
+        }
+
+        .clamp-fallback::after {
+            content: "...";
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            padding-left: 20px;
+            background: linear-gradient(to right, transparent, #3498db 50%);
+            color: #fff;
+        }
+
+        /* ========== 方式三：配合 max-height 响应式 ========== */
+        .clamp-max-height {
+            width: 320px;
+            padding: 10px;
+            background: #e74c3c;
+            color: #fff;
+            border-radius: 4px;
+
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+            /* max-height 作为兜底，防止 line-clamp 失效时溢出过多 */
+            max-height: 72px;
+        }
+    </style>
+</head>
+<body>
+    <h1>多行文字省略 - Multi-line Ellipsis</h1>
+    <div class="desc">
+        多行省略指限定显示若干行，超出部分用省略号表示。现代方案使用
+        <code>-webkit-line-clamp</code>（虽带 -webkit- 前缀，但已被各大浏览器广泛支持）；
+        兼容老浏览器可用 <code>line-height + height + 伪元素遮罩</code> 方案。单行省略见
+        <a href="../11-文字溢出省略/index.html">11-文字溢出省略</a>。
+    </div>
+
+    <!-- 方式一 -->
+    <h2>方式一：<code>-webkit-line-clamp</code>（推荐）</h2>
+    <span class="method">display: -webkit-box + -webkit-box-orient: vertical + -webkit-line-clamp: n + overflow: hidden</span>
+    <div class="demo-row">
+        <div class="demo-item">
+            <span class="label">显示 2 行</span>
+            <div class="clamp-2">多行文字省略示例：CSS 是前端开发中非常重要的技能之一，掌握它可以让你的页面布局更加灵活、美观，并且能够实现各种复杂的交互效果。本示例展示如何用纯 CSS 实现多行文本的省略号效果。</div>
+        </div>
+        <div class="demo-item">
+            <span class="label">显示 3 行</span>
+            <div class="clamp-3">多行文字省略示例：CSS 是前端开发中非常重要的技能之一，掌握它可以让你的页面布局更加灵活、美观，并且能够实现各种复杂的交互效果。本示例展示如何用纯 CSS 实现多行文本的省略号效果。</div>
+        </div>
+        <div class="demo-item">
+            <span class="label">显示 4 行</span>
+            <div class="clamp-4">多行文字省略示例：CSS 是前端开发中非常重要的技能之一，掌握它可以让你的页面布局更加灵活、美观，并且能够实现各种复杂的交互效果。本示例展示如何用纯 CSS 实现多行文本的省略号效果。</div>
+        </div>
+    </div>
+
+    <!-- 方式二 -->
+    <h2>方式二：兼容方案（<code>line-height + height + 伪元素</code>）</h2>
+    <span class="method">固定行高与高度 → overflow: hidden → ::after 渐变 + "..."</span>
+    <div class="clamp-fallback">
+        多行文字省略示例：CSS 是前端开发中非常重要的技能之一，掌握它可以让你的页面布局更加灵活、美观，并且能够实现各种复杂的交互效果。本示例展示如何用纯 CSS 实现多行文本的省略号效果。这种方式兼容性好，但当文字恰好填满最后一行时，省略号会多出来，需配合 JS 判断。
+    </div>
+
+    <!-- 方式三 -->
+    <h2>方式三：<code>line-clamp + max-height</code> 兜底</h2>
+    <span class="method">-webkit-line-clamp + max-height: 行高 × 行数</span>
+    <div class="clamp-max-height">
+        多行文字省略示例：CSS 是前端开发中非常重要的技能之一，掌握它可以让你的页面布局更加灵活、美观，并且能够实现各种复杂的交互效果。本示例展示如何用纯 CSS 实现多行文本的省略号效果。max-height 作为兜底，防止某些环境下 line-clamp 失效导致溢出过多。
+    </div>
+</body>
+</html>

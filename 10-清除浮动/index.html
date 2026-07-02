@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>清除浮动 - Clear Float</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            padding: 30px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        h2 {
+            margin: 30px 0 15px;
+            padding-left: 12px;
+            border-left: 4px solid #1abc9c;
+            color: #2c3e50;
+        }
+
+        .desc {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            background: #fff;
+            border-radius: 6px;
+            color: #555;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .desc code {
+            padding: 2px 6px;
+            background: #ecf0f1;
+            border-radius: 3px;
+            color: #e74c3c;
+            font-family: Consolas, monospace;
+        }
+
+        .method {
+            margin-bottom: 10px;
+            display: inline-block;
+            padding: 3px 10px;
+            background: #34495e;
+            color: #fff;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+        /* 通用子元素：浮动 */
+        .float-item {
+            float: left;
+            width: 80px;
+            height: 80px;
+            margin-right: 10px;
+            background: #1abc9c;
+            color: #fff;
+            text-align: center;
+            line-height: 80px;
+            border-radius: 4px;
+        }
+
+        /* 父容器：默认不设高度，靠子元素撑开 */
+        .parent {
+            background: #ecf0f1;
+            border: 2px dashed #bdc3c7;
+            border-radius: 6px;
+            padding: 10px;
+        }
+
+        /* 问题展示：未清除浮动，父元素高度塌陷 */
+        .demo-problem {
+            border-color: #e74c3c;
+        }
+
+        .after-text {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e67e22;
+            color: #fff;
+            border-radius: 4px;
+        }
+
+        /* ========== 方式一：额外标签 clear: both ========== */
+        .clear-extra .clear-div {
+            clear: both;
+        }
+
+        /* ========== 方式二：父元素 overflow: hidden 触发 BFC ========== */
+        .clear-overflow {
+            overflow: hidden;
+        }
+
+        /* ========== 方式三：单伪元素 :after ========== */
+        .clear-after::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        /* ========== 方式四：双伪元素（经典 clearfix） ========== */
+        .clearfix::before,
+        .clearfix::after {
+            content: "";
+            display: table; /* 防止父子 margin 折叠 */
+        }
+
+        .clearfix::after {
+            clear: both;
+        }
+
+        /* ========== 方式五：display: flow-root（现代方案） ========== */
+        .clear-flow-root {
+            display: flow-root;
+        }
+    </style>
+</head>
+<body>
+    <h1>清除浮动 - Clear Float</h1>
+    <div class="desc">
+        子元素设置 <code>float</code> 后会脱离文档流，导致父元素<strong>高度塌陷</strong>（无法被浮动的子元素撑开）。
+        后续正常流元素会顶上来与浮动元素重叠。清除浮动的本质是让父元素重新包含浮动子元素。
+    </div>
+
+    <!-- 问题展示 -->
+    <h2>问题：父元素高度塌陷</h2>
+    <span class="method">父元素未清除浮动 → 高度为 0，下方文字顶上来</span>
+    <div class="parent demo-problem">
+        <div class="float-item">1</div>
+        <div class="float-item">2</div>
+        <div class="float-item">3</div>
+    </div>
+    <div class="after-text">这段文字本应在浮动元素下方，但因为父元素塌陷，它与浮动元素重叠了。</div>
+
+    <!-- 方式一 -->
+    <h2>方式一：额外标签 <code>clear: both</code></h2>
+    <span class="method">在浮动元素后加一个空 div: clear: both</span>
+    <div class="parent clear-extra">
+        <div class="float-item">1</div>
+        <div class="float-item">2</div>
+        <div class="float-item">3</div>
+        <div class="clear-div"></div>
+    </div>
+    <div class="after-text">下方文字正常显示在浮动元素之下。缺点：添加了无语义的额外标签。</div>
+
+    <!-- 方式二 -->
+    <h2>方式二：父元素 <code>overflow: hidden</code> 触发 BFC</h2>
+    <span class="method">parent: overflow: hidden（或 auto）</span>
+    <div class="parent clear-overflow">
+        <div class="float-item">1</div>
+        <div class="float-item">2</div>
+        <div class="float-item">3</div>
+    </div>
+    <div class="after-text">下方文字正常显示。缺点：子元素超出父元素时会被裁切；配合定位会有副作用。</div>
+
+    <!-- 方式三 -->
+    <h2>方式三：单伪元素 <code>:after</code>（推荐）</h2>
+    <span class="method">父元素 ::after { content:""; display:block; clear:both; }</span>
+    <div class="parent clear-after">
+        <div class="float-item">1</div>
+        <div class="float-item">2</div>
+        <div class="float-item">3</div>
+    </div>
+    <div class="after-text">下方文字正常显示。不增加额外标签，是最常用的方案。</div>
+
+    <!-- 方式四 -->
+    <h2>方式四：双伪元素 clearfix（经典通用）</h2>
+    <span class="method">::before/::after + display: table + clear: both</span>
+    <div class="parent clearfix">
+        <div class="float-item">1</div>
+        <div class="float-item">2</div>
+        <div class="float-item">3</div>
+    </div>
+    <div class="after-text">下方文字正常显示。::before 用 display:table 可同时防止父子 margin 折叠，是 Bootstrap 等框架采用的方案。</div>
+
+    <!-- 方式五 -->
+    <h2>方式五：<code>display: flow-root</code>（现代方案）</h2>
+    <span class="method">parent: display: flow-root</span>
+    <div class="parent clear-flow-root">
+        <div class="float-item">1</div>
+        <div class="float-item">2</div>
+        <div class="float-item">3</div>
+    </div>
+    <div class="after-text">下方文字正常显示。专为清除浮动设计，无副作用，现代浏览器首选（IE 不支持）。</div>
+</body>
+</html>
