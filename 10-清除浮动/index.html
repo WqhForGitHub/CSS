@@ -12,7 +12,7 @@
       }
 
       body {
-        font-family: "Microsoft YaHei", sans-serif;
+        font-family: 'Microsoft YaHei', sans-serif;
         padding: 30px;
         background: #f5f5f5;
       }
@@ -103,7 +103,7 @@
 
       /* ========== 方式三：单伪元素 :after ========== */
       .clear-after::after {
-        content: "";
+        content: '';
         display: block;
         clear: both;
       }
@@ -111,7 +111,7 @@
       /* ========== 方式四：双伪元素（经典 clearfix） ========== */
       .clearfix::before,
       .clearfix::after {
-        content: "";
+        content: '';
         display: table; /* 防止父子 margin 折叠 */
       }
 

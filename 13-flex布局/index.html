@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>flex 布局 - Flexbox Layout</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Microsoft YaHei', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+      }
+
+      h1 {
+        margin-bottom: 30px;
+        color: #2c3e50;
+      }
+
+      h2 {
+        margin: 30px 0 15px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+      }
+
+      .desc {
+        margin-bottom: 15px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+      }
+
+      .desc code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+      }
+
+      .method {
+        margin-bottom: 10px;
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+      }
+
+      /* 公共容器与项目样式 */
+      .container {
+        display: flex;
+        background: #ecf0f1;
+        border-radius: 6px;
+        padding: 10px;
+        min-height: 80px;
+      }
+
+      .item {
+        background: #1abc9c;
+        color: #fff;
+        border-radius: 4px;
+        padding: 10px 16px;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .item:nth-child(2) {
+        background: #e67e22;
+      }
+
+      .item:nth-child(3) {
+        background: #9b59b6;
+      }
+
+      .item:nth-child(4) {
+        background: #3498db;
+      }
+
+      .item:nth-child(5) {
+        background: #e74c3c;
+      }
+
+      /* ========== 方式一：flex-direction 主轴方向 ========== */
+      .demo-direction-row .container {
+        flex-direction: row;
+      }
+
+      .demo-direction-row-reverse .container {
+        flex-direction: row-reverse;
+      }
+
+      .demo-direction-column .container {
+        flex-direction: column;
+      }
+
+      /* ========== 方式二：justify-content 主轴对齐 ========== */
+      .demo-justify-start .container {
+        justify-content: flex-start;
+      }
+
+      .demo-justify-center .container {
+        justify-content: center;
+      }
+
+      .demo-justify-end .container {
+        justify-content: flex-end;
+      }
+
+      .demo-justify-between .container {
+        justify-content: space-between;
+      }
+
+      .demo-justify-around .container {
+        justify-content: space-around;
+      }
+
+      .demo-justify-evenly .container {
+        justify-content: space-evenly;
+      }
+
+      /* ========== 方式三：align-items 交叉轴对齐 ========== */
+      .demo-align .container {
+        height: 140px;
+        align-items: center; /* 演示值切换为 stretch / flex-start / flex-end */
+      }
+
+      .demo-align-stretch .container {
+        height: 140px;
+        align-items: stretch;
+      }
+
+      .demo-align-stretch .item {
+        padding: 0;
+        line-height: 60px;
+      }
+
+      /* ========== 方式四：flex-wrap 换行 + gap 间距 ========== */
+      .demo-wrap .container {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .demo-wrap .item {
+        flex: 0 0 120px;
+      }
+
+      /* ========== 方式五：flex: 1 自适应分配剩余空间 ========== */
+      .demo-flex-grow .fixed {
+        flex: 0 0 200px;
+      }
+
+      .demo-flex-grow .grow {
+        flex: 1; /* 占满剩余空间 */
+      }
+
+      .demo-flex-grow .grow-2 {
+        flex: 2; /* 按比例分配 */
+      }
+
+      /* ========== 方式六：flex 实现三栏布局（圣杯） ========== */
+      .demo-holy-grail .container {
+        flex-direction: column;
+        padding: 0;
+        min-height: 320px;
+      }
+
+      .demo-holy-grail header,
+      .demo-holy-grail footer {
+        flex: 0 0 60px;
+        background: #34495e;
+        color: #fff;
+        text-align: center;
+        line-height: 60px;
+        font-size: 16px;
+      }
+
+      .demo-holy-grail .main {
+        display: flex;
+        flex: 1;
+      }
+
+      .demo-holy-grail .left {
+        flex: 0 0 180px;
+        background: #e67e22;
+        color: #fff;
+        padding: 16px;
+      }
+
+      .demo-holy-grail .center {
+        flex: 1;
+        background: #1abc9c;
+        color: #fff;
+        padding: 16px;
+      }
+
+      .demo-holy-grail .right {
+        flex: 0 0 200px;
+        background: #9b59b6;
+        color: #fff;
+        padding: 16px;
+      }
+
+      /* ========== 方式七：order 改变项目顺序 ========== */
+      .demo-order .item-1 {
+        order: 3;
+      }
+
+      .demo-order .item-2 {
+        order: 1;
+      }
+
+      .demo-order .item-3 {
+        order: 2;
+      }
+
+      /* ========== 方式八：align-self 单独对齐 ========== */
+      .demo-align-self .container {
+        height: 140px;
+        align-items: center;
+      }
+
+      .demo-align-self .item-1 {
+        align-self: flex-start;
+      }
+
+      .demo-align-self .item-2 {
+        align-self: stretch;
+      }
+
+      .demo-align-self .item-3 {
+        align-self: flex-end;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>flex 布局 - Flexbox Layout</h1>
+    <div class="desc">
+      Flexbox（弹性盒布局）是一维布局方案，擅长处理一行或一列中元素的排列与分配。
+      通过 <code>display: flex</code> 开启，再配合主轴 /
+      交叉轴属性可灵活控制对齐、 方向、换行与空间分配。是现代 CSS
+      布局首选方案之一，另一个是
+      <a href="../14-grid布局/index.html">14-grid布局</a>。
+    </div>
+
+    <!-- 方式一 -->
+    <h2>方式一：flex-direction 主轴方向</h2>
+    <span class="method">flex-direction: row | row-reverse | column</span>
+
+    <div class="demo-direction-row" style="margin-bottom: 10px">
+      <div class="container">
+        <div class="item">1 row</div>
+        <div class="item">2 row</div>
+        <div class="item">3 row</div>
+      </div>
+    </div>
+    <div class="demo-direction-row-reverse" style="margin-bottom: 10px">
+      <div class="container">
+        <div class="item">1 row-reverse</div>
+        <div class="item">2 row-reverse</div>
+        <div class="item">3 row-reverse</div>
+      </div>
+    </div>
+    <div class="demo-direction-column">
+      <div class="container">
+        <div class="item">1 column</div>
+        <div class="item">2 column</div>
+        <div class="item">3 column</div>
+      </div>
+    </div>
+
+    <!-- 方式二 -->
+    <h2>方式二：justify-content 主轴对齐</h2>
+    <span class="method"
+      >justify-content: flex-start | center | flex-end | space-between |
+      space-around | space-evenly</span
+    >
+
+    <div class="demo-justify-start" style="margin-bottom: 10px">
+      <div class="container">
+        <div class="item">A</div>
+        <div class="item">B</div>
+        <div class="item">C</div>
+      </div>
+    </div>
+    <div class="demo-justify-center" style="margin-bottom: 10px">
+      <div class="container">
+        <div class="item">A</div>
+        <div class="item">B</div>
+        <div class="item">C</div>
+      </div>
+    </div>
+    <div class="demo-justify-end" style="margin-bottom: 10px">
+      <div class="container">
+        <div class="item">A</div>
+        <div class="item">B</div>
+        <div class="item">C</div>
+      </div>
+    </div>
+    <div class="demo-justify-between" style="margin-bottom: 10px">
+      <div class="container">
+        <div class="item">A</div>
+        <div class="item">B</div>
+        <div class="item">C</div>
+      </div>
+    </div>
+    <div class="demo-justify-around" style="margin-bottom: 10px">
+      <div class="container">
+        <div class="item">A</div>
+        <div class="item">B</div>
+        <div class="item">C</div>
+      </div>
+    </div>
+    <div class="demo-justify-evenly">
+      <div class="container">
+        <div class="item">A</div>
+        <div class="item">B</div>
+        <div class="item">C</div>
+      </div>
+    </div>
+
+    <!-- 方式三 -->
+    <h2>方式三：align-items 交叉轴对齐</h2>
+    <span class="method"
+      >align-items: center | stretch | flex-start | flex-end</span
+    >
+
+    <div class="demo-align" style="margin-bottom: 10px">
+      <div class="container">
+        <div class="item">center</div>
+        <div class="item">center</div>
+        <div class="item">center</div>
+      </div>
+    </div>
+    <div class="demo-align-stretch">
+      <div class="container">
+        <div class="item">stretch</div>
+        <div class="item">stretch</div>
+        <div class="item">stretch</div>
+      </div>
+    </div>
+
+    <!-- 方式四 -->
+    <h2>方式四：flex-wrap 换行 + gap 间距</h2>
+    <span class="method">flex-wrap: wrap; gap: 10px;</span>
+    <div class="demo-wrap">
+      <div class="container">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+        <div class="item">5</div>
+        <div class="item">6</div>
+        <div class="item">7</div>
+        <div class="item">8</div>
+      </div>
+    </div>
+
+    <!-- 方式五 -->
+    <h2>方式五：flex: 1 自适应分配剩余空间</h2>
+    <span class="method"
+      >flex: 0 0 200px（固定）；flex: 1（占满剩余）；flex: 2（按比例）</span
+    >
+    <div class="demo-flex-grow">
+      <div class="container">
+        <div class="item fixed">fixed 200px</div>
+        <div class="item grow">flex: 1</div>
+        <div class="item grow-2">flex: 2</div>
+      </div>
+    </div>
+
+    <!-- 方式六 -->
+    <h2>方式六：flex 实现三栏布局（圣杯）</h2>
+    <span class="method"
+      >外层 flex-direction: column；中间层 flex: 1 再嵌套 flex 行</span
+    >
+    <div class="demo-holy-grail">
+      <div class="container">
+        <header>Header 通栏头部</header>
+        <div class="main">
+          <div class="left">Left<br />固定 180px</div>
+          <div class="center">
+            Center<br />
+            flex: 1 自适应主体内容。相比
+            <a
+              href="../01-圣杯布局/index.html"
+              style="color: #fff; text-decoration: underline"
+              >01-圣杯布局</a
+            >
+            的 float 方案，flex 不需要负 margin，结构更直观。
+          </div>
+          <div class="right">Right<br />固定 200px</div>
+        </div>
+        <footer>Footer 通栏尾部</footer>
+      </div>
+    </div>
+
+    <!-- 方式七 -->
+    <h2>方式七：order 改变项目顺序</h2>
+    <span class="method">order: 数字（默认 0，越小越靠前）</span>
+    <div class="demo-order">
+      <div class="container">
+        <div class="item item-1">DOM 顺序 1 → order: 3</div>
+        <div class="item item-2">DOM 顺序 2 → order: 1</div>
+        <div class="item item-3">DOM 顺序 3 → order: 2</div>
+      </div>
+    </div>
+
+    <!-- 方式八 -->
+    <h2>方式八：align-self 单独对齐</h2>
+    <span class="method"
+      >align-self: flex-start | stretch | flex-end（覆盖父级 align-items）</span
+    >
+    <div class="demo-align-self">
+      <div class="container">
+        <div class="item item-1">flex-start</div>
+        <div class="item item-2">stretch</div>
+        <div class="item item-3">flex-end</div>
+      </div>
+    </div>
+  </body>
+</html>
