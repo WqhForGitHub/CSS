@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>背景与渐变综合案例</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .card {
+        border-radius: 12px;
+        padding: 25px;
+        color: #fff;
+        min-height: 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+      }
+      .card-1 {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        box-shadow: 0 10px 30px rgba(118, 75, 162, 0.4);
+      }
+      .card-1::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 0%,
+          transparent 60%
+        );
+      }
+      .card-2 {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+      }
+      .card-2::after {
+        content: '';
+        position: absolute;
+        bottom: -30px;
+        left: -30px;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+      }
+      .card-3 {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+      }
+      .card-3::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 15px,
+          rgba(255, 255, 255, 0.05) 15px,
+          rgba(255, 255, 255, 0.05) 30px
+        );
+      }
+      .card-4 {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        box-shadow: 0 10px 30px rgba(67, 233, 123, 0.4);
+      }
+      .card-4::after {
+        content: '';
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+      }
+      .card-5 {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        box-shadow: 0 10px 30px rgba(250, 112, 154, 0.4);
+      }
+      .card-5::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          circle at 80% 20%,
+          rgba(255, 255, 255, 0.2) 0%,
+          transparent 50%
+        );
+      }
+      .card-6 {
+        background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+        box-shadow: 0 10px 30px rgba(48, 207, 208, 0.4);
+      }
+      .card-6::after {
+        content: '';
+        position: absolute;
+        bottom: -50px;
+        right: -50px;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .card-title {
+        font-size: 18px;
+        font-weight: bold;
+        position: relative;
+        z-index: 1;
+      }
+      .card-text {
+        font-size: 13px;
+        opacity: 0.9;
+        position: relative;
+        z-index: 1;
+        line-height: 1.5;
+      }
+      .card-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        font-size: 11px;
+        position: relative;
+        z-index: 1;
+        backdrop-filter: blur(10px);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>背景与渐变综合案例</h1>
+    <div class="desc">
+      综合运用
+      <code>background-color</code
+      >、<code>background-image</code>、渐变、多背景、<code>background-clip</code>、<code
+        >box-shadow</code
+      >
+      创建精美卡片设计。
+    </div>
+    <span class="tag">渐变卡片设计综合案例</span>
+    <div class="demo-row" style="background: #fff; padding: 30px">
+      <div class="card-grid" style="width: 100%">
+        <div class="card card-1">
+          <span class="card-badge">DESIGN</span>
+          <div>
+            <div class="card-title">紫色梦幻</div>
+            <div class="card-text">线性渐变 + 径向光晕装饰</div>
+          </div>
+        </div>
+        <div class="card card-2">
+          <span class="card-badge">POPULAR</span>
+          <div>
+            <div class="card-title">珊瑚粉红</div>
+            <div class="card-text">渐变 + 圆形装饰元素</div>
+          </div>
+        </div>
+        <div class="card card-3">
+          <span class="card-badge">NEW</span>
+          <div>
+            <div class="card-title">海洋蓝绿</div>
+            <div class="card-text">渐变 + 斜纹纹理叠加</div>
+          </div>
+        </div>
+        <div class="card card-4">
+          <span class="card-badge">FRESH</span>
+          <div>
+            <div class="card-title">薄荷清新</div>
+            <div class="card-text">渐变 + 发光圆点装饰</div>
+          </div>
+        </div>
+        <div class="card card-5">
+          <span class="card-badge">HOT</span>
+          <div>
+            <div class="card-title">日出渐变</div>
+            <div class="card-text">暖色调 + 局部高光</div>
+          </div>
+        </div>
+        <div class="card card-6">
+          <span class="card-badge">PRO</span>
+          <div>
+            <div class="card-title">深空蓝紫</div>
+            <div class="card-text">冷色调 + 大圆装饰</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      综合运用线性渐变作为主背景、径向渐变创建光晕、<code>::before</code>/<code
+        >::after</code
+      >
+      伪元素添加装饰层、box-shadow 增加深度感，打造现代化卡片设计。
+    </div>
+  </body>
+</html>

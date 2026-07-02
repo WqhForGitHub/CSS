@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexbox 居中布局</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .fc-demo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #ecf0f1;
+        border-radius: 8px;
+        margin-bottom: 15px;
+      }
+      .fc-box {
+        background: #3498db;
+        color: #fff;
+        padding: 20px 30px;
+        border-radius: 8px;
+        font-size: 14px;
+      }
+      .fc-1 {
+        height: 150px;
+      }
+      .fc-2 {
+        height: 120px;
+        justify-content: flex-end;
+      }
+      .fc-3 {
+        height: 120px;
+        align-items: flex-end;
+      }
+      .fc-4 {
+        height: 120px;
+        justify-content: space-between;
+      }
+      .fc-4 .side {
+        background: #e74c3c;
+        padding: 10px 15px;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Flexbox 居中布局</h1>
+    <div class="desc">
+      使用
+      <code>display: flex; justify-content: center; align-items: center;</code>
+      实现完美的水平和垂直居中。
+    </div>
+    <span class="tag">完美居中</span>
+    <div class="fc-demo fc-1">
+      <div class="fc-box">
+        水平+垂直居中<br />justify-content:center<br />align-items:center
+      </div>
+    </div>
+    <span class="tag">右对齐</span>
+    <div class="fc-demo fc-2">
+      <div class="fc-box" style="background: #e74c3c">
+        justify-content:flex-end
+      </div>
+    </div>
+    <span class="tag">底部对齐</span>
+    <div class="fc-demo fc-3">
+      <div class="fc-box" style="background: #27ae60">align-items:flex-end</div>
+    </div>
+    <span class="tag">两端对齐</span>
+    <div class="fc-demo fc-4">
+      <div class="fc-box side">左</div>
+      <div class="fc-box side" style="background: #27ae60">右</div>
+    </div>
+    <div class="note">
+      Flexbox 居中是最简洁的居中方案，三行代码搞定。<code>justify-content</code>
+      控制主轴，<code>align-items</code> 控制交叉轴。无需知道元素尺寸。
+    </div>
+  </body>
+</html>

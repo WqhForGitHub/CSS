@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>flex-grow 布局技巧</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .fg-demo {
+        display: flex;
+        gap: 10px;
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+      .fg-demo > div {
+        padding: 15px;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 13px;
+        text-align: center;
+      }
+      .fg-fixed {
+        flex: 0 0 150px;
+        background: #3498db;
+      }
+      .fg-auto {
+        flex: 1;
+        background: #e74c3c;
+      }
+      .fg-ratio-1 {
+        flex: 1;
+        background: #27ae60;
+      }
+      .fg-ratio-2 {
+        flex: 2;
+        background: #f39c12;
+      }
+      .fg-ratio-3 {
+        flex: 3;
+        background: #9b59b6;
+      }
+      .fg-grow-only {
+        flex-grow: 1;
+        background: #1abc9c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>flex-grow 布局技巧</h1>
+    <div class="desc">
+      利用
+      <code>flex-grow</code>
+      实现各种实用布局：一侧固定一侧自适应、按比例分配等。
+    </div>
+    <span class="tag">固定+自适应</span>
+    <div class="fg-demo">
+      <div class="fg-fixed">固定 150px</div>
+      <div class="fg-auto">flex:1 自适应</div>
+    </div>
+    <span class="tag">按比例 1:2:3</span>
+    <div class="fg-demo">
+      <div class="fg-ratio-1">flex:1</div>
+      <div class="fg-ratio-2">flex:2</div>
+      <div class="fg-ratio-3">flex:3</div>
+    </div>
+    <span class="tag">两侧固定+中间自适应</span>
+    <div class="fg-demo">
+      <div class="fg-fixed">固定 150px</div>
+      <div class="fg-auto">flex:1 自适应中间</div>
+      <div class="fg-fixed" style="background: #27ae60">固定 150px</div>
+    </div>
+    <span class="tag">全部 grow:1 等分</span>
+    <div class="fg-demo">
+      <div class="fg-grow-only">grow:1</div>
+      <div class="fg-grow-only" style="background: #e74c3c">grow:1</div>
+      <div class="fg-grow-only" style="background: #f39c12">grow:1</div>
+      <div class="fg-grow-only" style="background: #9b59b6">grow:1</div>
+    </div>
+    <div class="note">
+      <code>flex: 0 0 150px</code> 固定宽度不扩展不收缩。<code>flex: 1</code>
+      占满剩余空间。<code>flex: N</code> 按比例分配。这是 Flexbox
+      最常用的布局模式。
+    </div>
+  </body>
+</html>

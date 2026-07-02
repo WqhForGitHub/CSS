@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>中文排版优化</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .cn2-demo .article {
+        font-size: 16px;
+        line-height: 1.8;
+        color: #333;
+        max-width: 500px;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        font-family: 'PingFang SC', 'Microsoft YaHei', serif;
+      }
+      .cn2-demo .article p {
+        text-indent: 2em;
+        margin-bottom: 1em;
+        text-align: justify;
+      }
+      .cn2-demo .article p:first-child {
+        text-indent: 0;
+      }
+      .cn2-demo .article h2 {
+        font-size: 20px;
+        margin: 1.5em 0 0.8em;
+        color: #2c3e50;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>中文排版优化</h1>
+    <div class="desc">
+      中文排版需注意：首行缩进 2em、标点挤压、中英文间距、行高适当加大。
+    </div>
+    <div class="demo-row cn2-demo" style="display: block">
+      <div class="article">
+        <h2>中文排版原则</h2>
+        <p>
+          中文段落首行缩进两个字符宽度（2em），这是中文书籍排版的标准规范。行高一般设置为字号的
+          1.5 到 1.8 倍，比英文略大，因为中文字形更密。
+        </p>
+        <p>
+          中文与英文、数字之间应保留适当间距。现代浏览器通常会自动处理这个间距，但也可以通过
+          CSS 精确控制。
+        </p>
+        <p>
+          中文排版使用两端对齐（justify）可以让段落看起来更整齐。配合
+          text-justify: inter-ideograph 可以获得更好的中文两端对齐效果。
+        </p>
+      </div>
+    </div>
+    <div class="note">
+      中文排版推荐：2em 缩进、1.8 行高、justify 对齐、inter-ideograph。
+    </div>
+  </body>
+</html>

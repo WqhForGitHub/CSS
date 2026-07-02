@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>多个动画叠加</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .multi {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        margin: 15px;
+        border-radius: 8px;
+      }
+      .m1 {
+        background: #3498db;
+        animation:
+          spin 3s linear infinite,
+          pulse 1.5s ease infinite alternate;
+      }
+      .m2 {
+        background: #e74c3c;
+        animation:
+          moveX 2s ease infinite alternate,
+          moveY 1.3s ease infinite alternate,
+          colorShift 3s ease infinite;
+      }
+      .m3 {
+        background: #27ae60;
+        animation:
+          rotate3d 4s linear infinite,
+          scalePulse 2s ease infinite alternate;
+      }
+      @keyframes spin {
+        from {
+          transform: rotate(0);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes pulse {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.2);
+        }
+      }
+      @keyframes moveX {
+        from {
+          margin-left: 10px;
+        }
+        to {
+          margin-left: 80px;
+        }
+      }
+      @keyframes moveY {
+        from {
+          margin-top: 10px;
+        }
+        to {
+          margin-top: 40px;
+        }
+      }
+      @keyframes colorShift {
+        0% {
+          background: #e74c3c;
+        }
+        50% {
+          background: #f39c12;
+        }
+        100% {
+          background: #e74c3c;
+        }
+      }
+      @keyframes rotate3d {
+        from {
+          transform: perspective(200px) rotateY(0) rotateX(0);
+        }
+        to {
+          transform: perspective(200px) rotateY(360deg) rotateX(180deg);
+        }
+      }
+      @keyframes scalePulse {
+        from {
+          box-shadow: 0 0 0 rgba(39, 174, 96, 0);
+        }
+        to {
+          box-shadow: 0 0 30px rgba(39, 174, 96, 0.6);
+        }
+      }
+      .flex-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: center;
+      }
+      .item {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>多个动画叠加</h1>
+    <div class="desc">
+      一个元素可以同时应用多个动画，用逗号分隔，每个动画可以独立设置参数。
+    </div>
+
+    <h2>多动画叠加效果</h2>
+    <div class="demo-row">
+      <div class="flex-wrap">
+        <div class="item">
+          <div class="multi m1">旋转+脉冲</div>
+          <div class="label">spin + pulse</div>
+        </div>
+        <div class="item">
+          <div class="multi m2">移动+变色</div>
+          <div class="label">moveX + moveY + color</div>
+        </div>
+        <div class="item">
+          <div class="multi m3">3D+光晕</div>
+          <div class="label">rotate3d + shadow</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      多个动画作用于同一属性时会覆盖（后者优先），不同属性可以叠加。注意 m1 中
+      spin 和 pulse 都修改 transform，pulse 会覆盖 spin。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grid 仪表盘布局</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .db-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(3, 100px);
+        gap: 12px;
+        background: #ecf0f1;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      .db-card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      }
+      .db-big {
+        grid-column: span 2;
+        grid-row: span 2;
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        color: #fff;
+      }
+      .db-wide {
+        grid-column: span 2;
+        background: #e74c3c;
+        color: #fff;
+      }
+      .db-tall {
+        grid-row: span 2;
+        background: #27ae60;
+        color: #fff;
+      }
+      .db-card h4 {
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+      .db-card .num {
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .db-card .label {
+        font-size: 12px;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Grid 仪表盘布局</h1>
+    <div class="desc">
+      使用 Grid 实现仪表盘布局：大卡片+小卡片组合，不同区域占据不同大小。
+    </div>
+    <span class="tag">仪表盘布局</span>
+    <div class="demo-row" style="padding: 20px">
+      <div class="db-grid" style="width: 100%">
+        <div class="db-card db-big">
+          <h4>总销售额</h4>
+          <div class="num">¥1,280,530</div>
+          <div class="label">本月总额 ↑ 12%</div>
+        </div>
+        <div class="db-card">
+          <h4>用户</h4>
+          <div class="num">9,234</div>
+          <div class="label">↑ 8%</div>
+        </div>
+        <div class="db-card db-tall">
+          <h4>订单</h4>
+          <div class="num">1,847</div>
+          <div class="label">本周 ↑ 5%</div>
+        </div>
+        <div class="db-card">
+          <h4>转化率</h4>
+          <div class="num">3.2%</div>
+          <div class="label">↑ 0.3%</div>
+        </div>
+        <div class="db-card db-wide">
+          <h4>收入趋势</h4>
+          <div class="label">过去7天收入持续增长</div>
+        </div>
+        <div class="db-card">
+          <h4>退款</h4>
+          <div class="num">23</div>
+          <div class="label">↓ 2%</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      4列3行网格，大卡片 span 2×2 占据左上角主区域，宽卡片 span 2
+      占底部通栏，高卡片 span 2 占右侧。Grid 的 span 让仪表盘布局变得非常简单。
+    </div>
+  </body>
+</html>

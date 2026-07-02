@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>响应式图片</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .ri-area {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .ri-section {
+        padding: 15px;
+        background: #fff;
+        border-radius: 8px;
+      }
+      .ri-label {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 8px;
+      }
+      .ri-img-box {
+        width: 100%;
+        max-width: 400px;
+        height: 120px;
+        border-radius: 6px;
+        overflow: hidden;
+        background: #ecf0f1;
+      }
+      .ri-gradient1 {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 16px;
+      }
+      .ri-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .ri-thumb {
+        width: 80px;
+        height: 80px;
+        border-radius: 6px;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      .ri-thumb div {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>响应式图片</h1>
+    <div class="desc">
+      使用 <code>max-width: 100%</code>、<code>object-fit</code>
+      实现图片的响应式适配。
+    </div>
+
+    <h2>响应式图片</h2>
+    <div class="demo-row">
+      <div class="ri-area" style="width: 100%">
+        <div class="ri-section">
+          <div class="ri-label">max-width: 100% - 图片不超出容器：</div>
+          <div class="ri-img-box">
+            <div class="ri-gradient1">max-width: 100%</div>
+          </div>
+        </div>
+        <div class="ri-section">
+          <div class="ri-label">缩略图网格 - 自适应排列：</div>
+          <div class="ri-row">
+            <div class="ri-thumb">
+              <div
+                style="background: linear-gradient(135deg, #3498db, #2c3e50)"
+              >
+                1
+              </div>
+            </div>
+            <div class="ri-thumb">
+              <div
+                style="background: linear-gradient(135deg, #e74c3c, #8e44ad)"
+              >
+                2
+              </div>
+            </div>
+            <div class="ri-thumb">
+              <div
+                style="background: linear-gradient(135deg, #27ae60, #16a085)"
+              >
+                3
+              </div>
+            </div>
+            <div class="ri-thumb">
+              <div
+                style="background: linear-gradient(135deg, #f39c12, #d35400)"
+              >
+                4
+              </div>
+            </div>
+            <div class="ri-thumb">
+              <div
+                style="background: linear-gradient(135deg, #9b59b6, #34495e)"
+              >
+                5
+              </div>
+            </div>
+            <div class="ri-thumb">
+              <div
+                style="background: linear-gradient(135deg, #1abc9c, #3498db)"
+              >
+                6
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      响应式图片三原则：1) max-width: 100% 防止溢出 2) object-fit 控制填充方式
+      3) flex-wrap 自动换行。
+    </div>
+  </body>
+</html>

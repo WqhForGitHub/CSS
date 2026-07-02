@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>行内格式化上下文 IFC</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .ifc-demo .container {
+        line-height: 2;
+        background: #ecf0f1;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 16px;
+      }
+      .ifc-demo .container span {
+        background: #3498db;
+        color: #fff;
+        padding: 2px 6px;
+        border-radius: 3px;
+        margin-right: 4px;
+      }
+      .ifc-demo .tall {
+        font-size: 28px;
+        background: #e74c3c;
+      }
+      .ifc-demo .small {
+        font-size: 10px;
+        background: #27ae60;
+      }
+      .ifc-demo .info {
+        font-size: 13px;
+        color: #555;
+        margin-top: 10px;
+        line-height: 1.8;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>行内格式化上下文 IFC</h1>
+    <div class="desc">
+      IFC（Inline Formatting
+      Context）中，行内水平排列形成行盒。行盒高度由内容高度和 line-height 决定。
+    </div>
+    <div class="demo-row ifc-demo" style="display: block">
+      <div class="container">
+        <span>正常16px</span><span class="tall">大号28px</span><span>正常</span
+        ><span class="small">小号10px</span><span>正常</span><span>正常</span
+        ><span>正常</span><span>正常</span>
+      </div>
+      <div class="info">
+        <strong>IFC 规则：</strong><br />
+        1. 行内盒子水平排列，排满换行<br />
+        2. 每行形成行盒，高度由最高内容决定<br />
+        3. 行内盒子通过 vertical-align 垂直对齐<br />
+        4. 行盒水平方向撑满包含块
+      </div>
+    </div>
+    <div class="note">
+      IFC 只在包含行内级元素的块级容器中创建。行盒是水平排列的基本单位。
+    </div>
+  </body>
+</html>

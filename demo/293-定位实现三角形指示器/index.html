@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>定位实现三角形指示器</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .tri-container {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+      }
+      .tri-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .tri-box {
+        width: 0;
+        height: 0;
+      }
+      .tri-up {
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-bottom: 30px solid #3498db;
+      }
+      .tri-down {
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 30px solid #e74c3c;
+      }
+      .tri-left {
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+        border-right: 30px solid #27ae60;
+      }
+      .tri-right {
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+        border-left: 30px solid #f39c12;
+      }
+      .tri-bubble {
+        position: relative;
+        background: #9b59b6;
+        color: #fff;
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+      }
+      .tri-bubble::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 20px;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 10px solid #9b59b6;
+      }
+      .tri-step {
+        display: flex;
+        align-items: center;
+        gap: 0;
+      }
+      .tri-step-item {
+        background: #3498db;
+        color: #fff;
+        padding: 8px 20px 8px 25px;
+        font-size: 13px;
+        position: relative;
+        clip-path: polygon(
+          0 0,
+          calc(100% - 12px) 0,
+          100% 50%,
+          calc(100% - 12px) 100%,
+          0 100%,
+          12px 50%
+        );
+      }
+      .tri-step-item:first-child {
+        clip-path: polygon(
+          0 0,
+          calc(100% - 12px) 0,
+          100% 50%,
+          calc(100% - 12px) 100%,
+          0 100%
+        );
+        padding-left: 15px;
+      }
+      .tri-step-item:not(:first-child) {
+        margin-left: -12px;
+      }
+      .tri-step-item.active {
+        background: #e74c3c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>定位实现三角形指示器</h1>
+    <div class="desc">
+      利用 CSS border
+      特性和绝对定位，创建各种三角形指示器，常用于气泡提示、步骤指示器等。
+    </div>
+    <span class="tag">基本三角形</span>
+    <div class="demo-row">
+      <div class="tri-container">
+        <div class="tri-item">
+          <div class="tri-box tri-up"></div>
+          <span class="label">向上</span>
+        </div>
+        <div class="tri-item">
+          <div class="tri-box tri-down"></div>
+          <span class="label">向下</span>
+        </div>
+        <div class="tri-item">
+          <div class="tri-box tri-left"></div>
+          <span class="label">向左</span>
+        </div>
+        <div class="tri-item">
+          <div class="tri-box tri-right"></div>
+          <span class="label">向右</span>
+        </div>
+      </div>
+    </div>
+    <span class="tag">三角形应用：气泡提示</span>
+    <div class="demo-row" style="padding: 30px 20px">
+      <div class="tri-bubble">这是一个带三角形指示器的气泡提示！</div>
+    </div>
+    <span class="tag">三角形应用：步骤指示器</span>
+    <div class="demo-row" style="padding: 20px">
+      <div class="tri-step">
+        <div class="tri-step-item active">步骤1</div>
+        <div class="tri-step-item active">步骤2</div>
+        <div class="tri-step-item">步骤3</div>
+        <div class="tri-step-item">步骤4</div>
+      </div>
+    </div>
+    <div class="note">
+      三角形原理：元素宽高为0时，border 各方向显示为三角形。步骤指示器使用
+      <code>clip-path</code> 创建箭头形状，比 border 方式更灵活。
+    </div>
+  </body>
+</html>

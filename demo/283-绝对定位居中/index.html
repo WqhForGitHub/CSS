@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>绝对定位居中技巧</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .ac-demo {
+        position: relative;
+        width: 100%;
+        height: 180px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .ac-box {
+        width: 100px;
+        height: 70px;
+        background: #3498db;
+        color: #fff;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        position: absolute;
+      }
+      .ac-method1 {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .ac-method2 {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        width: 100px;
+        height: 70px;
+        background: #e74c3c;
+      }
+      .ac-method3 {
+        top: 50%;
+        left: 50%;
+        margin-top: -35px;
+        margin-left: -50px;
+        background: #27ae60;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>绝对定位居中技巧</h1>
+    <div class="desc">
+      使用 <code>position: absolute</code> 配合 <code>transform</code> 或
+      <code>margin: auto</code> 实现元素的水平和垂直居中。
+    </div>
+    <span class="tag">方法1: transform 居中（推荐）</span>
+    <div class="ac-demo">
+      <div class="ac-box ac-method1">
+        top:50% left:50%<br />transform:translate(-50%,-50%)
+      </div>
+    </div>
+    <span class="tag">方法2: margin: auto 居中</span>
+    <div class="ac-demo">
+      <div class="ac-box ac-method2">
+        top/right/bottom/left:0<br />margin:auto
+      </div>
+    </div>
+    <span class="tag">方法3: 负 margin 居中</span>
+    <div class="ac-demo">
+      <div class="ac-box ac-method3">
+        top:50% left:50%<br />margin-top:-35px<br />margin-left:-50px
+      </div>
+    </div>
+    <div class="note">
+      方法1最通用，不需要知道元素尺寸。方法2需要设置宽高。方法3需要手动计算偏移量（宽高的一半）。现代CSS还可用
+      <code>place-items: center</code>（Grid）或 Flexbox 实现居中。
+    </div>
+  </body>
+</html>

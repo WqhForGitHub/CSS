@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>页面转场动画</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .page-area {
+        position: relative;
+        height: 280px;
+        overflow: hidden;
+        border-radius: 12px;
+      }
+      .page {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 30px;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+      }
+      .page1 {
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        animation: pageFade 12s ease infinite;
+      }
+      .page2 {
+        background: linear-gradient(135deg, #e74c3c, #8e44ad);
+        animation: pageSlide 12s ease infinite;
+      }
+      .page3 {
+        background: linear-gradient(135deg, #27ae60, #16a085);
+        animation: pageZoom 12s ease infinite;
+      }
+      .page4 {
+        background: linear-gradient(135deg, #f39c12, #d35400);
+        animation: pageFlip 12s ease infinite;
+      }
+      @keyframes pageFade {
+        0%,
+        20% {
+          opacity: 1;
+        }
+        25%,
+        95% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      @keyframes pageSlide {
+        0%,
+        20% {
+          opacity: 0;
+          transform: translateX(100%);
+        }
+        25%,
+        45% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+        50%,
+        95% {
+          opacity: 0;
+          transform: translateX(-100%);
+        }
+        100% {
+          opacity: 0;
+          transform: translateX(100%);
+        }
+      }
+      @keyframes pageZoom {
+        0%,
+        45% {
+          opacity: 0;
+          transform: scale(1.5);
+        }
+        50%,
+        70% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        75%,
+        95% {
+          opacity: 0;
+          transform: scale(0.5);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(1.5);
+        }
+      }
+      @keyframes pageFlip {
+        0%,
+        70% {
+          opacity: 0;
+          transform: perspective(800px) rotateY(90deg);
+        }
+        75%,
+        95% {
+          opacity: 1;
+          transform: perspective(800px) rotateY(0);
+        }
+        100% {
+          opacity: 0;
+          transform: perspective(800px) rotateY(-90deg);
+        }
+      }
+      .page h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+      .page p {
+        font-size: 14px;
+        opacity: 0.85;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>页面转场动画</h1>
+    <div class="desc">
+      使用 animation 模拟页面切换时的转场动画效果，包括淡入、滑入、缩放进入等。
+    </div>
+
+    <h2>页面转场动画</h2>
+    <p>四种不同的页面切换转场效果循环播放：</p>
+    <div class="demo-row">
+      <div class="page-area" style="width: 100%">
+        <div class="page page1">
+          <h2>淡入淡出</h2>
+          <p>Fade Transition</p>
+        </div>
+        <div class="page page2">
+          <h2>滑入滑出</h2>
+          <p>Slide Transition</p>
+        </div>
+        <div class="page page3">
+          <h2>缩放进入</h2>
+          <p>Zoom Transition</p>
+        </div>
+        <div class="page page4">
+          <h2>3D 翻转</h2>
+          <p>Flip Transition</p>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      每个页面使用不同的
+      @keyframes，通过精确控制时间百分比确保同一时间只有一个页面可见，实现无缝转场。
+    </div>
+  </body>
+</html>

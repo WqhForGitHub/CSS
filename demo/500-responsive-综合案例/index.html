@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>综合案例：响应式个人主页</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .home-page {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .home-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
+        background: #2c3e50;
+        border-radius: 10px 10px 0 0;
+        overflow: hidden;
+      }
+      .home-nav a {
+        flex: 1;
+        min-width: 80px;
+        padding: 14px;
+        color: #bdc3c7;
+        text-decoration: none;
+        text-align: center;
+        font-size: clamp(12px, 2vw, 15px);
+        transition:
+          background 0.3s ease,
+          color 0.3s ease;
+      }
+      .home-nav a:hover {
+        background: #3498db;
+        color: #fff;
+      }
+      .home-hero {
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        color: #fff;
+        padding: clamp(30px, 8vw, 60px) 20px;
+        text-align: center;
+      }
+      .home-hero h1 {
+        font-size: clamp(24px, 6vw, 42px);
+        margin-bottom: 10px;
+      }
+      .home-hero p {
+        font-size: clamp(13px, 2.5vw, 18px);
+        opacity: 0.85;
+      }
+      .home-section {
+        padding: 25px 20px;
+        background: #fff;
+      }
+      .home-section h2 {
+        font-size: clamp(18px, 4vw, 24px);
+        color: #2c3e50;
+        margin-bottom: 15px;
+        border-left: 4px solid #1abc9c;
+        padding-left: 12px;
+      }
+      .home-skills {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 12px;
+      }
+      .home-skill {
+        padding: 15px;
+        background: #ecf0f1;
+        border-radius: 8px;
+        text-align: center;
+        transition:
+          transform 0.3s ease,
+          background 0.3s ease;
+        cursor: pointer;
+      }
+      .home-skill:hover {
+        transform: translateY(-5px);
+        background: #3498db;
+        color: #fff;
+      }
+      .home-skill .icon {
+        font-size: 22px;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      .home-skill .name {
+        font-size: 13px;
+        color: #2c3e50;
+      }
+      .home-skill:hover .name {
+        color: #fff;
+      }
+      .home-projects {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+      }
+      .home-project {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        cursor: pointer;
+      }
+      .home-project:hover {
+        transform: translateY(-5px);
+      }
+      .home-project-img {
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        color: #fff;
+      }
+      .home-project-body {
+        padding: 12px;
+        background: #fff;
+      }
+      .home-project-body h4 {
+        font-size: 14px;
+        color: #2c3e50;
+        margin-bottom: 4px;
+      }
+      .home-project-body p {
+        font-size: 12px;
+        color: #95a5a6;
+      }
+      .home-contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+        padding: 25px 20px;
+        background: #34495e;
+        border-radius: 0 0 10px 10px;
+      }
+      .home-contact a {
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 13px;
+        transition: background 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .home-contact a:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
+      @media (max-width: 600px) {
+        .home-nav {
+          flex-direction: column;
+          border-radius: 10px;
+        }
+        .home-nav a {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>综合案例：响应式个人主页</h1>
+    <div class="desc">
+      综合运用媒体查询、Flexbox/Grid、clamp()、响应式导航等技术，实现一个完整的响应式个人主页。这是第
+      500 个也是最后一个演示。
+    </div>
+
+    <h2>响应式个人主页</h2>
+    <p>调整窗口宽度查看完整效果：</p>
+    <div class="demo-row">
+      <div class="home-page" style="width: 100%">
+        <nav class="home-nav">
+          <a href="#">首页</a>
+          <a href="#">技能</a>
+          <a href="#">项目</a>
+          <a href="#">联系</a>
+        </nav>
+        <div class="home-hero">
+          <h1>你好，我是开发者</h1>
+          <p>全栈工程师 / 前端爱好者 / 开源贡献者</p>
+        </div>
+        <div class="home-section">
+          <h2>技能栈</h2>
+          <div class="home-skills">
+            <div class="home-skill">
+              <div class="icon">HTML</div>
+              <div class="name">HTML5</div>
+            </div>
+            <div class="home-skill">
+              <div class="icon">CSS</div>
+              <div class="name">CSS3</div>
+            </div>
+            <div class="home-skill">
+              <div class="icon">JS</div>
+              <div class="name">JavaScript</div>
+            </div>
+            <div class="home-skill">
+              <div class="icon">TS</div>
+              <div class="name">TypeScript</div>
+            </div>
+            <div class="home-skill">
+              <div class="icon">R</div>
+              <div class="name">React</div>
+            </div>
+            <div class="home-skill">
+              <div class="icon">V</div>
+              <div class="name">Vue.js</div>
+            </div>
+            <div class="home-skill">
+              <div class="icon">N</div>
+              <div class="name">Node.js</div>
+            </div>
+            <div class="home-skill">
+              <div class="icon">G</div>
+              <div class="name">Git</div>
+            </div>
+          </div>
+        </div>
+        <div class="home-section">
+          <h2>项目展示</h2>
+          <div class="home-projects">
+            <div class="home-project">
+              <div
+                class="home-project-img"
+                style="background: linear-gradient(135deg, #3498db, #2c3e50)"
+              >
+                Rocket
+              </div>
+              <div class="home-project-body">
+                <h4>项目管理工具</h4>
+                <p>React + Node.js</p>
+              </div>
+            </div>
+            <div class="home-project">
+              <div
+                class="home-project-img"
+                style="background: linear-gradient(135deg, #e74c3c, #8e44ad)"
+              >
+                Art
+              </div>
+              <div class="home-project-body">
+                <h4>设计系统</h4>
+                <p>Vue + TypeScript</p>
+              </div>
+            </div>
+            <div class="home-project">
+              <div
+                class="home-project-img"
+                style="background: linear-gradient(135deg, #27ae60, #16a085)"
+              >
+                Chart
+              </div>
+              <div class="home-project-body">
+                <h4>数据可视化</h4>
+                <p>D3.js + Canvas</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="home-contact">
+          <a href="#">GitHub</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">Email</a>
+          <a href="#">Twitter</a>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      综合运用了 clamp() 响应式排版、auto-fill + minmax()
+      自适应网格、媒体查询导航栏切换、flex-wrap 弹性布局、hover
+      交互动画等技术。这是 500 个 CSS 演示的最后一个，涵盖了 CSS 权威指南第 4
+      版的全部核心知识点。
+    </div>
+  </body>
+</html>

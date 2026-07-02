@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>列表面包屑导航</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .bc-nav {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .bc-nav li {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+      }
+      .bc-nav li:not(:last-child)::after {
+        content: '/';
+        margin: 0 10px;
+        color: #95a5a6;
+      }
+      .bc-nav a {
+        color: #3498db;
+        text-decoration: none;
+      }
+      .bc-nav a:hover {
+        text-decoration: underline;
+      }
+      .bc-nav .current {
+        color: #7f8c8d;
+        font-weight: bold;
+      }
+      .bc-arrow li:not(:last-child)::after {
+        content: '›';
+        font-size: 18px;
+        margin: 0 8px;
+        color: #bdc3c7;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>列表面包屑导航</h1>
+    <div class="desc">
+      使用列表和 CSS 实现面包屑导航，显示当前页面在网站中的层级位置。
+    </div>
+    <span class="tag">面包屑导航（斜杠分隔）</span>
+    <div class="demo-row" style="padding: 20px">
+      <ul class="bc-nav">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">产品</a></li>
+        <li><a href="#">电子设备</a></li>
+        <li class="current">MacBook Pro</li>
+      </ul>
+    </div>
+    <span class="tag">面包屑导航（箭头分隔）</span>
+    <div class="demo-row" style="padding: 0 20px 20px">
+      <ul class="bc-nav bc-arrow">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">文档</a></li>
+        <li><a href="#">CSS</a></li>
+        <li class="current">Grid 布局</li>
+      </ul>
+    </div>
+    <div class="note">
+      <code>::after</code> 伪元素添加分隔符。<code>:not(:last-child)</code>
+      确保最后一项不显示分隔符。
+    </div>
+  </body>
+</html>

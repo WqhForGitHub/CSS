@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS 文档结构基础演示</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .doc-tree {
+        font-family: Consolas, monospace;
+        font-size: 14px;
+        line-height: 2;
+        color: #2c3e50;
+      }
+      .doc-tree .el {
+        color: #e74c3c;
+        font-weight: bold;
+      }
+      .doc-tree .attr {
+        color: #8e44ad;
+      }
+      .doc-tree .text {
+        color: #27ae60;
+      }
+      .doc-tree .indent {
+        padding-left: 28px;
+      }
+      .box {
+        padding: 16px;
+        border: 2px solid;
+        border-radius: 6px;
+        margin-bottom: 10px;
+      }
+      .box-html {
+        border-color: #3498db;
+        background: #ebf5fb;
+      }
+      .box-head {
+        border-color: #e67e22;
+        background: #fef5e7;
+      }
+      .box-body {
+        border-color: #2ecc71;
+        background: #eafaf1;
+      }
+      .box-title {
+        font-weight: bold;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>CSS 文档结构基础演示</h1>
+    <div class="desc">
+      CSS 核心目标是：为文档添加样式。文档结构由 HTML 定义，CSS
+      通过选择器匹配元素并应用声明。本演示展示文档树结构与样式的对应关系。
+    </div>
+    <h2>HTML 文档树结构</h2>
+    <div class="demo-row" style="display: block">
+      <div class="doc-tree">
+        <span class="el">&lt;html&gt;</span>
+        <div class="indent">
+          <span class="el">&lt;head&gt;</span>
+          <div class="indent">
+            <span class="el">&lt;meta&gt;</span>
+            <span class="attr">charset</span>
+          </div>
+          <div class="indent">
+            <span class="el">&lt;title&gt;</span
+            ><span class="text">页面标题</span
+            ><span class="el">&lt;/title&gt;</span>
+          </div>
+          <div class="indent">
+            <span class="el">&lt;link&gt;</span>
+            <span class="attr">rel="stylesheet"</span>
+          </div>
+          <div class="indent">
+            <span class="el">&lt;style&gt;</span>
+            <span class="attr">CSS规则</span>
+            <span class="el">&lt;/style&gt;</span>
+          </div>
+        </div>
+        <div class="indent">
+          <span class="el">&lt;body&gt;</span>
+          <div class="indent">
+            <span class="el">&lt;h1&gt;</span><span class="text">标题</span
+            ><span class="el">&lt;/h1&gt;</span>
+          </div>
+          <div class="indent">
+            <span class="el">&lt;p&gt;</span><span class="text">段落文本</span
+            ><span class="el">&lt;/p&gt;</span>
+          </div>
+          <div class="indent">
+            <span class="el">&lt;div&gt;</span> <span class="attr">容器</span>
+            <span class="el">&lt;/div&gt;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h2>CSS 作用的三个层级</h2>
+    <div class="box box-html">
+      <div class="box-title">html — 文档根元素</div>
+      定义文档结构，是 CSS 作用的载体。
+    </div>
+    <div class="box box-head">
+      <div class="box-title">head — 头部信息区</div>
+      放置 <code>&lt;style&gt;</code>、<code>&lt;link&gt;</code> 等 CSS
+      引入方式。
+    </div>
+    <div class="box box-body">
+      <div class="box-title">body — 可见内容区</div>
+      CSS 选择器匹配 body 内的元素，应用视觉样式。
+    </div>
+    <div class="note">
+      CSS 的本质：选择器 → 匹配文档树中的元素 → 应用声明（属性:值）
+    </div>
+  </body>
+</html>

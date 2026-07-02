@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>绝对定位全屏覆盖</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .fs-demo {
+        position: relative;
+        height: 200px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .fs-content {
+        padding: 20px;
+      }
+      .fs-content p {
+        background: #fff;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        font-size: 13px;
+      }
+      .fs-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(44, 62, 80, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
+      .fs-overlay-content {
+        text-align: center;
+      }
+      .fs-overlay-content h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      .fs-overlay-content p {
+        font-size: 14px;
+        opacity: 0.8;
+      }
+      .fs-loader {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 15px auto;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>绝对定位全屏覆盖</h1>
+    <div class="desc">
+      使用 <code>position: absolute/fixed</code> 配合 <code>inset: 0</code>（或
+      top/left/right/bottom: 0）实现全屏覆盖层。
+    </div>
+    <span class="tag">全屏覆盖层效果</span>
+    <div class="demo-row" style="padding: 20px">
+      <div class="fs-demo">
+        <div class="fs-content">
+          <p>底层内容段落1</p>
+          <p>底层内容段落2</p>
+          <p>底层内容段落3</p>
+        </div>
+        <div class="fs-overlay">
+          <div class="fs-overlay-content">
+            <div class="fs-loader"></div>
+            <h3>加载中...</h3>
+            <p>请稍候，正在处理数据</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <code>inset: 0</code> 是
+      <code>top:0; right:0; bottom:0; left:0</code>
+      的简写。覆盖层使用半透明背景遮罩底层内容。实际项目中可用
+      <code>position: fixed</code> 实现相对于视口的全屏遮罩。
+    </div>
+  </body>
+</html>

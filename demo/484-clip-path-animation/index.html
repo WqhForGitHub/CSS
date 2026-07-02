@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clip-path 动画</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .reveal-area {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .reveal-card {
+        width: 140px;
+        height: 140px;
+        background: linear-gradient(135deg, #3498db, #9b59b6);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        transition: clip-path 0.5s ease;
+      }
+      .reveal1 {
+        clip-path: inset(0 0 0 0);
+      }
+      .reveal1:hover {
+        clip-path: inset(0 50% 0 50%);
+      }
+      .reveal2 {
+        clip-path: circle(0% at 50% 50%);
+      }
+      .reveal2:hover {
+        clip-path: circle(75% at 50% 50%);
+      }
+      .reveal3 {
+        clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+      }
+      .reveal3:hover {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      }
+      .reveal4 {
+        clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
+      }
+      .reveal4:hover {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      }
+      .reveal5 {
+        clip-path: inset(50% 50% 50% 50%);
+      }
+      .reveal5:hover {
+        clip-path: inset(0 0 0 0);
+      }
+      .reveal6 {
+        clip-path: polygon(
+          50% 50%,
+          50% 50%,
+          50% 50%,
+          50% 50%,
+          50% 50%,
+          50% 50%
+        );
+      }
+      .reveal6:hover {
+        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%);
+      }
+      .item {
+        text-align: center;
+      }
+      .label {
+        margin-top: 5px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>clip-path 动画</h1>
+    <div class="desc">
+      配合 transition 或 animation，clip-path 可以实现形状变形动画和揭示效果。
+    </div>
+
+    <h2>clip-path 动画效果</h2>
+    <p>鼠标悬停查看 clip-path 过渡动画：</p>
+    <div class="demo-row">
+      <div class="reveal-area">
+        <div class="item">
+          <div class="reveal-card reveal1">收缩</div>
+          <div class="label">inset 收缩</div>
+        </div>
+        <div class="item">
+          <div class="reveal-card reveal2">展开</div>
+          <div class="label">circle 展开</div>
+        </div>
+        <div class="item">
+          <div class="reveal-card reveal3">左滑</div>
+          <div class="label">polygon 左滑入</div>
+        </div>
+        <div class="item">
+          <div class="reveal-card reveal4">中间展开</div>
+          <div class="label">polygon 中间展开</div>
+        </div>
+        <div class="item">
+          <div class="reveal-card reveal5">中心放大</div>
+          <div class="label">inset 中心放大</div>
+        </div>
+        <div class="item">
+          <div class="reveal-card reveal6">星形</div>
+          <div class="label">polygon 星形</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      clip-path 过渡需要起点和终点有相同数量的 polygon
+      顶点。circle/inset/ellipse 之间可以互相过渡。
+    </div>
+  </body>
+</html>

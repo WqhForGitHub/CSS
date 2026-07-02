@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>浮动高度塌陷问题详解</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .collapse-demo {
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .parent-broken {
+        background: #e74c3c;
+        border: 3px solid #c0392b;
+      }
+      .parent-broken .child {
+        width: 100px;
+        height: 80px;
+        background: #fff;
+        color: #333;
+        float: left;
+        margin: 5px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .after-broken {
+        background: #f39c12;
+        color: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 0;
+      }
+      .parent-fixed {
+        background: #27ae60;
+        border: 3px solid #229954;
+        overflow: hidden;
+      }
+      .parent-fixed .child {
+        width: 100px;
+        height: 80px;
+        background: #fff;
+        color: #333;
+        float: left;
+        margin: 5px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .after-fixed {
+        background: #3498db;
+        color: #fff;
+        padding: 15px;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>浮动高度塌陷问题详解</h1>
+    <div class="desc">
+      当父容器内的子元素全部浮动时，父容器高度会塌陷为0，导致布局混乱。这是浮动布局最核心的问题。
+    </div>
+    <span class="tag">高度塌陷问题演示</span>
+    <div class="collapse-demo">
+      <div class="parent-broken">
+        <div class="child">浮动1</div>
+        <div class="child">浮动2</div>
+        <div class="child">浮动3</div>
+      </div>
+      <div class="after-broken">后续内容 — 紧贴到浮动元素旁边，布局混乱！</div>
+    </div>
+    <span class="tag">使用 overflow: hidden 修复</span>
+    <div class="collapse-demo">
+      <div class="parent-fixed">
+        <div class="child">浮动1</div>
+        <div class="child">浮动2</div>
+        <div class="child">浮动3</div>
+      </div>
+      <div class="after-fixed">后续内容 — 正常显示在浮动容器下方</div>
+    </div>
+    <div class="note">
+      高度塌陷原因：浮动元素脱离文档流，父容器计算高度时不包含浮动子元素。解决方案：clearfix伪元素、overflow触发BFC、display:flow-root。
+    </div>
+  </body>
+</html>

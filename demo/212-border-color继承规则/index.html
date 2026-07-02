@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>border-color 继承规则</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .bc-demo .box {
+        border-width: 4px;
+        border-style: solid;
+        padding: 12px;
+        margin-bottom: 8px;
+        border-radius: 4px;
+        font-size: 13px;
+      }
+      .bc-demo .default {
+        color: #e74c3c;
+      }
+      .bc-demo .explicit {
+        color: #e74c3c;
+        border-color: #3498db;
+      }
+      .bc-demo .current-color {
+        color: #27ae60;
+        border-color: currentColor;
+      }
+      .bc-demo .per-side {
+        color: #9b59b6;
+        border-color: #e74c3c #27ae60 #3498db #f39c12;
+      }
+      .bc-demo .transparent {
+        color: #3498db;
+        border-color: transparent;
+        background: #ecf0f1;
+      }
+      .bc-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+        display: block;
+        margin-bottom: 4px;
+      }
+      .bc-demo .info {
+        font-size: 13px;
+        padding: 10px;
+        background: #fef9e7;
+        border-left: 3px solid #f1c40f;
+        border-radius: 4px;
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>border-color 继承规则</h1>
+    <div class="desc">
+      <code>border-color</code> 默认值为 <code>currentColor</code>（继承元素的
+      color 属性）。
+    </div>
+    <div class="demo-row bc-demo" style="display: block">
+      <span class="label"
+        >未指定 border-color — 默认使用 currentColor（即文字颜色）</span
+      >
+      <div class="box default">color: #e74c3c，边框同色</div>
+      <span class="label">显式指定 border-color</span>
+      <div class="box explicit">color: #e74c3c，border-color: #3498db</div>
+      <span class="label">currentColor 关键字</span>
+      <div class="box current-color">
+        color: #27ae60，border-color: currentColor
+      </div>
+      <span class="label">四边不同颜色</span>
+      <div class="box per-side">上红 右绿 下蓝 左橙</div>
+      <span class="label">透明边框（保留布局占位）</span>
+      <div class="box transparent">
+        border-color: transparent — 透明但仍占空间
+      </div>
+      <div class="info">
+        currentColor 让边框颜色自动跟随文字颜色变化，常用于 hover 状态简化代码。
+      </div>
+    </div>
+    <div class="note">
+      border-color 默认 currentColor，与 color 属性联动。利用此特性可减少 hover
+      状态的重复声明。
+    </div>
+  </body>
+</html>

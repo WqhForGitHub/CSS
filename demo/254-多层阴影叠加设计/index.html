@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>多层阴影叠加设计</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .multi-shadow {
+        width: 120px;
+        height: 80px;
+        background: #fff;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        color: #333;
+        margin-bottom: 10px;
+      }
+      .ms-1 {
+        box-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.1),
+          0 2px 4px rgba(0, 0, 0, 0.1),
+          0 4px 8px rgba(0, 0, 0, 0.1),
+          0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+      .ms-neon {
+        box-shadow:
+          0 0 5px #fff,
+          0 0 10px #fff,
+          0 0 20px #3498db,
+          0 0 40px #3498db,
+          0 0 80px #3498db;
+        background: #1a1a2e;
+        color: #fff;
+      }
+      .ms-colorful {
+        box-shadow:
+          -4px -4px 10px #e74c3c,
+          4px -4px 10px #f39c12,
+          -4px 4px 10px #3498db,
+          4px 4px 10px #27ae60;
+      }
+      .ms-float {
+        box-shadow:
+          0 20px 25px -5px rgba(0, 0, 0, 0.2),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      .ms-3d {
+        box-shadow:
+          1px 1px #34495e,
+          2px 2px #34495e,
+          3px 3px #34495e,
+          4px 4px #34495e,
+          5px 5px #34495e,
+          6px 6px #34495e;
+      }
+      .ms-glow {
+        box-shadow:
+          0 0 10px rgba(241, 196, 15, 0.5),
+          0 0 20px rgba(241, 196, 15, 0.3),
+          inset 0 0 15px rgba(241, 196, 15, 0.2);
+        background: #fef9e7;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>多层阴影叠加设计</h1>
+    <div class="desc">
+      <code>box-shadow</code>
+      支持多层叠加（逗号分隔），可创建复杂的阴影效果、霓虹光、立体感等。
+    </div>
+    <span class="tag">多层阴影设计案例</span>
+    <div class="demo-row" style="flex-direction: column">
+      <div>
+        <p style="margin-bottom: 5px; font-size: 13px">
+          逐级阴影（Material Design 风格）
+        </p>
+        <div class="multi-shadow ms-1">层级阴影</div>
+      </div>
+      <div>
+        <p style="margin-bottom: 5px; font-size: 13px">霓虹发光效果</p>
+        <div class="multi-shadow ms-neon">NEON</div>
+      </div>
+      <div>
+        <p style="margin-bottom: 5px; font-size: 13px">四色阴影</p>
+        <div class="multi-shadow ms-colorful">彩色阴影</div>
+      </div>
+    </div>
+    <div class="demo-row" style="flex-direction: column">
+      <div>
+        <p style="margin-bottom: 5px; font-size: 13px">悬浮卡片效果</p>
+        <div class="multi-shadow ms-float">浮动卡片</div>
+      </div>
+      <div>
+        <p style="margin-bottom: 5px; font-size: 13px">3D 立体效果</p>
+        <div class="multi-shadow ms-3d">3D 阴影</div>
+      </div>
+      <div>
+        <p style="margin-bottom: 5px; font-size: 13px">内+外发光</p>
+        <div class="multi-shadow ms-glow">温暖光晕</div>
+      </div>
+    </div>
+    <div class="note">
+      多层阴影按从前往后顺序绘制，前面的在上层。通过组合不同偏移、模糊和颜色，可以创建丰富的视觉效果。
+    </div>
+  </body>
+</html>

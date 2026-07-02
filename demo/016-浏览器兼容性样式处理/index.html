@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>浏览器兼容性样式处理</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .vendor-demo {
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        color: #fff;
+        font-size: 18px;
+        background: -webkit-linear-gradient(left, #e74c3c, #f39c12);
+        background: -moz-linear-gradient(left, #e74c3c, #f39c12);
+        background: -o-linear-gradient(left, #e74c3c, #f39c12);
+        background: linear-gradient(to right, #e74c3c, #f39c12);
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+      }
+      .prefix-list {
+        font-family: Consolas, monospace;
+        font-size: 13px;
+        line-height: 2;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>浏览器兼容性样式处理</h1>
+    <div class="desc">
+      通过厂商前缀（vendor prefix）为新 CSS
+      属性提供跨浏览器支持。现代开发中推荐使用 <code>@supports</code> 或
+      Autoprefixer 自动处理。
+    </div>
+    <div class="demo-row" style="display: block">
+      <div class="vendor-demo">厂商前缀渐变背景</div>
+    </div>
+    <h2>常见厂商前缀</h2>
+    <div class="demo-row" style="display: block">
+      <div class="prefix-list">
+        <code>-webkit-</code> — Chrome / Safari / Edge<br />
+        <code>-moz-</code> — Firefox<br />
+        <code>-o-</code> — 旧版 Opera<br />
+        <code>-ms-</code> — 旧版 IE / Edge
+      </div>
+    </div>
+    <div class="note">
+      标准属性应写在厂商前缀属性之后，确保最终使用标准语法。
+    </div>
+  </body>
+</html>

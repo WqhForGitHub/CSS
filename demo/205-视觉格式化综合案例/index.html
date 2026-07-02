@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>视觉格式化综合案例</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .layout-demo .page {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+      .layout-demo .header {
+        position: relative;
+        padding: 16px 20px;
+        background: linear-gradient(135deg, #3498db, #9b59b6);
+        color: #fff;
+        z-index: 10;
+      }
+      .layout-demo .header .badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #e74c3c;
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        z-index: 20;
+      }
+      .layout-demo .body {
+        display: flex;
+        gap: 16px;
+        padding: 20px;
+      }
+      .layout-demo .sidebar {
+        flex: 0 0 120px;
+        padding: 12px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        font-size: 13px;
+      }
+      .layout-demo .sidebar h3 {
+        font-size: 13px;
+        color: #34495e;
+        margin-bottom: 6px;
+      }
+      .layout-demo .sidebar ul {
+        list-style: none;
+      }
+      .layout-demo .sidebar li {
+        padding: 4px 0;
+        border-bottom: 1px dashed #bdc3c7;
+        color: #555;
+      }
+      .layout-demo .content {
+        flex: 1;
+      }
+      .layout-demo .content .hero {
+        position: relative;
+        height: 100px;
+        background: linear-gradient(135deg, #f39c12, #e74c3c);
+        border-radius: 6px;
+        padding: 12px;
+        color: #fff;
+        overflow: hidden;
+      }
+      .layout-demo .content .hero::after {
+        content: '';
+        position: absolute;
+        right: -20px;
+        bottom: -20px;
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+      }
+      .layout-demo .content .cards {
+        display: flex;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .layout-demo .content .card {
+        flex: 1;
+        padding: 10px;
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        font-size: 12px;
+      }
+      .layout-demo .footer {
+        padding: 12px 20px;
+        background: #2c3e50;
+        color: #ecf0f1;
+        font-size: 12px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>视觉格式化综合案例</h1>
+    <div class="desc">
+      综合运用 BFC、flex、定位、z-index 构建一个完整的页面布局结构。
+    </div>
+    <div class="demo-row layout-demo" style="display: block">
+      <div class="page">
+        <div class="header">
+          页面标题
+          <span class="badge">NEW</span>
+        </div>
+        <div class="body">
+          <div class="sidebar">
+            <h3>导航</h3>
+            <ul>
+              <li>首页</li>
+              <li>产品</li>
+              <li>关于</li>
+              <li>联系</li>
+            </ul>
+          </div>
+          <div class="content">
+            <div class="hero">
+              <strong>Hero 区域</strong><br />
+              使用 z-index 与定位实现层次
+            </div>
+            <div class="cards">
+              <div class="card">卡片1<br />flex:1</div>
+              <div class="card">卡片2<br />flex:1</div>
+              <div class="card">卡片3<br />flex:1</div>
+            </div>
+          </div>
+        </div>
+        <div class="footer">页脚 — BFC 容器 overflow:hidden 包含所有内容</div>
+      </div>
+    </div>
+    <div class="note">
+      综合应用：BFC 包含浮动/子元素、flex 做主次栏布局、position+z-index
+      做装饰层叠。
+    </div>
+  </body>
+</html>

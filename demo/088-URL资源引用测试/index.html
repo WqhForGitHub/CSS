@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL 资源引用测试</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .url-demo .bg-test {
+        width: 200px;
+        height: 80px;
+        background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="80"%3E%3Crect fill="%233498db" width="200" height="80" rx="8"/%3E%3Ctext x="100" y="45" text-anchor="middle" fill="white" font-size="16"%3Eurl() background%3C/text%3E%3C/svg%3E')
+          center/cover;
+        border-radius: 8px;
+      }
+      .url-demo .cursor-test {
+        cursor:
+          url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="32" height="32"%3E%3Ccircle cx="16" cy="16" r="12" fill="%23e74c3c"/%3E/svg%3E'),
+          pointer;
+        width: 200px;
+        height: 60px;
+        background: #ecf0f1;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .url-demo .info {
+        font-size: 13px;
+        color: #555;
+        margin-top: 8px;
+      }
+      .url-demo .code {
+        font-family: Consolas, monospace;
+        font-size: 13px;
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 8px 12px;
+        border-radius: 4px;
+        display: block;
+        margin: 6px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>URL 资源引用测试</h1>
+    <div class="desc">
+      <code>url()</code> 函数用于引用外部资源，如背景图片、字体文件等。URL
+      可加引号或不加。
+    </div>
+    <div class="demo-row url-demo" style="display: block">
+      <div class="bg-test"></div>
+      <div class="info">背景图通过 url() 引用</div>
+      <div class="cursor-test">鼠标悬停看自定义光标</div>
+      <span class="code">background: url('image.png');</span>
+      <span class="code">cursor: url('cursor.svg'), auto;</span>
+    </div>
+    <div class="note">
+      url() 中可用相对路径、绝对路径或 Data URI。建议加引号避免特殊字符问题。
+    </div>
+  </body>
+</html>

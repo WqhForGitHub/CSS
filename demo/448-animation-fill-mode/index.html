@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>animation-fill-mode 填充模式</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .box {
+        width: 80px;
+        height: 80px;
+        background: #3498db;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        border-radius: 8px;
+        margin: 10px;
+        opacity: 0.3;
+        transform: scale(0.8);
+      }
+      .fm-none {
+        animation: pop 2s ease 3;
+        animation-fill-mode: none;
+      }
+      .fm-forwards {
+        animation: pop 2s ease 3;
+        animation-fill-mode: forwards;
+      }
+      .fm-backwards {
+        animation: pop 2s ease 3;
+        animation-fill-mode: backwards;
+      }
+      .fm-both {
+        animation: pop 2s ease 3;
+        animation-fill-mode: both;
+      }
+      @keyframes pop {
+        0% {
+          opacity: 0.3;
+          transform: scale(0.8);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.2);
+          background: #e74c3c;
+        }
+        100% {
+          opacity: 0.3;
+          transform: scale(0.8);
+        }
+      }
+      .flex-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .item {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>animation-fill-mode 填充模式</h1>
+    <div class="desc">
+      <code>animation-fill-mode</code>
+      定义动画在播放前后的状态，决定元素在动画外时间是否保持关键帧样式。
+    </div>
+
+    <h2>fill-mode 填充模式</h2>
+    <p>观察动画播放前和播放后的元素状态：</p>
+    <div class="demo-row">
+      <div class="flex-wrap">
+        <div class="item">
+          <div class="box fm-none">none</div>
+          <div class="label">none（默认）</div>
+        </div>
+        <div class="item">
+          <div class="box fm-forwards">forwards</div>
+          <div class="label">forwards（保持终点）</div>
+        </div>
+        <div class="item">
+          <div class="box fm-backwards">backwards</div>
+          <div class="label">backwards（提前应用起点）</div>
+        </div>
+        <div class="item">
+          <div class="box fm-both">both</div>
+          <div class="label">both（两者都应用）</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      none 动画外时间保持原始样式；forwards
+      动画结束后保持最后一帧样式；backwards 在 delay 期间就应用第一帧样式。
+    </div>
+  </body>
+</html>

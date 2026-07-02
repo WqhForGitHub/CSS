@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>outline 可访问性增强</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .a11y2-demo .case {
+        background: #fff;
+        padding: 14px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+      .a11y2-demo .case-title {
+        font-size: 13px;
+        color: #7f8c8d;
+        margin-bottom: 8px;
+      }
+      .a11y2-demo .btn {
+        padding: 8px 18px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        margin-right: 8px;
+        color: #fff;
+      }
+      .a11y2-demo .btn-blue {
+        background: #3498db;
+      }
+      .a11y2-demo .btn-green {
+        background: #27ae60;
+      }
+      .a11y2-demo .bad .btn:focus {
+        outline: none;
+      }
+      .a11y2-demo .good .btn:focus {
+        outline: 3px solid #f39c12;
+        outline-offset: 2px;
+      }
+      .a11y2-demo .better .btn:focus {
+        outline: 3px solid #9b59b6;
+        outline-offset: 3px;
+        box-shadow: 0 0 0 6px rgba(155, 89, 182, 0.3);
+      }
+      .a11y2-demo .link {
+        color: #3498db;
+        text-decoration: none;
+        margin-right: 12px;
+      }
+      .a11y2-demo .bad .link:focus {
+        outline: none;
+      }
+      .a11y2-demo .better .link:focus {
+        outline: 2px solid #9b59b6;
+        outline-offset: 2px;
+        border-radius: 2px;
+      }
+      .a11y2-demo .info {
+        font-size: 12px;
+        color: #555;
+        margin-top: 8px;
+        padding: 10px;
+        background: #fef9e7;
+        border-left: 3px solid #f1c40f;
+        border-radius: 4px;
+      }
+      .a11y2-demo .warn {
+        color: #e74c3c;
+      }
+      .a11y2-demo .ok {
+        color: #27ae60;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>outline 可访问性增强</h1>
+    <div class="desc">
+      <code>outline</code> 是键盘用户导航的关键视觉指示器。<strong>不应</strong>
+      移除 outline，应增强它。
+    </div>
+    <div class="demo-row a11y2-demo" style="display: block">
+      <div class="case bad">
+        <div class="case-title">
+          <span class="warn">✗ 错误：移除 outline（键盘用户无法看到焦点）</span>
+        </div>
+        <button class="btn btn-blue">按钮</button>
+        <a href="#" class="link">链接</a>
+        <div class="info">
+          使用 Tab 键聚焦时看不到任何视觉指示，键盘用户无法知道当前焦点位置
+        </div>
+      </div>
+      <div class="case good">
+        <div class="case-title">
+          <span class="ok">✓ 基本：保留并增强 outline</span>
+        </div>
+        <button class="btn btn-blue">按钮</button>
+        <a href="#" class="link">链接</a>
+        <div class="info">使用 outline + outline-offset 提供清晰的焦点指示</div>
+      </div>
+      <div class="case better">
+        <div class="case-title">
+          <span class="ok">✓ 推荐：outline + box-shadow 双层指示</span>
+        </div>
+        <button class="btn btn-green">按钮</button>
+        <a href="#" class="link">链接</a>
+        <div class="info">
+          outline 主指示 + box-shadow 光晕效果，视觉更明显，兼顾美观与可访问性
+        </div>
+      </div>
+      <div class="info">
+        用 Tab 键试一下三个区域的按钮和链接，对比焦点效果差异。WCAG 2.1
+        标准：所有交互元素必须有可见的焦点指示。
+      </div>
+    </div>
+    <div class="note">
+      绝不使用 outline:none 移除焦点。如需移除默认
+      outline，必须提供等效的替代焦点样式。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>text-indent 段落首行缩进</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .ti-demo .box {
+        padding: 12px;
+        background: #fff;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        font-size: 14px;
+        line-height: 1.8;
+      }
+      .ti-demo .indent-2em {
+        text-indent: 2em;
+      }
+      .ti-demo .indent-32px {
+        text-indent: 32px;
+      }
+      .ti-demo .hanging {
+        text-indent: -2em;
+        padding-left: 2em;
+      }
+      .ti-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+        display: block;
+        margin-bottom: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>text-indent 段落首行缩进</h1>
+    <div class="desc">
+      <code>text-indent</code> 设置段落首行缩进。正值向右缩进，负值向左悬挂。
+    </div>
+    <div class="demo-row ti-demo" style="display: block">
+      <div class="box indent-2em">
+        <span class="label">text-indent: 2em（中文段落标准缩进）</span
+        >床前明月光，疑是地上霜。举头望明月，低头思故乡。这是李白的一首经典诗作，描绘了月夜思乡的情怀。
+      </div>
+      <div class="box indent-32px">
+        <span class="label">text-indent: 32px</span
+        >使用固定像素值进行缩进。这种方式不够灵活，推荐使用 em 单位。
+      </div>
+      <div class="box hanging">
+        <span class="label"
+          >text-indent: -2em + padding-left: 2em（悬挂缩进）</span
+        >列表项的悬挂缩进效果，第一行向左突出，后续行缩进对齐。
+      </div>
+    </div>
+    <div class="note">
+      中文段落标准缩进为 2em（两个字符宽度）。text-indent 只影响第一行。
+    </div>
+  </body>
+</html>

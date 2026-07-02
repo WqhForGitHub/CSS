@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>order 弹性项目排序</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .od-container {
+        display: flex;
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .od-item {
+        color: #fff;
+        padding: 15px 25px;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      .od-1 {
+        background: #3498db;
+      }
+      .od-2 {
+        background: #e74c3c;
+      }
+      .od-3 {
+        background: #27ae60;
+      }
+      .od-4 {
+        background: #f39c12;
+      }
+      .od-5 {
+        background: #9b59b6;
+      }
+      .od-reverse .od-1 {
+        order: 5;
+      }
+      .od-reverse .od-2 {
+        order: 4;
+      }
+      .od-reverse .od-3 {
+        order: 3;
+      }
+      .od-reverse .od-4 {
+        order: 2;
+      }
+      .od-reverse .od-5 {
+        order: 1;
+      }
+      .od-custom .od-1 {
+        order: 3;
+      }
+      .od-custom .od-2 {
+        order: 1;
+      }
+      .od-custom .od-3 {
+        order: 4;
+      }
+      .od-custom .od-4 {
+        order: 2;
+      }
+      .od-custom .od-5 {
+        order: 5;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>order 弹性项目排序</h1>
+    <div class="desc">
+      <code>order</code> 设置弹性项目的排列顺序，值越小越靠前。默认为 0。不影响
+      DOM 顺序。
+    </div>
+    <span class="tag">默认顺序（order: 0）</span>
+    <div class="od-container">
+      <div class="od-item od-1">A</div>
+      <div class="od-item od-2">B</div>
+      <div class="od-item od-3">C</div>
+      <div class="od-item od-4">D</div>
+      <div class="od-item od-5">E</div>
+    </div>
+    <span class="tag">反转顺序</span>
+    <div class="od-container od-reverse">
+      <div class="od-item od-1">A(order:5)</div>
+      <div class="od-item od-2">B(order:4)</div>
+      <div class="od-item od-3">C(order:3)</div>
+      <div class="od-item od-4">D(order:2)</div>
+      <div class="od-item od-5">E(order:1)</div>
+    </div>
+    <span class="tag">自定义顺序</span>
+    <div class="od-container od-custom">
+      <div class="od-item od-1">A(order:3)</div>
+      <div class="od-item od-2">B(order:1)</div>
+      <div class="od-item od-3">C(order:4)</div>
+      <div class="od-item od-4">D(order:2)</div>
+      <div class="od-item od-5">E(order:5)</div>
+    </div>
+    <div class="note">
+      <code>order</code> 只改变视觉顺序，不改变 DOM 结构。相同 order 值的项目按
+      DOM 顺序排列。注意：使用 order 可能影响无障碍访问，屏幕阅读器仍按 DOM
+      顺序读取。
+    </div>
+  </body>
+</html>

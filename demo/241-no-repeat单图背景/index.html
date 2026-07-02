@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>no-repeat单图背景</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .nr-demo {
+        width: 200px;
+        height: 140px;
+        border: 2px solid #34495e;
+        border-radius: 6px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%233498db' rx='4'/%3E%3Ctext x='20' y='26' text-anchor='middle' fill='white' font-size='20'%3E★%3C/text%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        margin-bottom: 10px;
+        background-color: #ecf0f1;
+      }
+      .nr-tl {
+        background-position: top left;
+      }
+      .nr-tc {
+        background-position: top center;
+      }
+      .nr-tr {
+        background-position: top right;
+      }
+      .nr-cl {
+        background-position: center left;
+      }
+      .nr-cc {
+        background-position: center;
+      }
+      .nr-cr {
+        background-position: center right;
+      }
+      .nr-bl {
+        background-position: bottom left;
+      }
+      .nr-bc {
+        background-position: bottom center;
+      }
+      .nr-br {
+        background-position: bottom right;
+      }
+      .nr-pct {
+        background-position: 75% 25%;
+      }
+      .nr-px {
+        background-position: 20px 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>no-repeat单图背景</h1>
+    <div class="desc">
+      使用 <code>no-repeat</code> 配合
+      <code>background-position</code> 实现单张背景图片的精确定位。
+    </div>
+    <span class="tag">关键字定位</span>
+    <div class="demo-row">
+      <div class="demo-item">
+        <div class="nr-demo nr-tl"></div>
+        <span class="label">top left</span>
+      </div>
+      <div class="demo-item">
+        <div class="nr-demo nr-tc"></div>
+        <span class="label">top center</span>
+      </div>
+      <div class="demo-item">
+        <div class="nr-demo nr-tr"></div>
+        <span class="label">top right</span>
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-item">
+        <div class="nr-demo nr-cl"></div>
+        <span class="label">center left</span>
+      </div>
+      <div class="demo-item">
+        <div class="nr-demo nr-cc"></div>
+        <span class="label">center</span>
+      </div>
+      <div class="demo-item">
+        <div class="nr-demo nr-cr"></div>
+        <span class="label">center right</span>
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-item">
+        <div class="nr-demo nr-bl"></div>
+        <span class="label">bottom left</span>
+      </div>
+      <div class="demo-item">
+        <div class="nr-demo nr-bc"></div>
+        <span class="label">bottom center</span>
+      </div>
+      <div class="demo-item">
+        <div class="nr-demo nr-br"></div>
+        <span class="label">bottom right</span>
+      </div>
+    </div>
+    <span class="tag">数值与百分比定位</span>
+    <div class="demo-row">
+      <div class="demo-item">
+        <div class="nr-demo nr-pct"></div>
+        <span class="label">75% 25%</span>
+      </div>
+      <div class="demo-item">
+        <div class="nr-demo nr-px"></div>
+        <span class="label">20px 10px</span>
+      </div>
+    </div>
+    <div class="note">
+      百分比定位时，图片自身的百分比与容器的百分比对齐。<code>50% 50%</code>
+      使图片中心与容器中心对齐。
+    </div>
+  </body>
+</html>

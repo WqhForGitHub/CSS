@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>响应式表格</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .rt-table-area {
+        width: 100%;
+        overflow-x: auto;
+      }
+      .rt-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .rt-table th {
+        background: #3498db;
+        color: #fff;
+        padding: 12px 16px;
+        text-align: left;
+        font-size: 14px;
+      }
+      .rt-table td {
+        padding: 10px 16px;
+        border-bottom: 1px solid #ecf0f1;
+        font-size: 13px;
+        color: #555;
+      }
+      .rt-table tr:hover td {
+        background: #f8f9fa;
+      }
+      .rt-status {
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        color: #fff;
+      }
+      .rt-active {
+        background: #27ae60;
+      }
+      .rt-pending {
+        background: #f39c12;
+      }
+      .rt-inactive {
+        background: #e74c3c;
+      }
+      @media (max-width: 600px) {
+        .rt-table thead {
+          display: none;
+        }
+        .rt-table,
+        .rt-table tbody,
+        .rt-table tr,
+        .rt-table td {
+          display: block;
+          width: 100%;
+        }
+        .rt-table tr {
+          margin-bottom: 15px;
+          border: 1px solid #ecf0f1;
+          border-radius: 8px;
+          padding: 8px;
+        }
+        .rt-table td {
+          display: flex;
+          justify-content: space-between;
+          padding: 8px 12px;
+          border: none;
+        }
+        .rt-table td::before {
+          content: attr(data-label);
+          font-weight: bold;
+          color: #2c3e50;
+          margin-right: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>响应式表格</h1>
+    <div class="desc">
+      在小屏幕上通过媒体查询将表格转换为卡片式布局，保证数据可读性。
+    </div>
+
+    <h2>响应式表格</h2>
+    <p>宽屏显示为表格，窄屏变为卡片式布局：</p>
+    <div class="demo-row">
+      <div class="rt-table-area">
+        <table class="rt-table">
+          <thead>
+            <tr>
+              <th>姓名</th>
+              <th>部门</th>
+              <th>邮箱</th>
+              <th>状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="姓名">张三</td>
+              <td data-label="部门">技术部</td>
+              <td data-label="邮箱">zhangsan@example.com</td>
+              <td data-label="状态">
+                <span class="rt-status rt-active">在职</span>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="姓名">李四</td>
+              <td data-label="部门">市场部</td>
+              <td data-label="邮箱">lisi@example.com</td>
+              <td data-label="状态">
+                <span class="rt-status rt-pending">试用期</span>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="姓名">王五</td>
+              <td data-label="部门">设计部</td>
+              <td data-label="邮箱">wangwu@example.com</td>
+              <td data-label="状态">
+                <span class="rt-status rt-active">在职</span>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="姓名">赵六</td>
+              <td data-label="部门">运营部</td>
+              <td data-label="邮箱">zhaoliu@example.com</td>
+              <td data-label="状态">
+                <span class="rt-status rt-inactive">离职</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="note">
+      窄屏下将 thead 隐藏，td 改为 display: flex 并用 ::before 的 data-label
+      属性显示列名，实现表格转卡片。
+    </div>
+  </body>
+</html>

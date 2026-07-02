@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>margin 负值布局测试</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .mn-demo .case {
+        background: #fff;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+      .mn-demo .case-title {
+        font-size: 13px;
+        color: #7f8c8d;
+        margin-bottom: 8px;
+      }
+      .mn-demo .normal {
+        background: #3498db;
+        color: #fff;
+        padding: 10px;
+        margin-bottom: 10px;
+        font-size: 13px;
+      }
+      .mn-demo .neg-bottom {
+        background: #e74c3c;
+        color: #fff;
+        padding: 10px;
+        margin-bottom: -15px;
+        font-size: 13px;
+        position: relative;
+        z-index: 1;
+      }
+      .mn-demo .next {
+        background: #27ae60;
+        color: #fff;
+        padding: 10px;
+        font-size: 13px;
+      }
+      .mn-demo .row {
+        display: flex;
+        background: #ecf0f1;
+        padding: 10px;
+        border-radius: 4px;
+      }
+      .mn-demo .row > div {
+        flex: 1;
+        background: #9b59b6;
+        color: #fff;
+        padding: 8px;
+        margin-right: 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        text-align: center;
+      }
+      .mn-demo .row > div:last-child {
+        margin-right: 0;
+      }
+      .mn-demo .stretch {
+        margin-right: -20px;
+        background: #f39c12 !important;
+      }
+      .mn-demo .container {
+        background: #ecf0f1;
+        padding: 12px;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .mn-demo .full-width {
+        margin-left: -12px;
+        margin-right: -12px;
+        background: #e74c3c;
+        color: #fff;
+        padding: 10px;
+        font-size: 13px;
+      }
+      .mn-demo .info {
+        font-size: 12px;
+        color: #555;
+        margin-top: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>margin 负值布局测试</h1>
+    <div class="desc">
+      <code>margin</code>
+      可以为负值，使元素向外扩展或与相邻元素重叠。常用于实现特殊布局效果。
+    </div>
+    <div class="demo-row mn-demo" style="display: block">
+      <div class="case">
+        <div class="case-title">1. margin-bottom 负值 — 与下方元素重叠</div>
+        <div class="normal">Box1 正常 margin</div>
+        <div class="neg-bottom">
+          Box2 margin-bottom:-15px（向上拉下一个元素）
+        </div>
+        <div class="next">Box3 被拉上来与 Box2 重叠 15px</div>
+      </div>
+      <div class="case">
+        <div class="case-title">2. margin-right 负值 — 突破容器边界</div>
+        <div class="row">
+          <div>item1</div>
+          <div>item2</div>
+          <div class="stretch">item3<br />margin-right:-20px</div>
+        </div>
+        <div class="info">↑ 第三个 item 向右突破容器 20px</div>
+      </div>
+      <div class="case">
+        <div class="case-title">3. 左右负 margin — 实现全宽子元素</div>
+        <div class="container">
+          <div class="full-width">左右 margin:-12px — 撑满父容器 padding</div>
+          <div class="info">
+            父容器 padding:12px，子元素负 margin 抵消 padding 实现全宽
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      margin 负值常见用途：重叠效果、突破父容器、等高列布局、栅格系统的列间距。
+    </div>
+  </body>
+</html>

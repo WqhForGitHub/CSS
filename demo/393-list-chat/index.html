@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>聊天消息列表</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .ct-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .ct-item {
+        display: flex;
+        gap: 10px;
+        max-width: 70%;
+      }
+      .ct-sent {
+        align-self: flex-end;
+        flex-direction: row-reverse;
+      }
+      .ct-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 14px;
+      }
+      .ct-avatar.bot {
+        background: #3498db;
+      }
+      .ct-avatar.user {
+        background: #e74c3c;
+      }
+      .ct-bubble {
+        padding: 10px 14px;
+        border-radius: 12px;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+      .ct-received .ct-bubble {
+        background: #ecf0f1;
+        color: #333;
+        border-bottom-left-radius: 4px;
+      }
+      .ct-sent .ct-bubble {
+        background: #3498db;
+        color: #fff;
+        border-bottom-right-radius: 4px;
+      }
+      .ct-time {
+        font-size: 11px;
+        color: #95a5a6;
+        margin-top: 4px;
+      }
+      .ct-sent .ct-time {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>聊天消息列表</h1>
+    <div class="desc">使用列表模拟聊天消息布局，区分发送方和接收方。</div>
+    <span class="tag">聊天消息列表</span>
+    <div class="demo-row" style="padding: 20px">
+      <ul class="ct-list" style="width: 100%">
+        <li class="ct-item ct-received">
+          <div class="ct-avatar bot">B</div>
+          <div>
+            <div class="ct-bubble">
+              你好！我是AI助手，有什么可以帮助你的吗？
+            </div>
+            <div class="ct-time">10:00</div>
+          </div>
+        </li>
+        <li class="ct-item ct-sent">
+          <div class="ct-avatar user">U</div>
+          <div>
+            <div class="ct-bubble">请介绍一下 CSS Grid 布局</div>
+            <div class="ct-time">10:01</div>
+          </div>
+        </li>
+        <li class="ct-item ct-received">
+          <div class="ct-avatar bot">B</div>
+          <div>
+            <div class="ct-bubble">
+              CSS Grid
+              是一个二维布局系统，可以同时控制行和列。它非常适合复杂的页面布局。核心属性包括
+              grid-template-columns、grid-template-rows 和 grid-area 等。
+            </div>
+            <div class="ct-time">10:01</div>
+          </div>
+        </li>
+        <li class="ct-item ct-sent">
+          <div class="ct-avatar user">U</div>
+          <div>
+            <div class="ct-bubble">非常感谢！我去试试</div>
+            <div class="ct-time">10:03</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="note">
+      <code>flex-direction: row-reverse</code> 使发送方消息靠右。<code
+        >border-radius</code
+      >
+      不对称创建气泡尖角效果。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>块格式化上下文 BFC 详解</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .bfc2-demo .info {
+        padding: 14px;
+        background: #fff;
+        border-radius: 6px;
+        font-size: 14px;
+        line-height: 1.8;
+        margin-bottom: 10px;
+      }
+      .bfc2-demo .trigger {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 8px;
+      }
+      .bfc2-demo .trigger > div {
+        padding: 10px;
+        border-radius: 6px;
+        text-align: center;
+        font-size: 12px;
+        color: #fff;
+      }
+      .bfc2-demo .t1 {
+        background: #3498db;
+      }
+      .bfc2-demo .t2 {
+        background: #e74c3c;
+      }
+      .bfc2-demo .t3 {
+        background: #27ae60;
+      }
+      .bfc2-demo .t4 {
+        background: #9b59b6;
+      }
+      .bfc2-demo .t5 {
+        background: #f39c12;
+      }
+      .bfc2-demo .t6 {
+        background: #1abc9c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>块格式化上下文 BFC 详解</h1>
+    <div class="desc">
+      BFC 是一个独立的渲染区域，内部元素按规则排列，不受外部影响。
+    </div>
+    <div class="demo-row bfc2-demo" style="display: block">
+      <div class="info">
+        <strong>BFC 特性：</strong><br />
+        1. 内部 Box 垂直排列<br />
+        2. margin 不与外部折叠<br />
+        3. 不与浮动重叠<br />
+        4. 包含浮动子元素<br />
+        5. 计算 height 时包含浮动子元素
+      </div>
+      <h2 style="font-size: 15px; margin-bottom: 8px">触发 BFC 的条件</h2>
+      <div class="trigger">
+        <div class="t1">overflow: hidden/auto/scroll</div>
+        <div class="t2">float: left/right</div>
+        <div class="t3">position: absolute/fixed</div>
+        <div class="t4">display: flex/grid</div>
+        <div class="t5">display: inline-block</div>
+        <div class="t6">display: flow-root</div>
+      </div>
+    </div>
+    <div class="note">
+      display:flow-root 是专门为创建 BFC 设计的值，无副作用，推荐使用。
+    </div>
+  </body>
+</html>

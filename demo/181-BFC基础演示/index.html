@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BFC 块格式化上下文基础</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .bfc-demo .container {
+        background: #ecf0f1;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .bfc-demo .float-box {
+        float: left;
+        width: 100px;
+        height: 80px;
+        background: #3498db;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        margin-right: 10px;
+      }
+      .bfc-demo .text {
+        overflow: hidden;
+        background: #eafaf1;
+        padding: 12px;
+        border-radius: 4px;
+      }
+      .bfc-demo .no-bfc {
+        background: #fef5e7;
+        border-radius: 4px;
+        padding: 12px;
+      }
+      .bfc-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>BFC 块格式化上下文基础</h1>
+    <div class="desc">
+      BFC（Block Formatting
+      Context）是一个独立的渲染区域，内部元素不受外部影响。触发条件：overflow、float、position:absolute/fixed、display:flex/grid
+      等。
+    </div>
+    <div class="demo-row bfc-demo" style="display: block">
+      <div class="container">
+        <div class="float-box">浮动</div>
+        <div class="text">
+          BFC 区域（overflow:hidden 触发）— 不与浮动重叠，自动适应剩余宽度。
+        </div>
+      </div>
+      <p class="label" style="margin-top: 8px">
+        对比：不加 BFC 的文字会环绕浮动元素。
+      </p>
+    </div>
+    <div class="note">
+      BFC 特性：不与浮动重叠、margin 不折叠、包含浮动子元素。常用
+      overflow:hidden 或 display:flex 触发。
+    </div>
+  </body>
+</html>

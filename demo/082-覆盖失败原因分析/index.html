@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>覆盖失败原因分析</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .fail-demo .case {
+        padding: 12px;
+        margin: 6px 0;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      .fail-demo .c1 {
+        background: #fdedec;
+        border-left: 4px solid #e74c3c;
+      }
+      .fail-demo .c2 {
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+      }
+      .fail-demo .c3 {
+        background: #ebf5fb;
+        border-left: 4px solid #3498db;
+      }
+      .fail-demo .c4 {
+        background: #f5eef8;
+        border-left: 4px solid #9b59b6;
+      }
+      .fail-demo code {
+        font-family: Consolas, monospace;
+        color: #e74c3c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>覆盖失败原因分析</h1>
+    <div class="desc">
+      分析常见的 CSS 覆盖失败原因：权重不足、继承干扰、顺序错误、属性不支持等。
+    </div>
+    <div class="demo-row fail-demo" style="display: block">
+      <div class="case c1">
+        <strong>原因 1：权重不足</strong> — <code>.text</code> 无法覆盖
+        <code>#main .text</code>。解决：提高权重或减少目标选择器权重。
+      </div>
+      <div class="case c2">
+        <strong>原因 2：继承值无权重</strong> — 父元素
+        <code>color:red</code> 是继承值，子元素任何
+        <code>color</code> 都能覆盖。
+      </div>
+      <div class="case c3">
+        <strong>原因 3：引入顺序</strong> — CSS
+        文件引入顺序错误，后引入的覆盖了先引入的。解决：调整 link 顺序。
+      </div>
+      <div class="case c4">
+        <strong>原因 4：!important 滥用</strong> — 之前的
+        <code>!important</code> 无法被正常覆盖。解决：移除不必要的 !important。
+      </div>
+    </div>
+    <div class="note">
+      遇到覆盖失败时，先用 DevTools 查看被覆盖的声明（删除线标记）。
+    </div>
+  </body>
+</html>

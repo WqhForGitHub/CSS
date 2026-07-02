@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>边框对布局影响分析</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .bia-demo .case {
+        background: #fff;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+      .bia-demo .case-title {
+        font-size: 13px;
+        color: #7f8c8d;
+        margin-bottom: 8px;
+      }
+      .bia-demo .row {
+        display: flex;
+        gap: 10px;
+      }
+      .bia-demo .col {
+        flex: 1;
+        padding: 12px;
+        border-radius: 4px;
+        color: #fff;
+        text-align: center;
+        font-size: 13px;
+      }
+      .bia-demo .broken .col {
+        background: #e74c3c;
+        border: 5px solid #c0392b;
+        box-sizing: content-box;
+      }
+      .bia-demo .fixed .col {
+        background: #27ae60;
+        border: 5px solid #1e8449;
+        box-sizing: border-box;
+      }
+      .bia-demo .info {
+        font-size: 12px;
+        color: #555;
+        margin-top: 8px;
+      }
+      .bia-demo .grid-broken {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .bia-demo .grid-broken .col {
+        background: #e74c3c;
+        border: 5px solid #c0392b;
+        box-sizing: content-box;
+      }
+      .bia-demo .grid-fixed {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .bia-demo .grid-fixed .col {
+        background: #3498db;
+        border: 5px solid #2980b9;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>边框对布局影响分析</h1>
+    <div class="desc">
+      在栅格布局中，<code>border</code> 不使用 border-box
+      时会破坏对齐，演示该问题及解决方案。
+    </div>
+    <div class="demo-row bia-demo" style="display: block">
+      <div class="case">
+        <div class="case-title">
+          1. flex 布局 — content-box（被 border 撑破对齐）
+        </div>
+        <div class="row broken">
+          <div class="col">col1<br />有边框</div>
+          <div class="col">col2<br />无边框</div>
+          <div class="col">col3<br />有边框</div>
+        </div>
+        <div class="info">↑ 第二个无 border 的列比其他列宽，破坏等分对齐</div>
+      </div>
+      <div class="case">
+        <div class="case-title">2. flex 布局 — border-box（修复）</div>
+        <div class="row fixed">
+          <div class="col">col1<br />有边框</div>
+          <div class="col">col2<br />无边框</div>
+          <div class="col">col3<br />有边框</div>
+        </div>
+        <div class="info">
+          ↑ border-box 下，border 在 flex 宽度内消化，三列等宽
+        </div>
+      </div>
+      <div class="case">
+        <div class="case-title">3. grid 布局对比</div>
+        <div style="font-size: 12px; color: #e74c3c; margin-bottom: 4px">
+          content-box（grid 仍会受影响）
+        </div>
+        <div class="grid-broken" style="margin-bottom: 8px">
+          <div class="col">col1</div>
+          <div class="col" style="border: none">col2</div>
+          <div class="col">col3</div>
+        </div>
+        <div style="font-size: 12px; color: #3498db; margin-bottom: 4px">
+          border-box（grid 完美对齐）
+        </div>
+        <div class="grid-fixed">
+          <div class="col">col1</div>
+          <div class="col" style="border: none">col2</div>
+          <div class="col">col3</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      任何布局（flex/grid/float）中，子元素有 border 时都建议使用
+      border-box，避免破坏对齐。
+    </div>
+  </body>
+</html>

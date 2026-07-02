@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>负边距定位技巧</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .nm-demo {
+        background: #ecf0f1;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+        overflow: hidden;
+      }
+      .nm-parent {
+        position: relative;
+        height: 120px;
+        background: #fff;
+        border-radius: 6px;
+        border: 2px solid #34495e;
+      }
+      .nm-box {
+        width: 80px;
+        height: 60px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 12px;
+      }
+      .nm-1 {
+        background: #3498db;
+      }
+      .nm-pull-left {
+        margin-left: -30px;
+        background: #e74c3c;
+      }
+      .nm-pull-up {
+        margin-top: -20px;
+        background: #27ae60;
+      }
+      .nm-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        height: 60px;
+        margin-top: -30px;
+        margin-left: -50px;
+        background: #9b59b6;
+      }
+      .nm-overlap {
+        margin-top: -40px;
+        margin-left: 40px;
+        background: #f39c12;
+      }
+      .nm-row {
+        display: flex;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>负边距定位技巧</h1>
+    <div class="desc">
+      使用负 <code>margin</code> 实现元素重叠、居中、超出父容器等特殊定位效果。
+    </div>
+    <span class="tag">负 margin 拉出元素</span>
+    <div class="nm-demo">
+      <div class="nm-row">
+        <div class="nm-box nm-1">正常</div>
+        <div class="nm-box nm-pull-left">margin-left:-30px</div>
+      </div>
+      <p style="font-size: 13px; margin: 10px 0">
+        负 margin-left 使元素向左移动，与前一元素重叠
+      </p>
+    </div>
+    <span class="tag">负 margin 向上拉</span>
+    <div class="nm-demo">
+      <div class="nm-box nm-1" style="margin-bottom: 0">元素1</div>
+      <div class="nm-box nm-pull-up">margin-top:-20px</div>
+      <p style="font-size: 13px; margin: 10px 0">
+        负 margin-top 使元素向上移动，与前一个元素重叠
+      </p>
+    </div>
+    <span class="tag">负 margin 实现居中</span>
+    <div class="nm-demo">
+      <div class="nm-parent">
+        <div class="nm-box nm-center">居中<br />margin:-30px 0 0 -50px</div>
+      </div>
+      <p style="font-size: 13px; margin: 10px 0">
+        top:50% left:50% + 负margin（宽高的一半）= 居中
+      </p>
+    </div>
+    <div class="note">
+      负 margin 是一种强大的布局技巧。负 margin-left/right
+      可使元素超出父容器或与其他元素重叠。负 margin-top/bottom 可使元素上移。与
+      position 配合可实现居中。
+    </div>
+  </body>
+</html>

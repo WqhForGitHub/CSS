@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>align-content 多行对齐</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .ac-container {
+        display: flex;
+        flex-wrap: wrap;
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        gap: 10px;
+        margin-bottom: 10px;
+        height: 200px;
+        align-items: flex-start;
+      }
+      .ac-item {
+        background: #3498db;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-size: 13px;
+        width: 80px;
+        text-align: center;
+      }
+      .ac-item:nth-child(even) {
+        background: #e74c3c;
+      }
+      .ac-start {
+        align-content: flex-start;
+      }
+      .ac-center {
+        align-content: center;
+      }
+      .ac-end {
+        align-content: flex-end;
+      }
+      .ac-between {
+        align-content: space-between;
+      }
+      .ac-around {
+        align-content: space-around;
+      }
+      .ac-stretch {
+        align-content: stretch;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>align-content 多行对齐</h1>
+    <div class="desc">
+      <code>align-content</code> 设置多行弹性项目在交叉轴上的整体对齐方式，仅在
+      <code>flex-wrap: wrap</code> 时有效。
+    </div>
+    <span class="tag">flex-start（多行顶部对齐）</span>
+    <div class="ac-container ac-start">
+      <div class="ac-item">1</div>
+      <div class="ac-item">2</div>
+      <div class="ac-item">3</div>
+      <div class="ac-item">4</div>
+      <div class="ac-item">5</div>
+      <div class="ac-item">6</div>
+    </div>
+    <span class="tag">center（多行居中）</span>
+    <div class="ac-container ac-center">
+      <div class="ac-item">1</div>
+      <div class="ac-item">2</div>
+      <div class="ac-item">3</div>
+      <div class="ac-item">4</div>
+      <div class="ac-item">5</div>
+      <div class="ac-item">6</div>
+    </div>
+    <span class="tag">space-between（多行两端对齐）</span>
+    <div class="ac-container ac-between">
+      <div class="ac-item">1</div>
+      <div class="ac-item">2</div>
+      <div class="ac-item">3</div>
+      <div class="ac-item">4</div>
+      <div class="ac-item">5</div>
+      <div class="ac-item">6</div>
+    </div>
+    <span class="tag">space-around（多行均匀分布）</span>
+    <div class="ac-container ac-around">
+      <div class="ac-item">1</div>
+      <div class="ac-item">2</div>
+      <div class="ac-item">3</div>
+      <div class="ac-item">4</div>
+      <div class="ac-item">5</div>
+      <div class="ac-item">6</div>
+    </div>
+    <div class="note">
+      <code>align-content</code> 与 <code>align-items</code> 区别：align-items
+      控制单行内项目对齐，align-content 控制多行整体在容器中的分布。仅一行时
+      align-content 无效果。
+    </div>
+  </body>
+</html>

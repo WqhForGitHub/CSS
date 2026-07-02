@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clear清除浮动</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .clear-container {
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .clear-float {
+        width: 80px;
+        height: 60px;
+        background: #3498db;
+        color: #fff;
+        float: left;
+        margin: 5px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+      .clear-demo-box {
+        background: #e74c3c;
+        color: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 10px;
+      }
+      .clear-left {
+        clear: left;
+      }
+      .clear-right {
+        clear: right;
+      }
+      .clear-both {
+        clear: both;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>clear清除浮动</h1>
+    <div class="desc">
+      <code>clear</code>
+      属性指定元素两侧不能有浮动元素：<code>left</code>、<code>right</code>、<code>both</code>。
+    </div>
+    <span class="tag">未清除浮动 vs 清除浮动</span>
+    <div class="clear-container">
+      <div class="clear-float">浮动1</div>
+      <div class="clear-float">浮动2</div>
+      <div class="clear-demo-box">
+        未清除浮动 — 此元素紧跟浮动元素排列（可能出现在浮动元素右侧）
+      </div>
+    </div>
+    <div class="clear-container" style="margin-top: 15px">
+      <div class="clear-float">浮动1</div>
+      <div class="clear-float">浮动2</div>
+      <div class="clear-demo-box clear-both">
+        clear: both — 此元素移至所有浮动元素下方
+      </div>
+    </div>
+    <div class="note">
+      <code>clear: left</code> 清除左浮动，<code>clear: right</code>
+      清除右浮动，<code>clear: both</code>
+      清除两侧浮动。清除后元素会移至浮动元素下方。
+    </div>
+  </body>
+</html>

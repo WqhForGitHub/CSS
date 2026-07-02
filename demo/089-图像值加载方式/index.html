@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>图像值加载方式</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .img-demo .gradient-box {
+        width: 200px;
+        height: 80px;
+        background: linear-gradient(135deg, #e74c3c, #f39c12);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
+      .img-demo .multi-bg {
+        width: 200px;
+        height: 80px;
+        background:
+          linear-gradient(45deg, #3498db, transparent),
+          url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="40" height="40"%3E%3Crect fill="%23ecf0f1" width="40" height="40"/%3E%3Ccircle cx="20" cy="20" r="8" fill="%23bdc3c7"/%3E%3C/svg%3E');
+        border-radius: 8px;
+      }
+      .img-demo .info {
+        font-size: 13px;
+        color: #555;
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>图像值加载方式</h1>
+    <div class="desc">
+      CSS 中可通过 url()、image-set()、渐变等方式使用图像值。image-set()
+      可根据屏幕分辨率选择不同图片。
+    </div>
+    <div class="demo-row img-demo">
+      <div>
+        <div class="gradient-box">渐变也是图像值</div>
+        <div class="info">linear-gradient() 生成图像</div>
+      </div>
+      <div>
+        <div class="multi-bg"></div>
+        <div class="info">渐变 + url() 多背景叠加</div>
+      </div>
+    </div>
+    <div class="note">
+      CSS 图像值来源：url()、gradient()、image-set()、element()。渐变是最常用的
+      CSS 生成图像。
+    </div>
+  </body>
+</html>

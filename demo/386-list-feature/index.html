@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>功能特性列表</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .fl-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .fl-item {
+        display: flex;
+        gap: 14px;
+        padding: 16px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        transition: transform 0.2s;
+      }
+      .fl-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .fl-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: #fff;
+        flex-shrink: 0;
+      }
+      .fl-icon.c1 {
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+      }
+      .fl-icon.c2 {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+      }
+      .fl-icon.c3 {
+        background: linear-gradient(135deg, #27ae60, #16a085);
+      }
+      .fl-icon.c4 {
+        background: linear-gradient(135deg, #f39c12, #e67e22);
+      }
+      .fl-body h4 {
+        font-size: 15px;
+        color: #2c3e50;
+        margin-bottom: 4px;
+      }
+      .fl-body p {
+        font-size: 13px;
+        color: #7f8c8d;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>功能特性列表</h1>
+    <div class="desc">使用列表创建产品功能特性展示，带图标和描述。</div>
+    <span class="tag">功能特性列表</span>
+    <div class="demo-row" style="padding: 20px">
+      <ul class="fl-list" style="width: 100%">
+        <li class="fl-item">
+          <div class="fl-icon c1">⚡</div>
+          <div class="fl-body">
+            <h4>高性能</h4>
+            <p>毫秒级响应，支持百万级并发</p>
+          </div>
+        </li>
+        <li class="fl-item">
+          <div class="fl-icon c2">🔒</div>
+          <div class="fl-body">
+            <h4>安全可靠</h4>
+            <p>企业级加密，数据安全无忧</p>
+          </div>
+        </li>
+        <li class="fl-item">
+          <div class="fl-icon c3">📱</div>
+          <div class="fl-body">
+            <h4>响应式设计</h4>
+            <p>完美适配各种设备屏幕</p>
+          </div>
+        </li>
+        <li class="fl-item">
+          <div class="fl-icon c4">🎨</div>
+          <div class="fl-body">
+            <h4>主题定制</h4>
+            <p>丰富的主题和配色方案</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="note">
+      Grid 两列布局。<code>flex-shrink: 0</code> 防止图标被压缩。悬停时
+      <code>translateY</code> 上浮增加交互感。
+    </div>
+  </body>
+</html>

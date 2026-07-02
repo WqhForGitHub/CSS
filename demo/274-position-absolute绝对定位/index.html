@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>position absolute 绝对定位</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .pa-container {
+        background: #ecf0f1;
+        padding: 20px;
+        border-radius: 6px;
+        position: relative;
+        min-height: 200px;
+      }
+      .pa-box {
+        width: 100px;
+        height: 60px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 12px;
+      }
+      .pa-normal {
+        background: #3498db;
+      }
+      .pa-absolute {
+        position: absolute;
+        background: #e74c3c;
+      }
+      .pa-top-left {
+        top: 10px;
+        left: 10px;
+      }
+      .pa-top-right {
+        top: 10px;
+        right: 10px;
+        background: #27ae60;
+      }
+      .pa-bottom-left {
+        bottom: 10px;
+        left: 10px;
+        background: #f39c12;
+      }
+      .pa-bottom-right {
+        bottom: 10px;
+        right: 10px;
+        background: #9b59b6;
+      }
+      .pa-center {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #1abc9c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>position absolute 绝对定位</h1>
+    <div class="desc">
+      <code>position: absolute</code> 使元素完全脱离文档流，相对于最近的非
+      static 祖先元素定位。若无则相对于初始包含块（通常是viewport）。
+    </div>
+    <span class="tag">absolute（父元素需 position: relative）</span>
+    <div class="pa-container">
+      <div class="pa-box pa-normal">普通元素</div>
+      <div class="pa-box pa-absolute pa-top-left">top:10 left:10</div>
+      <div class="pa-box pa-absolute pa-top-right">top:10 right:10</div>
+      <div class="pa-box pa-absolute pa-bottom-left">bottom:10 left:10</div>
+      <div class="pa-box pa-absolute pa-bottom-right">bottom:10 right:10</div>
+      <div class="pa-box pa-absolute pa-center">居中</div>
+    </div>
+    <div class="note">
+      绝对定位元素脱离文档流，不占据空间。必须确保祖先元素设置了
+      <code>position: relative/absolute/fixed</code>，否则会相对于 viewport
+      定位。<code>top:50%; left:50%; transform:translate(-50%,-50%)</code>
+      实现居中。
+    </div>
+  </body>
+</html>

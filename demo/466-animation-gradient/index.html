@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>渐变动画</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .gradient-box {
+        height: 80px;
+        border-radius: 12px;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .g1 {
+        background: linear-gradient(
+          90deg,
+          #3498db,
+          #e74c3c,
+          #f39c12,
+          #27ae60,
+          #3498db
+        );
+        background-size: 300% 100%;
+        animation: flow1 4s linear infinite;
+      }
+      @keyframes flow1 {
+        from {
+          background-position: 0% 0;
+        }
+        to {
+          background-position: 300% 0;
+        }
+      }
+      .g2 {
+        background: linear-gradient(45deg, #9b59b6, #3498db, #1abc9c, #9b59b6);
+        background-size: 300% 300%;
+        animation: flow2 5s ease infinite;
+      }
+      @keyframes flow2 {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      .g3 {
+        background: linear-gradient(
+          135deg,
+          #e74c3c,
+          #f39c12,
+          #f1c40f,
+          #27ae60,
+          #2ecc71,
+          #1abc9c,
+          #3498db,
+          #9b59b6,
+          #e74c3c
+        );
+        background-size: 400% 400%;
+        animation: flow3 8s ease infinite;
+      }
+      @keyframes flow3 {
+        0% {
+          background-position: 0% 0%;
+        }
+        50% {
+          background-position: 100% 100%;
+        }
+        100% {
+          background-position: 0% 0%;
+        }
+      }
+      .text-gradient {
+        font-size: 36px;
+        font-weight: bold;
+        background: linear-gradient(
+          90deg,
+          #e74c3c,
+          #f39c12,
+          #f1c40f,
+          #27ae60,
+          #2ecc71,
+          #1abc9c,
+          #3498db,
+          #9b59b6,
+          #e74c3c
+        );
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: flow1 4s linear infinite;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>渐变动画</h1>
+    <div class="desc">
+      通过 animation 改变 background-position 实现渐变色彩流动的动画效果。
+    </div>
+
+    <h2>渐变流动动画</h2>
+    <div class="demo-row" style="flex-direction: column">
+      <div class="gradient-box g1">彩虹流动</div>
+      <div class="gradient-box g2">对角流动</div>
+      <div class="gradient-box g3">多彩流转</div>
+      <div style="text-align: center; padding: 20px">
+        <div class="text-gradient">Gradient Text</div>
+      </div>
+    </div>
+    <div class="note">
+      核心技巧：background-size 设为 200%~400%，再用 animation 移动
+      background-position，实现渐变颜色流动效果。
+    </div>
+  </body>
+</html>

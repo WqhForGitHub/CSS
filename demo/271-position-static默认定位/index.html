@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>position static 默认定位</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .ps-container {
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        position: relative;
+      }
+      .ps-box {
+        width: 120px;
+        height: 70px;
+        background: #3498db;
+        color: #fff;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 5px;
+      }
+      .ps-static {
+        position: static;
+        top: 50px;
+        left: 50px;
+      }
+      .ps-relative {
+        position: relative;
+        top: 20px;
+        left: 20px;
+        background: #e74c3c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>position static 默认定位</h1>
+    <div class="desc">
+      <code>position: static</code> 是默认值，元素处于正常文档流中，<code
+        >top/right/bottom/left/z-index</code
+      >
+      属性无效。
+    </div>
+    <span class="tag">static（默认值）</span>
+    <div class="ps-container">
+      <div class="ps-box ps-static">
+        position: static<br />top:50px left:50px（无效）
+      </div>
+      <div class="ps-box ps-static">static 元素2</div>
+      <p style="font-size: 13px; margin-top: 10px">
+        top/left 属性对 static 元素无效，元素保持在正常文档流位置
+      </p>
+    </div>
+    <span class="tag" style="margin-top: 15px">对比 relative</span>
+    <div class="ps-container">
+      <div class="ps-box ps-relative">
+        position: relative<br />top:20px left:20px（生效）
+      </div>
+      <p style="font-size: 13px; margin-top: 10px">
+        relative 元素偏移后，原位置空间保留
+      </p>
+    </div>
+    <div class="note">
+      所有元素默认 <code>position: static</code>。在 static
+      下，<code>top</code>、<code>right</code>、<code>bottom</code>、<code
+        >left</code
+      >
+      和 <code>z-index</code> 属性都不会生效。
+    </div>
+  </body>
+</html>

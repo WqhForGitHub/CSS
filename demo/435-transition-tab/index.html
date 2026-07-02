@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>标签页切换过渡</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .tabs {
+        position: relative;
+      }
+      .tab-headers {
+        display: flex;
+        border-bottom: 2px solid #e0e0e0;
+        position: relative;
+      }
+      .tab-header {
+        padding: 12px 24px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #7f8c8d;
+        transition: color 0.3s ease;
+      }
+      .tab-header:hover {
+        color: #3498db;
+      }
+      .tab-group:hover .tab-header.active {
+        color: #7f8c8d;
+      }
+      .tab-header.active {
+        color: #3498db;
+      }
+      .tab-indicator {
+        position: absolute;
+        bottom: -2px;
+        height: 3px;
+        background: #3498db;
+        transition:
+          left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+          width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .tab-content {
+        position: relative;
+        min-height: 120px;
+        margin-top: 15px;
+      }
+      .tab-pane {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transform: translateY(10px);
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+        pointer-events: none;
+      }
+      .tab-group:has(.tab-header:nth-child(1):hover)
+        ~ .tab-content
+        .tab-pane:nth-child(1),
+      .tab-group:has(.tab-header:nth-child(2):hover)
+        ~ .tab-content
+        .tab-pane:nth-child(2),
+      .tab-group:has(.tab-header:nth-child(3):hover)
+        ~ .tab-content
+        .tab-pane:nth-child(3) {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>标签页切换过渡</h1>
+    <div class="desc">
+      使用 transition 实现标签页切换时的内容淡入淡出效果和指示器滑动动画。
+    </div>
+
+    <h2>标签页切换（纯 CSS）</h2>
+    <p>鼠标悬停在标签上切换内容：</p>
+    <div class="demo-row">
+      <div class="tabs">
+        <div class="tab-group">
+          <div class="tab-headers">
+            <div class="tab-header active" style="color: #3498db">HTML</div>
+            <div class="tab-header">CSS</div>
+            <div class="tab-header">JavaScript</div>
+          </div>
+        </div>
+        <div class="tab-content">
+          <div class="tab-pane" style="opacity: 1; transform: none">
+            <p style="color: #555; font-size: 14px">
+              HTML 是构建网页结构的标准标记语言，使用标签来描述页面的各个部分。
+            </p>
+          </div>
+          <div class="tab-pane">
+            <p style="color: #555; font-size: 14px">
+              CSS 控制网页的视觉样式和布局，让页面更加美观和易于使用。
+            </p>
+          </div>
+          <div class="tab-pane">
+            <p style="color: #555; font-size: 14px">
+              JavaScript 为网页添加动态交互功能，处理用户事件和数据通信。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      使用 opacity + transform 过渡实现内容淡入淡出。指示器位置通过 transition
+      平滑滑动。
+    </div>
+  </body>
+</html>

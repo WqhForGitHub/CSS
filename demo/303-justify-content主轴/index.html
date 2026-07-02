@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>justify-content 主轴对齐</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .jc-container {
+        display: flex;
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        gap: 10px;
+        margin-bottom: 10px;
+        min-height: 60px;
+      }
+      .jc-item {
+        background: #3498db;
+        color: #fff;
+        padding: 12px 20px;
+        border-radius: 6px;
+        font-size: 13px;
+      }
+      .jc-item:nth-child(even) {
+        background: #e74c3c;
+      }
+      .jc-start {
+        justify-content: flex-start;
+      }
+      .jc-center {
+        justify-content: center;
+      }
+      .jc-end {
+        justify-content: flex-end;
+      }
+      .jc-between {
+        justify-content: space-between;
+      }
+      .jc-around {
+        justify-content: space-around;
+      }
+      .jc-evenly {
+        justify-content: space-evenly;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>justify-content 主轴对齐</h1>
+    <div class="desc">
+      <code>justify-content</code> 设置弹性项目在主轴上的对齐方式。
+    </div>
+    <span class="tag">flex-start（默认，左对齐）</span>
+    <div class="jc-container jc-start">
+      <div class="jc-item">1</div>
+      <div class="jc-item">2</div>
+      <div class="jc-item">3</div>
+    </div>
+    <span class="tag">center（居中）</span>
+    <div class="jc-container jc-center">
+      <div class="jc-item">1</div>
+      <div class="jc-item">2</div>
+      <div class="jc-item">3</div>
+    </div>
+    <span class="tag">flex-end（右对齐）</span>
+    <div class="jc-container jc-end">
+      <div class="jc-item">1</div>
+      <div class="jc-item">2</div>
+      <div class="jc-item">3</div>
+    </div>
+    <span class="tag">space-between（两端对齐，等间距）</span>
+    <div class="jc-container jc-between">
+      <div class="jc-item">1</div>
+      <div class="jc-item">2</div>
+      <div class="jc-item">3</div>
+    </div>
+    <span class="tag">space-around（每个项目两侧等间距）</span>
+    <div class="jc-container jc-around">
+      <div class="jc-item">1</div>
+      <div class="jc-item">2</div>
+      <div class="jc-item">3</div>
+    </div>
+    <span class="tag">space-evenly（均匀分布）</span>
+    <div class="jc-container jc-evenly">
+      <div class="jc-item">1</div>
+      <div class="jc-item">2</div>
+      <div class="jc-item">3</div>
+    </div>
+    <div class="note">
+      <code>space-between</code>: 首尾贴边，中间等分。<code>space-around</code>:
+      每个项目左右间距相等（首尾间距为中间的一半）。<code>space-evenly</code>:
+      所有间距完全相等。
+    </div>
+  </body>
+</html>

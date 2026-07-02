@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>background-position定位</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .bp-demo {
+        width: 160px;
+        height: 100px;
+        border: 2px solid #34495e;
+        border-radius: 6px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Ccircle cx='15' cy='15' r='12' fill='%23e74c3c'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-color: #ecf0f1;
+      }
+      .bp-1 {
+        background-position: left top;
+      }
+      .bp-2 {
+        background-position: right bottom;
+      }
+      .bp-3 {
+        background-position: 50% 50%;
+      }
+      .bp-4 {
+        background-position: 30px 15px;
+      }
+      .bp-5 {
+        background-position: right 10px bottom 10px;
+      }
+      .bp-6 {
+        background-position: center 20px;
+      }
+      .bp-7 {
+        background-position: left 50%;
+      }
+      .bp-8 {
+        background-position: 25% 75%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>background-position定位</h1>
+    <div class="desc">
+      <code>background-position</code>
+      精确控制背景图片位置，支持关键字、长度值、百分比，可混合使用。
+    </div>
+    <span class="tag">各种定位方式</span>
+    <div class="demo-row">
+      <div class="demo-item">
+        <div class="bp-demo bp-1"></div>
+        <span class="label">left top</span>
+      </div>
+      <div class="demo-item">
+        <div class="bp-demo bp-2"></div>
+        <span class="label">right bottom</span>
+      </div>
+      <div class="demo-item">
+        <div class="bp-demo bp-3"></div>
+        <span class="label">50% 50%</span>
+      </div>
+      <div class="demo-item">
+        <div class="bp-demo bp-4"></div>
+        <span class="label">30px 15px</span>
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-item">
+        <div class="bp-demo bp-5"></div>
+        <span class="label">right 10px bottom 10px</span>
+      </div>
+      <div class="demo-item">
+        <div class="bp-demo bp-6"></div>
+        <span class="label">center 20px</span>
+      </div>
+      <div class="demo-item">
+        <div class="bp-demo bp-7"></div>
+        <span class="label">left 50%</span>
+      </div>
+      <div class="demo-item">
+        <div class="bp-demo bp-8"></div>
+        <span class="label">25% 75%</span>
+      </div>
+    </div>
+    <div class="note">
+      CSS3 支持偏移语法
+      <code>right 10px bottom 10px</code
+      >，表示从右下方各偏移10px。混合关键字和数值可以灵活定位。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>十六进制颜色系统</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .hex-box {
+        width: 90px;
+        height: 60px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 12px;
+        font-family: Consolas, monospace;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .hex-full-1 {
+        background: #ff0000;
+      }
+      .hex-full-2 {
+        background: #00ff00;
+      }
+      .hex-full-3 {
+        background: #0000ff;
+      }
+      .hex-full-4 {
+        background: #ff8800;
+      }
+      .hex-full-5 {
+        background: #8844dd;
+      }
+      .hex-short-1 {
+        background: #f00;
+      }
+      .hex-short-2 {
+        background: #0f0;
+      }
+      .hex-short-3 {
+        background: #00f;
+      }
+      .hex-short-4 {
+        background: #f80;
+      }
+      .hex-short-5 {
+        background: #84d;
+      }
+      .hex-8digit {
+        background: #ff000080;
+      }
+      .hex-dark {
+        background: #2c3e50;
+      }
+      .hex-light {
+        background: #ecf0f1;
+        color: #333;
+        text-shadow: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>十六进制颜色系统</h1>
+    <div class="desc">
+      十六进制颜色使用
+      <code>#RRGGBB</code>
+      格式，每两位表示红/绿/蓝通道（00-FF）。也可使用3位简写 <code>#RGB</code>。
+    </div>
+    <span class="tag">6位完整格式 #RRGGBB</span>
+    <div class="demo-row">
+      <div class="demo-item">
+        <div class="hex-box hex-full-1">#ff0000</div>
+        <span class="label">纯红</span>
+      </div>
+      <div class="demo-item">
+        <div class="hex-box hex-full-2">#00ff00</div>
+        <span class="label">纯绿</span>
+      </div>
+      <div class="demo-item">
+        <div class="hex-box hex-full-3">#0000ff</div>
+        <span class="label">纯蓝</span>
+      </div>
+      <div class="demo-item">
+        <div class="hex-box hex-full-4">#ff8800</div>
+        <span class="label">橙色</span>
+      </div>
+      <div class="demo-item">
+        <div class="hex-box hex-full-5">#8844dd</div>
+        <span class="label">紫色</span>
+      </div>
+    </div>
+    <span class="tag">3位简写格式 #RGB</span>
+    <div class="demo-row">
+      <div class="demo-item">
+        <div class="hex-box hex-short-1">#f00</div>
+        <span class="label">= #ff0000</span>
+      </div>
+      <div class="demo-item">
+        <div class="hex-box hex-short-2">#0f0</div>
+        <span class="label">= #00ff00</span>
+      </div>
+      <div class="demo-item">
+        <div class="hex-box hex-short-3">#00f</div>
+        <span class="label">= #0000ff</span>
+      </div>
+      <div class="demo-item">
+        <div class="hex-box hex-short-4">#f80</div>
+        <span class="label">= #ff8800</span>
+      </div>
+      <div class="demo-item">
+        <div class="hex-box hex-short-5">#84d</div>
+        <span class="label">= #8844dd</span>
+      </div>
+    </div>
+    <span class="tag">8位带透明度格式 #RRGGBBAA</span>
+    <div
+      class="demo-row"
+      style="
+        background: repeating-linear-gradient(
+          45deg,
+          #ccc,
+          #ccc 10px,
+          #ddd 10px,
+          #ddd 20px
+        );
+      "
+    >
+      <div class="demo-item">
+        <div class="hex-box hex-8digit">#ff000080</div>
+        <span class="label">50%透明红</span>
+      </div>
+      <div class="demo-item">
+        <div class="hex-box hex-dark">#2c3e50</div>
+        <span class="label">深色</span>
+      </div>
+      <div class="demo-item">
+        <div class="hex-box hex-light">#ecf0f1</div>
+        <span class="label">浅色</span>
+      </div>
+    </div>
+    <div class="note">
+      3位简写 <code>#RGB</code> 会扩展为
+      <code>#RRGGBB</code>（每位重复一次）。8位格式
+      <code>#RRGGBBAA</code> 最后两位表示透明度（00=全透明，FF=不透明）。
+    </div>
+  </body>
+</html>

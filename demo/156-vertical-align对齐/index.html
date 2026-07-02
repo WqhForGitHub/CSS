@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vertical-align 垂直对齐</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .va-demo .box {
+        padding: 16px;
+        background: #fff;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        font-size: 16px;
+        line-height: 3;
+      }
+      .va-demo .baseline {
+        vertical-align: baseline;
+      }
+      .va-demo .top {
+        vertical-align: top;
+      }
+      .va-demo .middle {
+        vertical-align: middle;
+      }
+      .va-demo .bottom {
+        vertical-align: bottom;
+      }
+      .va-demo .text-top {
+        vertical-align: text-top;
+      }
+      .va-demo .text-bottom {
+        vertical-align: text-bottom;
+      }
+      .va-demo .sub {
+        vertical-align: sub;
+      }
+      .va-demo .super {
+        vertical-align: super;
+      }
+      .va-demo .demo-inline {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: #e74c3c;
+        border-radius: 3px;
+      }
+      .va-demo .label {
+        font-size: 11px;
+        color: #7f8c8d;
+        font-family: Consolas, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>vertical-align 垂直对齐</h1>
+    <div class="desc">
+      <code>vertical-align</code> 设置行内元素和表格单元格的垂直对齐方式。只对
+      inline/inline-block/table-cell 有效。
+    </div>
+    <div class="demo-row va-demo" style="display: block">
+      <div class="box">
+        baseline: <span class="demo-inline baseline"></span>
+        <span class="label">baseline</span>
+      </div>
+      <div class="box">
+        top: <span class="demo-inline top"></span>
+        <span class="label">top</span>
+      </div>
+      <div class="box">
+        middle: <span class="demo-inline middle"></span>
+        <span class="label">middle</span>
+      </div>
+      <div class="box">
+        bottom: <span class="demo-inline bottom"></span>
+        <span class="label">bottom</span>
+      </div>
+      <div class="box">
+        sub: <span class="sub">下标</span> super:
+        <span class="super">上标</span>
+      </div>
+    </div>
+    <div class="note">
+      vertical-align 不影响块级元素。块级垂直居中需用 flex 或 line-height。
+    </div>
+  </body>
+</html>

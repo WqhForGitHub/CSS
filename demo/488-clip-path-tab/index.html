@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clip-path 斜切标签</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .ct-area {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: center;
+      }
+      .ct-tag {
+        padding: 8px 20px;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+      .ct-tag:hover {
+        transform: translateY(-3px);
+      }
+      .ct1 {
+        background: #3498db;
+        clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+      }
+      .ct2 {
+        background: #e74c3c;
+        clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 10px 100%);
+      }
+      .ct3 {
+        background: #27ae60;
+        clip-path: polygon(
+          10px 0,
+          calc(100% - 10px) 0,
+          100% 50%,
+          calc(100% - 10px) 100%,
+          10px 100%,
+          0 50%
+        );
+      }
+      .ct4 {
+        background: #f39c12;
+        clip-path: polygon(15px 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
+        padding: 8px 30px;
+      }
+      .ct5 {
+        background: #9b59b6;
+        clip-path: polygon(
+          0 0,
+          calc(100% - 12px) 0,
+          100% 50%,
+          calc(100% - 12px) 100%,
+          0 100%,
+          12px 50%
+        );
+      }
+      .ct6 {
+        background: #1abc9c;
+        clip-path: polygon(20% 0, 100% 0, 80% 100%, 0 100%);
+        padding: 8px 30px;
+      }
+      .ct-btn {
+        padding: 12px 40px;
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        color: #fff;
+        font-size: 15px;
+        cursor: pointer;
+        clip-path: polygon(15px 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
+        border: none;
+        transition:
+          transform 0.3s ease,
+          filter 0.3s ease;
+      }
+      .ct-btn:hover {
+        transform: translateY(-2px);
+        filter: brightness(1.2);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>clip-path 斜切标签</h1>
+    <div class="desc">
+      使用 clip-path 创建斜切边缘的标签和按钮效果，常用于现代 UI 设计。
+    </div>
+
+    <h2>clip-path 斜切标签</h2>
+    <div class="demo-row">
+      <div class="ct-area">
+        <div class="ct-tag ct1">标签一</div>
+        <div class="ct-tag ct2">标签二</div>
+        <div class="ct-tag ct3">标签三</div>
+        <div class="ct-tag ct4">标签四</div>
+        <div class="ct-tag ct5">标签五</div>
+        <div class="ct-tag ct6">标签六</div>
+      </div>
+    </div>
+    <h2>斜切按钮</h2>
+    <div class="demo-row">
+      <div class="ct-area">
+        <button class="ct-btn">点击查看</button>
+        <button
+          class="ct-btn"
+          style="background: linear-gradient(135deg, #e74c3c, #8e44ad)"
+        >
+          立即购买
+        </button>
+        <button
+          class="ct-btn"
+          style="background: linear-gradient(135deg, #27ae60, #16a085)"
+        >
+          免费试用
+        </button>
+      </div>
+    </div>
+    <div class="note">
+      clip-path: polygon() 通过设置斜切点创建平行四边形或六边形标签效果。注意
+      clip-path 裁剪后不会显示 box-shadow。
+    </div>
+  </body>
+</html>

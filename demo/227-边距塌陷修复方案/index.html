@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>边距塌陷修复方案</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .fix-demo .case {
+        background: #fff;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+      .fix-demo .case-title {
+        font-size: 13px;
+        color: #7f8c8d;
+        margin-bottom: 8px;
+      }
+      .fix-demo .parent {
+        background: #ecf0f1;
+        border-radius: 4px;
+      }
+      .fix-demo .child {
+        background: #3498db;
+        color: #fff;
+        padding: 10px;
+        margin-top: 30px;
+        text-align: center;
+        font-size: 12px;
+      }
+      .fix-demo .broken .parent {
+        padding: 0 12px;
+      }
+      .fix-demo .f1 .parent {
+        padding: 1px 12px;
+      }
+      .fix-demo .f2 .parent {
+        padding: 0 12px;
+        border-top: 1px solid #bdc3c7;
+      }
+      .fix-demo .f3 .parent {
+        padding: 0 12px;
+        overflow: hidden;
+      }
+      .fix-demo .f4 .parent {
+        padding: 0 12px;
+        display: flex;
+        flex-direction: column;
+      }
+      .fix-demo .info {
+        font-size: 12px;
+        color: #555;
+        margin-top: 6px;
+      }
+      .fix-demo .bad {
+        color: #e74c3c;
+      }
+      .fix-demo .good {
+        color: #27ae60;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>边距塌陷修复方案</h1>
+    <div class="desc">
+      演示 margin 折叠问题及 4
+      种修复方案：overflow:hidden、padding、border、flex/grid。
+    </div>
+    <div class="demo-row fix-demo" style="display: block">
+      <div class="case broken">
+        <div class="case-title">
+          问题：父子 margin 折叠（child margin-top:30px 穿透到 parent 外）
+        </div>
+        <div class="parent">
+          <div class="child">child margin-top:30px 穿透父元素</div>
+        </div>
+        <div class="info bad">
+          ↑ child 的 margin-top 与 parent 合并，看起来像 parent 有 margin-top
+        </div>
+      </div>
+      <div class="case f1">
+        <div class="case-title">修复1：父元素加 padding-top</div>
+        <div class="parent">
+          <div class="child">child margin-top:30px 被包含</div>
+        </div>
+        <div class="info good">
+          ↑ padding-top:1px 阻止折叠，child margin 在父内生效
+        </div>
+      </div>
+      <div class="case f2">
+        <div class="case-title">修复2：父元素加 border-top</div>
+        <div class="parent">
+          <div class="child">child margin-top:30px 被包含</div>
+        </div>
+        <div class="info good">↑ border-top:1px 也能阻止折叠</div>
+      </div>
+      <div class="case f3">
+        <div class="case-title">修复3：父元素触发 BFC（overflow:hidden）</div>
+        <div class="parent">
+          <div class="child">child margin-top:30px 被包含</div>
+        </div>
+        <div class="info good">
+          ↑ overflow:hidden 创建 BFC，BFC 内部不发生 margin 折叠
+        </div>
+      </div>
+      <div class="case f4">
+        <div class="case-title">修复4：父元素 display:flex/grid</div>
+        <div class="parent">
+          <div class="child">child margin-top:30px 被包含</div>
+        </div>
+        <div class="info good">
+          ↑ flex/grid 容器内子元素不会与父元素发生 margin 折叠
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      推荐使用 display:flow-root 触发 BFC，无副作用且语义明确。padding/border
+      会增加 1px 占位需注意。
+    </div>
+  </body>
+</html>

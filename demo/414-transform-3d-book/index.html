@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D 翻书效果</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .book-scene {
+        perspective: 1500px;
+      }
+      .book {
+        width: 200px;
+        height: 280px;
+        position: relative;
+        transform-style: preserve-3d;
+        transform: rotateX(10deg);
+        margin: 20px auto;
+      }
+      .page {
+        width: 200px;
+        height: 280px;
+        position: absolute;
+        transform-origin: left center;
+        transition: transform 1s;
+        transform-style: preserve-3d;
+        background: #fff;
+        border: 1px solid #ddd;
+        padding: 20px;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .page:nth-child(1) {
+        z-index: 5;
+      }
+      .page:nth-child(2) {
+        z-index: 4;
+      }
+      .page:nth-child(3) {
+        z-index: 3;
+      }
+      .book:hover .page:nth-child(1) {
+        transform: rotateY(-160deg);
+        z-index: 1;
+      }
+      .book:hover .page:nth-child(2) {
+        transform: rotateY(-150deg);
+        z-index: 2;
+      }
+      .page-cover {
+        background: linear-gradient(135deg, #2c3e50, #3498db);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+      }
+      .page-content {
+        color: #555;
+        font-size: 13px;
+        line-height: 1.8;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>3D 翻书效果</h1>
+    <div class="desc">
+      利用 3D 变换模拟书本翻页效果，结合
+      <code>transform-origin</code> 设置翻页轴心。
+    </div>
+
+    <h2>3D 翻书效果</h2>
+    <p>鼠标悬停在书本上查看翻页动画：</p>
+    <div class="demo-row" style="justify-content: center">
+      <div class="book-scene">
+        <div class="book">
+          <div class="page page-cover">封面</div>
+          <div class="page page-content">
+            第一页内容<br />transform-origin: left center; 让页面从左侧轴心翻转
+          </div>
+          <div class="page page-content">
+            第二页内容<br />通过 z-index 控制翻页层级
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      翻页效果的关键是 transform-origin: left center（书脊在左侧），配合 rotateY
+      实现翻页。
+    </div>
+  </body>
+</html>

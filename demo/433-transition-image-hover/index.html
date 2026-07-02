@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>图片悬停过渡效果</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .img-card {
+        width: 200px;
+        height: 150px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 10px;
+      }
+      .img-bg {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        transition: transform 0.5s ease;
+      }
+      .overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 12px;
+        background: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        font-size: 13px;
+        transform: translateY(100%);
+        transition: transform 0.4s ease;
+      }
+      .img-card:hover .img-bg {
+        transform: scale(1.15);
+      }
+      .img-card:hover .overlay {
+        transform: translateY(0);
+      }
+      .bg1 {
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+      }
+      .bg2 {
+        background: linear-gradient(135deg, #e74c3c, #8e44ad);
+      }
+      .bg3 {
+        background: linear-gradient(135deg, #27ae60, #16a085);
+      }
+      .bg4 {
+        background: linear-gradient(135deg, #f39c12, #d35400);
+      }
+      .bg5 {
+        background: linear-gradient(135deg, #1abc9c, #34495e);
+      }
+      .bg6 {
+        background: linear-gradient(135deg, #9b59b6, #34495e);
+      }
+      .flex-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>图片悬停过渡效果</h1>
+    <div class="desc">
+      为图片添加各种悬停过渡效果，包括缩放、遮罩、亮度变化、文字浮现等。
+    </div>
+
+    <h2>图片悬停效果集合</h2>
+    <p>鼠标悬停在图片上查看效果：</p>
+    <div class="demo-row">
+      <div class="flex-wrap">
+        <div class="img-card">
+          <div class="img-bg bg1">🏔</div>
+          <div class="overlay">山脉风光</div>
+        </div>
+        <div class="img-card">
+          <div class="img-bg bg2">🌅</div>
+          <div class="overlay">日出印象</div>
+        </div>
+        <div class="img-card">
+          <div class="img-bg bg3">🌊</div>
+          <div class="overlay">海洋世界</div>
+        </div>
+        <div class="img-card">
+          <div class="img-bg bg4">🏜</div>
+          <div class="overlay">沙漠绿洲</div>
+        </div>
+        <div class="img-card">
+          <div class="img-bg bg5">🌃</div>
+          <div class="overlay">城市夜景</div>
+        </div>
+        <div class="img-card">
+          <div class="img-bg bg6">🌸</div>
+          <div class="overlay">花海仙境</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      图片缩放使用 transform: scale + overflow: hidden；文字浮现使用 transform:
+      translateY 配合 transition。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>定位实现固定侧边栏</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .sb-demo {
+        height: 250px;
+        overflow: auto;
+        border: 2px solid #34495e;
+        border-radius: 6px;
+        position: relative;
+      }
+      .sb-sidebar {
+        position: sticky;
+        top: 0;
+        width: 180px;
+        height: 250px;
+        background: #2c3e50;
+        color: #fff;
+        padding: 20px;
+        float: left;
+        box-sizing: border-box;
+      }
+      .sb-sidebar h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: #1abc9c;
+      }
+      .sb-sidebar ul {
+        list-style: none;
+      }
+      .sb-sidebar li {
+        padding: 8px 12px;
+        margin-bottom: 4px;
+        border-radius: 4px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .sb-sidebar li:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .sb-sidebar li.active {
+        background: #3498db;
+      }
+      .sb-content {
+        margin-left: 180px;
+        padding: 20px;
+      }
+      .sb-content p {
+        background: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        line-height: 1.7;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>定位实现固定侧边栏</h1>
+    <div class="desc">
+      使用 <code>position: fixed</code> 实现页面滚动时始终可见的侧边栏导航。
+    </div>
+    <span class="tag">固定侧边栏 + 内容区滚动</span>
+    <div class="sb-demo">
+      <div class="sb-sidebar">
+        <h3>导航菜单</h3>
+        <ul>
+          <li class="active">概览</li>
+          <li>用户管理</li>
+          <li>订单管理</li>
+          <li>商品管理</li>
+          <li>数据统计</li>
+          <li>系统设置</li>
+        </ul>
+      </div>
+      <div class="sb-content">
+        <p>
+          <strong>概览页面</strong> — 侧边栏使用 position: sticky
+          固定在左侧。滚动内容区域时，侧边栏始终可见。
+        </p>
+        <p>
+          这是后台管理系统最常见的布局模式。侧边栏提供快速导航，主内容区可独立滚动。
+        </p>
+        <p>响应式设计中，窄屏幕时侧边栏通常变为抽屉式（可隐藏/展开）。</p>
+        <p>继续滚动查看侧边栏固定效果...</p>
+        <p>更多内容...</p>
+      </div>
+    </div>
+    <div class="note">
+      使用
+      <code>position: sticky</code>
+      使侧边栏在滚动容器内固定。若需相对于视口固定，使用
+      <code>position: fixed</code> 并为主内容区添加
+      <code>margin-left</code> 留出空间。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>text-shadow 文本阴影效果</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .ts-demo .box {
+        padding: 20px;
+        background: #fff;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        font-size: 28px;
+        text-align: center;
+      }
+      .ts-demo .simple {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        color: #2c3e50;
+      }
+      .ts-demo .glow {
+        text-shadow:
+          0 0 10px #3498db,
+          0 0 20px #3498db,
+          0 0 30px #3498db;
+        color: #3498db;
+      }
+      .ts-demo .neon {
+        text-shadow:
+          0 0 5px #fff,
+          0 0 10px #fff,
+          0 0 20px #e74c3c,
+          0 0 40px #e74c3c;
+        color: #fff;
+        background: #2c3e50;
+      }
+      .ts-demo .engrave {
+        text-shadow:
+          1px 1px 0 #fff,
+          -1px -1px 0 #999;
+        color: #ccc;
+        background: #ecf0f1;
+      }
+      .ts-demo .stroke {
+        text-shadow:
+          -1px -1px 0 #e74c3c,
+          1px -1px 0 #e74c3c,
+          -1px 1px 0 #e74c3c,
+          1px 1px 0 #e74c3c;
+        color: #fff;
+      }
+      .ts-demo .multi {
+        text-shadow:
+          3px 3px 0 #3498db,
+          6px 6px 0 #e74c3c;
+        color: #2c3e50;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>text-shadow 文本阴影效果</h1>
+    <div class="desc">
+      <code>text-shadow</code>
+      为文字添加阴影。可设置水平偏移、垂直偏移、模糊半径和颜色。支持多层阴影。
+    </div>
+    <div class="demo-row ts-demo" style="display: block">
+      <div class="box simple">简单阴影</div>
+      <div class="box glow">发光效果</div>
+      <div class="box neon">霓虹灯效果</div>
+      <div class="box engrave">雕刻效果</div>
+      <div class="box stroke">描边效果</div>
+      <div class="box multi">多层阴影</div>
+    </div>
+    <div class="note">
+      text-shadow 语法：x偏移 y偏移 模糊半径 颜色。多层用逗号分隔。
+    </div>
+  </body>
+</html>

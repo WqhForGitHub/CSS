@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>交错过渡动画</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .stagger-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .stagger-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        opacity: 0.3;
+        transform: translateX(-30px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+      .stagger-container:hover .stagger-item {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .stagger-item:nth-child(1) {
+        transition-delay: 0s;
+      }
+      .stagger-item:nth-child(2) {
+        transition-delay: 0.08s;
+      }
+      .stagger-item:nth-child(3) {
+        transition-delay: 0.16s;
+      }
+      .stagger-item:nth-child(4) {
+        transition-delay: 0.24s;
+      }
+      .stagger-item:nth-child(5) {
+        transition-delay: 0.32s;
+      }
+      .stagger-item:nth-child(6) {
+        transition-delay: 0.4s;
+      }
+      .avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+      .info h4 {
+        font-size: 14px;
+        color: #2c3e50;
+      }
+      .info p {
+        font-size: 12px;
+        color: #95a5a6;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>交错过渡动画</h1>
+    <div class="desc">
+      利用不同的 transition-delay 实现列表项的交错出现动画效果。
+    </div>
+
+    <h2>交错列表动画</h2>
+    <p>鼠标悬停在列表区域上，项依次出现：</p>
+    <div class="demo-row">
+      <div class="stagger-container" style="width: 100%">
+        <div class="stagger-list">
+          <div class="stagger-item">
+            <div class="avatar" style="background: #3498db">A</div>
+            <div class="info">
+              <h4>Alice</h4>
+              <p>产品经理</p>
+            </div>
+          </div>
+          <div class="stagger-item">
+            <div class="avatar" style="background: #e74c3c">B</div>
+            <div class="info">
+              <h4>Bob</h4>
+              <p>前端开发</p>
+            </div>
+          </div>
+          <div class="stagger-item">
+            <div class="avatar" style="background: #27ae60">C</div>
+            <div class="info">
+              <h4>Charlie</h4>
+              <p>后端开发</p>
+            </div>
+          </div>
+          <div class="stagger-item">
+            <div class="avatar" style="background: #f39c12">D</div>
+            <div class="info">
+              <h4>Diana</h4>
+              <p>UI 设计师</p>
+            </div>
+          </div>
+          <div class="stagger-item">
+            <div class="avatar" style="background: #9b59b6">E</div>
+            <div class="info">
+              <h4>Eve</h4>
+              <p>测试工程师</p>
+            </div>
+          </div>
+          <div class="stagger-item">
+            <div class="avatar" style="background: #1abc9c">F</div>
+            <div class="info">
+              <h4>Frank</h4>
+              <p>运维工程师</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      使用 nth-child + transition-delay
+      为每个项设置递增的延迟，实现依次出现的交错效果，让列表更有节奏感。
+    </div>
+  </body>
+</html>

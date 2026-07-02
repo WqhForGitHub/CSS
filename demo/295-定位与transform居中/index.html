@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>定位与 transform 实现居中</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .tc-demo {
+        position: relative;
+        width: 100%;
+        height: 160px;
+        background: #ecf0f1;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .tc-box {
+        width: 100px;
+        height: 70px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 12px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .tc-1 {
+        background: #3498db;
+      }
+      .tc-2 {
+        background: #e74c3c;
+        transform: translate(-50%, -50%) rotate(15deg);
+      }
+      .tc-3 {
+        background: #27ae60;
+        transform: translate(-50%, -50%) scale(0.8);
+      }
+      .tc-4 {
+        background: #9b59b6;
+        transform: translate(-50%, -50%) skew(-10deg);
+      }
+      .tc-flex-demo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 120px;
+        background: #f39c12;
+        border-radius: 8px;
+        color: #fff;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>定位与 transform 实现居中</h1>
+    <div class="desc">
+      使用 <code>position: absolute</code> + <code>top/left: 50%</code> +
+      <code>transform: translate(-50%, -50%)</code> 实现元素居中。
+    </div>
+    <span class="tag">absolute + transform 居中</span>
+    <div class="tc-demo">
+      <div class="tc-box tc-1">居中<br />translate(-50%,-50%)</div>
+    </div>
+    <span class="tag">配合其他 transform 变换</span>
+    <div class="tc-demo">
+      <div class="tc-box tc-2">旋转15°<br />translate+rotate</div>
+    </div>
+    <div class="tc-demo">
+      <div class="tc-box tc-3">缩放0.8<br />translate+scale</div>
+    </div>
+    <div class="tc-demo">
+      <div class="tc-box tc-4">倾斜-10°<br />translate+skew</div>
+    </div>
+    <span class="tag">对比 Flexbox 居中</span>
+    <div class="tc-flex-demo">
+      <div>
+        FLEX 居中（display:flex; align-items:center; justify-content:center）
+      </div>
+    </div>
+    <div class="note">
+      <code>transform: translate(-50%, -50%)</code>
+      基于元素自身尺寸偏移，无需知道确切宽高。注意 transform
+      会创建新的层叠上下文。现代开发中 Flexbox 居中更简洁。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>首字母样式设计</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .fl2-demo .article {
+        font-size: 15px;
+        line-height: 1.8;
+        color: #555;
+        max-width: 500px;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+      }
+      .fl2-demo .article::first-letter {
+        font-size: 56px;
+        float: left;
+        line-height: 1;
+        margin: 4px 8px 0 0;
+        color: #e74c3c;
+        font-weight: bold;
+        font-family: Georgia, serif;
+      }
+      .fl2-demo .article.style2::first-letter {
+        font-size: 48px;
+        float: left;
+        padding: 4px 8px 0 0;
+        color: #fff;
+        background: #8e44ad;
+        border-radius: 8px;
+        margin: 2px 6px 0 0;
+      }
+      .fl2-demo .article.style3::first-letter {
+        font-size: 42px;
+        float: left;
+        color: #27ae60;
+        border: 3px solid #27ae60;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 4px 8px 0 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>首字母样式设计</h1>
+    <div class="desc">
+      通过 ::first-letter 伪元素或包裹首字母实现杂志风格的首字母大写装饰。
+    </div>
+    <div class="demo-row fl2-demo" style="display: block">
+      <p class="article">
+        CSS
+        权威指南是学习层叠样式表的经典教材。首字母下沉是杂志排文中常见的装饰手法，通过
+        ::first-letter 伪元素可以轻松实现多种风格的首字母效果。
+      </p>
+      <p class="article style2" style="margin-top: 12px">
+        第二种风格使用背景色填充首字母区域，营造标签式视觉效果。适用于现代风格的排版设计。
+      </p>
+      <p class="article style3" style="margin-top: 12px">
+        第三种风格使用圆形边框包裹首字母，更具设计感。适合品牌化或创意类内容。
+      </p>
+    </div>
+    <div class="note">::first-letter 只对块级元素的第一个字符有效。</div>
+  </body>
+</html>

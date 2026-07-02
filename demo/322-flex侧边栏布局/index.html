@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexbox 侧边栏+内容区布局</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .sl-layout {
+        display: flex;
+        height: 250px;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .sl-sidebar {
+        width: 180px;
+        background: #2c3e50;
+        color: #fff;
+        padding: 15px 10px;
+        flex-shrink: 0;
+      }
+      .sl-sidebar h3 {
+        font-size: 16px;
+        padding: 0 10px 15px;
+        color: #1abc9c;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 10px;
+      }
+      .sl-menu-item {
+        padding: 10px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        margin-bottom: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background 0.2s;
+      }
+      .sl-menu-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .sl-menu-item.active {
+        background: #3498db;
+      }
+      .sl-content {
+        flex: 1;
+        background: #ecf0f1;
+        padding: 20px;
+        overflow: auto;
+      }
+      .sl-content-card {
+        background: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Flexbox 侧边栏+内容区布局</h1>
+    <div class="desc">
+      使用 Flexbox 实现固定侧边栏+自适应内容区的后台管理布局。
+    </div>
+    <span class="tag">Flexbox 后台管理布局</span>
+    <div class="demo-row" style="padding: 20px">
+      <div class="sl-layout" style="width: 100%">
+        <div class="sl-sidebar">
+          <h3>控制台</h3>
+          <div class="sl-menu-item active">📊 概览</div>
+          <div class="sl-menu-item">📈 分析</div>
+          <div class="sl-menu-item">👥 用户</div>
+          <div class="sl-menu-item">📦 订单</div>
+          <div class="sl-menu-item">⚙️ 设置</div>
+        </div>
+        <div class="sl-content">
+          <div class="sl-content-card">
+            <strong>欢迎</strong> — 这是概览页面
+          </div>
+          <div class="sl-content-card">
+            侧边栏固定180px宽度，内容区自动占满剩余空间。
+          </div>
+          <div class="sl-content-card">
+            侧边栏使用 flex-shrink: 0 防止被压缩。
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <code>flex-shrink: 0</code> 确保侧边栏宽度固定不变。<code>flex: 1</code>
+      使内容区自适应。比浮动布局更简洁可靠。侧边栏可折叠时使用
+      <code>width</code> 过渡动画。
+    </div>
+  </body>
+</html>

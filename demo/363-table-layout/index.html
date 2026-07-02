@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>table-layout 表格布局算法</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .tl-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 15px;
+      }
+      .tl-table th,
+      .tl-table td {
+        border: 1px solid #ddd;
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+      .tl-table th {
+        background: #34495e;
+        color: #fff;
+      }
+      .tl-auto {
+        table-layout: auto;
+      }
+      .tl-fixed {
+        table-layout: fixed;
+      }
+      .tl-fixed th,
+      .tl-fixed td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>table-layout 表格布局算法</h1>
+    <div class="desc">
+      <code>table-layout: fixed</code>
+      根据第一行宽度均匀分配列宽，<code>auto</code>（默认）根据内容自动调整。
+    </div>
+    <span class="tag">table-layout: auto（默认，按内容调整）</span>
+    <div class="demo-row" style="padding: 20px; flex-direction: column">
+      <table class="tl-table tl-auto">
+        <tr>
+          <th>短标题</th>
+          <th>这是一个非常非常长的表头标题</th>
+          <th>中</th>
+        </tr>
+        <tr>
+          <td>短</td>
+          <td>这个单元格内容很长很长很长很长</td>
+          <td>中</td>
+        </tr>
+        <tr>
+          <td>短</td>
+          <td>长</td>
+          <td>中</td>
+        </tr>
+      </table>
+    </div>
+    <span class="tag">table-layout: fixed（固定列宽，均匀分配）</span>
+    <div class="demo-row" style="padding: 0 20px 20px; flex-direction: column">
+      <table class="tl-table tl-fixed">
+        <tr>
+          <th>短标题</th>
+          <th>这是一个非常非常长的表头标题</th>
+          <th>中</th>
+        </tr>
+        <tr>
+          <td>短内容</td>
+          <td>这个单元格内容被截断显示省略号</td>
+          <td>中</td>
+        </tr>
+        <tr>
+          <td>短</td>
+          <td>长</td>
+          <td>中</td>
+        </tr>
+      </table>
+    </div>
+    <div class="note">
+      <code>fixed</code>:
+      列宽由表头决定，各列等宽，渲染速度快。<code>auto</code>:
+      列宽按内容自动调整。大数据表格推荐 fixed。
+    </div>
+  </body>
+</html>

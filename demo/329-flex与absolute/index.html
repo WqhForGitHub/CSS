@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexbox 与 absolute 配合</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .fa-card {
+        display: flex;
+        gap: 15px;
+        position: relative;
+        background: #fff;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+      .fa-thumb {
+        width: 70px;
+        height: 70px;
+        border-radius: 8px;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 24px;
+      }
+      .fa-body {
+        flex: 1;
+      }
+      .fa-body h4 {
+        font-size: 15px;
+        margin-bottom: 6px;
+        color: #2c3e50;
+      }
+      .fa-body p {
+        font-size: 13px;
+        color: #555;
+        line-height: 1.5;
+      }
+      .fa-badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 4px 12px;
+        background: #e74c3c;
+        color: #fff;
+        font-size: 11px;
+        border-radius: 0 8px 0 8px;
+      }
+      .fa-ribbon {
+        position: absolute;
+        top: 15px;
+        left: -28px;
+        transform: rotate(-45deg);
+        padding: 3px 30px;
+        background: #f39c12;
+        color: #fff;
+        font-size: 11px;
+      }
+      .fa-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 16px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .fa-card:hover .fa-overlay {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Flexbox 与 absolute 配合</h1>
+    <div class="desc">
+      在 Flexbox 布局中使用
+      <code>position: absolute</code> 实现角标、遮罩等绝对定位元素。
+    </div>
+    <span class="tag">Flexbox + absolute 角标</span>
+    <div class="demo-row" style="padding: 20px; flex-direction: column">
+      <div class="fa-card" style="width: 100%">
+        <div class="fa-badge">NEW</div>
+        <div class="fa-thumb">★</div>
+        <div class="fa-body">
+          <h4>带角标的卡片</h4>
+          <p>角标使用 position: absolute 定位在右上角，不影响 Flexbox 布局。</p>
+        </div>
+      </div>
+      <div class="fa-card" style="width: 100%">
+        <div class="fa-ribbon">HOT</div>
+        <div
+          class="fa-thumb"
+          style="background: linear-gradient(135deg, #e74c3c, #c0392b)"
+        >
+          ♥
+        </div>
+        <div class="fa-body">
+          <h4>带缎带的卡片</h4>
+          <p>缎带使用 absolute + rotate 定位在左上角。</p>
+        </div>
+      </div>
+      <div class="fa-card" style="width: 100%">
+        <div
+          class="fa-thumb"
+          style="background: linear-gradient(135deg, #27ae60, #16a085)"
+        >
+          ●
+        </div>
+        <div class="fa-body">
+          <h4>悬停遮罩</h4>
+          <p>鼠标悬停查看遮罩效果。遮罩使用 absolute 覆盖整个卡片。</p>
+        </div>
+        <div class="fa-overlay">查看详情</div>
+      </div>
+    </div>
+    <div class="note">
+      Flexbox 容器设 <code>position: relative</code>，absolute 子元素不参与 flex
+      布局但仍可定位。需设置
+      <code>overflow: hidden</code> 裁剪超出部分（如缎带）。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>padding 内边距影响布局</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .pd-demo .compare {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .pd-demo .cb {
+        box-sizing: content-box;
+        width: 200px;
+        padding: 20px;
+        background: #ebf5fb;
+        border: 3px solid #3498db;
+        border-radius: 6px;
+      }
+      .pd-demo .bb {
+        box-sizing: border-box;
+        width: 200px;
+        padding: 20px;
+        background: #eafaf1;
+        border: 3px solid #27ae60;
+        border-radius: 6px;
+      }
+      .pd-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+      }
+      .pd-demo .inner {
+        background: rgba(255, 255, 255, 0.7);
+        padding: 8px;
+        border-radius: 4px;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>padding 内边距影响布局</h1>
+    <div class="desc">
+      padding 是内容和边框之间的空间。在 content-box 下增加盒子尺寸，在
+      border-box 下压缩内容区。
+    </div>
+    <div class="demo-row pd-demo" style="display: block">
+      <div class="compare">
+        <div>
+          <div class="cb">
+            <div class="inner">content-box<br />总宽: 200+40+6=246px</div>
+          </div>
+          <div class="label" style="margin-top: 4px">
+            content-box: padding 增加盒子尺寸
+          </div>
+        </div>
+        <div>
+          <div class="bb">
+            <div class="inner">border-box<br />总宽: 200px</div>
+          </div>
+          <div class="label" style="margin-top: 4px">
+            border-box: padding 压缩内容区
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      padding 百分比值相对于包含块的宽度计算（包括垂直方向的 padding）。
+    </div>
+  </body>
+</html>

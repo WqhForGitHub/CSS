@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grid 响应式布局</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .gr-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 16px;
+        background: #ecf0f1;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      .gr-card {
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+      .gr-card-img {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 24px;
+      }
+      .gr-card-img:nth-child(1) {
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+      }
+      .gr-card-img.c2 {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+      }
+      .gr-card-img.c3 {
+        background: linear-gradient(135deg, #27ae60, #16a085);
+      }
+      .gr-card-img.c4 {
+        background: linear-gradient(135deg, #f39c12, #e67e22);
+      }
+      .gr-card-img.c5 {
+        background: linear-gradient(135deg, #9b59b6, #8e44ad);
+      }
+      .gr-card-body {
+        padding: 12px;
+      }
+      .gr-card-body h4 {
+        font-size: 14px;
+        margin-bottom: 4px;
+        color: #2c3e50;
+      }
+      .gr-card-body p {
+        font-size: 12px;
+        color: #7f8c8d;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Grid 响应式布局</h1>
+    <div class="desc">
+      使用 <code>auto-fit</code> +
+      <code>minmax()</code> 实现无需媒体查询的响应式网格。
+    </div>
+    <span class="tag">auto-fit 响应式卡片网格（调整窗口宽度看效果）</span>
+    <div class="demo-row" style="padding: 20px">
+      <div class="gr-grid" style="width: 100%">
+        <div class="gr-card">
+          <div class="gr-card-img">★</div>
+          <div class="gr-card-body">
+            <h4>卡片1</h4>
+            <p>响应式网格</p>
+          </div>
+        </div>
+        <div class="gr-card">
+          <div class="gr-card-img c2">♥</div>
+          <div class="gr-card-body">
+            <h4>卡片2</h4>
+            <p>自动排列</p>
+          </div>
+        </div>
+        <div class="gr-card">
+          <div class="gr-card-img c3">●</div>
+          <div class="gr-card-body">
+            <h4>卡片3</h4>
+            <p>无需媒体查询</p>
+          </div>
+        </div>
+        <div class="gr-card">
+          <div class="gr-card-img c4">▲</div>
+          <div class="gr-card-body">
+            <h4>卡片4</h4>
+            <p>自适应列数</p>
+          </div>
+        </div>
+        <div class="gr-card">
+          <div class="gr-card-img c5">◆</div>
+          <div class="gr-card-body">
+            <h4>卡片5</h4>
+            <p>最小150px</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <code>repeat(auto-fit, minmax(150px, 1fr))</code> 是响应式 Grid
+      的经典模式：每列最小150px，容器变宽时列数自动增加，项目自动拉伸填满。无需任何媒体查询。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>transform 组合变换</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .box {
+        width: 80px;
+        height: 80px;
+        background: #e74c3c;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px;
+      }
+      .combo-1 {
+        transform: rotate(30deg) translateX(50px);
+      }
+      .combo-2 {
+        transform: translateX(50px) rotate(30deg);
+      }
+      .combo-3 {
+        transform: scale(1.3) rotate(20deg);
+      }
+      .combo-4 {
+        transform: rotate(20deg) scale(1.3);
+      }
+      .combo-5 {
+        transform: rotate(-15deg) translateY(30px) scale(1.1);
+      }
+      .combo-6 {
+        transform: skew(10deg, 5deg) translate(20px, 10px);
+      }
+      .flex-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .item {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>transform 组合变换</h1>
+    <div class="desc">
+      多个 transform
+      函数可以组合使用，按从右到左的顺序依次应用。顺序不同，结果可能完全不同。
+    </div>
+
+    <h2>组合变换的顺序影响</h2>
+    <p>注意 rotate+translate 与 translate+rotate 的区别：</p>
+    <div class="demo-row">
+      <div class="flex-wrap">
+        <div class="item">
+          <div class="box combo-1">RT</div>
+          <div class="label">rotate(30) translateX(50)</div>
+        </div>
+        <div class="item">
+          <div class="box combo-2">TR</div>
+          <div class="label">translateX(50) rotate(30)</div>
+        </div>
+        <div class="item">
+          <div class="box combo-3">SR</div>
+          <div class="label">scale(1.3) rotate(20)</div>
+        </div>
+        <div class="item">
+          <div class="box combo-4">RS</div>
+          <div class="label">rotate(20) scale(1.3)</div>
+        </div>
+        <div class="item">
+          <div class="box combo-5">组合</div>
+          <div class="label">rotate+translateY+scale</div>
+        </div>
+        <div class="item">
+          <div class="box combo-6">组合</div>
+          <div class="label">skew+translate</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      变换的顺序非常重要！"先旋转再平移"与"先平移再旋转"会产生完全不同的结果，因为旋转会改变坐标轴方向。
+    </div>
+  </body>
+</html>

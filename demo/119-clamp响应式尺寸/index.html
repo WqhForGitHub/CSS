@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clamp() 响应式尺寸</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .clamp-demo .box {
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 8px;
+        color: #fff;
+        text-align: center;
+      }
+      .clamp-demo .font-box {
+        font-size: clamp(14px, 3vw, 32px);
+        background: #3498db;
+      }
+      .clamp-demo .width-box {
+        width: clamp(200px, 50vw, 600px);
+        background: #e74c3c;
+      }
+      .clamp-demo .pad-box {
+        padding: clamp(8px, 2vw, 24px);
+        background: #27ae60;
+      }
+      .clamp-demo .info {
+        font-size: 13px;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>clamp() 响应式尺寸</h1>
+    <div class="desc">
+      <code>clamp(min, preferred, max)</code> 将值限制在 min 和 max
+      之间，preferred 为理想值。常用于响应式排版。
+    </div>
+    <div class="demo-row clamp-demo" style="display: block">
+      <div class="font-box">clamp(14px, 3vw, 32px) — 响应式字体</div>
+      <div class="width-box">clamp(200px, 50vw, 600px) — 响应式宽度</div>
+      <div class="pad-box">clamp(8px, 2vw, 24px) — 响应式内边距</div>
+      <div class="info">调整窗口宽度，三个元素在最小和最大值之间平滑变化。</div>
+    </div>
+    <div class="note">
+      clamp(a, b, c) = max(a, min(b, c))。无需媒体查询即可实现响应式。
+    </div>
+  </body>
+</html>

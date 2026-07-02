@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>嵌套选择器性能对比</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .perf-demo .level1 .level2 .level3 .target {
+        color: #e74c3c;
+      }
+      .perf-demo .target {
+        color: #27ae60;
+      }
+      .perf-demo .target-direct {
+        color: #3498db;
+      }
+      .perf-demo div {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin: 4px 0;
+      }
+      .perf-demo .compare {
+        display: flex;
+        gap: 20px;
+        margin-top: 10px;
+      }
+      .perf-demo .compare > div {
+        flex: 1;
+        padding: 12px;
+        border-radius: 6px;
+        text-align: center;
+      }
+      .perf-demo .good {
+        background: #eafaf1;
+        border: 2px solid #2ecc71;
+      }
+      .perf-demo .bad {
+        background: #fdedec;
+        border: 2px solid #e74c3c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>嵌套选择器性能对比</h1>
+    <div class="desc">
+      CSS
+      选择器从右向左匹配。过深的嵌套会增加匹配开销。现代浏览器差异很小，但仍推荐合理控制层级。
+    </div>
+    <div class="demo-row perf-demo" style="display: block">
+      <div class="level1">
+        <div class="level2">
+          <div class="level3">
+            <span class="target"
+              >深嵌套 .level1 .level2 .level3 .target（4层）—
+              浏览器从右向左匹配</span
+            >
+          </div>
+        </div>
+      </div>
+      <span class="target-direct">直接选择 .target-direct（1层）— 更高效</span>
+      <div class="compare">
+        <div class="good">推荐<br />.card .title<br />2层足够</div>
+        <div class="bad">
+          不推荐<br />.layout .main .section .card .title<br />5层过深
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      选择器从右向左匹配，最右侧称为「关键选择器」。控制层级在 3 层以内为佳。
+    </div>
+  </body>
+</html>

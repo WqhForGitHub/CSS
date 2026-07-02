@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>minmax() 函数应用</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .gm-demo {
+        display: grid;
+        gap: 10px;
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+      .gm-item {
+        background: #3498db;
+        color: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        text-align: center;
+        font-size: 13px;
+      }
+      .gm-1 {
+        grid-template-columns: minmax(100px, 200px) 1fr;
+      }
+      .gm-2 {
+        grid-template-columns: repeat(3, minmax(100px, 1fr));
+      }
+      .gm-3 {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      }
+      .gm-4 {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      }
+    </style>
+  </head>
+  <body>
+    <h1>minmax() 函数应用</h1>
+    <div class="desc">
+      <code>minmax(min, max)</code> 设置网格轨道的最小和最大尺寸，是响应式 Grid
+      布局的核心。
+    </div>
+    <span class="tag">minmax(100px, 200px) 1fr</span>
+    <div class="gm-demo gm-1">
+      <div class="gm-item">100-200px</div>
+      <div class="gm-item">1fr</div>
+    </div>
+    <span class="tag">repeat(3, minmax(100px, 1fr))</span>
+    <div class="gm-demo gm-2">
+      <div class="gm-item">1</div>
+      <div class="gm-item">2</div>
+      <div class="gm-item">3</div>
+    </div>
+    <span class="tag">auto-fill + minmax（自动填充列数）</span>
+    <div class="gm-demo gm-3">
+      <div class="gm-item">1</div>
+      <div class="gm-item">2</div>
+      <div class="gm-item">3</div>
+      <div class="gm-item">4</div>
+      <div class="gm-item">5</div>
+      <div class="gm-item">6</div>
+    </div>
+    <span class="tag">auto-fit + minmax（自动适应列数）</span>
+    <div class="gm-demo gm-4">
+      <div class="gm-item">1</div>
+      <div class="gm-item">2</div>
+      <div class="gm-item">3</div>
+    </div>
+    <div class="note">
+      <code>auto-fill</code>:
+      创建尽可能多的列轨道（即使空的）。<code>auto-fit</code>:
+      将空轨道折叠为0，让现有项目占满空间。配合
+      <code>minmax</code> 实现无需媒体查询的响应式网格。
+    </div>
+  </body>
+</html>

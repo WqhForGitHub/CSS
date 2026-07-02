@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>相邻兄弟选择器示例</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .sibling-demo h3 + p {
+        background: #ebf5fb;
+        border-left: 4px solid #3498db;
+        padding: 8px 12px;
+        color: #2980b9;
+      }
+      .sibling-demo h3 {
+        color: #2c3e50;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>相邻兄弟选择器示例</h1>
+    <div class="desc">
+      相邻兄弟选择器用
+      <code>+</code> 连接，匹配紧跟在指定元素后的同级元素（仅下一个）。
+    </div>
+    <div class="demo-row sibling-demo" style="display: block">
+      <h3>标题 A</h3>
+      <p>紧跟在 h3 后的 p — 被相邻兄弟选择器匹配（蓝色高亮）</p>
+      <p>第二个 p — 不再紧跟 h3，不受影响</p>
+      <h3>标题 B</h3>
+      <p>紧跟在 h3 后的 p — 再次被匹配（蓝色高亮）</p>
+    </div>
+    <div class="note">h3 + p 仅匹配紧邻 h3 之后的第一个 p 元素。</div>
+  </body>
+</html>

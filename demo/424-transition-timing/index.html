@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>transition-timing-function 缓动函数</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .track {
+        position: relative;
+        height: 400px;
+        width: 100%;
+      }
+      .ball {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        position: absolute;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 10px;
+        cursor: pointer;
+      }
+      .ball:hover {
+        left: calc(100% - 50px);
+      }
+      .linear {
+        background: #3498db;
+        top: 0;
+        transition: left 2s linear;
+      }
+      .ease {
+        background: #e74c3c;
+        top: 60px;
+        transition: left 2s ease;
+      }
+      .ease-in {
+        background: #27ae60;
+        top: 120px;
+        transition: left 2s ease-in;
+      }
+      .ease-out {
+        background: #f39c12;
+        top: 180px;
+        transition: left 2s ease-out;
+      }
+      .ease-in-out {
+        background: #9b59b6;
+        top: 240px;
+        transition: left 2s ease-in-out;
+      }
+      .cubic {
+        background: #1abc9c;
+        top: 300px;
+        transition: left 2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>transition-timing-function 缓动函数</h1>
+    <div class="desc">
+      <code>transition-timing-function</code>
+      定义过渡的速度曲线，决定动画在不同阶段的快慢节奏。
+    </div>
+
+    <h2>缓动函数可视化</h2>
+    <p>鼠标悬停在轨道上查看不同缓动函数的球体运动：</p>
+    <div class="demo-row">
+      <div class="track">
+        <div class="ball linear">linear</div>
+        <div class="ball ease">ease</div>
+        <div class="ball ease-in">ease-in</div>
+        <div class="ball ease-out">ease-out</div>
+        <div class="ball ease-in-out">ease-in-out</div>
+        <div class="ball cubic">cubic-bezier</div>
+      </div>
+    </div>
+    <div class="note">
+      linear 匀速运动；ease 先快后慢（默认）；ease-in 先慢后快；ease-out
+      先快后慢；cubic-bezier 可自定义弹性回弹效果。
+    </div>
+  </body>
+</html>

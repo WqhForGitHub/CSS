@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>定位实现悬浮操作按钮</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .fab-demo {
+        height: 200px;
+        overflow: auto;
+        border: 2px solid #34495e;
+        border-radius: 6px;
+        background: #ecf0f1;
+        padding: 20px;
+        position: relative;
+      }
+      .fab-demo p {
+        background: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        font-size: 13px;
+      }
+      .fab {
+        position: sticky;
+        bottom: 15px;
+        float: right;
+        width: 56px;
+        height: 56px;
+        background: #e74c3c;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 24px;
+        box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+        cursor: pointer;
+        z-index: 100;
+        margin-top: 100px;
+      }
+      .fab:hover {
+        background: #c0392b;
+        transform: scale(1.1);
+        transition: all 0.3s;
+      }
+      .fab-mini {
+        position: sticky;
+        bottom: 15px;
+        float: right;
+        clear: both;
+        width: 40px;
+        height: 40px;
+        background: #3498db;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 18px;
+        margin-top: 10px;
+        box-shadow: 0 2px 8px rgba(52, 152, 219, 0.4);
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>定位实现悬浮操作按钮</h1>
+    <div class="desc">
+      使用 <code>position: fixed</code> 实现悬浮在视口右下角的 FAB（Floating
+      Action Button）按钮。
+    </div>
+    <span class="tag">悬浮操作按钮（FAB）</span>
+    <div class="fab-demo">
+      <p>内容段落1：滚动此区域，观察右下角的悬浮按钮。</p>
+      <p>
+        内容段落2：FAB（Floating Action Button）是 Material Design
+        中的核心组件。
+      </p>
+      <p>内容段落3：通常用于页面主要的操作入口。</p>
+      <p>内容段落4：滚动时按钮固定在底部。</p>
+      <div class="fab">+</div>
+      <div class="fab-mini">★</div>
+    </div>
+    <div class="note">
+      实际项目中 FAB 通常使用
+      <code>position: fixed</code> 固定在视口右下角：<code
+        >bottom: 20px; right: 20px</code
+      >。此处用 sticky 模拟滚动容器内的效果。<code>box-shadow</code>
+      增加悬浮感。
+    </div>
+  </body>
+</html>

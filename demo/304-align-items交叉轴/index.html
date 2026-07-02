@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>align-items 交叉轴对齐</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .ai-container {
+        display: flex;
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        gap: 10px;
+        margin-bottom: 10px;
+        height: 120px;
+      }
+      .ai-item {
+        background: #3498db;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-size: 13px;
+      }
+      .ai-item:nth-child(2) {
+        padding: 30px 20px;
+        background: #e74c3c;
+      }
+      .ai-item:nth-child(3) {
+        padding: 15px 20px;
+        background: #27ae60;
+      }
+      .ai-stretch {
+        align-items: stretch;
+      }
+      .ai-start {
+        align-items: flex-start;
+      }
+      .ai-center {
+        align-items: center;
+      }
+      .ai-end {
+        align-items: flex-end;
+      }
+      .ai-baseline {
+        align-items: baseline;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>align-items 交叉轴对齐</h1>
+    <div class="desc">
+      <code>align-items</code> 设置弹性项目在交叉轴（垂直于主轴）上的对齐方式。
+    </div>
+    <span class="tag">stretch（默认，拉伸填满）</span>
+    <div class="ai-container ai-stretch">
+      <div class="ai-item">短</div>
+      <div class="ai-item">较高内容</div>
+      <div class="ai-item">中</div>
+    </div>
+    <span class="tag">flex-start（交叉轴起点）</span>
+    <div class="ai-container ai-start">
+      <div class="ai-item">短</div>
+      <div class="ai-item">较高内容</div>
+      <div class="ai-item">中</div>
+    </div>
+    <span class="tag">center（交叉轴居中）</span>
+    <div class="ai-container ai-center">
+      <div class="ai-item">短</div>
+      <div class="ai-item">较高内容</div>
+      <div class="ai-item">中</div>
+    </div>
+    <span class="tag">flex-end（交叉轴终点）</span>
+    <div class="ai-container ai-end">
+      <div class="ai-item">短</div>
+      <div class="ai-item">较高内容</div>
+      <div class="ai-item">中</div>
+    </div>
+    <span class="tag">baseline（文字基线对齐）</span>
+    <div class="ai-container ai-baseline">
+      <div class="ai-item">短</div>
+      <div class="ai-item">较高内容</div>
+      <div class="ai-item">中</div>
+    </div>
+    <div class="note">
+      <code>align-items</code> 控制所有项目在交叉轴上的对齐。<code
+        >stretch</code
+      >
+      使项目高度拉伸至容器高度。<code>baseline</code> 按文字基线对齐。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>形状变形动画</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .morph-area {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        justify-content: center;
+      }
+      .morph {
+        width: 100px;
+        height: 100px;
+        background: #3498db;
+      }
+      .m1 {
+        animation: morph1 4s ease-in-out infinite;
+      }
+      @keyframes morph1 {
+        0%,
+        100% {
+          border-radius: 50%;
+        }
+        25% {
+          border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        }
+        50% {
+          border-radius: 0;
+        }
+        75% {
+          border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+        }
+      }
+      .m2 {
+        background: #e74c3c;
+        animation: morph2 6s ease-in-out infinite;
+      }
+      @keyframes morph2 {
+        0%,
+        100% {
+          border-radius: 50%;
+          transform: rotate(0);
+        }
+        33% {
+          border-radius: 0;
+          transform: rotate(120deg);
+        }
+        66% {
+          border-radius: 50% 20% 50% 20%;
+          transform: rotate(240deg);
+        }
+      }
+      .m3 {
+        background: #27ae60;
+        animation: morph3 5s ease-in-out infinite;
+      }
+      @keyframes morph3 {
+        0%,
+        100% {
+          border-radius: 50%;
+        }
+        20% {
+          border-radius: 10% 40% 50% 60%;
+        }
+        40% {
+          border-radius: 60% 10% 40% 50%;
+        }
+        60% {
+          border-radius: 50% 60% 10% 40%;
+        }
+        80% {
+          border-radius: 40% 50% 60% 10%;
+        }
+      }
+      .m4 {
+        background: #f39c12;
+        animation: morph4 4s ease-in-out infinite;
+      }
+      @keyframes morph4 {
+        0%,
+        100% {
+          border-radius: 50%;
+          background: #f39c12;
+        }
+        50% {
+          border-radius: 10px;
+          background: #e74c3c;
+          transform: scale(1.1);
+        }
+      }
+      .m5 {
+        background: #9b59b6;
+        animation: morph5 8s ease-in-out infinite;
+      }
+      @keyframes morph5 {
+        0%,
+        100% {
+          border-radius: 50%;
+        }
+        12.5% {
+          border-radius: 80% 20% 50% 50%;
+        }
+        25% {
+          border-radius: 50% 80% 20% 50%;
+        }
+        37.5% {
+          border-radius: 50% 50% 80% 20%;
+        }
+        50% {
+          border-radius: 20% 50% 50% 80%;
+        }
+        62.5% {
+          border-radius: 80% 20% 50% 50%;
+        }
+        75% {
+          border-radius: 50% 80% 20% 50%;
+        }
+        87.5% {
+          border-radius: 50% 50% 80% 20%;
+        }
+      }
+      .item {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>形状变形动画</h1>
+    <div class="desc">
+      使用 @keyframes 和 border-radius 实现元素形状的平滑变形动画。
+    </div>
+
+    <h2>形状变形动画</h2>
+    <div class="demo-row">
+      <div class="morph-area">
+        <div class="item">
+          <div class="morph m1"></div>
+          <div class="label">圆→方→圆</div>
+        </div>
+        <div class="item">
+          <div class="morph m2"></div>
+          <div class="label">旋转变形</div>
+        </div>
+        <div class="item">
+          <div class="morph m3"></div>
+          <div class="label">不规则变形</div>
+        </div>
+        <div class="item">
+          <div class="morph m4"></div>
+          <div class="label">变色变形</div>
+        </div>
+        <div class="item">
+          <div class="morph m5"></div>
+          <div class="label">液态变形</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      border-radius 的 8 个值（4个角的
+      x/y）可以自由组合，创造出各种有机形状。搭配 ease-in-out 让变形更自然。
+    </div>
+  </body>
+</html>

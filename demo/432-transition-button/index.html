@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>按钮过渡效果集合</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .btn {
+        padding: 12px 28px;
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        margin: 10px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+      .btn-fill {
+        background: #3498db;
+      }
+      .btn-fill:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+      }
+      .btn-outline {
+        background: transparent;
+        border: 2px solid #e74c3c;
+        color: #e74c3c;
+      }
+      .btn-outline:hover {
+        background: #e74c3c;
+        color: #fff;
+      }
+      .btn-slide {
+        background: #27ae60;
+      }
+      .btn-slide::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.2);
+        transition: left 0.3s ease;
+      }
+      .btn-slide:hover::before {
+        left: 100%;
+      }
+      .btn-glow {
+        background: #9b59b6;
+      }
+      .btn-glow:hover {
+        box-shadow: 0 0 25px rgba(155, 89, 182, 0.8);
+        transform: scale(1.05);
+      }
+      .btn-press {
+        background: #f39c12;
+        transition: transform 0.1s ease;
+      }
+      .btn-press:hover {
+        transform: scale(0.95);
+      }
+      .btn-3d {
+        background: #1abc9c;
+        box-shadow: 0 5px 0 #16a085;
+      }
+      .btn-3d:hover {
+        box-shadow: 0 2px 0 #16a085;
+        transform: translateY(3px);
+      }
+      .btn-3d:active {
+        box-shadow: 0 0 0 #16a085;
+        transform: translateY(5px);
+      }
+      .flex-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>按钮过渡效果集合</h1>
+    <div class="desc">使用 transition 创建各种富有交互感的按钮动画效果。</div>
+
+    <h2>按钮过渡效果</h2>
+    <div class="demo-row">
+      <div class="flex-wrap">
+        <button class="btn btn-fill">填充按钮</button>
+        <button class="btn btn-outline">描边按钮</button>
+        <button class="btn btn-slide">滑动高光</button>
+        <button class="btn btn-glow">发光按钮</button>
+        <button class="btn btn-press">按压效果</button>
+        <button class="btn btn-3d">3D 按钮</button>
+      </div>
+    </div>
+    <div class="note">
+      transition 配合伪元素、box-shadow、transform
+      可以创造丰富的按钮交互效果，提升用户操作体验。
+    </div>
+  </body>
+</html>

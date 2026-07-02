@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>盒模型尺寸计算演示</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .calc-demo .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        background: #fff;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .calc-demo .table th,
+      .calc-demo .table td {
+        padding: 10px 12px;
+        border: 1px solid #dee2e6;
+        text-align: left;
+      }
+      .calc-demo .table th {
+        background: #34495e;
+        color: #fff;
+        font-weight: normal;
+      }
+      .calc-demo .table tr:nth-child(even) td {
+        background: #f8f9fa;
+      }
+      .calc-demo .table .cb {
+        color: #e74c3c;
+      }
+      .calc-demo .table .bb {
+        color: #27ae60;
+      }
+      .calc-demo .table .total {
+        font-weight: bold;
+      }
+      .calc-demo .compare {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 12px;
+      }
+      .calc-demo .demo-box {
+        padding: 12px;
+        border: 5px solid;
+        border-radius: 6px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 13px;
+      }
+      .calc-demo .demo-cb {
+        box-sizing: content-box;
+        width: 200px;
+        background: #e74c3c;
+        border-color: #c0392b;
+      }
+      .calc-demo .demo-bb {
+        box-sizing: border-box;
+        width: 200px;
+        background: #27ae60;
+        border-color: #1e8449;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>盒模型尺寸计算演示</h1>
+    <div class="desc">
+      用表格对比 <code>content-box</code> 与 <code>border-box</code> 在不同
+      padding/border 下的尺寸计算。
+    </div>
+    <div class="demo-row calc-demo" style="display: block">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>属性</th>
+            <th>content-box</th>
+            <th>border-box</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>width 设置</td>
+            <td class="cb">200px（仅内容）</td>
+            <td class="bb">200px（含 padding+border）</td>
+          </tr>
+          <tr>
+            <td>padding</td>
+            <td class="cb">+20px×2 = +40px</td>
+            <td class="bb">在 width 内</td>
+          </tr>
+          <tr>
+            <td>border</td>
+            <td class="cb">+5px×2 = +10px</td>
+            <td class="bb">在 width 内</td>
+          </tr>
+          <tr>
+            <td>内容区宽度</td>
+            <td class="cb">200px</td>
+            <td class="bb">200-40-10 = 150px</td>
+          </tr>
+          <tr>
+            <td>盒子总宽度</td>
+            <td class="cb total">250px</td>
+            <td class="bb total">200px</td>
+          </tr>
+          <tr>
+            <td>布局影响</td>
+            <td class="cb">padding/border 撑大盒子</td>
+            <td class="bb">尺寸固定可控</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="compare">
+        <div>
+          <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 4px">
+            content-box（总宽 250px）
+          </div>
+          <div class="demo-box demo-cb">250px</div>
+        </div>
+        <div>
+          <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 4px">
+            border-box（总宽 200px）
+          </div>
+          <div class="demo-box demo-bb">200px</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      计算公式：content-box 总宽 = width + padding×2 + border×2；border-box 总宽
+      = width（内容区自动收缩）。
+    </div>
+  </body>
+</html>

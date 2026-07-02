@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>水平垂直居中方案对比</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .center-demo .case {
+        background: #fff;
+        padding: 10px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+      .center-demo .case-title {
+        font-size: 13px;
+        color: #7f8c8d;
+        margin-bottom: 6px;
+      }
+      .center-demo .box {
+        width: 100px;
+        height: 50px;
+        background: #3498db;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        font-size: 12px;
+      }
+      .center-demo .flex-case {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 120px;
+        background: #ecf0f1;
+        border-radius: 4px;
+      }
+      .center-demo .grid-case {
+        display: grid;
+        place-items: center;
+        height: 120px;
+        background: #ecf0f1;
+        border-radius: 4px;
+      }
+      .center-demo .pos-case {
+        position: relative;
+        height: 120px;
+        background: #ecf0f1;
+        border-radius: 4px;
+      }
+      .center-demo .pos-case .box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .center-demo .margin-case {
+        display: flex;
+        height: 120px;
+        background: #ecf0f1;
+        border-radius: 4px;
+      }
+      .center-demo .margin-case .box {
+        margin: auto;
+      }
+      .center-demo .lh-case {
+        height: 120px;
+        line-height: 120px;
+        text-align: center;
+        background: #ecf0f1;
+        border-radius: 4px;
+      }
+      .center-demo .lh-case .box {
+        display: inline-flex;
+        vertical-align: middle;
+        line-height: normal;
+      }
+      .center-demo .code {
+        font-family: Consolas, monospace;
+        font-size: 11px;
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 6px;
+        border-radius: 4px;
+        margin-top: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>水平垂直居中方案对比</h1>
+    <div class="desc">
+      对比 flex、grid、position+transform、margin:auto、line-height
+      等多种居中方案的代码与适用场景。
+    </div>
+    <div class="demo-row center-demo" style="display: block">
+      <div class="case">
+        <div class="case-title">方案1: flex（推荐，最常用）</div>
+        <div class="flex-case"><div class="box">flex 居中</div></div>
+        <div class="code">
+          .parent { display: flex; justify-content: center; align-items: center;
+          }
+        </div>
+      </div>
+      <div class="case">
+        <div class="case-title">方案2: grid + place-items（最简洁）</div>
+        <div class="grid-case"><div class="box">grid 居中</div></div>
+        <div class="code">.parent { display: grid; place-items: center; }</div>
+      </div>
+      <div class="case">
+        <div class="case-title">方案3: position + transform（兼容性好）</div>
+        <div class="pos-case"><div class="box">绝对定位居中</div></div>
+        <div class="code">
+          .child { position: absolute; top: 50%; left: 50%; transform:
+          translate(-50%,-50%); }
+        </div>
+      </div>
+      <div class="case">
+        <div class="case-title">方案4: flex + margin:auto（子元素控制）</div>
+        <div class="margin-case"><div class="box">margin:auto</div></div>
+        <div class="code">
+          .parent { display: flex; } .child { margin: auto; }
+        </div>
+      </div>
+      <div class="case">
+        <div class="case-title">方案5: line-height（仅单行文本）</div>
+        <div class="lh-case"><div class="box">line-height</div></div>
+        <div class="code">
+          .parent { line-height: 容器高度; text-align: center; }
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      现代项目推荐 flex 或 grid；老项目兼容性考虑用
+      position+transform；line-height 仅适用于单行文本。
+    </div>
+  </body>
+</html>

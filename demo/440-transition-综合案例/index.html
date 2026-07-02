@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>过渡综合案例：产品展示页</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .product-page {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+      .product-card {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        cursor: pointer;
+        transition:
+          transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+          box-shadow 0.3s ease;
+      }
+      .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      }
+      .product-img {
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        transition: transform 0.4s ease;
+      }
+      .product-card:hover .product-img {
+        transform: scale(1.15);
+      }
+      .product-info {
+        padding: 10px 14px;
+      }
+      .product-info h4 {
+        font-size: 13px;
+        color: #2c3e50;
+        transition: color 0.3s ease;
+      }
+      .product-card:hover .product-info h4 {
+        color: #3498db;
+      }
+      .product-price {
+        font-size: 15px;
+        color: #e74c3c;
+        font-weight: bold;
+        margin-top: 4px;
+      }
+      .product-actions {
+        display: flex;
+        gap: 8px;
+        padding: 0 14px 12px;
+        opacity: 0;
+        transform: translateY(10px);
+        transition:
+          opacity 0.3s ease 0.1s,
+          transform 0.3s ease 0.1s;
+      }
+      .product-card:hover .product-actions {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .pa-btn {
+        flex: 1;
+        padding: 6px;
+        border: none;
+        border-radius: 4px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .pa-cart {
+        background: #3498db;
+        color: #fff;
+      }
+      .pa-cart:hover {
+        background: #2980b9;
+        transform: scale(1.05);
+      }
+      .pa-fav {
+        background: #ecf0f1;
+        color: #e74c3c;
+      }
+      .pa-fav:hover {
+        background: #e74c3c;
+        color: #fff;
+        transform: scale(1.05);
+      }
+      .pg1 {
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      }
+      .pg2 {
+        background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+      }
+      .pg3 {
+        background: linear-gradient(135deg, #fad0c4, #ffd1ff);
+      }
+      .pg4 {
+        background: linear-gradient(135deg, #84fab0, #8fd3f4);
+      }
+      .pg5 {
+        background: linear-gradient(135deg, #fccb90, #d57eeb);
+      }
+      .pg6 {
+        background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>过渡综合案例：产品展示页</h1>
+    <div class="desc">
+      综合运用各种 transition 技巧，实现一个富有交互感的产品展示页面。
+    </div>
+
+    <h2>产品展示页交互效果</h2>
+    <p>鼠标悬停在产品卡片上查看综合过渡效果：</p>
+    <div class="demo-row">
+      <div class="product-page">
+        <div class="product-grid">
+          <div class="product-card">
+            <div class="product-img pg1">🎧</div>
+            <div class="product-info">
+              <h4>无线耳机</h4>
+              <div class="product-price">¥299</div>
+            </div>
+            <div class="product-actions">
+              <button class="pa-btn pa-cart">加入购物车</button
+              ><button class="pa-btn pa-fav">♥</button>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pg2">⌚</div>
+            <div class="product-info">
+              <h4>智能手表</h4>
+              <div class="product-price">¥899</div>
+            </div>
+            <div class="product-actions">
+              <button class="pa-btn pa-cart">加入购物车</button
+              ><button class="pa-btn pa-fav">♥</button>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pg3">📱</div>
+            <div class="product-info">
+              <h4>手机壳</h4>
+              <div class="product-price">¥59</div>
+            </div>
+            <div class="product-actions">
+              <button class="pa-btn pa-cart">加入购物车</button
+              ><button class="pa-btn pa-fav">♥</button>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pg4">🔊</div>
+            <div class="product-info">
+              <h4>蓝牙音箱</h4>
+              <div class="product-price">¥199</div>
+            </div>
+            <div class="product-actions">
+              <button class="pa-btn pa-cart">加入购物车</button
+              ><button class="pa-btn pa-fav">♥</button>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pg5">⌨</div>
+            <div class="product-info">
+              <h4>机械键盘</h4>
+              <div class="product-price">¥399</div>
+            </div>
+            <div class="product-actions">
+              <button class="pa-btn pa-cart">加入购物车</button
+              ><button class="pa-btn pa-fav">♥</button>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pg6">🖱</div>
+            <div class="product-info">
+              <h4>游戏鼠标</h4>
+              <div class="product-price">¥159</div>
+            </div>
+            <div class="product-actions">
+              <button class="pa-btn pa-cart">加入购物车</button
+              ><button class="pa-btn pa-fav">♥</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      综合运用了 transform 上浮、scale 图片放大、opacity
+      操作按钮浮现、box-shadow 阴影加深、color 文字变色等多种过渡效果。
+    </div>
+  </body>
+</html>

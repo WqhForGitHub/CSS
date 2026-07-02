@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>背景颜色填充区域</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .bg-demo {
+        margin-bottom: 15px;
+      }
+      .bg-padding {
+        background-color: #3498db;
+        color: #fff;
+        padding: 20px;
+        border: 5px dashed #2c3e50;
+      }
+      .bg-margin {
+        background-color: #e74c3c;
+        color: #fff;
+        padding: 20px;
+        margin: 20px;
+        border: 5px solid #c0392b;
+      }
+      .bg-border-box {
+        background-color: #27ae60;
+        color: #fff;
+        padding: 20px;
+        border: 10px solid rgba(39, 174, 96, 0.3);
+        border-radius: 6px;
+      }
+      .bg-content-box {
+        background-color: #f39c12;
+        color: #fff;
+        padding: 20px;
+        border: 10px solid #e67e22;
+        border-radius: 6px;
+        background-clip: content-box;
+      }
+      .bg-transparent {
+        background-color: transparent;
+        padding: 20px;
+        border: 2px solid #34495e;
+        color: #333;
+      }
+      .bg-inherit-demo {
+        background: #ecf0f1;
+        padding: 20px;
+        border-radius: 6px;
+      }
+      .bg-inherit-demo .child {
+        background-color: inherit;
+        padding: 10px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>背景颜色填充区域</h1>
+    <div class="desc">
+      <code>background-color</code>
+      设置元素的背景颜色，填充内容包括内容区、内边距区域，受
+      <code>background-clip</code> 控制延伸到边框。
+    </div>
+    <span class="tag">背景色填充范围</span>
+    <div class="demo-row" style="flex-direction: column; background: #fff">
+      <div class="bg-demo bg-padding">
+        背景色填充到 padding 区域（虚线边框外侧无背景色）
+      </div>
+      <div class="bg-demo bg-margin">
+        背景色 + margin 外边距（margin 区域无背景色）
+      </div>
+      <div class="bg-demo bg-border-box">
+        背景色延伸到 border 下方（半透明边框可见底色）
+      </div>
+      <div class="bg-demo bg-content-box">
+        background-clip: content-box → 背景仅填充内容区
+      </div>
+      <div class="bg-demo bg-transparent">
+        background-color: transparent → 透明背景
+      </div>
+    </div>
+    <div class="note">
+      默认情况下背景色覆盖内容区和内边距区。通过
+      <code>background-clip</code> 可以控制背景的绘制范围。
+    </div>
+  </body>
+</html>

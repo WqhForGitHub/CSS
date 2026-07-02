@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS 计数器</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .lc-demo {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+      }
+      .lc-demo h4 {
+        font-size: 13px;
+        margin-bottom: 10px;
+        color: #2c3e50;
+      }
+      .lc-nested {
+        list-style: none;
+        padding-left: 0;
+        counter-reset: chapter;
+      }
+      .lc-nested > li {
+        counter-increment: chapter;
+        margin-bottom: 12px;
+      }
+      .lc-nested > li::before {
+        content: '第' counter(chapter) '章 ';
+        font-weight: bold;
+        color: #3498db;
+        font-size: 15px;
+      }
+      .lc-nested ol {
+        list-style: none;
+        padding-left: 20px;
+        counter-reset: section;
+        margin-top: 6px;
+      }
+      .lc-nested ol > li {
+        counter-increment: section;
+        padding: 3px 0;
+        font-size: 13px;
+        color: #555;
+        position: relative;
+        padding-left: 30px;
+      }
+      .lc-nested ol > li::before {
+        content: counter(chapter) '.' counter(section) ' ';
+        color: #e74c3c;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>CSS 计数器</h1>
+    <div class="desc">
+      使用 <code>counter-reset</code>、<code>counter-increment</code>、<code
+        >counter()</code
+      >
+      实现自定义编号，支持嵌套计数。
+    </div>
+    <span class="tag">嵌套计数器</span>
+    <div class="demo-row" style="padding: 20px">
+      <div class="lc-demo" style="width: 100%">
+        <h4>章节嵌套编号</h4>
+        <ol class="lc-nested">
+          <li>
+            CSS 基础
+            <ol>
+              <li>选择器</li>
+              <li>盒模型</li>
+              <li>定位</li>
+            </ol>
+          </li>
+          <li>
+            布局技术
+            <ol>
+              <li>Flexbox</li>
+              <li>Grid</li>
+            </ol>
+          </li>
+          <li>
+            动画与过渡
+            <ol>
+              <li>Transform</li>
+              <li>Transition</li>
+              <li>Animation</li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="note">
+      <code>counter-reset: name</code> 初始化计数器。<code
+        >counter-increment: name</code
+      >
+      递增。<code>counter(name)</code> 输出值。
+    </div>
+  </body>
+</html>

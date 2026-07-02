@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sticky 吸顶效果应用</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .sc-demo {
+        height: 300px;
+        overflow: auto;
+        border: 2px solid #34495e;
+        border-radius: 6px;
+        background: #fff;
+      }
+      .sc-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .sc-table th {
+        position: sticky;
+        top: 0;
+        background: #2c3e50;
+        color: #fff;
+        padding: 10px;
+        text-align: left;
+        font-size: 13px;
+        z-index: 10;
+      }
+      .sc-table td {
+        padding: 10px;
+        border-bottom: 1px solid #ecf0f1;
+        font-size: 13px;
+      }
+      .sc-table tr:nth-child(even) {
+        background: #f8f9fa;
+      }
+      .sc-group-header {
+        position: sticky;
+        top: 38px;
+        background: #3498db;
+        color: #fff;
+        padding: 8px 10px;
+        font-size: 13px;
+        font-weight: bold;
+      }
+      .sc-group-header.b {
+        background: #e74c3c;
+      }
+      .sc-group-header.c {
+        background: #27ae60;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>sticky 吸顶效果应用</h1>
+    <div class="desc">
+      使用
+      <code>position: sticky</code> 实现表格头部吸顶、分类标签吸顶等常见UI效果。
+    </div>
+    <span class="tag">表格头部吸顶 + 分组标题吸顶</span>
+    <div class="sc-demo">
+      <table class="sc-table">
+        <thead>
+          <tr>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>部门</th>
+            <th>职位</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="4" class="sc-group-header" style="padding: 0">
+              技术部
+            </td>
+          </tr>
+          <tr>
+            <td>张三</td>
+            <td>28</td>
+            <td>技术部</td>
+            <td>前端工程师</td>
+          </tr>
+          <tr>
+            <td>李四</td>
+            <td>32</td>
+            <td>技术部</td>
+            <td>后端工程师</td>
+          </tr>
+          <tr>
+            <td>王五</td>
+            <td>26</td>
+            <td>技术部</td>
+            <td>测试工程师</td>
+          </tr>
+          <tr>
+            <td>赵六</td>
+            <td>35</td>
+            <td>技术部</td>
+            <td>架构师</td>
+          </tr>
+          <tr>
+            <td colspan="4" class="sc-group-header b" style="padding: 0">
+              市场部
+            </td>
+          </tr>
+          <tr>
+            <td>陈七</td>
+            <td>29</td>
+            <td>市场部</td>
+            <td>市场经理</td>
+          </tr>
+          <tr>
+            <td>刘八</td>
+            <td>24</td>
+            <td>市场部</td>
+            <td>市场专员</td>
+          </tr>
+          <tr>
+            <td>周九</td>
+            <td>31</td>
+            <td>市场部</td>
+            <td>品牌总监</td>
+          </tr>
+          <tr>
+            <td colspan="4" class="sc-group-header c" style="padding: 0">
+              人事部
+            </td>
+          </tr>
+          <tr>
+            <td>吴十</td>
+            <td>33</td>
+            <td>人事部</td>
+            <td>HR经理</td>
+          </tr>
+          <tr>
+            <td>郑一</td>
+            <td>27</td>
+            <td>人事部</td>
+            <td>招聘专员</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      表头 <code>top:0</code> 吸顶，分组标题
+      <code>top:38px</code>（表头高度）在表头下方吸顶。注意
+      <code>z-index</code> 确保层级正确。
+    </div>
+  </body>
+</html>

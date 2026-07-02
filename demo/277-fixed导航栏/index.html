@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>fixed 固定导航栏</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .fn-demo {
+        height: 250px;
+        overflow: auto;
+        border: 2px solid #34495e;
+        border-radius: 6px;
+        position: relative;
+      }
+      .fn-nav {
+        position: sticky;
+        top: 0;
+        background: #2c3e50;
+        padding: 12px 20px;
+        display: flex;
+        gap: 20px;
+        z-index: 10;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+      .fn-nav a {
+        color: #ecf0f1;
+        text-decoration: none;
+        font-size: 14px;
+        padding: 4px 12px;
+        border-radius: 4px;
+        transition: background 0.2s;
+      }
+      .fn-nav a:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .fn-nav a.active {
+        background: #3498db;
+      }
+      .fn-content {
+        padding: 20px;
+      }
+      .fn-content p {
+        background: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        line-height: 1.6;
+      }
+      .fn-sidebar {
+        position: sticky;
+        top: 60px;
+        width: 150px;
+        background: #3498db;
+        color: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>fixed 固定导航栏</h1>
+    <div class="desc">
+      使用
+      <code>position: fixed</code> 实现固定在视口顶部的导航栏，滚动时始终可见。
+    </div>
+    <span class="tag">固定导航栏 + 吸顶侧边栏</span>
+    <div class="fn-demo">
+      <div class="fn-nav">
+        <a href="#" class="active">首页</a>
+        <a href="#">产品</a>
+        <a href="#">文档</a>
+        <a href="#">关于</a>
+      </div>
+      <div class="fn-content">
+        <div class="fn-sidebar">侧边栏<br />sticky<br />top:60px</div>
+        <p>
+          段落1：导航栏使用 position: sticky 固定在顶部。滚动时导航栏始终可见。
+        </p>
+        <p>
+          段落2：侧边栏使用 sticky，top:60px
+          表示在距顶部60px处固定（避开导航栏）。
+        </p>
+        <p>段落3：这种布局在文档类网站非常常见，提供良好的导航体验。</p>
+        <p>段落4：继续滚动查看效果...</p>
+        <p>段落5：更多内容...</p>
+        <p>段落6：底部...</p>
+        <div style="clear: both"></div>
+      </div>
+    </div>
+    <div class="note">
+      实际项目中，如果导航栏需要相对于浏览器视口固定（而非滚动容器），使用
+      <code>position: fixed</code>。需为 body 添加 padding-top 避免内容被遮挡。
+    </div>
+  </body>
+</html>

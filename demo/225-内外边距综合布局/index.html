@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>内外边距综合布局：卡片组件</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .card-demo .card {
+        max-width: 360px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        margin: 0 auto;
+      }
+      .card-demo .card-header {
+        padding: 16px 20px;
+        background: linear-gradient(135deg, #3498db, #9b59b6);
+        color: #fff;
+      }
+      .card-demo .card-header h3 {
+        font-size: 18px;
+        margin-bottom: 4px;
+      }
+      .card-demo .card-header .subtitle {
+        font-size: 12px;
+        opacity: 0.85;
+      }
+      .card-demo .card-body {
+        padding: 20px;
+        color: #555;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+      .card-demo .card-body p {
+        margin-bottom: 12px;
+      }
+      .card-demo .card-body p:last-child {
+        margin-bottom: 0;
+      }
+      .card-demo .card-body .highlight {
+        background: #fef9e7;
+        padding: 8px 12px;
+        border-left: 3px solid #f1c40f;
+        border-radius: 4px;
+        margin: 12px 0;
+      }
+      .card-demo .card-footer {
+        padding: 12px 20px;
+        background: #f8f9fa;
+        border-top: 1px solid #dee2e6;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .card-demo .card-footer .meta {
+        font-size: 12px;
+        color: #7f8c8d;
+      }
+      .card-demo .card-footer .btn {
+        padding: 6px 16px;
+        background: #27ae60;
+        color: #fff;
+        border-radius: 4px;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .card-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+        margin-top: 12px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>内外边距综合布局：卡片组件</h1>
+    <div class="desc">
+      使用 padding+margin 构建卡片组件：header/body/footer 三段式布局。
+    </div>
+    <div class="demo-row card-demo" style="display: block">
+      <div class="card">
+        <div class="card-header">
+          <h3>CSS 盒模型</h3>
+          <div class="subtitle">padding 与 margin 综合应用</div>
+        </div>
+        <div class="card-body">
+          <p>
+            卡片头部使用 padding:16px 20px 营造舒适的内边距。body 区使用
+            padding:20px 与 header 保持视觉间距。
+          </p>
+          <div class="highlight">
+            提示：footer 使用 border-top 分隔，padding:12px 20px 与 body 对齐。
+          </div>
+          <p>
+            段落间使用 margin-bottom:12px 创造垂直节奏感。最后一个段落
+            margin-bottom:0 避免多余空隙。
+          </p>
+        </div>
+        <div class="card-footer">
+          <span class="meta">2024 · CSS</span>
+          <span class="btn">了解更多</span>
+        </div>
+      </div>
+      <div class="label">
+        header padding:16/20 · body padding:20 · footer padding:12/20 · p
+        margin-bottom:12
+      </div>
+    </div>
+    <div class="note">
+      卡片组件是 padding/margin 综合应用的典型场景。注意 footer 的 padding 与
+      body 对齐以保持视觉一致。
+    </div>
+  </body>
+</html>

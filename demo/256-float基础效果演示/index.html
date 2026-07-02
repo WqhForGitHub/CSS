@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>float基础效果演示</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .float-container {
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .float-box {
+        width: 80px;
+        height: 80px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 13px;
+        margin: 5px;
+      }
+      .fb-1 {
+        background: #3498db;
+        float: left;
+      }
+      .fb-2 {
+        background: #e74c3c;
+        float: left;
+      }
+      .fb-3 {
+        background: #27ae60;
+        float: left;
+      }
+      .float-text {
+        background: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        line-height: 1.8;
+      }
+      .no-float {
+        background: #f39c12;
+        float: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>float基础效果演示</h1>
+    <div class="desc">
+      <code>float</code>
+      属性使元素脱离文档流并向左或右浮动，文字和其他内容会环绕浮动元素。
+    </div>
+    <span class="tag">float: left 效果</span>
+    <div class="float-container">
+      <div class="float-box fb-1">浮动1</div>
+      <div class="float-box fb-2">浮动2</div>
+      <div class="float-box fb-3">浮动3</div>
+      <div class="float-text">
+        这段文字会环绕浮动的蓝色方块。浮动元素脱离正常文档流后，后续的块级元素会忽略浮动元素的存在，但文本内容会自动绕开浮动元素排列。float:
+        left 使元素向左浮动，多个左浮动元素依次排列在右侧。
+      </div>
+    </div>
+    <span class="tag">float: none（默认）</span>
+    <div class="float-container" style="margin-top: 15px">
+      <div class="float-box no-float">不浮动</div>
+      <div class="float-text">
+        float: none 是默认值，元素保持在正常文档流中，不会浮动。
+      </div>
+    </div>
+    <div class="note">
+      <code>float</code>
+      最初设计用于实现文字环绕图片效果，后被广泛用于布局。现代布局推荐使用
+      Flexbox 或 Grid 替代浮动布局。
+    </div>
+  </body>
+</html>

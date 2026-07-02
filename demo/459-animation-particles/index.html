@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>粒子动画效果</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .particle-area {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        background: #1a1a2e;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .particle {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #fff;
+        animation: floatUp 4s linear infinite;
+      }
+      .p1 {
+        left: 10%;
+        background: #3498db;
+        animation-delay: 0s;
+        animation-duration: 3s;
+      }
+      .p2 {
+        left: 25%;
+        background: #e74c3c;
+        animation-delay: 0.5s;
+        animation-duration: 4s;
+      }
+      .p3 {
+        left: 40%;
+        background: #27ae60;
+        animation-delay: 1s;
+        animation-duration: 3.5s;
+      }
+      .p4 {
+        left: 55%;
+        background: #f39c12;
+        animation-delay: 1.5s;
+        animation-duration: 4.5s;
+      }
+      .p5 {
+        left: 70%;
+        background: #9b59b6;
+        animation-delay: 0.3s;
+        animation-duration: 3.8s;
+      }
+      .p6 {
+        left: 85%;
+        background: #1abc9c;
+        animation-delay: 2s;
+        animation-duration: 3.2s;
+      }
+      .p7 {
+        left: 15%;
+        background: #e67e22;
+        animation-delay: 2.5s;
+        animation-duration: 4s;
+      }
+      .p8 {
+        left: 50%;
+        background: #2ecc71;
+        animation-delay: 1.2s;
+        animation-duration: 3.6s;
+      }
+      .p9 {
+        left: 65%;
+        background: #f1c40f;
+        animation-delay: 0.8s;
+        animation-duration: 4.2s;
+      }
+      .p10 {
+        left: 90%;
+        background: #e74c3c;
+        animation-delay: 1.8s;
+        animation-duration: 3.4s;
+      }
+      @keyframes floatUp {
+        0% {
+          bottom: 0;
+          opacity: 0;
+          transform: scale(0);
+        }
+        10% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        90% {
+          opacity: 0.8;
+        }
+        100% {
+          bottom: 100%;
+          opacity: 0;
+          transform: scale(0.5);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>粒子动画效果</h1>
+    <div class="desc">
+      使用多个元素配合不同的 animation-delay 和参数，模拟粒子飞舞效果。
+    </div>
+
+    <h2>粒子飞舞动画</h2>
+    <div class="demo-row">
+      <div class="particle-area">
+        <div class="particle p1"></div>
+        <div class="particle p2"></div>
+        <div class="particle p3"></div>
+        <div class="particle p4"></div>
+        <div class="particle p5"></div>
+        <div class="particle p6"></div>
+        <div class="particle p7"></div>
+        <div class="particle p8"></div>
+        <div class="particle p9"></div>
+        <div class="particle p10"></div>
+      </div>
+    </div>
+    <div class="note">
+      每个粒子使用不同的 left 位置、颜色、delay 和
+      duration，从底部向上飘浮，配合 opacity 和 scale 变化实现渐入渐出。
+    </div>
+  </body>
+</html>

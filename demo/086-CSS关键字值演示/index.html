@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS 关键字值演示</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .kw-demo .parent {
+        color: #e74c3c;
+        font-size: 18px;
+        border: 2px solid #3498db;
+        padding: 16px;
+        border-radius: 8px;
+      }
+      .kw-demo .child {
+        padding: 8px;
+        margin: 6px 0;
+        border-radius: 4px;
+        background: #fff;
+      }
+      .kw-demo .kw-inherit {
+        color: inherit;
+        border: inherit;
+      }
+      .kw-demo .kw-initial {
+        color: initial;
+        font-size: initial;
+      }
+      .kw-demo .kw-unset {
+        color: unset;
+        border: unset;
+      }
+      .kw-demo .kw-revert {
+        color: revert;
+      }
+      .kw-demo .kw-auto {
+        width: auto;
+        margin: 0 auto;
+      }
+      .kw-demo .kw-none {
+        display: none;
+      }
+      .kw-demo .label {
+        font-family: Consolas, monospace;
+        font-size: 12px;
+        color: #7f8c8d;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>CSS 关键字值演示</h1>
+    <div class="desc">
+      CSS 关键字是预定义的特殊值：inherit、initial、unset、revert、auto、none
+      等。
+    </div>
+    <div class="demo-row kw-demo" style="display: block">
+      <div class="parent">
+        <div class="child kw-inherit">
+          inherit：继承父元素 color 和 border
+          <span class="label">color:inherit; border:inherit</span>
+        </div>
+        <div class="child kw-initial">
+          initial：恢复为 CSS 规范初始值
+          <span class="label">color:initial; font-size:initial</span>
+        </div>
+        <div class="child kw-unset">
+          unset：继承属性用 inherit，非继承属性用 initial
+          <span class="label">color:unset; border:unset</span>
+        </div>
+        <div class="child kw-revert">
+          revert：恢复为浏览器默认样式 <span class="label">color:revert</span>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      inherit 强制继承；initial 恢复规范默认；unset 智能重置；revert
+      恢复浏览器默认。
+    </div>
+  </body>
+</html>

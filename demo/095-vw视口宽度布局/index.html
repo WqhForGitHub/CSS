@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vw 视口宽度单位</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .vw-demo .box {
+        border-radius: 8px;
+        margin-bottom: 8px;
+        padding: 12px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .vw-demo .vw10 {
+        width: 10vw;
+        height: 5vw;
+        background: #3498db;
+      }
+      .vw-demo .vw25 {
+        width: 25vw;
+        height: 5vw;
+        background: #e74c3c;
+      }
+      .vw-demo .vw50 {
+        width: 50vw;
+        height: 5vw;
+        background: #27ae60;
+      }
+      .vw-demo .vw100 {
+        width: 100vw;
+        height: 5vw;
+        background: #9b59b6;
+        margin-left: calc(-30px + 12px);
+      }
+      .vw-demo .info {
+        font-size: 13px;
+        color: #555;
+      }
+      .vw-demo .font-vw {
+        font-size: 3vw;
+        text-align: center;
+        padding: 20px;
+        background: #2c3e50;
+        color: #fff;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>vw 视口宽度单位</h1>
+    <div class="desc">
+      <code>1vw</code> = 视口宽度的 1%。vw
+      始终相对于浏览器视口宽度，不受父元素影响。
+    </div>
+    <div class="demo-row vw-demo" style="display: block">
+      <div class="font-vw">响应式字体 3vw</div>
+      <div class="info" style="margin-top: 10px">
+        调整窗口宽度，上方字体和下方色块都按 vw 变化：
+      </div>
+      <div class="box vw10">10vw</div>
+      <div class="box vw25">25vw</div>
+      <div class="box vw50">50vw</div>
+    </div>
+    <div class="note">
+      vw 适合做全屏布局和视口响应式字体。注意移动端 vw 包含滚动条宽度。
+    </div>
+  </body>
+</html>

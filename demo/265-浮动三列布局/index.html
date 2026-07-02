@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>浮动三列布局</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .three-col {
+        overflow: hidden;
+        border-radius: 6px;
+      }
+      .tc-left {
+        float: left;
+        width: 200px;
+        background: #3498db;
+        color: #fff;
+        padding: 20px;
+        min-height: 200px;
+        box-sizing: border-box;
+      }
+      .tc-right {
+        float: right;
+        width: 200px;
+        background: #e74c3c;
+        color: #fff;
+        padding: 20px;
+        min-height: 200px;
+        box-sizing: border-box;
+      }
+      .tc-center {
+        margin: 0 200px;
+        background: #27ae60;
+        color: #fff;
+        padding: 20px;
+        min-height: 200px;
+        box-sizing: border-box;
+      }
+      .tc-center-alt {
+        overflow: hidden;
+        background: #27ae60;
+        color: #fff;
+        padding: 20px;
+        min-height: 200px;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>浮动三列布局</h1>
+    <div class="desc">
+      使用
+      <code>float</code>
+      实现经典三列布局，左右固定宽度，中间自适应。这是早期Web布局的常用方案。
+    </div>
+    <span class="tag">浮动三列布局（左右固定，中间自适应）</span>
+    <div class="demo-row" style="padding: 20px">
+      <div class="three-col">
+        <div class="tc-left">
+          <strong>左侧栏</strong><br />width: 200px<br />float: left<br /><br />固定宽度导航菜单
+        </div>
+        <div class="tc-right">
+          <strong>右侧栏</strong><br />width: 200px<br />float: right<br /><br />固定宽度侧边广告
+        </div>
+        <div class="tc-center">
+          <strong>中间内容区</strong><br />margin: 0 200px<br /><br />自适应宽度，通过左右margin腾出空间给浮动列。中间内容区的margin-left和margin-right分别等于左右栏的宽度。
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      关键技巧：先放左右浮动列，中间列使用
+      <code>margin</code> 留出左右空间。HTML顺序必须是 左→右→中 或
+      左→右→中。中间列不浮动，通过margin避让。
+    </div>
+  </body>
+</html>

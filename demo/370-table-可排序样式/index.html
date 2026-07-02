@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>可排序表格样式</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .so-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .so-table th {
+        background: #2c3e50;
+        color: #fff;
+        padding: 12px 16px;
+        text-align: left;
+        font-size: 13px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .so-table th:hover {
+        background: #34495e;
+      }
+      .so-table th.sortable::after {
+        content: '⇅';
+        margin-left: 8px;
+        opacity: 0.5;
+      }
+      .so-table th.sort-asc::after {
+        content: '↑';
+        opacity: 1;
+        color: #1abc9c;
+      }
+      .so-table th.sort-desc::after {
+        content: '↓';
+        opacity: 1;
+        color: #e74c3c;
+      }
+      .so-table td {
+        padding: 10px 16px;
+        border-bottom: 1px solid #ecf0f1;
+        font-size: 13px;
+        color: #555;
+      }
+      .so-table tbody tr:nth-child(even) {
+        background: #f8f9fa;
+      }
+      .so-table tbody tr:hover {
+        background: #ebf5fb;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>可排序表格样式</h1>
+    <div class="desc">
+      为表格表头添加排序指示器样式，表示当前排序列和排序方向。
+    </div>
+    <span class="tag">可排序表格样式</span>
+    <div class="demo-row" style="padding: 20px">
+      <table class="so-table">
+        <thead>
+          <tr>
+            <th class="sortable sort-asc">ID ↑</th>
+            <th class="sortable">姓名</th>
+            <th class="sortable sort-desc">薪资 ↓</th>
+            <th>部门</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>张三</td>
+            <td>¥20,000</td>
+            <td>技术部</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>李四</td>
+            <td>¥15,000</td>
+            <td>市场部</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>王五</td>
+            <td>¥12,000</td>
+            <td>人事部</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>赵六</td>
+            <td>¥10,000</td>
+            <td>技术部</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <code>sortable</code> 类显示双向箭头（⇅）。<code>sort-asc</code>（↑）和
+      <code>sort-desc</code>（↓）表示当前排序方向。
+    </div>
+  </body>
+</html>

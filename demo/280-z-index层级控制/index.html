@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>z-index 层级控制</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .zi-container {
+        position: relative;
+        height: 280px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        padding: 20px;
+      }
+      .zi-box {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 14px;
+        font-weight: bold;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
+      .zi-1 {
+        background: #3498db;
+        top: 20px;
+        left: 20px;
+        z-index: 1;
+      }
+      .zi-2 {
+        background: #e74c3c;
+        top: 50px;
+        left: 70px;
+        z-index: 2;
+      }
+      .zi-3 {
+        background: #27ae60;
+        top: 80px;
+        left: 120px;
+        z-index: 3;
+      }
+      .zi-4 {
+        background: #f39c12;
+        top: 110px;
+        left: 170px;
+        z-index: 4;
+      }
+      .zi-auto {
+        background: #9b59b6;
+        top: 50px;
+        left: 200px;
+        z-index: auto;
+      }
+      .zi-neg {
+        background: #1abc9c;
+        top: 150px;
+        left: 50px;
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>z-index 层级控制</h1>
+    <div class="desc">
+      <code>z-index</code> 控制定位元素在Z轴上的堆叠顺序。值越大越在上层，仅对非
+      static 定位元素生效。
+    </div>
+    <span class="tag">z-index 堆叠顺序</span>
+    <div class="zi-container">
+      <div class="zi-box zi-neg">z:-1</div>
+      <div class="zi-box zi-1">z:1</div>
+      <div class="zi-box zi-2">z:2</div>
+      <div class="zi-box zi-3">z:3</div>
+      <div class="zi-box zi-4">z:4</div>
+      <div class="zi-box zi-auto">z:auto</div>
+    </div>
+    <div class="demo-row" style="margin-top: 15px">
+      <div
+        style="
+          background: #fff;
+          padding: 15px;
+          border-radius: 6px;
+          font-size: 13px;
+        "
+      >
+        <strong>层级规则：</strong><br />
+        z:-1 → 在普通元素下方<br />
+        z:auto(0) → 默认层级<br />
+        z:1~4 → 值越大越在上层<br />
+        仅对 position 非 static 的元素生效
+      </div>
+    </div>
+    <div class="note">
+      z-index
+      只在定位元素（relative/absolute/fixed/sticky）上生效。负值将元素置于普通元素下方。同层级时按
+      HTML 顺序后面的在上。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grid 完整页面布局</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .gl-page {
+        display: grid;
+        grid-template-areas: 'header header header' 'nav main aside' 'footer footer footer';
+        grid-template-columns: 140px 1fr 160px;
+        grid-template-rows: 50px 1fr 40px;
+        gap: 10px;
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 8px;
+        height: 300px;
+      }
+      .gl-header {
+        grid-area: header;
+        background: #2c3e50;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      .gl-nav {
+        grid-area: nav;
+        background: #e74c3c;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      .gl-main {
+        grid-area: main;
+        background: #3498db;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      .gl-aside {
+        grid-area: aside;
+        background: #9b59b6;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      .gl-footer {
+        grid-area: footer;
+        background: #2c3e50;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Grid 完整页面布局</h1>
+    <div class="desc">
+      使用 Grid 实现完整的页面布局：Header、Sidebar、Main、Aside、Footer，比
+      Flexbox 更灵活。
+    </div>
+    <span class="tag">Grid 完整页面布局</span>
+    <div class="demo-row" style="padding: 20px">
+      <div class="gl-page" style="width: 100%">
+        <div class="gl-header">Header</div>
+        <div class="gl-nav">Nav</div>
+        <div class="gl-main">Main Content</div>
+        <div class="gl-aside">Aside</div>
+        <div class="gl-footer">Footer</div>
+      </div>
+    </div>
+    <div class="note">
+      使用 <code>grid-template-areas</code> 直观定义布局结构。修改布局只需调整
+      areas 字符串。Grid 的二维特性使其在完整页面布局中比 Flexbox 更合适。
+    </div>
+  </body>
+</html>

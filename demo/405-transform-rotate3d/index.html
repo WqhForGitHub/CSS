@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>rotate3d 与 rotateZ</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .scene {
+        perspective: 800px;
+      }
+      .box {
+        width: 100px;
+        height: 100px;
+        background: #27ae60;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px;
+      }
+      .rz-30 {
+        transform: rotateZ(30deg);
+      }
+      .rz-45 {
+        transform: rotateZ(45deg);
+      }
+      .r3d-1 {
+        transform: rotate3d(1, 1, 0, 45deg);
+      }
+      .r3d-2 {
+        transform: rotate3d(1, 0, 1, 45deg);
+      }
+      .r3d-3 {
+        transform: rotate3d(0, 1, 1, 60deg);
+      }
+      .r3d-4 {
+        transform: rotate3d(1, 1, 1, 60deg);
+      }
+      .flex-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .item {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>rotate3d 与 rotateZ</h1>
+    <div class="desc">
+      <code>rotate3d(x,y,z,angle)</code> 可以绕任意轴旋转，<code
+        >rotateZ()</code
+      >
+      则绕 Z 轴（垂直于屏幕）旋转，效果等同于 2D <code>rotate()</code>。
+    </div>
+
+    <h2>rotateZ 与 rotate3d 效果</h2>
+    <div class="demo-row">
+      <div class="scene">
+        <div class="flex-wrap">
+          <div class="item">
+            <div class="box rz-30">Z30°</div>
+            <div class="label">rotateZ(30deg)</div>
+          </div>
+          <div class="item">
+            <div class="box rz-45">Z45°</div>
+            <div class="label">rotateZ(45deg)</div>
+          </div>
+          <div class="item">
+            <div class="box r3d-1">3D-1</div>
+            <div class="label">rotate3d(1,1,0,45deg)</div>
+          </div>
+          <div class="item">
+            <div class="box r3d-2">3D-2</div>
+            <div class="label">rotate3d(1,0,1,45deg)</div>
+          </div>
+          <div class="item">
+            <div class="box r3d-3">3D-3</div>
+            <div class="label">rotate3d(0,1,1,60deg)</div>
+          </div>
+          <div class="item">
+            <div class="box r3d-4">3D-4</div>
+            <div class="label">rotate3d(1,1,1,60deg)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      rotate3d
+      的前三个参数定义旋转轴方向向量（不需要归一化），第四个参数为旋转角度。
+    </div>
+  </body>
+</html>

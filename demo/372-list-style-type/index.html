@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>list-style-type 标记类型</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .lt-demo {
+        background: #fff;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+      .lt-demo h4 {
+        font-size: 13px;
+        margin-bottom: 8px;
+        color: #2c3e50;
+      }
+      .lt-demo ol,
+      .lt-demo ul {
+        padding-left: 25px;
+      }
+      .lt-demo li {
+        font-size: 13px;
+        color: #555;
+        padding: 2px 0;
+      }
+      .lt-1 {
+        list-style-type: decimal;
+      }
+      .lt-2 {
+        list-style-type: decimal-leading-zero;
+      }
+      .lt-3 {
+        list-style-type: lower-alpha;
+      }
+      .lt-4 {
+        list-style-type: upper-alpha;
+      }
+      .lt-5 {
+        list-style-type: lower-roman;
+      }
+      .lt-6 {
+        list-style-type: upper-roman;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>list-style-type 标记类型</h1>
+    <div class="desc">
+      <code>list-style-type</code>
+      设置列表项标记的类型：disc、circle、square、decimal、lower-alpha、upper-roman
+      等。
+    </div>
+    <div class="demo-row" style="padding: 20px; gap: 15px; flex-wrap: wrap">
+      <div class="lt-demo" style="flex: 1; min-width: 200px">
+        <h4>decimal (1, 2, 3)</h4>
+        <ol class="lt-1">
+          <li>项目</li>
+          <li>项目</li>
+          <li>项目</li>
+        </ol>
+      </div>
+      <div class="lt-demo" style="flex: 1; min-width: 200px">
+        <h4>decimal-leading-zero (01, 02)</h4>
+        <ol class="lt-2">
+          <li>项目</li>
+          <li>项目</li>
+          <li>项目</li>
+        </ol>
+      </div>
+      <div class="lt-demo" style="flex: 1; min-width: 200px">
+        <h4>lower-alpha (a, b, c)</h4>
+        <ol class="lt-3">
+          <li>项目</li>
+          <li>项目</li>
+          <li>项目</li>
+        </ol>
+      </div>
+      <div class="lt-demo" style="flex: 1; min-width: 200px">
+        <h4>upper-alpha (A, B, C)</h4>
+        <ol class="lt-4">
+          <li>项目</li>
+          <li>项目</li>
+          <li>项目</li>
+        </ol>
+      </div>
+      <div class="lt-demo" style="flex: 1; min-width: 200px">
+        <h4>lower-roman (i, ii, iii)</h4>
+        <ol class="lt-5">
+          <li>项目</li>
+          <li>项目</li>
+          <li>项目</li>
+        </ol>
+      </div>
+      <div class="lt-demo" style="flex: 1; min-width: 200px">
+        <h4>upper-roman (I, II, III)</h4>
+        <ol class="lt-6">
+          <li>项目</li>
+          <li>项目</li>
+          <li>项目</li>
+        </ol>
+      </div>
+    </div>
+    <div class="note">
+      CSS 提供了丰富的列表标记类型。<code>decimal-leading-zero</code>
+      在数字前补零。
+    </div>
+  </body>
+</html>

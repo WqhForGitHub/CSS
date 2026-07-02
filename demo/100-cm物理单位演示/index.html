@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cm 物理单位演示</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .cm-demo table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      .cm-demo th {
+        background: #34495e;
+        color: #fff;
+        padding: 8px;
+        text-align: left;
+      }
+      .cm-demo td {
+        padding: 8px;
+        border-bottom: 1px solid #eee;
+        background: #fff;
+      }
+      .cm-demo .bar {
+        height: 16px;
+        background: #3498db;
+        border-radius: 3px;
+      }
+      .cm-demo .code {
+        font-family: Consolas, monospace;
+        color: #e74c3c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>cm 物理单位演示</h1>
+    <div class="desc">
+      CSS 物理单位：cm、mm、in、pt、pc。这些单位在屏幕上按 96px/in
+      换算，主要用于打印样式。
+    </div>
+    <div class="demo-row cm-demo" style="display: block">
+      <table>
+        <tr>
+          <th>单位</th>
+          <th>换算</th>
+          <th>1单位 = px</th>
+          <th>可视化</th>
+        </tr>
+        <tr>
+          <td class="code">1cm</td>
+          <td>厘米</td>
+          <td>≈37.8px</td>
+          <td><div class="bar" style="width: 1cm"></div></td>
+        </tr>
+        <tr>
+          <td class="code">1mm</td>
+          <td>毫米</td>
+          <td>≈3.78px</td>
+          <td><div class="bar" style="width: 10mm"></div></td>
+        </tr>
+        <tr>
+          <td class="code">1in</td>
+          <td>英寸</td>
+          <td>=96px</td>
+          <td><div class="bar" style="width: 1in"></div></td>
+        </tr>
+        <tr>
+          <td class="code">1pt</td>
+          <td>磅（1/72in）</td>
+          <td>≈1.33px</td>
+          <td><div class="bar" style="width: 72pt"></div></td>
+        </tr>
+        <tr>
+          <td class="code">1pc</td>
+          <td>派卡（12pt）</td>
+          <td>=16px</td>
+          <td><div class="bar" style="width: 6pc"></div></td>
+        </tr>
+      </table>
+    </div>
+    <div class="note">
+      屏幕上：1in = 96px（CSS 参考像素）。打印时接近真实物理尺寸。pt
+      常用于字体排版。
+    </div>
+  </body>
+</html>

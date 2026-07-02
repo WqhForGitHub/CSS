@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>通知列表</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .nt-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .nt-item {
+        display: flex;
+        gap: 12px;
+        padding: 14px 16px;
+        border-bottom: 1px solid #ecf0f1;
+        position: relative;
+      }
+      .nt-item:last-child {
+        border-bottom: none;
+      }
+      .nt-item::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+      }
+      .nt-info::before {
+        background: #3498db;
+      }
+      .nt-success::before {
+        background: #27ae60;
+      }
+      .nt-warning::before {
+        background: #f39c12;
+      }
+      .nt-error::before {
+        background: #e74c3c;
+      }
+      .nt-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        color: #fff;
+        flex-shrink: 0;
+      }
+      .nt-info .nt-icon {
+        background: #3498db;
+      }
+      .nt-success .nt-icon {
+        background: #27ae60;
+      }
+      .nt-warning .nt-icon {
+        background: #f39c12;
+      }
+      .nt-error .nt-icon {
+        background: #e74c3c;
+      }
+      .nt-body {
+        flex: 1;
+      }
+      .nt-title {
+        font-size: 14px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 2px;
+      }
+      .nt-desc {
+        font-size: 13px;
+        color: #555;
+        line-height: 1.5;
+      }
+      .nt-time {
+        font-size: 12px;
+        color: #95a5a6;
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>通知列表</h1>
+    <div class="desc">
+      使用列表创建通知/消息列表，支持不同类型通知的样式区分。
+    </div>
+    <span class="tag">通知列表</span>
+    <div class="demo-row" style="padding: 20px">
+      <ul class="nt-list" style="width: 100%">
+        <li class="nt-item nt-info">
+          <div class="nt-icon">i</div>
+          <div class="nt-body">
+            <div class="nt-title">系统通知</div>
+            <div class="nt-desc">
+              系统将于今晚 22:00 进行维护更新，预计耗时30分钟。
+            </div>
+            <div class="nt-time">2分钟前</div>
+          </div>
+        </li>
+        <li class="nt-item nt-success">
+          <div class="nt-icon">✓</div>
+          <div class="nt-body">
+            <div class="nt-title">部署成功</div>
+            <div class="nt-desc">
+              您的项目已成功部署到生产环境，可通过域名访问。
+            </div>
+            <div class="nt-time">15分钟前</div>
+          </div>
+        </li>
+        <li class="nt-item nt-warning">
+          <div class="nt-icon">!</div>
+          <div class="nt-body">
+            <div class="nt-title">存储空间不足</div>
+            <div class="nt-desc">
+              您的存储空间已使用 90%，请及时清理或升级。
+            </div>
+            <div class="nt-time">1小时前</div>
+          </div>
+        </li>
+        <li class="nt-item nt-error">
+          <div class="nt-icon">×</div>
+          <div class="nt-body">
+            <div class="nt-title">构建失败</div>
+            <div class="nt-desc">
+              项目构建过程中出现错误，请检查配置后重试。
+            </div>
+            <div class="nt-time">3小时前</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="note">
+      不同类型通知使用不同左边框颜色和图标颜色。<code>::before</code>
+      创建左侧色条。
+    </div>
+  </body>
+</html>

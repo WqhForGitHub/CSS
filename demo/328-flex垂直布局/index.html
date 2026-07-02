@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexbox 垂直布局</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .vb-card {
+        display: flex;
+        flex-direction: column;
+        width: 250px;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .vb-img {
+        height: 120px;
+        background: linear-gradient(135deg, #3498db, #9b59b6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 32px;
+      }
+      .vb-body {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .vb-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #2c3e50;
+      }
+      .vb-text {
+        font-size: 13px;
+        color: #555;
+        line-height: 1.5;
+        flex: 1;
+      }
+      .vb-footer {
+        display: flex;
+        gap: 8px;
+        padding-top: 10px;
+        border-top: 1px solid #ecf0f1;
+      }
+      .vb-btn {
+        flex: 1;
+        padding: 8px;
+        border: none;
+        border-radius: 6px;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .vb-btn-primary {
+        background: #3498db;
+        color: #fff;
+      }
+      .vb-btn-secondary {
+        background: #ecf0f1;
+        color: #333;
+      }
+      .vb-form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 280px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+      .vb-form h3 {
+        font-size: 18px;
+        color: #2c3e50;
+      }
+      .vb-field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .vb-label {
+        font-size: 13px;
+        color: #555;
+      }
+      .vb-input {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      .vb-submit {
+        padding: 10px;
+        background: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Flexbox 垂直布局</h1>
+    <div class="desc">
+      使用
+      <code>flex-direction: column</code>
+      创建垂直排列的布局，适合表单、列表、卡片等。
+    </div>
+    <span class="tag">垂直布局：卡片</span>
+    <div class="demo-row" style="padding: 20px; gap: 30px">
+      <div class="vb-card">
+        <div class="vb-img">★</div>
+        <div class="vb-body">
+          <div class="vb-title">垂直卡片</div>
+          <div class="vb-text">
+            flex-direction: column 使内容垂直排列。图片在顶部，内容在下方。
+          </div>
+          <div class="vb-footer">
+            <button class="vb-btn vb-btn-secondary">取消</button>
+            <button class="vb-btn vb-btn-primary">确定</button>
+          </div>
+        </div>
+      </div>
+      <div class="vb-card">
+        <div
+          class="vb-img"
+          style="background: linear-gradient(135deg, #e74c3c, #f39c12)"
+        >
+          ♥
+        </div>
+        <div class="vb-body">
+          <div class="vb-title">另一张卡片</div>
+          <div class="vb-text">
+            垂直布局非常适合卡片组件。flex: 1 使文字区域自动占满剩余空间。
+          </div>
+          <div class="vb-footer">
+            <button class="vb-btn vb-btn-secondary">分享</button>
+            <button class="vb-btn vb-btn-primary">收藏</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="tag">垂直布局：表单</span>
+    <div class="demo-row" style="padding: 20px">
+      <div class="vb-form">
+        <h3>用户登录</h3>
+        <div class="vb-field">
+          <label class="vb-label">用户名</label>
+          <input class="vb-input" placeholder="请输入用户名" />
+        </div>
+        <div class="vb-field">
+          <label class="vb-label">密码</label>
+          <input class="vb-input" type="password" placeholder="请输入密码" />
+        </div>
+        <button class="vb-submit">登录</button>
+      </div>
+    </div>
+    <div class="note">
+      <code>flex-direction: column</code> +
+      <code>gap</code> 是垂直布局的标准方案。<code>flex: 1</code>
+      使某个子元素占满剩余高度。非常适合表单、卡片等垂直排列的组件。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>background-image基础</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .bg-img-demo {
+        width: 200px;
+        height: 120px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        margin-bottom: 15px;
+      }
+      .bi-1 {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%233498db'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+      .bi-2 {
+        background-image: linear-gradient(45deg, #3498db, #e74c3c);
+      }
+      .bi-3 {
+        background-image:
+          linear-gradient(
+            to right,
+            rgba(52, 152, 219, 0.5),
+            rgba(231, 76, 60, 0.5)
+          ),
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23ecf0f1'/%3E%3Crect width='20' height='20' fill='%23bdc3c7'/%3E%3Crect x='20' y='20' width='20' height='20' fill='%23bdc3c7'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+      }
+      .bi-none {
+        background-image: none;
+        background-color: #ecf0f1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>background-image基础</h1>
+    <div class="desc">
+      <code>background-image</code> 使用 URL
+      或渐变函数设置背景图片，可叠加多张（逗号分隔），前者在上层。
+    </div>
+    <span class="tag">不同背景图设置</span>
+    <div class="demo-row" style="flex-direction: column">
+      <div>
+        <p style="margin-bottom: 5px; font-size: 13px">
+          background-image: url(...)
+        </p>
+        <div class="bg-img-demo bi-1"></div>
+      </div>
+      <div>
+        <p style="margin-bottom: 5px; font-size: 13px">
+          background-image: linear-gradient(...)
+        </p>
+        <div class="bg-img-demo bi-2"></div>
+      </div>
+      <div>
+        <p style="margin-bottom: 5px; font-size: 13px">
+          多背景叠加（渐变 + 图案）
+        </p>
+        <div class="bg-img-demo bi-3"></div>
+      </div>
+      <div>
+        <p style="margin-bottom: 5px; font-size: 13px">
+          background-image: none
+        </p>
+        <div class="bg-img-demo bi-none"></div>
+      </div>
+    </div>
+    <div class="note">
+      多背景图按从前往后的顺序叠加，第一个背景图在最上层。<code>none</code>
+      是默认值，表示无背景图片。
+    </div>
+  </body>
+</html>

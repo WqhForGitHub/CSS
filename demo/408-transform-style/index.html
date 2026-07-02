@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>transform-style: preserve-3d</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .scene {
+        perspective: 800px;
+      }
+      .wrapper-flat {
+        width: 150px;
+        height: 150px;
+        transform-style: flat;
+        transform: rotateY(30deg);
+      }
+      .wrapper-3d {
+        width: 150px;
+        height: 150px;
+        transform-style: preserve-3d;
+        transform: rotateY(30deg);
+      }
+      .face {
+        width: 150px;
+        height: 150px;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 14px;
+      }
+      .face-front {
+        background: rgba(52, 152, 219, 0.7);
+        transform: translateZ(40px);
+      }
+      .face-back {
+        background: rgba(231, 76, 60, 0.7);
+        transform: translateZ(-40px) rotateY(180deg);
+      }
+      .flex-wrap {
+        display: flex;
+        gap: 60px;
+      }
+      .item {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>transform-style: preserve-3d</h1>
+    <div class="desc">
+      <code>transform-style: preserve-3d</code> 让子元素保持在父元素的 3D
+      空间中，而非被压平到 2D 平面。
+    </div>
+
+    <h2>flat vs preserve-3d 对比</h2>
+    <p>
+      左侧使用 <code>flat</code>（默认），右侧使用 <code>preserve-3d</code>：
+    </p>
+    <div class="demo-row">
+      <div class="scene">
+        <div class="flex-wrap">
+          <div class="item">
+            <div class="wrapper-flat">
+              <div class="face face-front">前面</div>
+              <div class="face face-back">后面</div>
+            </div>
+            <div class="label">transform-style: flat</div>
+          </div>
+          <div class="item">
+            <div class="wrapper-3d">
+              <div class="face face-front">前面</div>
+              <div class="face face-back">后面</div>
+            </div>
+            <div class="label">transform-style: preserve-3d</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      preserve-3d 是实现 3D 立方体、翻转卡片等效果的关键属性。flat
+      会将子元素压平到父元素的平面上。
+    </div>
+  </body>
+</html>

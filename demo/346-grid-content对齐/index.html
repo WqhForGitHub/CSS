@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>grid align/justify-content 整体对齐</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .gc-demo {
+        display: grid;
+        grid-template-columns: repeat(3, 80px);
+        gap: 10px;
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+        height: 120px;
+      }
+      .gc-item {
+        background: #3498db;
+        color: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        text-align: center;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .gc-start {
+        justify-content: start;
+        align-content: start;
+      }
+      .gc-center {
+        justify-content: center;
+        align-content: center;
+      }
+      .gc-end {
+        justify-content: end;
+        align-content: end;
+      }
+      .gc-between {
+        justify-content: space-between;
+        align-content: space-between;
+      }
+      .gc-around {
+        justify-content: space-around;
+        align-content: space-around;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>grid align/justify-content 整体对齐</h1>
+    <div class="desc">
+      <code>justify-content</code> 和
+      <code>align-content</code>
+      设置整个网格在容器中的对齐方式（当网格总尺寸小于容器时）。
+    </div>
+    <span class="tag">start（左上）</span>
+    <div class="gc-demo gc-start">
+      <div class="gc-item">1</div>
+      <div class="gc-item">2</div>
+      <div class="gc-item">3</div>
+      <div class="gc-item">4</div>
+      <div class="gc-item">5</div>
+      <div class="gc-item">6</div>
+    </div>
+    <span class="tag">center（居中）</span>
+    <div class="gc-demo gc-center">
+      <div class="gc-item">1</div>
+      <div class="gc-item">2</div>
+      <div class="gc-item">3</div>
+      <div class="gc-item">4</div>
+      <div class="gc-item">5</div>
+      <div class="gc-item">6</div>
+    </div>
+    <span class="tag">end（右下）</span>
+    <div class="gc-demo gc-end">
+      <div class="gc-item">1</div>
+      <div class="gc-item">2</div>
+      <div class="gc-item">3</div>
+      <div class="gc-item">4</div>
+      <div class="gc-item">5</div>
+      <div class="gc-item">6</div>
+    </div>
+    <span class="tag">space-between / space-around</span>
+    <div class="gc-demo gc-between">
+      <div class="gc-item">1</div>
+      <div class="gc-item">2</div>
+      <div class="gc-item">3</div>
+      <div class="gc-item">4</div>
+      <div class="gc-item">5</div>
+      <div class="gc-item">6</div>
+    </div>
+    <div class="note">
+      当网格总尺寸小于容器时，<code>justify-content</code> 控制水平对齐，<code
+        >align-content</code
+      >
+      控制垂直对齐。<code>place-content</code> 是两者的简写。
+    </div>
+  </body>
+</html>

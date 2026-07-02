@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自定义列表标记</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .lm-demo {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+      }
+      .lm-demo h4 {
+        font-size: 13px;
+        margin-bottom: 10px;
+        color: #2c3e50;
+      }
+      .lm-demo li {
+        font-size: 14px;
+        color: #555;
+        padding: 6px 0;
+      }
+      .lm-custom {
+        list-style: none;
+        padding-left: 0;
+      }
+      .lm-custom li {
+        position: relative;
+        padding-left: 25px;
+      }
+      .lm-custom li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: #27ae60;
+        font-weight: bold;
+      }
+      .lm-arrow li::before {
+        content: '→';
+        color: #3498db;
+      }
+      .lm-number {
+        list-style: none;
+        padding-left: 0;
+        counter-reset: item;
+      }
+      .lm-number li {
+        position: relative;
+        padding-left: 35px;
+      }
+      .lm-number li::before {
+        counter-increment: item;
+        content: counter(item);
+        position: absolute;
+        left: 0;
+        top: 2px;
+        width: 22px;
+        height: 22px;
+        background: #3498db;
+        color: #fff;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 22px;
+        font-size: 12px;
+        font-weight: bold;
+      }
+      .lm-emoji {
+        list-style: none;
+        padding-left: 0;
+      }
+      .lm-emoji li {
+        position: relative;
+        padding-left: 30px;
+      }
+      .lm-emoji li::before {
+        position: absolute;
+        left: 0;
+      }
+      .lm-emoji li:nth-child(1)::before {
+        content: '🔥';
+      }
+      .lm-emoji li:nth-child(2)::before {
+        content: '⭐';
+      }
+      .lm-emoji li:nth-child(3)::before {
+        content: '💡';
+      }
+      .lm-emoji li:nth-child(4)::before {
+        content: '🚀';
+      }
+    </style>
+  </head>
+  <body>
+    <h1>自定义列表标记</h1>
+    <div class="desc">使用 <code>::before</code> 伪元素自定义列表项标记。</div>
+    <span class="tag">自定义标记：勾选符号 & 箭头</span>
+    <div class="demo-row" style="padding: 20px; gap: 20px">
+      <div class="lm-demo" style="flex: 1">
+        <h4>✓ 勾选列表</h4>
+        <ul class="lm-custom">
+          <li>完成需求分析</li>
+          <li>完成 UI 设计</li>
+          <li>完成前端开发</li>
+          <li>完成测试验收</li>
+        </ul>
+      </div>
+      <div class="lm-demo" style="flex: 1">
+        <h4>→ 箭头列表</h4>
+        <ul class="lm-custom lm-arrow">
+          <li>第一步：注册账号</li>
+          <li>第二步：完善信息</li>
+          <li>第三步：开始使用</li>
+        </ul>
+      </div>
+    </div>
+    <span class="tag">自定义标记：圆形数字 & Emoji</span>
+    <div class="demo-row" style="padding: 0 20px 20px; gap: 20px">
+      <div class="lm-demo" style="flex: 1">
+        <h4>圆形数字标记</h4>
+        <ul class="lm-number">
+          <li>创建 HTML 结构</li>
+          <li>添加 CSS 样式</li>
+          <li>编写 JavaScript 交互</li>
+        </ul>
+      </div>
+      <div class="lm-demo" style="flex: 1">
+        <h4>Emoji 列表</h4>
+        <ul class="lm-emoji">
+          <li>热门功能</li>
+          <li>推荐内容</li>
+          <li>实用技巧</li>
+          <li>快速入门</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">
+      <code>::before</code> + <code>content</code> 自定义标记。<code
+        >counter-reset</code
+      >
+      + <code>counter-increment</code> 实现自定义数字编号。
+    </div>
+  </body>
+</html>

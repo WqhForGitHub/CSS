@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>repeating-gradient循环渐变</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .rg-demo {
+        width: 200px;
+        height: 80px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+      }
+      .rgl-1 {
+        background: repeating-linear-gradient(
+          45deg,
+          #3498db,
+          #3498db 10px,
+          #2c3e50 10px,
+          #2c3e50 20px
+        );
+      }
+      .rgl-2 {
+        background: repeating-linear-gradient(
+          to right,
+          #e74c3c,
+          #e74c3c 15px,
+          #f39c12 15px,
+          #f39c12 30px
+        );
+      }
+      .rgl-3 {
+        background: repeating-linear-gradient(
+          0deg,
+          #27ae60,
+          #27ae60 5px,
+          #2ecc71 5px,
+          #2ecc71 10px,
+          #16a085 10px,
+          #16a085 15px
+        );
+      }
+      .rgr-1 {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: repeating-radial-gradient(
+          circle,
+          #9b59b6,
+          #9b59b6 10px,
+          #8e44ad 10px,
+          #8e44ad 20px
+        );
+      }
+      .rgr-2 {
+        width: 150px;
+        height: 150px;
+        border-radius: 6px;
+        background: repeating-radial-gradient(
+          circle at center,
+          #3498db 0px,
+          #3498db 8px,
+          #1abc9c 8px,
+          #1abc9c 16px
+        );
+      }
+      .rgl-4 {
+        background:
+          repeating-linear-gradient(
+            135deg,
+            transparent,
+            transparent 10px,
+            rgba(52, 152, 219, 0.3) 10px,
+            rgba(52, 152, 219, 0.3) 20px
+          ),
+          linear-gradient(to bottom, #ecf0f1, #bdc3c7);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>repeating-gradient循环渐变</h1>
+    <div class="desc">
+      <code>repeating-linear-gradient</code> 和
+      <code>repeating-radial-gradient</code>
+      创建重复的渐变图案，适合做条纹纹理。
+    </div>
+    <span class="tag">repeating-linear-gradient</span>
+    <div class="demo-row" style="flex-direction: column">
+      <div class="rg-demo rgl-1"></div>
+      <p style="font-size: 13px">45度斜条纹</p>
+      <div class="rg-demo rgl-2"></div>
+      <p style="font-size: 13px">水平条纹</p>
+      <div class="rg-demo rgl-3"></div>
+      <p style="font-size: 13px">三色垂直条纹</p>
+      <div class="rg-demo rgl-4"></div>
+      <p style="font-size: 13px">透明斜纹 + 底层渐变</p>
+    </div>
+    <span class="tag">repeating-radial-gradient</span>
+    <div class="demo-row">
+      <div class="demo-item">
+        <div class="rgr-1"></div>
+        <span class="label">圆形同心环</span>
+      </div>
+      <div class="demo-item">
+        <div class="rgr-2"></div>
+        <span class="label">方形同心环</span>
+      </div>
+    </div>
+    <div class="note">
+      循环渐变通过设置色标的固定间隔来重复图案。间隔越小图案越密集，适合创建纹理背景。
+    </div>
+  </body>
+</html>

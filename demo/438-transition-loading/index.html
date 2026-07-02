@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>加载动画过渡</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .loader-area {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        justify-content: center;
+      }
+      .loader1 {
+        width: 50px;
+        height: 50px;
+        border: 4px solid #ecf0f1;
+        border-top-color: #3498db;
+        border-radius: 50%;
+        animation: spin1 1s linear infinite;
+      }
+      @keyframes spin1 {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .loader2 {
+        width: 50px;
+        height: 50px;
+        position: relative;
+      }
+      .loader2 div {
+        width: 100%;
+        height: 100%;
+        border: 4px solid transparent;
+        border-top-color: #e74c3c;
+        border-radius: 50%;
+        position: absolute;
+        animation: spin2 1.5s ease-in-out infinite;
+      }
+      .loader2 div:nth-child(2) {
+        border-top-color: #3498db;
+        animation-delay: 0.2s;
+      }
+      @keyframes spin2 {
+        0% {
+          transform: rotate(0);
+        }
+        50% {
+          transform: rotate(180deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .loader3 {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .loader3 div {
+        width: 8px;
+        height: 30px;
+        background: #27ae60;
+        border-radius: 4px;
+        animation: bounce 0.6s ease-in-out infinite alternate;
+      }
+      .loader3 div:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .loader3 div:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+      .loader3 div:nth-child(4) {
+        animation-delay: 0.3s;
+      }
+      @keyframes bounce {
+        to {
+          transform: scaleY(0.4);
+        }
+      }
+      .loader4 {
+        width: 60px;
+        height: 60px;
+        background: #f39c12;
+        border-radius: 4px;
+        animation: flip 1s ease-in-out infinite;
+      }
+      @keyframes flip {
+        0% {
+          transform: perspective(120px) rotateX(0) rotateY(0);
+        }
+        50% {
+          transform: perspective(120px) rotateX(-180deg) rotateY(0);
+        }
+        100% {
+          transform: perspective(120px) rotateX(-180deg) rotateY(-180deg);
+        }
+      }
+      .progress-bar {
+        width: 300px;
+        height: 12px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #3498db, #1abc9c);
+        border-radius: 6px;
+        transition: width 0.5s ease;
+      }
+      .item {
+        text-align: center;
+      }
+      .label {
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>加载动画过渡</h1>
+    <div class="desc">利用 transition 实现各种加载和进度指示动画效果。</div>
+
+    <h2>加载动画效果</h2>
+    <div class="demo-row">
+      <div class="loader-area">
+        <div class="item">
+          <div class="loader1"></div>
+          <div class="label">旋转环</div>
+        </div>
+        <div class="item">
+          <div class="loader2">
+            <div></div>
+            <div></div>
+          </div>
+          <div class="label">双环</div>
+        </div>
+        <div class="item">
+          <div class="loader3">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div class="label">跳动条</div>
+        </div>
+        <div class="item">
+          <div class="loader4"></div>
+          <div class="label">翻转方块</div>
+        </div>
+      </div>
+    </div>
+    <h2>进度条过渡</h2>
+    <div class="demo-row" style="flex-direction: column">
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: 30%"></div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: 60%"></div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: 85%"></div>
+      </div>
+    </div>
+    <div class="note">
+      加载动画通常使用 animation（而非
+      transition），因为它们是循环播放的。进度条则适合用
+      transition，因为状态变化驱动。
+    </div>
+  </body>
+</html>

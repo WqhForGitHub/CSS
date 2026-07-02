@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>animation 动画基础</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .box {
+        width: 80px;
+        height: 80px;
+        background: #3498db;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        margin: 10px;
+      }
+      .anim-basic {
+        animation: move 2s ease infinite;
+      }
+      @keyframes move {
+        0% {
+          transform: translateX(0);
+        }
+        50% {
+          transform: translateX(100px);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+      .anim-once {
+        animation: grow 2s ease forwards;
+      }
+      @keyframes grow {
+        from {
+          transform: scale(0);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .anim-color {
+        animation: colorChange 3s ease infinite;
+      }
+      @keyframes colorChange {
+        0% {
+          background: #3498db;
+        }
+        33% {
+          background: #e74c3c;
+        }
+        66% {
+          background: #27ae60;
+        }
+        100% {
+          background: #3498db;
+        }
+      }
+      .flex-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        align-items: center;
+      }
+      .item {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>animation 动画基础</h1>
+    <div class="desc">
+      <code>animation</code> 属性可以创建自动播放的动画，无需用户触发。通过
+      <code>@keyframes</code> 定义关键帧，再用 animation 属性应用。
+    </div>
+
+    <h2>animation 基础示例</h2>
+    <div class="demo-row">
+      <div class="flex-wrap">
+        <div class="item">
+          <div class="box anim-basic">循环</div>
+          <div class="label">infinite 循环</div>
+        </div>
+        <div class="item">
+          <div class="box anim-once">一次</div>
+          <div class="label">forwards 停在终点</div>
+        </div>
+        <div class="item">
+          <div class="box anim-color">变色</div>
+          <div class="label">多关键帧变色</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      @keyframes 定义动画关键帧，animation 是简写属性：animation: name duration
+      timing-function delay iteration-count direction fill-mode play-state。
+    </div>
+  </body>
+</html>

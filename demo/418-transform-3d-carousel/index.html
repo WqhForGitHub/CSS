@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D 轮播画廊</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .scene {
+        perspective: 1200px;
+        width: 300px;
+        height: 200px;
+        margin: 20px auto;
+      }
+      .carousel {
+        width: 200px;
+        height: 150px;
+        position: relative;
+        transform-style: preserve-3d;
+        margin: 25px auto;
+        animation: carousel-spin 15s linear infinite;
+      }
+      @keyframes carousel-spin {
+        from {
+          transform: rotateY(0);
+        }
+        to {
+          transform: rotateY(360deg);
+        }
+      }
+      .panel {
+        width: 200px;
+        height: 150px;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 8px;
+      }
+      .p1 {
+        background: rgba(52, 152, 219, 0.85);
+        transform: rotateY(0deg) translateZ(180px);
+      }
+      .p2 {
+        background: rgba(231, 76, 60, 0.85);
+        transform: rotateY(60deg) translateZ(180px);
+      }
+      .p3 {
+        background: rgba(39, 174, 96, 0.85);
+        transform: rotateY(120deg) translateZ(180px);
+      }
+      .p4 {
+        background: rgba(243, 156, 18, 0.85);
+        transform: rotateY(180deg) translateZ(180px);
+      }
+      .p5 {
+        background: rgba(155, 89, 182, 0.85);
+        transform: rotateY(240deg) translateZ(180px);
+      }
+      .p6 {
+        background: rgba(26, 188, 156, 0.85);
+        transform: rotateY(300deg) translateZ(180px);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>3D 轮播画廊</h1>
+    <div class="desc">
+      利用 3D 变换创建环形轮播画廊效果，多个面板围绕中心轴排列。
+    </div>
+
+    <h2>3D 环形轮播画廊</h2>
+    <div class="demo-row" style="justify-content: center">
+      <div class="scene">
+        <div class="carousel">
+          <div class="panel p1">1</div>
+          <div class="panel p2">2</div>
+          <div class="panel p3">3</div>
+          <div class="panel p4">4</div>
+          <div class="panel p5">5</div>
+          <div class="panel p6">6</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      每个面板按 60° 间隔旋转并 translateZ
+      外推，形成六边形排列。整体旋转形成轮播效果。
+    </div>
+  </body>
+</html>

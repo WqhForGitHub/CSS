@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>contain完整显示背景</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .contain-demo {
+        border: 2px solid #34495e;
+        border-radius: 6px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%2327ae60'/%3E%3Cpolygon points='100,30 170,170 30,170' fill='%23f39c12'/%3E%3C/svg%3E");
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: #ecf0f1;
+        margin-bottom: 10px;
+      }
+      .contain-wide {
+        width: 200px;
+        height: 100px;
+      }
+      .contain-tall {
+        width: 100px;
+        height: 200px;
+      }
+      .contain-square {
+        width: 150px;
+        height: 150px;
+      }
+      .contain-small {
+        width: 80px;
+        height: 80px;
+      }
+      .contain-large {
+        width: 250px;
+        height: 120px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>contain完整显示背景</h1>
+    <div class="desc">
+      <code>background-size: contain</code>
+      保持图片宽高比，缩放使整个图片完整显示在容器内，可能留白。
+    </div>
+    <span class="tag">contain 在不同宽高比容器中的效果</span>
+    <div class="demo-row">
+      <div class="demo-item">
+        <div class="contain-demo contain-wide"></div>
+        <span class="label">宽容器 200×100</span>
+      </div>
+      <div class="demo-item">
+        <div class="contain-demo contain-tall"></div>
+        <span class="label">高容器 100×200</span>
+      </div>
+      <div class="demo-item">
+        <div class="contain-demo contain-square"></div>
+        <span class="label">方形容器 150×150</span>
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-item">
+        <div class="contain-demo contain-small"></div>
+        <span class="label">小容器 80×80</span>
+      </div>
+      <div class="demo-item">
+        <div class="contain-demo contain-large"></div>
+        <span class="label">大容器 250×120</span>
+      </div>
+    </div>
+    <div class="note">
+      <code>contain</code> 确保图片完整可见不裁剪，可能产生留白。适用于 logo
+      展示、图标背景等需要完整显示图片内容的场景。
+    </div>
+  </body>
+</html>

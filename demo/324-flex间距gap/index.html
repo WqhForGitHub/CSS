@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexbox gap 间距属性</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .gp-container {
+        display: flex;
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+      .gp-item {
+        background: #3498db;
+        color: #fff;
+        padding: 15px 25px;
+        border-radius: 6px;
+        font-size: 13px;
+      }
+      .gp-item:nth-child(even) {
+        background: #e74c3c;
+      }
+      .gp-0 {
+        gap: 0;
+      }
+      .gp-5 {
+        gap: 5px;
+      }
+      .gp-10 {
+        gap: 10px;
+      }
+      .gp-20 {
+        gap: 20px;
+      }
+      .gp-row-gap {
+        row-gap: 10px;
+        column-gap: 20px;
+        flex-wrap: wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Flexbox gap 间距属性</h1>
+    <div class="desc">
+      <code>gap</code> 属性统一设置弹性项目之间的间距，无需为每个项目设置
+      margin。
+    </div>
+    <span class="tag">gap 不同值对比</span>
+    <div class="gp-container gp-0">
+      <div class="gp-item">gap:0</div>
+      <div class="gp-item">B</div>
+      <div class="gp-item">C</div>
+    </div>
+    <div class="gp-container gp-5">
+      <div class="gp-item">gap:5px</div>
+      <div class="gp-item">B</div>
+      <div class="gp-item">C</div>
+    </div>
+    <div class="gp-container gp-10">
+      <div class="gp-item">gap:10px</div>
+      <div class="gp-item">B</div>
+      <div class="gp-item">C</div>
+    </div>
+    <div class="gp-container gp-20">
+      <div class="gp-item">gap:20px</div>
+      <div class="gp-item">B</div>
+      <div class="gp-item">C</div>
+    </div>
+    <span class="tag">行间距和列间距分开设置</span>
+    <div class="gp-container gp-row-gap">
+      <div class="gp-item">1</div>
+      <div class="gp-item">2</div>
+      <div class="gp-item">3</div>
+      <div class="gp-item">4</div>
+      <div class="gp-item">5</div>
+      <div class="gp-item">6</div>
+    </div>
+    <div class="note">
+      <code>gap</code> 是 <code>row-gap</code> 和
+      <code>column-gap</code> 的简写。换行时 gap 也会应用于行间距。比 margin
+      更优雅：不会在容器边缘产生多余间距。
+    </div>
+  </body>
+</html>

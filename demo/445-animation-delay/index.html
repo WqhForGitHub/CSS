@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>animation-delay 动画延迟</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .bar {
+        width: 30px;
+        height: 30px;
+        border-radius: 4px;
+        background: #3498db;
+        margin: 5px;
+      }
+      .delay0 {
+        animation: fade 2s ease infinite;
+        animation-delay: 0s;
+      }
+      .delay1 {
+        animation: fade 2s ease infinite;
+        animation-delay: 0.3s;
+      }
+      .delay2 {
+        animation: fade 2s ease infinite;
+        animation-delay: 0.6s;
+      }
+      .delay3 {
+        animation: fade 2s ease infinite;
+        animation-delay: 0.9s;
+      }
+      .delay-neg {
+        animation: fade 2s ease infinite;
+        animation-delay: -1s;
+        background: #e74c3c;
+      }
+      @keyframes fade {
+        0%,
+        100% {
+          opacity: 0.2;
+          transform: scale(0.8);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.2);
+        }
+      }
+      .flex-wrap {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+      .item {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>animation-delay 动画延迟</h1>
+    <div class="desc">
+      <code>animation-delay</code>
+      定义动画开始前的等待时间，负值会让动画立即从中间状态开始播放。
+    </div>
+
+    <h2>animation-delay 延迟效果</h2>
+    <p>前四个延迟递增，最后一个使用负延迟（立即从中间开始）：</p>
+    <div class="demo-row">
+      <div class="flex-wrap">
+        <div class="item">
+          <div class="bar delay0"></div>
+          <div class="label">delay: 0s</div>
+        </div>
+        <div class="item">
+          <div class="bar delay1"></div>
+          <div class="label">delay: 0.3s</div>
+        </div>
+        <div class="item">
+          <div class="bar delay2"></div>
+          <div class="label">delay: 0.6s</div>
+        </div>
+        <div class="item">
+          <div class="bar delay3"></div>
+          <div class="label">delay: 0.9s</div>
+        </div>
+        <div class="item">
+          <div class="bar delay-neg"></div>
+          <div class="label">delay: -1s（负值）</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      负延迟使动画看起来像在过去某个时间点就已经开始了，可用于让动画立即从特定状态开始播放。
+    </div>
+  </body>
+</html>

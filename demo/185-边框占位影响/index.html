@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>border 边框占位影响</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .bd-demo .box {
+        width: 200px;
+        height: 60px;
+        background: #ebf5fb;
+        margin-bottom: 8px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #2980b9;
+        font-size: 13px;
+      }
+      .bd-demo .thin {
+        border: 1px solid #3498db;
+        box-sizing: content-box;
+      }
+      .bd-demo .thick {
+        border: 10px solid #e74c3c;
+        box-sizing: content-box;
+      }
+      .bd-demo .thick-bb {
+        border: 10px solid #27ae60;
+        box-sizing: border-box;
+      }
+      .bd-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>border 边框占位影响</h1>
+    <div class="desc">
+      border 占据盒子空间。在 content-box 下增加盒子尺寸，在 border-box
+      下压缩内容区。
+    </div>
+    <div class="demo-row bd-demo" style="display: block">
+      <div class="box thin">1px border (content-box) — 总宽 202px</div>
+      <div class="box thick">10px border (content-box) — 总宽 220px</div>
+      <div class="box thick-bb">10px border (border-box) — 总宽 200px</div>
+    </div>
+    <div class="note">
+      border 厚度影响布局。使用 border-box 可避免 border 撑大元素。
+    </div>
+  </body>
+</html>

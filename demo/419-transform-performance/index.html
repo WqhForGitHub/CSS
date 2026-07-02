@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>transform 性能优化</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .perf-box {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+        margin: 10px;
+      }
+      .perf-good {
+        background: #27ae60;
+        animation: good-spin 2s linear infinite;
+      }
+      .perf-bad {
+        background: #e74c3c;
+        animation: bad-move 2s linear infinite;
+      }
+      @keyframes good-spin {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(100px);
+        }
+      }
+      @keyframes bad-move {
+        from {
+          left: 0;
+        }
+        to {
+          left: 100px;
+        }
+      }
+      .perf-container {
+        position: relative;
+        height: 120px;
+      }
+      .perf-bad {
+        position: absolute;
+      }
+      .table-row {
+        display: flex;
+        gap: 20px;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+      }
+      .table-row strong {
+        min-width: 120px;
+      }
+      .good {
+        color: #27ae60;
+      }
+      .bad {
+        color: #e74c3c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>transform 性能优化</h1>
+    <div class="desc">
+      <code>transform</code> 和
+      <code>opacity</code>
+      是仅有的两个不会触发重排（reflow）的动画属性，它们在合成层（compositor）上运行，性能最佳。
+    </div>
+
+    <h2>transform 性能对比</h2>
+    <p>左为 transform 动画（绿色，推荐），右为 left 动画（红色，不推荐）：</p>
+    <div class="demo-row">
+      <div class="perf-container">
+        <div class="perf-box perf-good">transform ✓</div>
+        <div class="perf-box perf-bad">left ✗</div>
+      </div>
+    </div>
+    <h2>性能对比表</h2>
+    <div class="demo-row" style="flex-direction: column">
+      <div class="table-row">
+        <strong class="good">transform</strong> 触发合成层，不重排不重绘，GPU
+        加速
+      </div>
+      <div class="table-row">
+        <strong class="bad">left/top</strong> 触发重排（reflow）+
+        重绘（repaint），性能差
+      </div>
+      <div class="table-row">
+        <strong class="good">opacity</strong> 触发合成层，不重排不重绘，GPU 加速
+      </div>
+      <div class="table-row">
+        <strong class="bad">margin</strong> 触发重排，影响相邻元素
+      </div>
+      <div class="table-row">
+        <strong class="good">will-change</strong> 提前告知浏览器优化，配合
+        transform 使用
+      </div>
+    </div>
+    <div class="note">
+      做动画时优先使用 transform 和 opacity，避免使用
+      left/top/margin/width/height 等触发重排的属性。
+    </div>
+  </body>
+</html>

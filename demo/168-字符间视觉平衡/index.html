@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>字符间视觉平衡</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .bal-demo .box {
+        padding: 16px;
+        background: #fff;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        font-size: 18px;
+      }
+      .bal-demo .normal {
+        letter-spacing: 0;
+        word-spacing: 0;
+      }
+      .bal-demo .tight {
+        letter-spacing: -0.5px;
+        word-spacing: -2px;
+      }
+      .bal-demo .loose {
+        letter-spacing: 1px;
+        word-spacing: 4px;
+      }
+      .bal-demo .balanced {
+        letter-spacing: 0.3px;
+        word-spacing: 1px;
+      }
+      .bal-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+        display: block;
+        margin-bottom: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>字符间视觉平衡</h1>
+    <div class="desc">
+      通过 letter-spacing 和 word-spacing 微调字符间距，实现视觉上的平衡感。
+    </div>
+    <div class="demo-row bal-demo" style="display: block">
+      <div class="box normal">
+        <span class="label">默认间距</span>The quick brown fox. 你好世界。
+      </div>
+      <div class="box tight">
+        <span class="label">紧凑 (letter:-0.5px)</span>The quick brown fox.
+        你好世界。
+      </div>
+      <div class="box loose">
+        <span class="label">宽松 (letter:1px)</span>The quick brown fox.
+        你好世界。
+      </div>
+      <div class="box balanced">
+        <span class="label">平衡 (letter:0.3px)</span>The quick brown fox.
+        你好世界。
+      </div>
+    </div>
+    <div class="note">
+      大标题可适当加宽字间距提升品质感；小字号可微减字间距提升紧凑度。
+    </div>
+  </body>
+</html>

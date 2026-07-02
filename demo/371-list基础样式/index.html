@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>列表基础样式</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .ls-demo {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+      }
+      .ls-demo h4 {
+        font-size: 14px;
+        margin-bottom: 10px;
+        color: #2c3e50;
+      }
+      .ls-disc {
+        list-style: disc;
+        padding-left: 20px;
+      }
+      .ls-circle {
+        list-style: circle;
+        padding-left: 20px;
+      }
+      .ls-square {
+        list-style: square;
+        padding-left: 20px;
+      }
+      .ls-decimal {
+        list-style: decimal;
+        padding-left: 20px;
+      }
+      .ls-none {
+        list-style: none;
+        padding-left: 0;
+      }
+      .ls-demo li {
+        font-size: 14px;
+        color: #555;
+        padding: 4px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>列表基础样式</h1>
+    <div class="desc">
+      使用 CSS 设置 <code>ul</code>/<code>ol</code> 列表的
+      <code>list-style</code>、内边距等基础样式。
+    </div>
+    <span class="tag">无序列表 list-style</span>
+    <div class="demo-row" style="padding: 20px; gap: 20px">
+      <div class="ls-demo" style="flex: 1">
+        <h4>disc（默认）</h4>
+        <ul class="ls-disc">
+          <li>列表项1</li>
+          <li>列表项2</li>
+          <li>列表项3</li>
+        </ul>
+      </div>
+      <div class="ls-demo" style="flex: 1">
+        <h4>circle</h4>
+        <ul class="ls-circle">
+          <li>列表项1</li>
+          <li>列表项2</li>
+          <li>列表项3</li>
+        </ul>
+      </div>
+      <div class="ls-demo" style="flex: 1">
+        <h4>square</h4>
+        <ul class="ls-square">
+          <li>列表项1</li>
+          <li>列表项2</li>
+          <li>列表项3</li>
+        </ul>
+      </div>
+    </div>
+    <span class="tag">有序列表 & 无标记</span>
+    <div class="demo-row" style="padding: 0 20px 20px; gap: 20px">
+      <div class="ls-demo" style="flex: 1; margin-bottom: 0">
+        <h4>decimal</h4>
+        <ol class="ls-decimal">
+          <li>第一步</li>
+          <li>第二步</li>
+          <li>第三步</li>
+        </ol>
+      </div>
+      <div class="ls-demo" style="flex: 1; margin-bottom: 0">
+        <h4>none</h4>
+        <ul class="ls-none">
+          <li>无标记项1</li>
+          <li>无标记项2</li>
+          <li>无标记项3</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">
+      <code>list-style</code> 是
+      <code>list-style-type</code>、<code>list-style-position</code>、<code
+        >list-style-image</code
+      >
+      的简写。
+    </div>
+  </body>
+</html>

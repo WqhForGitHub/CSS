@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vmin 响应式单位</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .vmin-demo .box {
+        width: 30vmin;
+        height: 30vmin;
+        background: linear-gradient(135deg, #9b59b6, #3498db);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 4vmin;
+      }
+      .vmin-demo .info {
+        font-size: 13px;
+        color: #555;
+        margin-top: 10px;
+      }
+      .vmin-demo .compare {
+        display: flex;
+        gap: 20px;
+      }
+      .vmin-demo .compare > div {
+        text-align: center;
+      }
+      .vmin-demo .vmin-box {
+        width: 20vmin;
+        height: 20vmin;
+        background: #e74c3c;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
+      .vmin-demo .vmax-box {
+        width: 20vmax;
+        height: 20vmax;
+        background: #27ae60;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>vmin 响应式单位</h1>
+    <div class="desc">
+      <code>1vmin</code> = vw 和 vh 中较小者的
+      1%。确保元素在不同方向上都不会溢出。
+    </div>
+    <div class="demo-row vmin-demo" style="display: block">
+      <div class="box">30vmin × 30vmin</div>
+      <div class="info">
+        vmin 取 vw 和 vh 中的较小值，横竖屏切换时自动适应。
+      </div>
+      <div class="compare" style="margin-top: 15px">
+        <div>
+          <div class="vmin-box">vmin</div>
+          <p style="font-size: 12px; color: #7f8c8d; margin-top: 4px">
+            取较小维度
+          </p>
+        </div>
+        <div>
+          <div class="vmax-box">vmax</div>
+          <p style="font-size: 12px; color: #7f8c8d; margin-top: 4px">
+            取较大维度
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      vmin 适合确保元素在横屏和竖屏下都可见。vmax 取较大维度。
+    </div>
+  </body>
+</html>

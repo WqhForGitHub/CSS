@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>层叠上下文比较</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .si-demo {
+        position: relative;
+        height: 220px;
+        background: #ecf0f1;
+        border-radius: 8px;
+        padding: 20px;
+      }
+      .si-parent-1 {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 200px;
+        height: 160px;
+        background: #3498db;
+        border-radius: 8px;
+        z-index: 1;
+        padding: 10px;
+        color: #fff;
+        font-size: 12px;
+      }
+      .si-parent-2 {
+        position: absolute;
+        top: 40px;
+        left: 100px;
+        width: 200px;
+        height: 160px;
+        background: #e74c3c;
+        border-radius: 8px;
+        z-index: 2;
+        padding: 10px;
+        color: #fff;
+        font-size: 12px;
+      }
+      .si-child {
+        position: absolute;
+        bottom: -20px;
+        right: -20px;
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 11px;
+      }
+      .si-child-1 {
+        background: #27ae60;
+        z-index: 999;
+      }
+      .si-child-2 {
+        background: #f39c12;
+        z-index: 1;
+      }
+      .si-parent-1-new {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 200px;
+        height: 160px;
+        background: #3498db;
+        border-radius: 8px;
+        z-index: 100;
+        padding: 10px;
+        color: #fff;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>层叠上下文比较</h1>
+    <div class="desc">
+      对比不同层叠上下文中 z-index 的表现，理解"子元素的 z-index
+      无法超越父级层叠上下文"这一关键规则。
+    </div>
+    <span class="tag">场景1：低z-index父级 vs 高z-index子级</span>
+    <div class="si-demo">
+      <div class="si-parent-1">
+        蓝色父级 z:1
+        <div class="si-child si-child-1">绿色子级 z:999</div>
+      </div>
+      <div class="si-parent-2">
+        红色父级 z:2
+        <div class="si-child si-child-2">橙色子级 z:1</div>
+      </div>
+    </div>
+    <p style="font-size: 13px; margin: 10px 0">
+      蓝色父级 z:1 < 红色父级 z:2，所以红色整体在上层。绿色子级 z:999
+      虽然值大，但被困在蓝色上下文内，无法超越红色父级。
+    </p>
+    <span class="tag">场景2：提高蓝色父级 z-index</span>
+    <div class="si-demo">
+      <div class="si-parent-1-new">
+        蓝色父级 z:100
+        <div class="si-child si-child-1">绿色子级 z:999</div>
+      </div>
+      <div class="si-parent-2">
+        红色父级 z:2
+        <div class="si-child si-child-2">橙色子级 z:1</div>
+      </div>
+    </div>
+    <p style="font-size: 13px; margin: 10px 0">
+      蓝色父级 z:100 > 红色父级 z:2，蓝色整体在上层，绿色子级自然也在最上层。
+    </p>
+    <div class="note">
+      核心规则：z-index
+      只在同一层叠上下文内有效。要提升子元素层级，必须提升其所在层叠上下文（即父元素）的
+      z-index。
+    </div>
+  </body>
+</html>

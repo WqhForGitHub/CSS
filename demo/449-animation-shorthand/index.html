@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>animation 简写属性</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .demo {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        border-radius: 8px;
+        margin: 10px;
+      }
+      .d1 {
+        background: #3498db;
+        animation: pulse 2s ease infinite alternate;
+      }
+      .d2 {
+        background: #e74c3c;
+        animation: spin 1.5s linear infinite;
+      }
+      .d3 {
+        background: #27ae60;
+        animation: fadeScale 3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s infinite
+          alternate both;
+      }
+      .d4 {
+        background: #f39c12;
+        animation: move 2s ease-in-out 0s 3 forwards;
+      }
+      .d5 {
+        background: #9b59b6;
+        animation: shake 0.5s ease infinite;
+      }
+      @keyframes pulse {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.3);
+        }
+      }
+      @keyframes spin {
+        from {
+          transform: rotate(0);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes fadeScale {
+        0% {
+          opacity: 0.3;
+          transform: scale(0.8);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1.2);
+        }
+      }
+      @keyframes move {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(100px);
+        }
+      }
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-8px);
+        }
+        75% {
+          transform: translateX(8px);
+        }
+      }
+      .flex-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: center;
+      }
+      .item {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>animation 简写属性</h1>
+    <div class="desc">
+      <code>animation</code> 简写属性可以在一行中设置所有动画参数：name,
+      duration, timing-function, delay, iteration-count, direction, fill-mode,
+      play-state。
+    </div>
+
+    <h2>animation 简写用法</h2>
+    <div class="demo-row">
+      <div class="flex-wrap">
+        <div class="item">
+          <div class="demo d1">脉冲</div>
+          <div class="label">pulse 2s ease infinite alternate</div>
+        </div>
+        <div class="item">
+          <div class="demo d2">旋转</div>
+          <div class="label">spin 1.5s linear infinite</div>
+        </div>
+        <div class="item">
+          <div class="demo d3">弹性</div>
+          <div class="label">fadeScale 3s cubic-bezier 0.5s</div>
+        </div>
+        <div class="item">
+          <div class="demo d4">移动</div>
+          <div class="label">move 2s 3次 forwards</div>
+        </div>
+        <div class="item">
+          <div class="demo d5">抖动</div>
+          <div class="label">shake 0.5s infinite</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      简写格式：animation: name duration timing delay count direction fill-mode
+      play-state。至少需要 name 和 duration。
+    </div>
+  </body>
+</html>

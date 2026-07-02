@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grid subgrid 子网格</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .sg-parent {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 8px;
+      }
+      .sg-card {
+        background: #fff;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+      }
+      .sg-card-img {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 20px;
+      }
+      .sg-card-body {
+        padding: 10px;
+        font-size: 13px;
+        color: #555;
+      }
+      .sg-card-footer {
+        padding: 8px 10px;
+        border-top: 1px solid #ecf0f1;
+        font-size: 12px;
+        color: #95a5a6;
+        display: flex;
+        justify-content: space-between;
+      }
+      .sg-card:nth-child(1) .sg-card-img {
+        background: #3498db;
+      }
+      .sg-card:nth-child(2) .sg-card-img {
+        background: #e74c3c;
+      }
+      .sg-card:nth-child(3) .sg-card-img {
+        background: #27ae60;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Grid subgrid 子网格</h1>
+    <div class="desc">
+      <code>subgrid</code> 使嵌套的网格容器继承父网格的轨道定义，实现精确对齐。
+    </div>
+    <span class="tag">Grid 卡片网格（无 subgrid）</span>
+    <div class="demo-row" style="padding: 20px">
+      <div class="sg-parent" style="width: 100%">
+        <div class="sg-card">
+          <div class="sg-card-img">★</div>
+          <div class="sg-card-body">卡片1内容较短</div>
+          <div class="sg-card-footer">
+            <span>2024-01-15</span><span>★ 128</span>
+          </div>
+        </div>
+        <div class="sg-card">
+          <div class="sg-card-img" style="background: #e74c3c">♥</div>
+          <div class="sg-card-body">
+            卡片2内容较长一些，有多行文字来撑开高度
+          </div>
+          <div class="sg-card-footer">
+            <span>2024-01-10</span><span>★ 256</span>
+          </div>
+        </div>
+        <div class="sg-card">
+          <div class="sg-card-img" style="background: #27ae60">●</div>
+          <div class="sg-card-body">卡片3内容中等</div>
+          <div class="sg-card-footer">
+            <span>2024-01-05</span><span>★ 64</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <code>subgrid</code>
+      允许嵌套网格继承父网格的轨道定义，使子网格与父网格对齐。目前部分浏览器支持。不支持时可使用
+      <code>display: contents</code> 作为替代方案。
+    </div>
+  </body>
+</html>

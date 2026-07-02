@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>auto 居中布局实现</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .ac-demo .case {
+        background: #fff;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+      .ac-demo .case-title {
+        font-size: 13px;
+        color: #7f8c8d;
+        margin-bottom: 8px;
+      }
+      .ac-demo .block-box {
+        width: 150px;
+        height: 50px;
+        background: #3498db;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        margin: 0 auto;
+        font-size: 12px;
+      }
+      .ac-demo .block-vertical {
+        width: 150px;
+        height: 50px;
+        background: #e74c3c;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        margin: auto;
+        font-size: 12px;
+      }
+      .ac-demo .block-vertical-wrap {
+        height: 100px;
+        background: #ecf0f1;
+        border-radius: 4px;
+        padding: 8px;
+      }
+      .ac-demo .flex-container {
+        display: flex;
+        height: 100px;
+        background: #ecf0f1;
+        border-radius: 4px;
+        padding: 8px;
+      }
+      .ac-demo .flex-container > .box {
+        width: 120px;
+        height: 50px;
+        background: #27ae60;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        margin: auto;
+        font-size: 12px;
+      }
+      .ac-demo .info {
+        font-size: 12px;
+        color: #555;
+        margin-top: 6px;
+      }
+      .ac-demo .code {
+        font-family: Consolas, monospace;
+        font-size: 12px;
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 8px;
+        border-radius: 4px;
+        margin-top: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>auto 居中布局实现</h1>
+    <div class="desc">
+      <code>margin: auto</code> 在块级和 flex
+      上下文中表现不同。块级仅水平居中，flex 可实现双向居中。
+    </div>
+    <div class="demo-row ac-demo" style="display: block">
+      <div class="case">
+        <div class="case-title">1. 块级 margin: 0 auto — 仅水平居中</div>
+        <div class="block-box">水平居中</div>
+        <div class="info">
+          ↑ 块级元素中 margin:auto 仅水平方向有效，垂直 auto 等于 0
+        </div>
+      </div>
+      <div class="case">
+        <div class="case-title">2. 块级 margin: auto — 垂直方向仍无效</div>
+        <div class="block-vertical-wrap">
+          <div class="block-vertical">垂直方向 auto 无效</div>
+        </div>
+        <div class="info">↑ 块级上下 margin:auto 不会让元素垂直居中</div>
+      </div>
+      <div class="case">
+        <div class="case-title">3. flex 容器中 margin: auto — 双向居中</div>
+        <div class="flex-container"><div class="box">flex 中双向居中</div></div>
+        <div class="info">
+          ↑ flex 子元素 margin:auto 在剩余空间内双向分配，实现水平和垂直居中
+        </div>
+        <div class="code">
+          .flex-parent { display: flex; } .flex-child { margin: auto; }
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      flex 子元素的 margin:auto 会吸收所有剩余空间，这是 flexbox
+      实现居中最简洁的方案之一。
+    </div>
+  </body>
+</html>

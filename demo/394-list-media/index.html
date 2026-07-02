@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>媒体列表</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .md-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .md-item {
+        display: flex;
+        gap: 14px;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        transition: transform 0.2s;
+      }
+      .md-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .md-thumb {
+        width: 100px;
+        height: 100px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 32px;
+      }
+      .md-thumb.c1 {
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+      }
+      .md-thumb.c2 {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+      }
+      .md-thumb.c3 {
+        background: linear-gradient(135deg, #27ae60, #16a085);
+      }
+      .md-body {
+        flex: 1;
+        padding: 12px 14px;
+      }
+      .md-title {
+        font-size: 15px;
+        color: #2c3e50;
+        margin-bottom: 4px;
+      }
+      .md-desc {
+        font-size: 13px;
+        color: #7f8c8d;
+        line-height: 1.5;
+        margin-bottom: 6px;
+      }
+      .md-meta {
+        font-size: 12px;
+        color: #95a5a6;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>媒体列表</h1>
+    <div class="desc">
+      使用列表创建媒体列表（图文混排列表），常见于新闻列表、文章列表等。
+    </div>
+    <span class="tag">媒体列表（图文混排）</span>
+    <div class="demo-row" style="padding: 20px">
+      <ul class="md-list" style="width: 100%">
+        <li class="md-item">
+          <div class="md-thumb c1">★</div>
+          <div class="md-body">
+            <div class="md-title">CSS Grid 布局完全指南</div>
+            <div class="md-desc">
+              深入了解 CSS Grid 的核心概念和实际应用，从基础到高级技巧一网打尽。
+            </div>
+            <div class="md-meta">2024-01-15 · 阅读 5 分钟 · CSS</div>
+          </div>
+        </li>
+        <li class="md-item">
+          <div class="md-thumb c2">♥</div>
+          <div class="md-body">
+            <div class="md-title">Flexbox 实用技巧</div>
+            <div class="md-desc">
+              掌握 Flexbox 的实用技巧，提升布局效率和代码质量。
+            </div>
+            <div class="md-meta">2024-01-10 · 阅读 3 分钟 · CSS</div>
+          </div>
+        </li>
+        <li class="md-item">
+          <div class="md-thumb c3">●</div>
+          <div class="md-body">
+            <div class="md-title">响应式设计最佳实践</div>
+            <div class="md-desc">
+              使用现代 CSS 实现完美的响应式布局，无需媒体查询也能自适应。
+            </div>
+            <div class="md-meta">2024-01-05 · 阅读 8 分钟 · 响应式</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="note">
+      <code>flex-shrink: 0</code> 防止缩略图被压缩。悬停时
+      <code>translateY</code> 上浮增加交互感。
+    </div>
+  </body>
+</html>

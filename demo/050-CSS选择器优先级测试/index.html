@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS 选择器优先级测试</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .prio-test .item {
+        color: #333;
+      }
+      .prio-test div.item {
+        color: #3498db;
+      }
+      .prio-test .container .item {
+        color: #e74c3c;
+      }
+      .prio-test .container > .item {
+        color: #2ecc71;
+      }
+      .prio-test .container .inner .item {
+        color: #9b59b6;
+      }
+      .prio-test .item {
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 4px;
+        background: #f8f9fa;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>CSS 选择器优先级测试</h1>
+    <div class="desc">
+      综合测试各种选择器的优先级关系，理解层叠规则的实际应用。
+    </div>
+    <div class="demo-row prio-test" style="display: block">
+      <div class="container">
+        <div class="item">.container .item (0,2,0) — 红色</div>
+        <div class="inner">
+          <div class="item">.container .inner .item (0,3,0) — 紫色</div>
+        </div>
+      </div>
+      <div class="item">div.item (0,1,1) — 蓝色</div>
+    </div>
+    <div class="note">
+      测试结果：.container .inner .item (0,3,0) > .container .item (0,2,0) >
+      div.item (0,1,1) > .item (0,1,0)
+    </div>
+  </body>
+</html>

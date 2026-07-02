@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS 标识符使用规则</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .id-demo .info {
+        font-size: 14px;
+        line-height: 2;
+      }
+      .id-demo .valid {
+        color: #27ae60;
+      }
+      .id-demo .invalid {
+        color: #e74c3c;
+      }
+      .id-demo code {
+        font-family: Consolas, monospace;
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+      }
+      .id-demo .custom-var {
+        --my-color: #3498db;
+        --main-padding: 16px;
+        color: var(--my-color);
+        padding: var(--main-padding);
+        background: #fff;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>CSS 标识符使用规则</h1>
+    <div class="desc">
+      CSS
+      标识符用于命名选择器、属性、变量等。可包含字母、数字、连字符、下划线，但不能以数字开头。
+    </div>
+    <div class="demo-row id-demo" style="display: block">
+      <div class="info">
+        <div class="valid">✓ <code>.my-class</code> — 字母开头</div>
+        <div class="valid">✓ <code>.nav-item</code> — 含连字符</div>
+        <div class="valid">✓ <code>._private</code> — 下划线开头</div>
+        <div class="valid">✓ <code>.item2</code> — 含数字（非开头）</div>
+        <div class="invalid">✗ <code>.2item</code> — 数字开头（非法）</div>
+        <div class="invalid">✗ <code>.my class</code> — 含空格（非法）</div>
+      </div>
+      <div class="custom-var" style="margin-top: 10px">
+        CSS 变量也是标识符：--my-color, --main-padding
+      </div>
+    </div>
+    <div class="note">CSS 变量名（自定义属性）必须以双连字符 -- 开头。</div>
+  </body>
+</html>

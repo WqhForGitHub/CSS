@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>backdrop-filter 背景滤镜</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .bg-layer {
+        background: linear-gradient(
+          135deg,
+          #e74c3c,
+          #f39c12,
+          #27ae60,
+          #3498db,
+          #9b59b6
+        );
+        padding: 40px;
+        border-radius: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      .bg-shapes {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .shape {
+        position: absolute;
+        border-radius: 50%;
+      }
+      .shape1 {
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.3);
+        top: 10px;
+        left: 10%;
+      }
+      .shape2 {
+        width: 120px;
+        height: 120px;
+        background: rgba(255, 255, 255, 0.2);
+        top: 40px;
+        right: 15%;
+      }
+      .shape3 {
+        width: 60px;
+        height: 60px;
+        background: rgba(0, 0, 0, 0.2);
+        bottom: 20px;
+        left: 30%;
+      }
+      .glass-panel {
+        position: relative;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 12px;
+        padding: 25px;
+        color: #fff;
+        z-index: 1;
+      }
+      .glass-panel h3 {
+        margin-bottom: 8px;
+      }
+      .glass-panel p {
+        font-size: 13px;
+        opacity: 0.9;
+      }
+      .glass-variations {
+        display: flex;
+        gap: 15px;
+        margin-top: 15px;
+      }
+      .gv {
+        flex: 1;
+        padding: 12px;
+        border-radius: 8px;
+        text-align: center;
+        color: #fff;
+        font-size: 12px;
+      }
+      .gv1 {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+      }
+      .gv2 {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+      .gv3 {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px) saturate(2);
+        -webkit-backdrop-filter: blur(10px) saturate(2);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>backdrop-filter 背景滤镜</h1>
+    <div class="desc">
+      <code>backdrop-filter</code>
+      对元素背后的内容应用滤镜效果，是实现毛玻璃（Glassmorphism）的核心属性。
+    </div>
+
+    <h2>backdrop-filter 毛玻璃效果</h2>
+    <div class="demo-row">
+      <div class="bg-layer" style="width: 100%">
+        <div class="bg-shapes">
+          <div class="shape shape1"></div>
+          <div class="shape shape2"></div>
+          <div class="shape shape3"></div>
+        </div>
+        <div class="glass-panel">
+          <h3>Glassmorphism</h3>
+          <p>
+            backdrop-filter: blur(15px)
+            让元素背后的内容产生模糊效果，配合半透明背景形成毛玻璃质感。
+          </p>
+          <div class="glass-variations">
+            <div class="gv gv1">blur(5px)</div>
+            <div class="gv gv2">blur(20px)</div>
+            <div class="gv gv3">blur+saturate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      backdrop-filter 需要 -webkit- 前缀以兼容
+      Safari。它对元素背后的内容应用滤镜，而非元素本身。
+    </div>
+  </body>
+</html>

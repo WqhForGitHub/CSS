@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>列表标签页</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .tp-tabs {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        gap: 4px;
+        border-bottom: 2px solid #ecf0f1;
+      }
+      .tp-tabs a {
+        display: block;
+        padding: 10px 20px;
+        text-decoration: none;
+        font-size: 14px;
+        color: #7f8c8d;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        transition: all 0.2s;
+      }
+      .tp-tabs a:hover {
+        color: #3498db;
+      }
+      .tp-tabs .active a {
+        color: #3498db;
+        border-bottom-color: #3498db;
+        font-weight: bold;
+      }
+      .tp-pills {
+        border-bottom: none;
+        gap: 8px;
+      }
+      .tp-pills a {
+        border: none;
+        border-radius: 20px;
+        padding: 8px 20px;
+      }
+      .tp-pills .active a {
+        background: #3498db;
+        color: #fff;
+      }
+      .tp-pills a:hover {
+        background: #ecf0f1;
+      }
+      .tp-card {
+        border: 1px solid #ecf0f1;
+        border-radius: 0 0 8px 8px;
+        padding: 20px;
+        background: #fff;
+        font-size: 13px;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>列表标签页</h1>
+    <div class="desc">使用列表+CSS 实现标签页切换效果。</div>
+    <span class="tag">下划线标签页</span>
+    <div class="demo-row" style="padding: 20px">
+      <div style="width: 100%">
+        <ul class="tp-tabs">
+          <li class="active"><a href="#">概览</a></li>
+          <li><a href="#">设置</a></li>
+          <li><a href="#">通知</a></li>
+          <li><a href="#">安全</a></li>
+        </ul>
+        <div class="tp-card">
+          这是概览页面的内容。使用
+          <code>border-bottom</code> 创建下划线效果，<code
+            >margin-bottom: -2px</code
+          >
+          使下划线覆盖容器底部边框。
+        </div>
+      </div>
+    </div>
+    <span class="tag">胶囊标签页</span>
+    <div class="demo-row" style="padding: 0 20px 20px">
+      <div style="width: 100%">
+        <ul class="tp-tabs tp-pills">
+          <li class="active"><a href="#">全部</a></li>
+          <li><a href="#">进行中</a></li>
+          <li><a href="#">已完成</a></li>
+          <li><a href="#">已取消</a></li>
+        </ul>
+        <div class="tp-card">
+          胶囊标签页使用 <code>border-radius: 20px</code> 创建圆角形状，<code
+            >active</code
+          >
+          状态填充背景色。
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <code>border-bottom</code> +
+      <code>margin-bottom: -2px</code> 是下划线标签页的关键技巧。实际切换需
+      JavaScript。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>行盒模型解析</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .linebox-demo .box {
+        padding: 16px;
+        background: #fff;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        font-size: 16px;
+      }
+      .linebox-demo .lh-1 {
+        line-height: 1;
+        background: #ebf5fb;
+      }
+      .linebox-demo .lh-2 {
+        line-height: 2;
+        background: #eafaf1;
+      }
+      .linebox-demo .visual {
+        position: relative;
+        padding: 20px;
+        background: #fef5e7;
+        border-radius: 6px;
+        line-height: 2;
+        font-size: 16px;
+      }
+      .linebox-demo .visual .line-marker {
+        position: absolute;
+        left: 0;
+        right: 0;
+        border-top: 1px dashed #e74c3c;
+        border-bottom: 1px dashed #e74c3c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>行盒模型解析</h1>
+    <div class="desc">
+      行内内容的布局由行盒（Line Box）控制。行盒包含内容区、行间距和半行距。
+    </div>
+    <div class="demo-row linebox-demo" style="display: block">
+      <p style="font-size: 13px; margin-bottom: 8px">
+        行盒高度 = font-size × line-height。line-height: 2 时行盒高度 = 字号 ×
+        2。
+      </p>
+      <div class="box lh-1">line-height: 1 — 行盒 = 字号<br />第二行</div>
+      <div class="box lh-2">line-height: 2 — 行盒 = 字号 × 2<br />第二行</div>
+    </div>
+    <div class="note">
+      行盒内文字垂直居中：文字上下各有半行距空间。line-height 影响行盒高度。
+    </div>
+  </body>
+</html>

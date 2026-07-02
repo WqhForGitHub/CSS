@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>定位与层叠上下文</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .sc-demo {
+        position: relative;
+        height: 200px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        padding: 20px;
+      }
+      .sc-box {
+        position: absolute;
+        width: 120px;
+        height: 80px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 12px;
+      }
+      .sc-normal {
+        background: #3498db;
+        top: 20px;
+        left: 20px;
+      }
+      .sc-opacity {
+        background: #e74c3c;
+        top: 50px;
+        left: 80px;
+        opacity: 0.99;
+      }
+      .sc-transform {
+        background: #27ae60;
+        top: 80px;
+        left: 140px;
+        transform: translateZ(0);
+      }
+      .sc-filter {
+        background: #f39c12;
+        top: 110px;
+        left: 200px;
+        filter: drop-shadow(0 0 0 transparent);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>定位与层叠上下文</h1>
+    <div class="desc">
+      层叠上下文（Stacking
+      Context）是CSS渲染中的概念。触发条件：position+z-index、opacity<1、transform、filter等。
+    </div>
+    <span class="tag">不同方式触发的层叠上下文</span>
+    <div class="sc-demo">
+      <div class="sc-box sc-normal">normal<br />无层叠上下文</div>
+      <div class="sc-box sc-opacity">opacity:0.99<br />触发层叠上下文</div>
+      <div class="sc-box sc-transform">transform<br />触发层叠上下文</div>
+      <div class="sc-box sc-filter">filter<br />触发层叠上下文</div>
+    </div>
+    <div class="demo-row" style="margin-top: 15px">
+      <div
+        style="
+          background: #fff;
+          padding: 15px;
+          border-radius: 6px;
+          font-size: 13px;
+        "
+      >
+        <strong>触发层叠上下文的条件：</strong><br />
+        1. position 非 static + z-index 非 auto<br />
+        2. opacity < 1<br />
+        3. transform 不为 none<br />
+        4. filter 不为 none<br />
+        5. will-change 为指定值<br />
+        6. display: flex/grid 子项 + z-index
+      </div>
+    </div>
+    <div class="note">
+      一旦元素创建了新的层叠上下文，其子元素的 z-index
+      只在该上下文内比较，不会影响外部。理解这一点能解决很多"z-index
+      不生效"的问题。
+    </div>
+  </body>
+</html>

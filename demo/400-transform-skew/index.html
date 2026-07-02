@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>transform skew 倾斜</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .sk-box {
+        width: 80px;
+        height: 80px;
+        background: #3498db;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        border-radius: 6px;
+        margin: 20px;
+      }
+      .sk-x {
+        transform: skewX(15deg);
+        background: #e74c3c;
+      }
+      .sk-y {
+        transform: skewY(15deg);
+        background: #27ae60;
+      }
+      .sk-both {
+        transform: skew(15deg, 10deg);
+        background: #f39c12;
+      }
+      .sk-neg {
+        transform: skew(-15deg, 0);
+        background: #9b59b6;
+      }
+      .sk-large {
+        transform: skew(30deg, 0);
+        background: #1abc9c;
+      }
+      .sk-parallel {
+        transform: skewX(-20deg);
+        background: #e67e22;
+      }
+      .sk-parallel-inner {
+        transform: skewX(20deg);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>transform skew 倾斜</h1>
+    <div class="desc"><code>skew(x, y)</code> 使元素沿X轴和/或Y轴倾斜。</div>
+    <span class="tag">skew 倾斜效果</span>
+    <div
+      class="demo-row"
+      style="
+        padding: 30px 20px;
+        flex-wrap: wrap;
+        min-height: 140px;
+        align-items: center;
+      "
+    >
+      <div class="demo-item"><div class="sk-box">原始</div></div>
+      <div class="demo-item"><div class="sk-box sk-x">skewX15°</div></div>
+      <div class="demo-item"><div class="sk-box sk-y">skewY15°</div></div>
+      <div class="demo-item"><div class="sk-box sk-both">15°,10°</div></div>
+      <div class="demo-item"><div class="sk-box sk-neg">-15°</div></div>
+      <div class="demo-item"><div class="sk-box sk-large">30°</div></div>
+    </div>
+    <span class="tag">skew 应用：平行四边形</span>
+    <div class="demo-row" style="padding: 20px; justify-content: center">
+      <div class="sk-box sk-parallel">
+        <span class="sk-parallel-inner">平行四边形</span>
+      </div>
+    </div>
+    <div class="note">
+      嵌套 skew
+      可以创建平行四边形效果：外层倾斜，内层反向倾斜使文字正常显示。<code
+        >skewX</code
+      >
+      沿X轴倾斜（更常用），<code>skewY</code> 沿Y轴倾斜。
+    </div>
+  </body>
+</html>

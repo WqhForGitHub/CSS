@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>padding 与盒模型影响</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .pb-demo .compare {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .pb-demo .case {
+        background: #fff;
+        padding: 10px;
+        border-radius: 6px;
+      }
+      .pb-demo .case-title {
+        font-size: 13px;
+        color: #7f8c8d;
+        margin-bottom: 6px;
+      }
+      .pb-demo .box {
+        width: 200px;
+        padding: 20px;
+        background: #ebf5fb;
+        border: 3px solid #3498db;
+        border-radius: 6px;
+        color: #2980b9;
+        font-size: 13px;
+      }
+      .pb-demo .content-box {
+        box-sizing: content-box;
+      }
+      .pb-demo .border-box {
+        box-sizing: border-box;
+        background: #eafaf1;
+        border-color: #27ae60;
+        color: #27ae60;
+      }
+      .pb-demo .ruler {
+        height: 4px;
+        background: #e74c3c;
+        margin-top: 4px;
+        border-radius: 2px;
+      }
+      .pb-demo .ruler-200 {
+        width: 200px;
+      }
+      .pb-demo .ruler-246 {
+        width: 246px;
+      }
+      .pb-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+        margin-top: 4px;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>padding 与盒模型影响</h1>
+    <div class="desc">
+      对比 <code>content-box</code> 与 <code>border-box</code> 下 padding
+      对盒子尺寸的不同影响。
+    </div>
+    <div class="demo-row pb-demo" style="display: block">
+      <div class="compare">
+        <div class="case">
+          <div class="case-title">content-box（默认）</div>
+          <div class="box content-box">
+            width:200<br />padding:20<br />border:3<br />总宽: 246px
+          </div>
+          <div class="ruler ruler-246"></div>
+          <span class="label">总宽度 = 200 + 20×2 + 3×2 = 246px</span>
+        </div>
+        <div class="case">
+          <div class="case-title">border-box</div>
+          <div class="box border-box">
+            width:200<br />padding:20<br />border:3<br />总宽: 200px
+          </div>
+          <div class="ruler ruler-200"></div>
+          <span class="label">总宽度 = 200px（内容区压缩为 154px）</span>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      content-box 下 padding 会撑大盒子；border-box 下 padding 在 width
+      内消化，布局更可控。
+    </div>
+  </body>
+</html>

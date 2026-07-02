@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>列表标签云</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .tc-tags {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .tc-tags a {
+        display: inline-block;
+        padding: 6px 16px;
+        background: #ecf0f1;
+        color: #3498db;
+        text-decoration: none;
+        border-radius: 20px;
+        font-size: 13px;
+        transition: all 0.2s;
+      }
+      .tc-tags a:hover {
+        background: #3498db;
+        color: #fff;
+      }
+      .tc-tags a.large {
+        font-size: 16px;
+        padding: 8px 20px;
+      }
+      .tc-tags a.medium {
+        font-size: 14px;
+      }
+      .tc-tags a.small {
+        font-size: 12px;
+      }
+      .tc-colored li:nth-child(1) a {
+        background: #3498db;
+        color: #fff;
+      }
+      .tc-colored li:nth-child(2) a {
+        background: #e74c3c;
+        color: #fff;
+      }
+      .tc-colored li:nth-child(3) a {
+        background: #27ae60;
+        color: #fff;
+      }
+      .tc-colored li:nth-child(4) a {
+        background: #f39c12;
+        color: #fff;
+      }
+      .tc-colored li:nth-child(5) a {
+        background: #9b59b6;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>列表标签云</h1>
+    <div class="desc">使用列表+Flexbox 实现标签云布局，标签自动换行排列。</div>
+    <span class="tag">标签云（不同大小）</span>
+    <div class="demo-row" style="padding: 20px">
+      <ul class="tc-tags">
+        <li><a href="#" class="large">JavaScript</a></li>
+        <li><a href="#" class="medium">CSS</a></li>
+        <li><a href="#" class="large">React</a></li>
+        <li><a href="#" class="small">HTML</a></li>
+        <li><a href="#" class="medium">TypeScript</a></li>
+        <li><a href="#" class="large">Node.js</a></li>
+        <li><a href="#" class="small">Python</a></li>
+        <li><a href="#" class="medium">Vue</a></li>
+      </ul>
+    </div>
+    <span class="tag">彩色标签</span>
+    <div class="demo-row" style="padding: 0 20px 20px">
+      <ul class="tc-tags tc-colored">
+        <li><a href="#">前端</a></li>
+        <li><a href="#">后端</a></li>
+        <li><a href="#">数据库</a></li>
+        <li><a href="#">DevOps</a></li>
+        <li><a href="#">设计</a></li>
+      </ul>
+    </div>
+    <div class="note">
+      <code>flex-wrap: wrap</code> 自动换行。<code>border-radius: 20px</code>
+      创建胶囊形状。
+    </div>
+  </body>
+</html>

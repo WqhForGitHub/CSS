@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>步骤列表</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .sl-steps {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        counter-reset: step;
+      }
+      .sl-steps li {
+        position: relative;
+        padding: 0 0 30px 50px;
+        font-size: 14px;
+        color: #555;
+      }
+      .sl-steps li:last-child {
+        padding-bottom: 0;
+      }
+      .sl-steps li::before {
+        content: counter(step);
+        counter-increment: step;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 36px;
+        height: 36px;
+        background: #3498db;
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 16px;
+        z-index: 1;
+      }
+      .sl-steps li::after {
+        content: '';
+        position: absolute;
+        left: 17px;
+        top: 36px;
+        bottom: 0;
+        width: 2px;
+        background: #ecf0f1;
+      }
+      .sl-steps li:last-child::after {
+        display: none;
+      }
+      .sl-steps li.done::before {
+        background: #27ae60;
+      }
+      .sl-steps li.active::before {
+        background: #f39c12;
+        box-shadow: 0 0 0 4px rgba(243, 156, 18, 0.2);
+      }
+      .sl-steps li h4 {
+        font-size: 15px;
+        color: #2c3e50;
+        margin-bottom: 4px;
+      }
+      .sl-steps li p {
+        font-size: 13px;
+        color: #7f8c8d;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>步骤列表</h1>
+    <div class="desc">
+      使用列表+CSS 创建美观的步骤列表，常用于教程、流程说明等。
+    </div>
+    <span class="tag">步骤列表</span>
+    <div class="demo-row" style="padding: 20px">
+      <ul class="sl-steps" style="width: 100%">
+        <li class="done">
+          <h4>注册账号</h4>
+          <p>填写基本信息，创建您的账户</p>
+        </li>
+        <li class="done">
+          <h4>验证邮箱</h4>
+          <p>点击邮件中的链接完成验证</p>
+        </li>
+        <li class="active">
+          <h4>完善资料</h4>
+          <p>上传头像，填写个人简介</p>
+        </li>
+        <li>
+          <h4>开始使用</h4>
+          <p>完成设置，探索平台功能</p>
+        </li>
+      </ul>
+    </div>
+    <div class="note">
+      <code>::before</code> 创建圆形步骤编号，<code>::after</code>
+      创建连接线。<code>done</code> 和 <code>active</code> 类表示不同状态。
+    </div>
+  </body>
+</html>

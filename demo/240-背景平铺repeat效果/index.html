@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>背景平铺repeat效果</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .br-demo {
+        width: 180px;
+        height: 120px;
+        border: 2px solid #34495e;
+        border-radius: 6px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='15' fill='%233498db'/%3E%3C/svg%3E");
+        margin-bottom: 10px;
+      }
+      .br-repeat {
+        background-repeat: repeat;
+      }
+      .br-repeat-x {
+        background-repeat: repeat-x;
+      }
+      .br-repeat-y {
+        background-repeat: repeat-y;
+      }
+      .br-no-repeat {
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+      .br-space {
+        background-repeat: space;
+      }
+      .br-round {
+        background-repeat: round;
+      }
+      .br-two-val {
+        background-repeat: repeat no-repeat;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>背景平铺repeat效果</h1>
+    <div class="desc">
+      <code>background-repeat</code>
+      控制背景图片的重复方式：<code>repeat</code>、<code>repeat-x</code>、<code>repeat-y</code>、<code>no-repeat</code>、<code>space</code>、<code>round</code>。
+    </div>
+    <span class="tag">background-repeat 各值对比</span>
+    <div class="demo-row">
+      <div class="demo-item">
+        <div class="br-demo br-repeat"></div>
+        <span class="label">repeat（默认）</span>
+      </div>
+      <div class="demo-item">
+        <div class="br-demo br-repeat-x"></div>
+        <span class="label">repeat-x</span>
+      </div>
+      <div class="demo-item">
+        <div class="br-demo br-repeat-y"></div>
+        <span class="label">repeat-y</span>
+      </div>
+      <div class="demo-item">
+        <div class="br-demo br-no-repeat"></div>
+        <span class="label">no-repeat</span>
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-item">
+        <div class="br-demo br-space"></div>
+        <span class="label">space（均匀分布）</span>
+      </div>
+      <div class="demo-item">
+        <div class="br-demo br-round"></div>
+        <span class="label">round（缩放适配）</span>
+      </div>
+      <div class="demo-item">
+        <div class="br-demo br-two-val"></div>
+        <span class="label">repeat no-repeat</span>
+      </div>
+    </div>
+    <div class="note">
+      <code>space</code> 不会裁剪图片而是均匀分布留白；<code>round</code>
+      会缩放图片以完整填充。双值语法分别控制水平和垂直方向。
+    </div>
+  </body>
+</html>

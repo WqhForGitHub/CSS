@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>盒子对齐机制</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .align-demo .box {
+        width: 120px;
+        height: 60px;
+        background: #3498db;
+        color: #fff;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+      }
+      .align-demo .case {
+        background: #ecf0f1;
+        border-radius: 6px;
+        padding: 16px;
+        margin-bottom: 10px;
+      }
+      .align-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+        margin-bottom: 8px;
+        display: block;
+      }
+      .align-demo .margin-auto {
+        text-align: center;
+      }
+      .align-demo .margin-auto .box {
+        margin: 0 auto;
+      }
+      .align-demo .flex-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        background: #fef9e7;
+        border-radius: 6px;
+      }
+      .align-demo .line-height {
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        background: #eafaf1;
+        border-radius: 6px;
+      }
+      .align-demo .pos-center {
+        position: relative;
+        height: 100px;
+        background: #fdedec;
+        border-radius: 6px;
+      }
+      .align-demo .pos-center .box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>盒子对齐机制</h1>
+    <div class="desc">
+      演示水平/垂直居中的多种方案：<code>margin:auto</code>、flex、line-height、position
+      等。
+    </div>
+    <div class="demo-row align-demo" style="display: block">
+      <div class="case">
+        <span class="label">方案1: margin: 0 auto（水平居中，需设 width）</span>
+        <div class="margin-auto"><div class="box">水平居中</div></div>
+      </div>
+      <div class="case">
+        <span class="label">方案2: flex 水平+垂直居中</span>
+        <div class="flex-center"><div class="box">flex 居中</div></div>
+      </div>
+      <div class="case">
+        <span class="label">方案3: line-height（单行文本垂直居中）</span>
+        <div class="line-height">
+          <div class="box" style="display: inline-flex">line-height 居中</div>
+        </div>
+      </div>
+      <div class="case">
+        <span class="label">方案4: position + transform（绝对定位居中）</span>
+        <div class="pos-center"><div class="box">绝对定位居中</div></div>
+      </div>
+    </div>
+    <div class="note">
+      水平居中：margin:auto 或 flex；垂直居中推荐 flex 或 grid，line-height
+      仅适用单行文本。
+    </div>
+  </body>
+</html>

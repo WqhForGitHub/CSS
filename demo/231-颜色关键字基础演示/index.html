@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>颜色关键字基础演示</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .color-box {
+        width: 80px;
+        height: 80px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 12px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .c-red {
+        background: red;
+      }
+      .c-blue {
+        background: blue;
+      }
+      .c-green {
+        background: green;
+      }
+      .c-orange {
+        background: orange;
+      }
+      .c-purple {
+        background: purple;
+      }
+      .c-pink {
+        background: pink;
+        color: #333;
+        text-shadow: none;
+      }
+      .c-cyan {
+        background: cyan;
+        color: #333;
+        text-shadow: none;
+      }
+      .c-magenta {
+        background: magenta;
+      }
+      .c-yellow {
+        background: yellow;
+        color: #333;
+        text-shadow: none;
+      }
+      .c-black {
+        background: black;
+      }
+      .c-white {
+        background: white;
+        color: #333;
+        text-shadow: none;
+        border: 1px solid #ccc;
+      }
+      .c-gray {
+        background: gray;
+      }
+      .c-brown {
+        background: brown;
+      }
+      .c-olive {
+        background: olive;
+      }
+      .c-navy {
+        background: navy;
+      }
+      .c-teal {
+        background: teal;
+      }
+      .c-lime {
+        background: lime;
+        color: #333;
+        text-shadow: none;
+      }
+      .c-maroon {
+        background: maroon;
+      }
+      .c-aqua {
+        background: aqua;
+        color: #333;
+        text-shadow: none;
+      }
+      .c-silver {
+        background: silver;
+        color: #333;
+        text-shadow: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>颜色关键字基础演示</h1>
+    <div class="desc">
+      使用预定义颜色名称（如
+      <code>red</code
+      >、<code>blue</code>、<code>green</code>）是最直观的颜色设置方式。CSS提供了140+种命名颜色。
+    </div>
+    <span class="tag">常用颜色关键字</span>
+    <div class="demo-row">
+      <div class="demo-item"><div class="color-box c-red">red</div></div>
+      <div class="demo-item"><div class="color-box c-blue">blue</div></div>
+      <div class="demo-item"><div class="color-box c-green">green</div></div>
+      <div class="demo-item"><div class="color-box c-orange">orange</div></div>
+      <div class="demo-item"><div class="color-box c-purple">purple</div></div>
+      <div class="demo-item"><div class="color-box c-pink">pink</div></div>
+      <div class="demo-item"><div class="color-box c-cyan">cyan</div></div>
+      <div class="demo-item">
+        <div class="color-box c-magenta">magenta</div>
+      </div>
+      <div class="demo-item"><div class="color-box c-yellow">yellow</div></div>
+      <div class="demo-item"><div class="color-box c-black">black</div></div>
+    </div>
+    <span class="tag">更多颜色关键字</span>
+    <div class="demo-row">
+      <div class="demo-item"><div class="color-box c-white">white</div></div>
+      <div class="demo-item"><div class="color-box c-gray">gray</div></div>
+      <div class="demo-item"><div class="color-box c-brown">brown</div></div>
+      <div class="demo-item"><div class="color-box c-olive">olive</div></div>
+      <div class="demo-item"><div class="color-box c-navy">navy</div></div>
+      <div class="demo-item"><div class="color-box c-teal">teal</div></div>
+      <div class="demo-item"><div class="color-box c-lime">lime</div></div>
+      <div class="demo-item"><div class="color-box c-maroon">maroon</div></div>
+      <div class="demo-item"><div class="color-box c-aqua">aqua</div></div>
+      <div class="demo-item"><div class="color-box c-silver">silver</div></div>
+    </div>
+    <div class="note">
+      CSS颜色关键字不区分大小写，<code>RED</code>、<code>Red</code>、<code>red</code>效果相同。共支持140+种命名颜色。
+    </div>
+  </body>
+</html>

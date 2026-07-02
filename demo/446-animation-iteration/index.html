@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>animation-iteration-count 循环次数</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .box {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        border-radius: 8px;
+        margin: 10px;
+      }
+      .iter1 {
+        background: #3498db;
+        animation: bounce 1s ease 1;
+      }
+      .iter3 {
+        background: #e74c3c;
+        animation: bounce 1s ease 3;
+      }
+      .iter5 {
+        background: #27ae60;
+        animation: bounce 1s ease 5;
+      }
+      .iter-inf {
+        background: #f39c12;
+        animation: bounce 1s ease infinite;
+      }
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-30px);
+        }
+      }
+      .flex-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: center;
+      }
+      .item {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>animation-iteration-count 循环次数</h1>
+    <div class="desc">
+      <code>animation-iteration-count</code> 定义动画播放次数，<code
+        >infinite</code
+      >
+      表示无限循环，也可以是具体数字。
+    </div>
+
+    <h2>不同循环次数</h2>
+    <p>刷新页面查看有限次动画效果：</p>
+    <div class="demo-row">
+      <div class="flex-wrap">
+        <div class="item">
+          <div class="box iter1">1次</div>
+          <div class="label">iteration: 1</div>
+        </div>
+        <div class="item">
+          <div class="box iter3">3次</div>
+          <div class="label">iteration: 3</div>
+        </div>
+        <div class="item">
+          <div class="box iter5">5次</div>
+          <div class="label">iteration: 5</div>
+        </div>
+        <div class="item">
+          <div class="box iter-inf">∞</div>
+          <div class="label">infinite</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      iteration-count 也可以是小数（如 0.5 表示只播放前半段），但通常使用整数或
+      infinite。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>行内样式优先级测试</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      #high-id {
+        color: blue !important;
+        font-size: 16px;
+      }
+      .class-style {
+        color: green;
+        font-size: 16px;
+      }
+      .test-box {
+        padding: 16px;
+        margin-bottom: 10px;
+        border-radius: 6px;
+        background: #fff;
+        border: 2px solid #ddd;
+      }
+      .test-box .result {
+        font-size: 14px;
+        color: #555;
+        margin-top: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>行内样式优先级测试</h1>
+    <div class="desc">
+      行内 <code>style</code> 属性具有比选择器更高的优先级（权重 1000），只有
+      <code>!important</code> 能覆盖它。
+    </div>
+    <div class="demo-row" style="display: block">
+      <div class="test-box">
+        <p id="high-id" class="class-style" style="color: red">
+          这段文字有行内 style="color:red"，同时有 ID 选择器和类选择器
+        </p>
+        <p class="result">结果：红色 — 行内样式优先级最高 (1,0,0,0)</p>
+      </div>
+      <div class="test-box">
+        <p id="high-id2" class="class-style" style="color: red">
+          加了 !important 的 ID 选择器会覆盖行内样式
+        </p>
+        <p class="result">结果：蓝色 — !important 打破正常优先级 (覆盖行内)</p>
+      </div>
+    </div>
+    <div class="note">
+      优先级排序：!important &gt; 行内 style &gt; #id &gt; .class &gt; 标签
+    </div>
+    <style>
+      #high-id2 {
+        color: blue !important;
+      }
+    </style>
+  </body>
+</html>

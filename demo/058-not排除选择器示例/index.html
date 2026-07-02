@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>:not() 排除选择器示例</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .not-demo .item {
+        padding: 10px 14px;
+        margin: 4px 0;
+        border-radius: 4px;
+        background: #ebf5fb;
+        border-left: 4px solid #3498db;
+      }
+      .not-demo .item:not(.special) {
+        color: #555;
+      }
+      .not-demo .item.special {
+        background: #fef9e7;
+        border-left-color: #f1c40f;
+        font-weight: bold;
+      }
+      .not-demo .list {
+        list-style: none;
+      }
+      .not-demo .list li:not(:last-child) {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 6px;
+        margin-bottom: 6px;
+      }
+      .not-demo .list li:not(:first-child) {
+        padding-left: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>:not() 排除选择器示例</h1>
+    <div class="desc">
+      <code>:not()</code>
+      匹配不符合括号内选择器的元素。可用于「除了...之外」的场景。
+    </div>
+    <div class="demo-row not-demo" style="display: block">
+      <div class="item">普通项 — 蓝色</div>
+      <div class="item special">特殊项 — 黄色高亮</div>
+      <div class="item">普通项 — 蓝色</div>
+      <ul class="list" style="margin-top: 10px">
+        <li>列表项 1（有底边框，无缩进）</li>
+        <li>列表项 2（有底边框，有缩进）</li>
+        <li>列表项 3（无底边框，有缩进）</li>
+      </ul>
+    </div>
+    <div class="note">
+      :not() 不增加权重，括号内选择器的权重不计入。现代 CSS 支持 :not(a, b, c)
+      多参数。
+    </div>
+  </body>
+</html>

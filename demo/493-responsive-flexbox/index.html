@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>响应式 Flexbox 布局</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .rf-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        background: #2c3e50;
+        padding: 15px;
+        border-radius: 8px;
+      }
+      .rf-nav-item {
+        flex: 1 1 auto;
+        padding: 10px 15px;
+        background: #3498db;
+        color: #fff;
+        border-radius: 6px;
+        text-align: center;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        min-width: 80px;
+      }
+      .rf-nav-item:hover {
+        background: #2980b9;
+      }
+      .rf-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 15px;
+      }
+      .rf-card {
+        flex: 1 1 200px;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+      .rf-card h4 {
+        color: #2c3e50;
+        margin-bottom: 8px;
+        font-size: 15px;
+      }
+      .rf-card p {
+        font-size: 13px;
+        color: #7f8c8d;
+        line-height: 1.6;
+      }
+      @media (max-width: 600px) {
+        .rf-nav {
+          flex-direction: column;
+        }
+        .rf-nav-item {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>响应式 Flexbox 布局</h1>
+    <div class="desc">
+      使用 Flexbox 配合 <code>flex-wrap</code> 和媒体查询实现自适应的弹性布局。
+    </div>
+
+    <h2>响应式 Flexbox</h2>
+    <p>调整窗口宽度，导航栏会在窄屏下变为纵向排列：</p>
+    <div class="demo-row">
+      <div style="width: 100%">
+        <div class="rf-nav">
+          <div class="rf-nav-item">首页</div>
+          <div class="rf-nav-item">产品</div>
+          <div class="rf-nav-item">方案</div>
+          <div class="rf-nav-item">关于</div>
+          <div class="rf-nav-item">联系</div>
+        </div>
+        <div class="rf-cards">
+          <div class="rf-card">
+            <h4>弹性卡片 1</h4>
+            <p>
+              使用 flex: 1 1 200px，在空间足够时横向排列，空间不足时自动换行。
+            </p>
+          </div>
+          <div class="rf-card">
+            <h4>弹性卡片 2</h4>
+            <p>
+              flex-wrap: wrap 让 Flexbox 也能实现响应式，配合 flex-basis
+              控制换行。
+            </p>
+          </div>
+          <div class="rf-card">
+            <h4>弹性卡片 3</h4>
+            <p>无需媒体查询，flex-wrap + flex-basis 就能实现自适应布局。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      flex: 1 1 200px 表示：可放大、可缩小、基础宽度 200px。配合 flex-wrap: wrap
+      实现自动换行。
+    </div>
+  </body>
+</html>

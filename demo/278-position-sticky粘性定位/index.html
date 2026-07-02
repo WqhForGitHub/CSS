@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>position sticky 粘性定位</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .st-demo {
+        height: 300px;
+        overflow: auto;
+        border: 2px solid #34495e;
+        border-radius: 6px;
+        background: #ecf0f1;
+      }
+      .st-section {
+        margin-bottom: 20px;
+        background: #fff;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .st-header {
+        position: sticky;
+        top: 0;
+        background: #3498db;
+        color: #fff;
+        padding: 12px 20px;
+        font-weight: bold;
+        font-size: 15px;
+      }
+      .st-header:nth-of-type(2) {
+        background: #e74c3c;
+      }
+      .st-header:nth-of-type(3) {
+        background: #27ae60;
+      }
+      .st-header:nth-of-type(4) {
+        background: #9b59b6;
+      }
+      .st-content {
+        padding: 15px 20px;
+        line-height: 1.7;
+        color: #555;
+      }
+      .st-content p {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>position sticky 粘性定位</h1>
+    <div class="desc">
+      <code>position: sticky</code> 在滚动到阈值前表现为
+      relative，到达阈值后变为 fixed。结合了 relative 和 fixed 的特性。
+    </div>
+    <span class="tag">sticky 各段标题吸顶效果</span>
+    <div class="st-demo">
+      <div class="st-section">
+        <div class="st-header">第一章：CSS基础</div>
+        <div class="st-content">
+          <p>滚动此区域，标题在到达顶部时会"粘住"。</p>
+          <p>在 sticky 阈值到达前，元素表现为 relative。</p>
+          <p>到达 top:0 后，变为类似 fixed 的行为。</p>
+        </div>
+      </div>
+      <div class="st-section">
+        <div class="st-header">第二章：选择器</div>
+        <div class="st-content">
+          <p>每个标题在滚动到顶部时替换前一个固定标题。</p>
+          <p>这是文档目录常见效果。</p>
+          <p>sticky 元素只在父容器范围内有效。</p>
+        </div>
+      </div>
+      <div class="st-section">
+        <div class="st-header">第三章：盒模型</div>
+        <div class="st-content">
+          <p>当父容器滚出视口时，sticky 元素也会跟着滚走。</p>
+          <p>这是 sticky 与 fixed 的重要区别。</p>
+        </div>
+      </div>
+      <div class="st-section">
+        <div class="st-header">第四章：定位</div>
+        <div class="st-content">
+          <p>最后一章内容。</p>
+          <p>sticky 需要指定 top/bottom/left/right 中的至少一个值。</p>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <code>sticky</code> 的关键限制：父容器不能有
+      <code>overflow: hidden</code>，且 sticky
+      元素只在父容器可见范围内生效。需要设置 <code>top</code> 等阈值才有效。
+    </div>
+  </body>
+</html>

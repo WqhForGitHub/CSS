@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>样式调试技巧演示</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .debug-demo .tip {
+        padding: 12px 16px;
+        margin: 6px 0;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      .debug-demo .tip1 {
+        background: #ebf5fb;
+        border-left: 4px solid #3498db;
+      }
+      .debug-demo .tip2 {
+        background: #eafaf1;
+        border-left: 4px solid #27ae60;
+      }
+      .debug-demo .tip3 {
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+      }
+      .debug-demo .tip4 {
+        background: #fdedec;
+        border-left: 4px solid #e74c3c;
+      }
+      .debug-demo .tip5 {
+        background: #f5eef8;
+        border-left: 4px solid #9b59b6;
+      }
+      .debug-demo kbd {
+        padding: 2px 6px;
+        background: #2c3e50;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 12px;
+        font-family: Consolas, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>样式调试技巧演示</h1>
+    <div class="desc">使用浏览器开发者工具调试 CSS 样式问题的常用技巧。</div>
+    <div class="demo-row debug-demo" style="display: block">
+      <div class="tip tip1">
+        <strong>F12 / Ctrl+Shift+I</strong> 打开开发者工具，在 Elements
+        面板查看元素的计算样式
+      </div>
+      <div class="tip tip2">
+        查看 <strong>Computed</strong> 面板，看最终生效的属性值和来源
+      </div>
+      <div class="tip tip3">
+        被覆盖的属性显示 <strong>删除线</strong>，灰色的表示未生效
+      </div>
+      <div class="tip tip4">
+        在 Styles 面板中直接添加/修改 CSS，实时预览效果
+      </div>
+      <div class="tip tip5">
+        使用 <kbd>Ctrl+F</kbd> 搜索选择器，快速定位样式来源文件
+      </div>
+    </div>
+    <div class="note">
+      开发者工具是排查 CSS 问题的第一工具。善用 Computed 面板追踪最终值。
+    </div>
+  </body>
+</html>

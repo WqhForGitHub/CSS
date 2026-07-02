@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>表格圆角边框设计</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .rb-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .rb-table th {
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        color: #fff;
+        padding: 14px 16px;
+        text-align: left;
+        font-size: 13px;
+      }
+      .rb-table td {
+        padding: 12px 16px;
+        border-bottom: 1px solid #ecf0f1;
+        font-size: 13px;
+        color: #555;
+      }
+      .rb-table tbody tr:last-child td {
+        border-bottom: none;
+      }
+      .rb-table tbody tr:nth-child(even) {
+        background: #f8f9fa;
+      }
+      .rb-table tbody tr:hover {
+        background: #ebf5fb;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>表格圆角边框设计</h1>
+    <div class="desc">
+      使用 <code>border-radius</code> +
+      <code>overflow: hidden</code> 为表格添加圆角效果。
+    </div>
+    <span class="tag">圆角表格设计</span>
+    <div class="demo-row" style="padding: 20px">
+      <table class="rb-table">
+        <thead>
+          <tr>
+            <th>任务</th>
+            <th>负责人</th>
+            <th>截止日期</th>
+            <th>优先级</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>设计首页</td>
+            <td>张三</td>
+            <td>2024-01-20</td>
+            <td style="color: #e74c3c">高</td>
+          </tr>
+          <tr>
+            <td>开发API</td>
+            <td>李四</td>
+            <td>2024-01-25</td>
+            <td style="color: #f39c12">中</td>
+          </tr>
+          <tr>
+            <td>编写文档</td>
+            <td>王五</td>
+            <td>2024-01-30</td>
+            <td style="color: #27ae60">低</td>
+          </tr>
+          <tr>
+            <td>测试功能</td>
+            <td>赵六</td>
+            <td>2024-02-01</td>
+            <td style="color: #f39c12">中</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <code>border-collapse: separate</code> + <code>border-spacing: 0</code> +
+      <code>border-radius</code> +
+      <code>overflow: hidden</code> 是圆角表格的标准方案。
+    </div>
+  </body>
+</html>

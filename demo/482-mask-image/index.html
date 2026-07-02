@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mask-image 遮罩图片</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .mi-area {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 25px;
+      }
+      .mi-box {
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(135deg, #9b59b6, #3498db, #27ae60);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 16px;
+      }
+      .mi-star {
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E")
+          center/contain no-repeat;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E")
+          center/contain no-repeat;
+      }
+      .mi-heart {
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E")
+          center/contain no-repeat;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E")
+          center/contain no-repeat;
+      }
+      .mi-diamond {
+        -webkit-mask: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        mask: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+      }
+      .mi-triangle {
+        -webkit-mask: polygon(50% 0%, 100% 100%, 0% 100%);
+        mask: polygon(50% 0%, 100% 100%, 0% 100%);
+      }
+      .mi-hexagon {
+        -webkit-mask: polygon(
+          25% 0%,
+          75% 0%,
+          100% 50%,
+          75% 100%,
+          25% 100%,
+          0% 50%
+        );
+        mask: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+      }
+      .mi-arrow {
+        -webkit-mask: polygon(
+          0% 20%,
+          60% 20%,
+          60% 0%,
+          100% 50%,
+          60% 100%,
+          60% 80%,
+          0% 80%
+        );
+        mask: polygon(
+          0% 20%,
+          60% 20%,
+          60% 0%,
+          100% 50%,
+          60% 100%,
+          60% 80%,
+          0% 80%
+        );
+      }
+      .item {
+        text-align: center;
+      }
+      .label {
+        margin-top: 5px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>mask-image 遮罩图片</h1>
+    <div class="desc">
+      <code>mask-image</code> 可以使用图片或 SVG 作为遮罩，图片的 alpha
+      通道决定元素的可见性。
+    </div>
+
+    <h2>SVG 和 clip-path 遮罩</h2>
+    <div class="demo-row">
+      <div class="mi-area">
+        <div class="item">
+          <div class="mi-box mi-star"></div>
+          <div class="label">SVG 星形</div>
+        </div>
+        <div class="item">
+          <div class="mi-box mi-heart"></div>
+          <div class="label">SVG 心形</div>
+        </div>
+        <div class="item">
+          <div class="mi-box mi-diamond">菱形</div>
+          <div class="label">polygon 菱形</div>
+        </div>
+        <div class="item">
+          <div class="mi-box mi-triangle">三角</div>
+          <div class="label">polygon 三角</div>
+        </div>
+        <div class="item">
+          <div class="mi-box mi-hexagon">六边</div>
+          <div class="label">polygon 六边形</div>
+        </div>
+        <div class="item">
+          <div class="mi-box mi-arrow">箭头</div>
+          <div class="label">polygon 箭头</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      mask 可以使用 SVG 图片（alpha 通道决定可见性）或 CSS 渐变。clip-path:
+      polygon() 也能实现类似的多边形裁剪效果。
+    </div>
+  </body>
+</html>

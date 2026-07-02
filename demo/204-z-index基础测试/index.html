@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>z-index 基础测试</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .zi-demo .container {
+        position: relative;
+        height: 200px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        padding: 16px;
+      }
+      .zi-demo .box {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        border-radius: 6px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+      .zi-demo .b-auto {
+        z-index: auto;
+        top: 10px;
+        left: 10px;
+        background: #3498db;
+      }
+      .zi-demo .b-neg {
+        z-index: -1;
+        top: 30px;
+        left: 50px;
+        background: #e74c3c;
+      }
+      .zi-demo .b-zero {
+        z-index: 0;
+        top: 50px;
+        left: 90px;
+        background: #27ae60;
+      }
+      .zi-demo .b-one {
+        z-index: 1;
+        top: 70px;
+        left: 130px;
+        background: #f39c12;
+      }
+      .zi-demo .b-ten {
+        z-index: 10;
+        top: 90px;
+        left: 170px;
+        background: #9b59b6;
+      }
+      .zi-demo .legend {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 6px;
+        margin-top: 10px;
+      }
+      .zi-demo .legend > div {
+        font-size: 12px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>z-index 基础测试</h1>
+    <div class="desc">
+      测试 <code>z-index</code> 不同值：-1、0、1、10、auto。z-index
+      仅对定位元素生效。
+    </div>
+    <div class="demo-row zi-demo" style="display: block">
+      <div class="container">
+        <div class="box b-neg">z:-1</div>
+        <div class="box b-auto">z:auto</div>
+        <div class="box b-zero">z:0</div>
+        <div class="box b-one">z:1</div>
+        <div class="box b-ten">z:10</div>
+      </div>
+      <div class="legend">
+        <div style="background: #e74c3c">z:-1 在背景之后</div>
+        <div style="background: #3498db">z:auto 默认顺序</div>
+        <div style="background: #27ae60">z:0 与 auto 类似</div>
+        <div style="background: #f39c12">z:1 在 0 之上</div>
+        <div style="background: #9b59b6">z:10 最顶层</div>
+      </div>
+    </div>
+    <div class="note">
+      z-index 必须配合 position（非
+      static）才生效。负值会沉到背景之下，常被用作背景层。
+    </div>
+  </body>
+</html>

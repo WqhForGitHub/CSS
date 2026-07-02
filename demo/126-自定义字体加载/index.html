@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自定义 Web 字体加载</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .custom-font-demo .box {
+        padding: 14px;
+        background: #fff;
+        border-radius: 6px;
+        margin-bottom: 8px;
+      }
+      .custom-font-demo .code {
+        font-family: Consolas, monospace;
+        font-size: 13px;
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 12px;
+        border-radius: 4px;
+        white-space: pre;
+        line-height: 1.6;
+      }
+      .custom-font-demo .info {
+        font-size: 13px;
+        color: #555;
+        line-height: 1.8;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>自定义 Web 字体加载</h1>
+    <div class="desc">
+      通过 <code>@font-face</code> 定义自定义字体，浏览器从指定 URL
+      下载字体文件。
+    </div>
+    <div class="demo-row custom-font-demo" style="display: block">
+      <div class="code">
+        @font-face { font-family: "MyFont"; src: url("myfont.woff2")
+        format("woff2"), url("myfont.woff") format("woff"); font-weight: 400;
+        font-display: swap; } .custom-text { font-family: "MyFont", sans-serif;
+        }
+      </div>
+      <div class="info">
+        <strong>字体格式优先级：</strong>woff2 > woff > ttf > eot<br />
+        <strong>font-display:</strong> swap（先显示回退字体，加载后替换）<br />
+        <strong>注意：</strong>字体文件需同源或配置 CORS
+      </div>
+    </div>
+    <div class="note">
+      推荐使用 woff2 格式：压缩率最高，现代浏览器全面支持。
+    </div>
+  </body>
+</html>

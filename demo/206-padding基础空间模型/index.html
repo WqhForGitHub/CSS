@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>padding 基础空间模型</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .pd2-demo .box {
+        background: #3498db;
+        color: #fff;
+        border-radius: 6px;
+        margin-bottom: 8px;
+      }
+      .pd2-demo .inner {
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 4px;
+      }
+      .pd2-demo .p1 {
+        padding: 20px;
+      }
+      .pd2-demo .p2 {
+        padding: 10px 30px;
+      }
+      .pd2-demo .p3 {
+        padding: 10px 30px 20px;
+      }
+      .pd2-demo .p4 {
+        padding: 10px 20px 30px 40px;
+      }
+      .pd2-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+        display: block;
+        margin-bottom: 4px;
+      }
+      .pd2-demo .case {
+        background: #fff;
+        padding: 8px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>padding 基础空间模型</h1>
+    <div class="desc">
+      <code>padding</code> 简写支持 1-4
+      个值：1值=四周；2值=上下/左右；3值=上/左右/下；4值=上右下左。
+    </div>
+    <div class="demo-row pd2-demo" style="display: block">
+      <div class="case">
+        <span class="label">padding: 20px — 一个值，四周相同</span>
+        <div class="box p1"><div class="inner">内容</div></div>
+      </div>
+      <div class="case">
+        <span class="label">padding: 10px 30px — 上下10 / 左右30</span>
+        <div class="box p2"><div class="inner">内容</div></div>
+      </div>
+      <div class="case">
+        <span class="label"
+          >padding: 10px 30px 20px — 上10 / 左右30 / 下20</span
+        >
+        <div class="box p3"><div class="inner">内容</div></div>
+      </div>
+      <div class="case">
+        <span class="label"
+          >padding: 10px 20px 30px 40px — 上右下左（顺时针）</span
+        >
+        <div class="box p4"><div class="inner">内容</div></div>
+      </div>
+    </div>
+    <div class="note">
+      padding 简写顺序记忆：从上开始顺时针（上→右→下→左）。不能为负值。
+    </div>
+  </body>
+</html>

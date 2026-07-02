@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>padding 百分比计算规则</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .pp-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+        display: block;
+        margin-bottom: 4px;
+      }
+      .pp-demo .case {
+        background: #fff;
+        padding: 10px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+      }
+      .pp-demo .parent-w {
+        width: 300px;
+        background: #ecf0f1;
+        padding: 8px;
+        border-radius: 4px;
+      }
+      .pp-demo .p-top {
+        padding-top: 50%;
+        background: #3498db;
+        color: #fff;
+        text-align: center;
+      }
+      .pp-demo .p-bottom {
+        padding-bottom: 25%;
+        background: #e74c3c;
+        color: #fff;
+        text-align: center;
+      }
+      .pp-demo .ratio-box {
+        position: relative;
+        width: 240px;
+        padding-top: 56.25%;
+        background: #27ae60;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .pp-demo .ratio-box .content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 14px;
+      }
+      .pp-demo .info {
+        font-size: 13px;
+        color: #555;
+        padding: 10px;
+        background: #fef9e7;
+        border-radius: 4px;
+        border-left: 3px solid #f1c40f;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>padding 百分比计算规则</h1>
+    <div class="desc">
+      <code>padding</code>
+      百分比值相对于<strong>包含块的宽度</strong>计算，包括垂直方向。可用来实现固定宽高比。
+    </div>
+    <div class="demo-row pp-demo" style="display: block">
+      <div class="case">
+        <span class="label"
+          >padding-top: 50% — 相对父元素宽度（300px），实际 150px</span
+        >
+        <div class="parent-w">
+          <div class="p-top">50% of 300px = 150px 高</div>
+        </div>
+      </div>
+      <div class="case">
+        <span class="label">padding-bottom: 25% — 25% × 300 = 75px 高</span>
+        <div class="parent-w">
+          <div class="p-bottom">25% of 300px = 75px 高</div>
+        </div>
+      </div>
+      <div class="case">
+        <span class="label">16:9 宽高比技巧 — padding-top: 56.25%（9/16）</span>
+        <div class="ratio-box"><div class="content">16:9 视频容器</div></div>
+      </div>
+      <div class="info">
+        关键点：无论 padding-top 还是 padding-bottom，都按父元素
+        <strong>宽度</strong> 计算。这是实现响应式宽高比的经典技巧。
+      </div>
+    </div>
+    <div class="note">
+      宽高比公式：padding-top = (高/宽) × 100%。16:9 = 56.25%，4:3 = 75%，1:1 =
+      100%。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>表格合并单元格</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .cs-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .cs-table th,
+      .cs-table td {
+        border: 1px solid #ddd;
+        padding: 10px 14px;
+        text-align: center;
+        font-size: 13px;
+      }
+      .cs-table th {
+        background: #2c3e50;
+        color: #fff;
+      }
+      .cs-table .section-row {
+        background: #ecf0f1;
+        font-weight: bold;
+        text-align: left;
+      }
+      .cs-table .highlight {
+        background: #fef9e7;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>表格合并单元格</h1>
+    <div class="desc">
+      <code>colspan</code> 合并列，<code>rowspan</code>
+      合并行，创建复杂表格结构。
+    </div>
+    <span class="tag">合并单元格表格</span>
+    <div class="demo-row" style="padding: 20px">
+      <table class="cs-table">
+        <thead>
+          <tr>
+            <th>部门</th>
+            <th>姓名</th>
+            <th>职位</th>
+            <th>工龄</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-row">
+            <td colspan="4">技术部</td>
+          </tr>
+          <tr>
+            <td rowspan="3">技术部</td>
+            <td>张三</td>
+            <td>前端工程师</td>
+            <td>3年</td>
+          </tr>
+          <tr>
+            <td>李四</td>
+            <td>后端工程师</td>
+            <td>5年</td>
+          </tr>
+          <tr>
+            <td>王五</td>
+            <td>测试工程师</td>
+            <td>2年</td>
+          </tr>
+          <tr class="section-row">
+            <td colspan="4">市场部</td>
+          </tr>
+          <tr>
+            <td rowspan="2">市场部</td>
+            <td>赵六</td>
+            <td>市场经理</td>
+            <td>6年</td>
+          </tr>
+          <tr class="highlight">
+            <td>陈七</td>
+            <td>市场专员</td>
+            <td>1年</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <code>colspan="4"</code> 合并4列用于部门分隔行。<code>rowspan="3"</code>
+      合并3行用于部门名称列。
+    </div>
+  </body>
+</html>

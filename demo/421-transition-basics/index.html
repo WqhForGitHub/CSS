@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>transition 过渡基础</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .box {
+        width: 120px;
+        height: 80px;
+        background: #3498db;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        cursor: pointer;
+        margin: 10px;
+      }
+      .no-transition {
+      }
+      .no-transition:hover {
+        background: #e74c3c;
+        width: 200px;
+      }
+      .with-transition {
+        transition:
+          background 0.4s ease,
+          width 0.4s ease;
+      }
+      .with-transition:hover {
+        background: #e74c3c;
+        width: 200px;
+      }
+      .flex-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .item {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>transition 过渡基础</h1>
+    <div class="desc">
+      <code>transition</code> 属性让 CSS
+      属性值在变化时平滑过渡，而非瞬间跳变。基本语法：<code
+        >transition: property duration timing-function delay</code
+      >。
+    </div>
+
+    <h2>无过渡 vs 有过渡</h2>
+    <p>鼠标悬停对比效果：</p>
+    <div class="demo-row">
+      <div class="flex-wrap">
+        <div class="item">
+          <div class="box no-transition">无 transition</div>
+          <div class="label">瞬间变化</div>
+        </div>
+        <div class="item">
+          <div class="box with-transition">有 transition</div>
+          <div class="label">平滑过渡</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      transition 是简写属性，包含 transition-property、duration、timing-function
+      和 delay 四个子属性。
+    </div>
+  </body>
+</html>

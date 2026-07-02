@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>特异度计算器示例</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .calc-demo table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      .calc-demo th {
+        background: #34495e;
+        color: #fff;
+        padding: 8px;
+        text-align: left;
+      }
+      .calc-demo td {
+        padding: 8px;
+        border-bottom: 1px solid #eee;
+        background: #fff;
+      }
+      .calc-demo .sel-code {
+        font-family: Consolas, monospace;
+        color: #2c3e50;
+      }
+      .calc-demo .num-cell {
+        text-align: center;
+        font-family: Consolas, monospace;
+        font-weight: bold;
+      }
+      .calc-demo .zero {
+        color: #bdc3c7;
+      }
+      .calc-demo .one {
+        color: #e74c3c;
+      }
+      .calc-demo .total {
+        color: #27ae60;
+        font-size: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>特异度计算器示例</h1>
+    <div class="desc">通过交互式方式演示不同选择器的特异度计算过程。</div>
+    <div class="demo-row calc-demo" style="display: block">
+      <table>
+        <tr>
+          <th>选择器</th>
+          <th>行内</th>
+          <th>ID</th>
+          <th>类/伪类</th>
+          <th>元素</th>
+          <th>总权重</th>
+        </tr>
+        <tr>
+          <td class="sel-code">*</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell total">(0,0,0)</td>
+        </tr>
+        <tr>
+          <td class="sel-code">p</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell one">1</td>
+          <td class="num-cell total">(0,0,1)</td>
+        </tr>
+        <tr>
+          <td class="sel-code">.text</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell one">1</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell total">(0,1,0)</td>
+        </tr>
+        <tr>
+          <td class="sel-code">div p</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell one">2</td>
+          <td class="num-cell total">(0,0,2)</td>
+        </tr>
+        <tr>
+          <td class="sel-code">.card .title</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell one">2</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell total">(0,2,0)</td>
+        </tr>
+        <tr>
+          <td class="sel-code">#nav .link</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell one">1</td>
+          <td class="num-cell one">1</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell total">(1,1,0)</td>
+        </tr>
+        <tr>
+          <td class="sel-code">#nav #menu</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell one">2</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell total">(2,0,0)</td>
+        </tr>
+        <tr>
+          <td class="sel-code">style=""</td>
+          <td class="num-cell one">1</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell zero">0</td>
+          <td class="num-cell total">(1,0,0,0)</td>
+        </tr>
+      </table>
+    </div>
+    <div class="note">* 通配选择器权重为 0，但不影响继承值。</div>
+  </body>
+</html>

@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>模态框过渡动画</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .modal-trigger {
+        padding: 12px 30px;
+        background: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 15px;
+      }
+      .modal-area {
+        position: relative;
+        height: 400px;
+      }
+      .modal-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0);
+        pointer-events: none;
+        transition: background 0.3s ease;
+      }
+      .modal-area:hover .modal-overlay {
+        background: rgba(0, 0, 0, 0.5);
+        pointer-events: auto;
+      }
+      .modal-box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.7);
+        opacity: 0;
+        pointer-events: none;
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        width: 320px;
+        transition:
+          transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+          opacity 0.3s ease;
+      }
+      .modal-area:hover .modal-box {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+        pointer-events: auto;
+        transition-delay: 0.1s;
+      }
+      .modal-box h3 {
+        color: #2c3e50;
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      .modal-box p {
+        color: #7f8c8d;
+        font-size: 14px;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+      .modal-actions {
+        display: flex;
+        gap: 10px;
+      }
+      .modal-btn {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .btn-primary {
+        background: #3498db;
+        color: #fff;
+      }
+      .btn-secondary {
+        background: #ecf0f1;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>模态框过渡动画</h1>
+    <div class="desc">
+      使用 transition 实现模态框的淡入淡出和缩放出现动画效果。
+    </div>
+
+    <h2>模态框动画（悬停触发）</h2>
+    <p>鼠标悬停在下方区域触发模态框：</p>
+    <div class="demo-row">
+      <div class="modal-area">
+        <button class="modal-trigger">点击打开模态框</button>
+        <div class="modal-overlay">
+          <div class="modal-box">
+            <h3>确认操作</h3>
+            <p>您确定要执行此操作吗？此操作不可撤销，请确认后继续。</p>
+            <div class="modal-actions">
+              <button class="modal-btn btn-primary">确认</button>
+              <button class="modal-btn btn-secondary">取消</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      遮罩层使用 background 过渡，模态框使用 transform: scale + opacity
+      过渡，弹性缓动让出现更有"弹出感"。
+    </div>
+  </body>
+</html>

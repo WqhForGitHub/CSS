@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>currentColor继承机制</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .cc-demo {
+        color: #3498db;
+        border: 3px solid currentColor;
+        padding: 15px;
+        border-radius: 6px;
+        background: #fff;
+      }
+      .cc-demo .box {
+        width: 60px;
+        height: 60px;
+        background: currentColor;
+        border-radius: 6px;
+        display: inline-block;
+        margin-right: 10px;
+        box-shadow: 0 0 0 3px currentColor;
+      }
+      .cc-red {
+        color: #e74c3c;
+        border: 3px solid currentColor;
+        padding: 15px;
+        border-radius: 6px;
+        background: #fff;
+      }
+      .cc-red .box {
+        width: 60px;
+        height: 60px;
+        background: currentColor;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 10px;
+        box-shadow: 0 4px 8px currentColor;
+      }
+      .cc-green {
+        color: #27ae60;
+        border: 3px solid currentColor;
+        padding: 15px;
+        border-radius: 6px;
+        background: #fff;
+      }
+      .cc-green .box {
+        width: 60px;
+        height: 60px;
+        background: currentColor;
+        border-radius: 6px;
+        display: inline-block;
+        margin-right: 10px;
+        outline: 3px solid currentColor;
+        outline-offset: 3px;
+      }
+      .cc-icon {
+        width: 40px;
+        height: 40px;
+        display: inline-block;
+        margin-right: 10px;
+        background: currentColor;
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2L2 7v10l10 5 10-5V7L12 2z'/%3E%3C/svg%3E")
+          center/contain no-repeat;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2L2 7v10l10 5 10-5V7L12 2z'/%3E%3C/svg%3E")
+          center/contain no-repeat;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>currentColor继承机制</h1>
+    <div class="desc">
+      <code>currentColor</code> 关键字引用当前元素的
+      <code>color</code> 属性值，使其他属性能继承文字颜色，实现主题色联动。
+    </div>
+    <span class="tag">currentColor 联动效果</span>
+    <div class="demo-row" style="flex-direction: column">
+      <div class="cc-demo">
+        <p>这段文字颜色是蓝色，边框和方块都使用 currentColor 自动匹配</p>
+        <div style="margin-top: 10px">
+          <span class="box"></span> border + background + box-shadow 全部继承
+          color
+        </div>
+      </div>
+      <div class="cc-red">
+        <p>改为红色后，所有 currentColor 属性自动变化</p>
+        <div style="margin-top: 10px">
+          <span class="box"></span> 圆形 + 阴影也跟着变红
+        </div>
+      </div>
+      <div class="cc-green">
+        <p>绿色主题效果</p>
+        <div style="margin-top: 10px">
+          <span class="box"></span> outline 也使用 currentColor
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <code>currentColor</code> 相当于继承自身 <code>color</code> 属性的值。修改
+      <code>color</code> 即可同时改变 border、background、box-shadow
+      等属性，非常适合主题切换场景。
+    </div>
+  </body>
+</html>

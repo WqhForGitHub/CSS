@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS 基础文档结构综合案例</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .layout {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .layout-header {
+        background: #2c3e50;
+        color: #fff;
+        padding: 20px;
+        border-radius: 8px 8px 0 0;
+      }
+      .layout-nav {
+        display: flex;
+        gap: 10px;
+        background: #34495e;
+        padding: 10px 20px;
+      }
+      .layout-nav a {
+        color: #bdc3c7;
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        transition: all 0.3s;
+      }
+      .layout-nav a:hover {
+        background: #1abc9c;
+        color: #fff;
+      }
+      .layout-main {
+        background: #fff;
+        padding: 20px;
+        border-radius: 0 0 8px 8px;
+      }
+      .layout-footer {
+        text-align: center;
+        color: #7f8c8d;
+        margin-top: 15px;
+        font-size: 13px;
+      }
+      @media (max-width: 600px) {
+        .layout-nav {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>CSS 基础文档结构综合案例</h1>
+    <div class="desc">
+      综合运用 link 引入、style
+      内嵌、元素选择器、注释、媒体查询等基础知识，构建一个完整的页面结构。
+    </div>
+    <div class="layout">
+      <div class="layout-header">
+        <h2 style="color: #fff">综合案例：CSS 基础文档结构</h2>
+      </div>
+      <div class="layout-nav">
+        <a href="#">首页</a><a href="#">文档</a><a href="#">示例</a
+        ><a href="#">关于</a>
+      </div>
+      <div class="layout-main">
+        <p>
+          本页面综合运用了：元素选择器、类选择器、伪类 hover、媒体查询、flex
+          布局、CSS 过渡。
+        </p>
+        <p>尝试缩小窗口宽度，导航栏会从横向变为纵向排列（媒体查询生效）。</p>
+      </div>
+      <div class="layout-footer">CSS 权威指南第4版 · 基础文档结构综合案例</div>
+    </div>
+  </body>
+</html>

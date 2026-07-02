@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>动画手风琴</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .acc {
+        max-width: 500px;
+      }
+      .acc-item {
+        margin-bottom: 8px;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .acc-header {
+        padding: 14px 20px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .acc-content {
+        max-height: 0;
+        overflow: hidden;
+        background: #fff;
+        transition: max-height 0.4s ease;
+      }
+      .acc-content-inner {
+        padding: 14px 20px;
+        color: #555;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .acc-item:nth-child(1) .acc-header {
+        background: #3498db;
+      }
+      .acc-item:nth-child(1):hover .acc-content {
+        max-height: 150px;
+      }
+      .acc-item:nth-child(2) .acc-header {
+        background: #e74c3c;
+      }
+      .acc-item:nth-child(2):hover .acc-content {
+        max-height: 150px;
+      }
+      .acc-item:nth-child(3) .acc-header {
+        background: #27ae60;
+      }
+      .acc-item:nth-child(3):hover .acc-content {
+        max-height: 150px;
+      }
+      .acc-item:nth-child(4) .acc-header {
+        background: #f39c12;
+      }
+      .acc-item:nth-child(4):hover .acc-content {
+        max-height: 150px;
+      }
+      .arrow {
+        transition: transform 0.3s ease;
+      }
+      .acc-item:hover .arrow {
+        transform: rotate(90deg);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>动画手风琴</h1>
+    <div class="desc">
+      使用 animation 实现手风琴展开收起动画，内容平滑过渡。
+    </div>
+
+    <h2>悬停手风琴</h2>
+    <p>鼠标悬停在标题上展开内容：</p>
+    <div class="demo-row">
+      <div class="acc">
+        <div class="acc-item">
+          <div class="acc-header">
+            <span>什么是 CSS 动画？</span><span class="arrow">▶</span>
+          </div>
+          <div class="acc-content">
+            <div class="acc-content-inner">
+              CSS 动画通过 @keyframes 定义关键帧，使用 animation
+              属性应用动画，可以实现复杂的自动播放动画效果。
+            </div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header">
+            <span>transition 和 animation 的区别</span
+            ><span class="arrow">▶</span>
+          </div>
+          <div class="acc-content">
+            <div class="acc-content-inner">
+              transition 需要触发条件（如 hover），且只有起止两个状态；animation
+              可以定义多个关键帧，可以自动循环播放。
+            </div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header">
+            <span>animation 的性能优势</span><span class="arrow">▶</span>
+          </div>
+          <div class="acc-content">
+            <div class="acc-content-inner">
+              animation 操作 transform 和 opacity
+              时不会触发重排，运行在合成层上，性能优异，适合做复杂动画。
+            </div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header">
+            <span>如何控制动画播放</span><span class="arrow">▶</span>
+          </div>
+          <div class="acc-content">
+            <div class="acc-content-inner">
+              使用 animation-play-state: paused/running 可以暂停和恢复动画。结合
+              hover 可以实现悬停暂停效果。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      虽然这里主要用 transition 实现，但也可以用 animation
+      实现更复杂的展开动画，如弹性效果。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>响应式排版</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .rt-area {
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+      }
+      .rt-fluid {
+        font-size: clamp(16px, 5vw, 48px);
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+      .rt-vw {
+        font-size: 3vw;
+        color: #3498db;
+        margin-bottom: 10px;
+      }
+      .rt-clamp-title {
+        font-size: clamp(20px, 4vw, 36px);
+        font-weight: bold;
+        color: #e74c3c;
+        margin-bottom: 8px;
+      }
+      .rt-body {
+        font-size: clamp(13px, 1.5vw, 16px);
+        color: #555;
+        line-height: 1.7;
+      }
+      .rt-media-h1 {
+        font-size: 32px;
+        color: #27ae60;
+      }
+      .rt-media-h2 {
+        font-size: 24px;
+        color: #f39c12;
+      }
+      .rt-media-p {
+        font-size: 14px;
+        color: #555;
+      }
+      @media (max-width: 768px) {
+        .rt-media-h1 {
+          font-size: 24px;
+        }
+        .rt-media-h2 {
+          font-size: 18px;
+        }
+        .rt-media-p {
+          font-size: 13px;
+        }
+      }
+      @media (max-width: 480px) {
+        .rt-media-h1 {
+          font-size: 20px;
+        }
+        .rt-media-h2 {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>响应式排版</h1>
+    <div class="desc">
+      使用 <code>clamp()</code>、<code>vw</code>
+      单位和媒体查询实现文字大小随屏幕宽度自适应。
+    </div>
+
+    <h2>响应式文字排版</h2>
+    <p>调整窗口宽度，文字大小会平滑变化：</p>
+    <div class="demo-row">
+      <div class="rt-area" style="width: 100%">
+        <div class="rt-fluid">clamp(16px, 5vw, 48px) - 流体文字</div>
+        <div class="rt-vw">3vw - 视口单位文字</div>
+        <div class="rt-clamp-title">clamp 标题 - 最小20px，最大36px</div>
+        <div class="rt-body">
+          clamp(13px, 1.5vw, 16px) -
+          正文文字大小也会自适应调整，确保在各种屏幕上都有良好的阅读体验。
+        </div>
+        <hr style="margin: 15px 0; border: none; border-top: 1px solid #eee" />
+        <div class="rt-media-h1">媒体查询标题 H1</div>
+        <div class="rt-media-h2">媒体查询标题 H2</div>
+        <div class="rt-media-p">
+          媒体查询正文 - 768px 和 480px 断点处阶梯式缩小
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      clamp(min, preferred, max) 是最优雅的响应式排版方案：在 min 和 max
+      之间平滑变化。vw 单位直接关联视口宽度。
+    </div>
+  </body>
+</html>

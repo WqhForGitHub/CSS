@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>grid-template-columns 列定义</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .gtc-demo {
+        display: grid;
+        gap: 10px;
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+      .gtc-item {
+        background: #3498db;
+        color: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        text-align: center;
+        font-size: 13px;
+      }
+      .gtc-item:nth-child(even) {
+        background: #e74c3c;
+      }
+      .gtc-fixed {
+        grid-template-columns: 100px 200px 100px;
+      }
+      .gtc-fr {
+        grid-template-columns: 1fr 2fr 1fr;
+      }
+      .gtc-auto {
+        grid-template-columns: auto auto auto;
+      }
+      .gtc-mix {
+        grid-template-columns: 200px 1fr 100px;
+      }
+      .gtc-4col {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>grid-template-columns 列定义</h1>
+    <div class="desc">
+      <code>grid-template-columns</code>
+      定义网格的列宽。支持固定值、<code>fr</code>（比例单位）、<code>auto</code>、<code
+        >minmax()</code
+      >
+      等。
+    </div>
+    <span class="tag">固定宽度 100px 200px 100px</span>
+    <div class="gtc-demo gtc-fixed">
+      <div class="gtc-item">100px</div>
+      <div class="gtc-item">200px</div>
+      <div class="gtc-item">100px</div>
+    </div>
+    <span class="tag">fr 比例 1:2:1</span>
+    <div class="gtc-demo gtc-fr">
+      <div class="gtc-item">1fr</div>
+      <div class="gtc-item">2fr</div>
+      <div class="gtc-item">1fr</div>
+    </div>
+    <span class="tag">auto 自适应内容</span>
+    <div class="gtc-demo gtc-auto">
+      <div class="gtc-item">短</div>
+      <div class="gtc-item">较长内容</div>
+      <div class="gtc-item">中等</div>
+    </div>
+    <span class="tag">混合 200px 1fr 100px</span>
+    <div class="gtc-demo gtc-mix">
+      <div class="gtc-item">200px</div>
+      <div class="gtc-item">1fr 自适应</div>
+      <div class="gtc-item">100px</div>
+    </div>
+    <span class="tag">repeat(4, 1fr) 四等分</span>
+    <div class="gtc-demo gtc-4col">
+      <div class="gtc-item">1</div>
+      <div class="gtc-item">2</div>
+      <div class="gtc-item">3</div>
+      <div class="gtc-item">4</div>
+    </div>
+    <div class="note">
+      <code>fr</code> 是比例单位，按比例分配剩余空间。<code>auto</code>
+      根据内容自动调整。<code>repeat(N, value)</code> 重复N次。固定值与 fr
+      混合使用可实现"固定+自适应"布局。
+    </div>
+  </body>
+</html>

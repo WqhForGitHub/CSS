@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>定位实现 badge 徽章</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .bd-container {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+      }
+      .bd-item {
+        position: relative;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .bd-icon {
+        width: 60px;
+        height: 60px;
+        background: #3498db;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 24px;
+      }
+      .bd-badge {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        min-width: 22px;
+        height: 22px;
+        background: #e74c3c;
+        color: #fff;
+        border-radius: 11px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 6px;
+        border: 2px solid #fff;
+        font-weight: bold;
+      }
+      .bd-dot {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 12px;
+        height: 12px;
+        background: #e74c3c;
+        border-radius: 50%;
+        border: 2px solid #fff;
+      }
+      .bd-badge-green {
+        background: #27ae60;
+      }
+      .bd-label {
+        font-size: 13px;
+        color: #666;
+      }
+      .bd-avatar {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #9b59b6, #3498db);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 24px;
+        position: relative;
+      }
+      .bd-status {
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        width: 14px;
+        height: 14px;
+        background: #27ae60;
+        border-radius: 50%;
+        border: 2px solid #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>定位实现 badge 徽章</h1>
+    <div class="desc">
+      使用
+      <code>position: absolute</code>
+      在元素角落添加徽章标记，如消息数量、状态指示等。
+    </div>
+    <span class="tag">徽章 Badge 应用</span>
+    <div class="demo-row" style="padding: 30px">
+      <div class="bd-container">
+        <div class="bd-item">
+          <div class="bd-icon">
+            ✉
+            <span class="bd-badge">5</span>
+          </div>
+          <span class="bd-label">消息</span>
+        </div>
+        <div class="bd-item">
+          <div class="bd-icon" style="background: #e74c3c">
+            🔔
+            <span class="bd-badge">99+</span>
+          </div>
+          <span class="bd-label">通知</span>
+        </div>
+        <div class="bd-item">
+          <div class="bd-icon" style="background: #27ae60">
+            🛒
+            <span class="bd-dot"></span>
+          </div>
+          <span class="bd-label">购物车</span>
+        </div>
+        <div class="bd-item">
+          <div class="bd-avatar">
+            A
+            <span class="bd-status"></span>
+          </div>
+          <span class="bd-label">在线</span>
+        </div>
+        <div class="bd-item">
+          <div
+            class="bd-avatar"
+            style="background: linear-gradient(135deg, #95a5a6, #7f8c8d)"
+          >
+            B
+            <span class="bd-status" style="background: #95a5a6"></span>
+          </div>
+          <span class="bd-label">离线</span>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      徽章使用 <code>position: absolute</code> 定位在父元素角落，<code
+        >top/right</code
+      >
+      为负值使其突出到元素外部。数字徽章使用
+      <code>min-width + border-radius</code> 适应不同位数。
+    </div>
+  </body>
+</html>

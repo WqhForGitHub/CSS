@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>定位综合案例：仪表盘布局</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .db-demo {
+        height: 350px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 2px solid #34495e;
+        position: relative;
+        background: #ecf0f1;
+      }
+      .db-header {
+        position: sticky;
+        top: 0;
+        background: #2c3e50;
+        color: #fff;
+        padding: 12px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 20;
+      }
+      .db-header h3 {
+        font-size: 16px;
+      }
+      .db-header-user {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .db-avatar {
+        width: 32px;
+        height: 32px;
+        background: #3498db;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+      }
+      .db-badge {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        width: 10px;
+        height: 10px;
+        background: #e74c3c;
+        border-radius: 50%;
+        border: 2px solid #2c3e50;
+      }
+      .db-body {
+        display: flex;
+        height: calc(100% - 55px);
+      }
+      .db-sidebar {
+        width: 140px;
+        background: #34495e;
+        color: #fff;
+        padding: 15px 10px;
+      }
+      .db-sidebar-item {
+        padding: 10px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        margin-bottom: 4px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .db-sidebar-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .db-sidebar-item.active {
+        background: #3498db;
+      }
+      .db-content {
+        flex: 1;
+        padding: 20px;
+        overflow: auto;
+      }
+      .db-cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+      .db-card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 15px;
+        position: relative;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      }
+      .db-card-tag {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 11px;
+        color: #fff;
+      }
+      .db-card-tag.up {
+        background: #27ae60;
+      }
+      .db-card-tag.down {
+        background: #e74c3c;
+      }
+      .db-card-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin: 8px 0 4px;
+      }
+      .db-card-label {
+        font-size: 12px;
+        color: #7f8c8d;
+      }
+      .db-fab {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        width: 48px;
+        height: 48px;
+        background: #3498db;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 24px;
+        box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+        cursor: pointer;
+        z-index: 15;
+      }
+      .db-toast {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #2c3e50;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-size: 13px;
+        z-index: 15;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>定位综合案例：仪表盘布局</h1>
+    <div class="desc">
+      综合运用各种 position
+      值实现仪表盘界面：固定头部、侧边栏、主内容区、悬浮操作按钮、模态提示等。
+    </div>
+    <span class="tag">仪表盘综合布局</span>
+    <div class="demo-row" style="padding: 20px">
+      <div class="db-demo" style="width: 100%">
+        <div class="db-header">
+          <h3>📊 数据仪表盘</h3>
+          <div class="db-header-user">
+            <span style="font-size: 13px">Admin</span>
+            <div class="db-avatar">
+              A
+              <div class="db-badge"></div>
+            </div>
+          </div>
+        </div>
+        <div class="db-body">
+          <div class="db-sidebar">
+            <div class="db-sidebar-item active">📊 概览</div>
+            <div class="db-sidebar-item">📈 分析</div>
+            <div class="db-sidebar-item">👥 用户</div>
+            <div class="db-sidebar-item">📦 订单</div>
+            <div class="db-sidebar-item">⚙️ 设置</div>
+          </div>
+          <div class="db-content">
+            <div class="db-cards">
+              <div class="db-card">
+                <div class="db-card-tag up">+12%</div>
+                <div class="db-card-label">总销售额</div>
+                <div class="db-card-value">¥128,530</div>
+              </div>
+              <div class="db-card">
+                <div class="db-card-tag down">-5%</div>
+                <div class="db-card-label">订单数</div>
+                <div class="db-card-value">1,847</div>
+              </div>
+              <div class="db-card">
+                <div class="db-card-tag up">+8%</div>
+                <div class="db-card-label">活跃用户</div>
+                <div class="db-card-value">9,234</div>
+              </div>
+              <div class="db-card">
+                <div class="db-card-tag up">+3%</div>
+                <div class="db-card-label">转化率</div>
+                <div class="db-card-value">3.2%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="db-fab">+</div>
+        <div class="db-toast">✓ 数据已更新</div>
+      </div>
+    </div>
+    <div class="note">
+      综合运用：sticky（头部）、relative（头像badge）、absolute（标签/FAB/Toast）、flex（布局）。这是后台管理系统的典型布局模式。
+    </div>
+  </body>
+</html>

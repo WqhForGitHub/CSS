@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mask 遮罩基础</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .mask-area {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 25px;
+      }
+      .mask-box {
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(135deg, #e74c3c, #3498db);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 16px;
+      }
+      .m-none {
+        -webkit-mask: none;
+        mask: none;
+      }
+      .m-circle {
+        -webkit-mask: radial-gradient(circle, #000 60%, transparent 60%);
+        mask: radial-gradient(circle, #000 60%, transparent 60%);
+      }
+      .m-gradient {
+        -webkit-mask: linear-gradient(to right, #000, transparent);
+        mask: linear-gradient(to right, #000, transparent);
+      }
+      .m-top {
+        -webkit-mask: linear-gradient(to bottom, #000 50%, transparent);
+        mask: linear-gradient(to bottom, #000 50%, transparent);
+      }
+      .m-stripes {
+        -webkit-mask: repeating-linear-gradient(
+          0deg,
+          #000 0 10px,
+          transparent 10px 20px
+        );
+        mask: repeating-linear-gradient(
+          0deg,
+          #000 0 10px,
+          transparent 10px 20px
+        );
+      }
+      .m-text {
+        -webkit-mask: linear-gradient(180deg, #000, transparent 80%);
+        mask: linear-gradient(180deg, #000, transparent 80%);
+      }
+      .item {
+        text-align: center;
+      }
+      .label {
+        margin-top: 5px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>mask 遮罩基础</h1>
+    <div class="desc">
+      <code>mask</code>
+      属性使用图片或渐变来控制元素的可见区域，遮罩的透明部分对应元素不可见。
+    </div>
+
+    <h2>mask 遮罩效果</h2>
+    <div class="demo-row">
+      <div class="mask-area">
+        <div class="item">
+          <div class="mask-box m-none">原始</div>
+          <div class="label">none</div>
+        </div>
+        <div class="item">
+          <div class="mask-box m-circle">圆形</div>
+          <div class="label">radial mask</div>
+        </div>
+        <div class="item">
+          <div class="mask-box m-gradient">渐隐</div>
+          <div class="label">linear right</div>
+        </div>
+        <div class="item">
+          <div class="mask-box m-top">上半</div>
+          <div class="label">linear bottom</div>
+        </div>
+        <div class="item">
+          <div class="mask-box m-stripes">条纹</div>
+          <div class="label">repeating</div>
+        </div>
+        <div class="item">
+          <div class="mask-box m-text">底部渐隐</div>
+          <div class="label">fade bottom</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      mask 使用白色/不透明区域显示元素，黑色/透明区域隐藏元素。需要 -webkit-
+      前缀。渐变遮罩可以实现平滑的淡出效果。
+    </div>
+  </body>
+</html>

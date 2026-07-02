@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexbox 嵌套布局</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .ne-card {
+        display: flex;
+        gap: 15px;
+        background: #fff;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      }
+      .ne-thumb {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 28px;
+      }
+      .ne-thumb.c1 {
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+      }
+      .ne-thumb.c2 {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+      }
+      .ne-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .ne-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .ne-title {
+        font-size: 15px;
+        color: #2c3e50;
+        font-weight: bold;
+      }
+      .ne-date {
+        font-size: 12px;
+        color: #95a5a6;
+      }
+      .ne-desc {
+        font-size: 13px;
+        color: #555;
+        line-height: 1.6;
+        flex: 1;
+      }
+      .ne-footer {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .ne-tag {
+        padding: 3px 10px;
+        background: #ecf0f1;
+        border-radius: 12px;
+        font-size: 11px;
+        color: #666;
+      }
+      .ne-actions {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+      }
+      .ne-btn {
+        padding: 6px 16px;
+        border: none;
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .ne-btn-primary {
+        background: #3498db;
+        color: #fff;
+      }
+      .ne-btn-outline {
+        background: #fff;
+        color: #3498db;
+        border: 1px solid #3498db;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Flexbox 嵌套布局</h1>
+    <div class="desc">
+      Flexbox
+      可以无限嵌套：弹性项目的子容器也可以是弹性容器，实现复杂的嵌套布局。
+    </div>
+    <span class="tag">嵌套 Flexbox 布局</span>
+    <div class="demo-row" style="padding: 20px; flex-direction: column">
+      <div class="ne-card" style="width: 100%">
+        <div class="ne-thumb c1">★</div>
+        <div class="ne-body">
+          <div class="ne-header">
+            <span class="ne-title">Flexbox 教程</span>
+            <span class="ne-date">2024-01-15</span>
+          </div>
+          <div class="ne-desc">
+            Flexbox 是一维布局模型，适合行或列方向的布局。本教程将介绍 Flexbox
+            的核心概念和实际应用。
+          </div>
+          <div class="ne-footer">
+            <span class="ne-tag">CSS</span>
+            <span class="ne-tag">布局</span>
+            <span class="ne-tag">前端</span>
+          </div>
+        </div>
+        <div class="ne-actions">
+          <button class="ne-btn ne-btn-primary">阅读</button>
+          <button class="ne-btn ne-btn-outline">收藏</button>
+        </div>
+      </div>
+      <div class="ne-card" style="width: 100%">
+        <div class="ne-thumb c2">♥</div>
+        <div class="ne-body">
+          <div class="ne-header">
+            <span class="ne-title">Grid 布局指南</span>
+            <span class="ne-date">2024-01-10</span>
+          </div>
+          <div class="ne-desc">
+            CSS Grid 是二维布局模型，适合同时控制行和列的复杂布局。与 Flexbox
+            互补使用。
+          </div>
+          <div class="ne-footer">
+            <span class="ne-tag">CSS</span>
+            <span class="ne-tag">Grid</span>
+          </div>
+        </div>
+        <div class="ne-actions">
+          <button class="ne-btn ne-btn-primary">阅读</button>
+          <button class="ne-btn ne-btn-outline">收藏</button>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      Flexbox 可无限嵌套。外层 flex 处理卡片整体布局，内层 flex
+      处理标题行、标签行等局部布局。每层 flex 只关注一个方向的排列，保持简洁。
+    </div>
+  </body>
+</html>

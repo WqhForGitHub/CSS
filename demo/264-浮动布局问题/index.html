@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>浮动布局常见问题</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .prob-container {
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .prob-1 .parent {
+        background: #e74c3c;
+        border: 2px solid #c0392b;
+      }
+      .prob-1 .child {
+        width: 80px;
+        height: 60px;
+        background: #fff;
+        color: #333;
+        float: left;
+        margin: 5px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+      .prob-2 .col {
+        width: 33.33%;
+        float: left;
+        padding: 15px;
+        box-sizing: border-box;
+      }
+      .prob-2 .col-1 {
+        background: #3498db;
+        color: #fff;
+      }
+      .prob-2 .col-2 {
+        background: #e74c3c;
+        color: #fff;
+      }
+      .prob-2 .col-3 {
+        background: #27ae60;
+        color: #fff;
+      }
+      .prob-2 .parent {
+        overflow: hidden;
+        border-radius: 6px;
+      }
+      .prob-3 .floated {
+        float: left;
+        width: 100px;
+        height: 80px;
+        background: #9b59b6;
+        color: #fff;
+        margin-right: 15px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .prob-3 .next {
+        background: #f39c12;
+        color: #fff;
+        padding: 15px;
+        border-radius: 6px;
+      }
+      .prob-3 .clear-fix {
+        clear: both;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>浮动布局常见问题</h1>
+    <div class="desc">
+      浮动布局存在高度塌陷、外边距不生效、元素重叠等常见问题，了解这些问题有助于选择正确的布局方案。
+    </div>
+    <span class="tag">问题1：父容器高度塌陷</span>
+    <div class="prob-container prob-1">
+      <div class="parent">
+        <div class="child">浮动1</div>
+        <div class="child">浮动2</div>
+      </div>
+      <p style="font-size: 13px; margin-top: 10px">
+        父容器边框紧贴顶部，高度为0（浮动子元素不参与高度计算）
+      </p>
+    </div>
+    <span class="tag">问题2：三列等高问题</span>
+    <div class="prob-container prob-2">
+      <div class="parent">
+        <div class="col col-1">列1<br />内容<br />较短</div>
+        <div class="col col-2">
+          列2<br />内容<br />较长<br />更多行<br />更多行
+        </div>
+        <div class="col col-3">列3<br />内容<br />中等</div>
+      </div>
+      <div style="clear: both"></div>
+      <p style="font-size: 13px; margin-top: 10px">
+        浮动列高度不等问题（每列高度独立）
+      </p>
+    </div>
+    <span class="tag">问题3：后续元素受影响</span>
+    <div class="prob-container prob-3">
+      <div class="floated">浮动元素</div>
+      <div class="next">未清除浮动 → 此元素上移到浮动元素旁边</div>
+      <div class="clear-fix"></div>
+    </div>
+    <div class="note">
+      浮动布局的这些问题使得现代开发更推荐使用 Flexbox 或
+      Grid。但在文字环绕等场景，float 仍然是正确选择。
+    </div>
+  </body>
+</html>

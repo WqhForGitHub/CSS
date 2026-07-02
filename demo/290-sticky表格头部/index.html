@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sticky 表格头部固定</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .sth-demo {
+        height: 220px;
+        overflow: auto;
+        border: 2px solid #34495e;
+        border-radius: 6px;
+        background: #fff;
+      }
+      .sth-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .sth-table thead th {
+        position: sticky;
+        top: 0;
+        background: #2c3e50;
+        color: #fff;
+        padding: 10px 12px;
+        text-align: left;
+        font-size: 13px;
+        z-index: 10;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+      }
+      .sth-table tbody td {
+        padding: 8px 12px;
+        border-bottom: 1px solid #ecf0f1;
+        font-size: 13px;
+      }
+      .sth-table tbody tr:nth-child(even) {
+        background: #f8f9fa;
+      }
+      .sth-table tbody tr:hover {
+        background: #ebf5fb;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>sticky 表格头部固定</h1>
+    <div class="desc">
+      使用
+      <code>position: sticky</code>
+      实现表格头部在滚动时固定在顶部，方便查看列标题。
+    </div>
+    <span class="tag">表格头部 sticky 固定</span>
+    <div class="sth-demo">
+      <table class="sth-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>姓名</th>
+            <th>部门</th>
+            <th>入职日期</th>
+            <th>薪资</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>001</td>
+            <td>张三</td>
+            <td>技术部</td>
+            <td>2023-01-15</td>
+            <td>¥15,000</td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td>李四</td>
+            <td>市场部</td>
+            <td>2023-03-20</td>
+            <td>¥12,000</td>
+          </tr>
+          <tr>
+            <td>003</td>
+            <td>王五</td>
+            <td>技术部</td>
+            <td>2023-05-10</td>
+            <td>¥18,000</td>
+          </tr>
+          <tr>
+            <td>004</td>
+            <td>赵六</td>
+            <td>人事部</td>
+            <td>2023-07-01</td>
+            <td>¥10,000</td>
+          </tr>
+          <tr>
+            <td>005</td>
+            <td>陈七</td>
+            <td>技术部</td>
+            <td>2023-08-15</td>
+            <td>¥20,000</td>
+          </tr>
+          <tr>
+            <td>006</td>
+            <td>刘八</td>
+            <td>市场部</td>
+            <td>2023-09-20</td>
+            <td>¥11,000</td>
+          </tr>
+          <tr>
+            <td>007</td>
+            <td>周九</td>
+            <td>技术部</td>
+            <td>2023-10-05</td>
+            <td>¥16,000</td>
+          </tr>
+          <tr>
+            <td>008</td>
+            <td>吴十</td>
+            <td>人事部</td>
+            <td>2023-11-15</td>
+            <td>¥13,000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <code>position: sticky; top: 0</code>
+      使表头在滚动时固定在容器顶部。注意需要设置
+      <code>z-index</code> 确保表头在内容之上。表格的
+      <code>border-collapse</code> 需为 collapse 才正常工作。
+    </div>
+  </body>
+</html>

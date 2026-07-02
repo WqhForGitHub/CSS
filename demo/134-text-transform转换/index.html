@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>text-transform 文本大小写转换</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .tt-demo .box {
+        padding: 12px;
+        background: #fff;
+        border-radius: 6px;
+        margin-bottom: 6px;
+        font-size: 16px;
+      }
+      .tt-demo .none {
+        text-transform: none;
+      }
+      .tt-demo .upper {
+        text-transform: uppercase;
+      }
+      .tt-demo .lower {
+        text-transform: lowercase;
+      }
+      .tt-demo .cap {
+        text-transform: capitalize;
+      }
+      .tt-demo .full-width {
+        text-transform: full-width;
+      }
+      .tt-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>text-transform 文本大小写转换</h1>
+    <div class="desc">
+      <code>text-transform</code> 转换文本大小写，不修改 HTML
+      源码。uppercase、lowercase、capitalize。
+    </div>
+    <div class="demo-row tt-demo" style="display: block">
+      <div class="box none">
+        Hello World CSS Guide <span class="label">none (默认)</span>
+      </div>
+      <div class="box upper">
+        Hello World CSS Guide <span class="label">uppercase — 全大写</span>
+      </div>
+      <div class="box lower">
+        Hello World CSS Guide <span class="label">lowercase — 全小写</span>
+      </div>
+      <div class="box cap">
+        hello world css guide <span class="label">capitalize — 首字母大写</span>
+      </div>
+    </div>
+    <div class="note">
+      text-transform 只影响显示，不修改 HTML 源文本。适合确保 UI 一致性。
+    </div>
+  </body>
+</html>

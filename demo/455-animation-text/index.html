@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文字动画效果</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .typewriter {
+        font-family: monospace;
+        font-size: 20px;
+        color: #2c3e50;
+        overflow: hidden;
+        white-space: nowrap;
+        border-right: 3px solid #3498db;
+        width: 0;
+        animation:
+          type 3s steps(11) infinite,
+          cursor 0.6s step-end infinite;
+      }
+      @keyframes type {
+        0% {
+          width: 0;
+        }
+        50%,
+        100% {
+          width: 11ch;
+        }
+      }
+      @keyframes cursor {
+        50% {
+          border-color: transparent;
+        }
+      }
+      .fade-text {
+        font-size: 18px;
+        color: #e74c3c;
+        animation: fadeIn 3s ease infinite;
+      }
+      @keyframes fadeIn {
+        0%,
+        100% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        50% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .neon {
+        font-size: 28px;
+        color: #fff;
+        text-shadow:
+          0 0 5px #fff,
+          0 0 10px #fff,
+          0 0 20px #ff00de,
+          0 0 40px #ff00de;
+        animation: neonFlicker 1.5s linear infinite;
+      }
+      @keyframes neonFlicker {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.8;
+        }
+        52% {
+          opacity: 1;
+        }
+      }
+      .wave-text {
+        font-size: 24px;
+      }
+      .wave-text span {
+        display: inline-block;
+        animation: wave 1.5s ease-in-out infinite;
+      }
+      .wave-text span:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .wave-text span:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .wave-text span:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+      .wave-text span:nth-child(4) {
+        animation-delay: 0.3s;
+      }
+      .wave-text span:nth-child(5) {
+        animation-delay: 0.4s;
+      }
+      .wave-text span:nth-child(6) {
+        animation-delay: 0.5s;
+      }
+      @keyframes wave {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>文字动画效果</h1>
+    <div class="desc">
+      使用 animation 实现各种文字动画，包括打字机、逐字出现、霓虹灯闪烁等效果。
+    </div>
+
+    <h2>文字动画效果</h2>
+    <div class="demo-row" style="flex-direction: column; gap: 20px">
+      <div>
+        <div class="label" style="margin-bottom: 5px">打字机效果：</div>
+        <div class="typewriter">Hello, CSS!</div>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom: 5px">淡入淡出：</div>
+        <div class="fade-text">渐隐渐现的文字</div>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom: 5px">霓虹灯：</div>
+        <div class="neon">NEON</div>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom: 5px">波浪文字：</div>
+        <div class="wave-text">
+          <span>波</span><span>浪</span><span>文</span><span>字</span
+          ><span>效</span><span>果</span>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      打字机效果使用 steps() + width 动画；波浪文字将每个字包裹在 span 中，用
+      delay 实现交错。
+    </div>
+  </body>
+</html>

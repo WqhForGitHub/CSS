@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS 时钟动画</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .clock {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: #fff;
+        border: 8px solid #2c3e50;
+        position: relative;
+        margin: 20px auto;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+      .clock::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 12px;
+        height: 12px;
+        background: #2c3e50;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+      }
+      .hour-mark {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 3px;
+        height: 85px;
+        background: transparent;
+        transform-origin: bottom center;
+        transform: translate(-50%, -100%);
+      }
+      .hour-mark::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 3px;
+        height: 12px;
+        background: #2c3e50;
+        transform: translateX(-50%);
+      }
+      .hour-mark:nth-child(1) {
+        transform: translate(-50%, -100%) rotate(0deg);
+      }
+      .hour-mark:nth-child(2) {
+        transform: translate(-50%, -100%) rotate(30deg);
+      }
+      .hour-mark:nth-child(3) {
+        transform: translate(-50%, -100%) rotate(60deg);
+      }
+      .hour-mark:nth-child(4) {
+        transform: translate(-50%, -100%) rotate(90deg);
+      }
+      .hour-mark:nth-child(5) {
+        transform: translate(-50%, -100%) rotate(120deg);
+      }
+      .hour-mark:nth-child(6) {
+        transform: translate(-50%, -100%) rotate(150deg);
+      }
+      .hour-mark:nth-child(7) {
+        transform: translate(-50%, -100%) rotate(180deg);
+      }
+      .hour-mark:nth-child(8) {
+        transform: translate(-50%, -100%) rotate(210deg);
+      }
+      .hour-mark:nth-child(9) {
+        transform: translate(-50%, -100%) rotate(240deg);
+      }
+      .hour-mark:nth-child(10) {
+        transform: translate(-50%, -100%) rotate(270deg);
+      }
+      .hour-mark:nth-child(11) {
+        transform: translate(-50%, -100%) rotate(300deg);
+      }
+      .hour-mark:nth-child(12) {
+        transform: translate(-50%, -100%) rotate(330deg);
+      }
+      .hand {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform-origin: bottom center;
+        border-radius: 4px;
+      }
+      .hour-hand {
+        width: 5px;
+        height: 50px;
+        background: #2c3e50;
+        transform: translate(-50%, -100%) rotate(0deg);
+        animation: hourRotate 60s linear infinite;
+      }
+      .minute-hand {
+        width: 4px;
+        height: 70px;
+        background: #3498db;
+        transform: translate(-50%, -100%) rotate(0deg);
+        animation: minuteRotate 12s linear infinite;
+      }
+      .second-hand {
+        width: 2px;
+        height: 80px;
+        background: #e74c3c;
+        transform: translate(-50%, -100%) rotate(0deg);
+        animation: secondRotate 3s linear infinite;
+      }
+      @keyframes hourRotate {
+        from {
+          transform: translate(-50%, -100%) rotate(0deg);
+        }
+        to {
+          transform: translate(-50%, -100%) rotate(360deg);
+        }
+      }
+      @keyframes minuteRotate {
+        from {
+          transform: translate(-50%, -100%) rotate(0deg);
+        }
+        to {
+          transform: translate(-50%, -100%) rotate(360deg);
+        }
+      }
+      @keyframes secondRotate {
+        from {
+          transform: translate(-50%, -100%) rotate(0deg);
+        }
+        to {
+          transform: translate(-50%, -100%) rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>CSS 时钟动画</h1>
+    <div class="desc">
+      使用 animation 模拟时钟运行，时针、分针、秒针分别使用不同时长的旋转动画。
+    </div>
+
+    <h2>CSS 时钟</h2>
+    <p>秒针 3 秒一圈（加速演示），分针 12 秒一圈，时针 60 秒一圈：</p>
+    <div class="demo-row" style="justify-content: center">
+      <div class="clock">
+        <div class="hour-mark"></div>
+        <div class="hour-mark"></div>
+        <div class="hour-mark"></div>
+        <div class="hour-mark"></div>
+        <div class="hour-mark"></div>
+        <div class="hour-mark"></div>
+        <div class="hour-mark"></div>
+        <div class="hour-mark"></div>
+        <div class="hour-mark"></div>
+        <div class="hour-mark"></div>
+        <div class="hour-mark"></div>
+        <div class="hour-mark"></div>
+        <div class="hand hour-hand"></div>
+        <div class="hand minute-hand"></div>
+        <div class="hand second-hand"></div>
+      </div>
+    </div>
+    <div class="note">
+      核心是 transform-origin: bottom center（旋转轴心在底部），配合不同时长的
+      rotate 动画模拟时钟运行。实际时钟应使用 3600s/60s/1s。
+    </div>
+  </body>
+</html>

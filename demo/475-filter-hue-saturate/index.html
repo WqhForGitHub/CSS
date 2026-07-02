@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>色相旋转与饱和度滤镜</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .hs-area {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+      .hs-box {
+        width: 110px;
+        height: 110px;
+        background: linear-gradient(
+          135deg,
+          #e74c3c,
+          #f39c12,
+          #27ae60,
+          #3498db,
+          #9b59b6
+        );
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 14px;
+      }
+      .h0 {
+        filter: hue-rotate(0);
+      }
+      .h60 {
+        filter: hue-rotate(60deg);
+      }
+      .h120 {
+        filter: hue-rotate(120deg);
+      }
+      .h180 {
+        filter: hue-rotate(180deg);
+      }
+      .h240 {
+        filter: hue-rotate(240deg);
+      }
+      .h300 {
+        filter: hue-rotate(300deg);
+      }
+      .s05 {
+        filter: saturate(0.5);
+      }
+      .s2 {
+        filter: saturate(2);
+      }
+      .s3 {
+        filter: saturate(3);
+      }
+      .combo {
+        filter: hue-rotate(90deg) saturate(1.5);
+      }
+      .item {
+        text-align: center;
+      }
+      .label {
+        margin-top: 5px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>色相旋转与饱和度滤镜</h1>
+    <div class="desc">
+      <code>hue-rotate()</code> 旋转色相环改变颜色，<code>saturate()</code>
+      调整颜色饱和度。
+    </div>
+
+    <h2>hue-rotate 色相旋转</h2>
+    <div class="demo-row">
+      <div class="hs-area">
+        <div class="item">
+          <div class="hs-box h0">0°</div>
+          <div class="label">hue-rotate(0)</div>
+        </div>
+        <div class="item">
+          <div class="hs-box h60">60°</div>
+          <div class="label">hue-rotate(60deg)</div>
+        </div>
+        <div class="item">
+          <div class="hs-box h120">120°</div>
+          <div class="label">hue-rotate(120deg)</div>
+        </div>
+        <div class="item">
+          <div class="hs-box h180">180°</div>
+          <div class="label">hue-rotate(180deg)</div>
+        </div>
+        <div class="item">
+          <div class="hs-box h240">240°</div>
+          <div class="label">hue-rotate(240deg)</div>
+        </div>
+        <div class="item">
+          <div class="hs-box h300">300°</div>
+          <div class="label">hue-rotate(300deg)</div>
+        </div>
+      </div>
+    </div>
+    <h2>saturate 饱和度</h2>
+    <div class="demo-row">
+      <div class="hs-area">
+        <div class="item">
+          <div class="hs-box s05">0.5</div>
+          <div class="label">saturate(0.5) 淡</div>
+        </div>
+        <div class="item">
+          <div class="hs-box">1.0</div>
+          <div class="label">saturate(1) 原始</div>
+        </div>
+        <div class="item">
+          <div class="hs-box s2">2.0</div>
+          <div class="label">saturate(2) 鲜艳</div>
+        </div>
+        <div class="item">
+          <div class="hs-box s3">3.0</div>
+          <div class="label">saturate(3) 超饱和</div>
+        </div>
+        <div class="item">
+          <div class="hs-box combo">组合</div>
+          <div class="label">hue+sat</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      hue-rotate(360deg) 回到原始颜色。saturate(0) 等同于
+      grayscale(100%)。可以组合使用创造各种色调效果。
+    </div>
+  </body>
+</html>

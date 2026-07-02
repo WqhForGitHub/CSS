@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>position fixed 固定定位</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .pf-demo {
+        height: 200px;
+        overflow: auto;
+        border: 2px solid #34495e;
+        border-radius: 6px;
+        background: #ecf0f1;
+      }
+      .pf-content {
+        padding: 20px;
+      }
+      .pf-content p {
+        background: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .pf-fixed {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 120px;
+        height: 50px;
+        background: #e74c3c;
+        color: #fff;
+        border-radius: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+        z-index: 100;
+      }
+      .pf-sticky-nav {
+        position: sticky;
+        top: 0;
+        background: #34495e;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>position fixed 固定定位</h1>
+    <div class="desc">
+      <code>position: fixed</code>
+      相对于浏览器视口定位，滚动页面时元素位置不变，常用于固定导航栏和悬浮按钮。
+    </div>
+    <span class="tag">fixed 固定定位（模拟滚动区域）</span>
+    <div class="pf-demo">
+      <div class="pf-content">
+        <div class="pf-sticky-nav">固定导航条 (position: sticky, top: 0)</div>
+        <p>内容段落 1：尝试滚动此区域...</p>
+        <p>内容段落 2：fixed 元素相对于视口固定...</p>
+        <p>内容段落 3：sticky 在滚动到顶部时固定...</p>
+        <p>内容段落 4：更多内容...</p>
+        <p>内容段落 5：继续滚动...</p>
+        <p>内容段落 6：底部内容...</p>
+      </div>
+    </div>
+    <div class="pf-fixed">fixed 悬浮按钮</div>
+    <div class="note">
+      <code>position: fixed</code> 相对于浏览器视口定位，不受滚动影响。<code
+        >position: sticky</code
+      >
+      在滚动到指定位置前表现为 relative，到达后变为 fixed。注意：fixed
+      的祖先若有 transform 属性，参考会变为该祖先。
+    </div>
+  </body>
+</html>

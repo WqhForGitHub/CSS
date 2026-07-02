@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexbox 导航栏布局</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .fn-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #2c3e50;
+        padding: 12px 24px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+      .fn-logo {
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .fn-menu {
+        display: flex;
+        gap: 20px;
+      }
+      .fn-menu a {
+        color: #bdc3c7;
+        text-decoration: none;
+        font-size: 14px;
+        padding: 6px 12px;
+        border-radius: 4px;
+        transition: all 0.2s;
+      }
+      .fn-menu a:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .fn-menu a.active {
+        color: #fff;
+        background: #3498db;
+      }
+      .fn-actions {
+        display: flex;
+        gap: 10px;
+      }
+      .fn-btn {
+        padding: 6px 16px;
+        border-radius: 6px;
+        border: none;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .fn-btn-login {
+        background: transparent;
+        color: #3498db;
+        border: 1px solid #3498db;
+      }
+      .fn-btn-signup {
+        background: #3498db;
+        color: #fff;
+      }
+      .fn-nav-2 {
+        justify-content: flex-start;
+        gap: 40px;
+      }
+      .fn-nav-3 {
+        justify-content: center;
+        gap: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Flexbox 导航栏布局</h1>
+    <div class="desc">
+      使用 Flexbox 创建响应式导航栏：Logo 左对齐、菜单居中、操作按钮右对齐。
+    </div>
+    <span class="tag">标准导航栏：Logo + 菜单 + 按钮</span>
+    <div class="demo-row" style="padding: 20px">
+      <div class="fn-nav" style="width: 100%">
+        <div class="fn-logo">MyApp</div>
+        <div class="fn-menu">
+          <a href="#" class="active">首页</a>
+          <a href="#">产品</a>
+          <a href="#">文档</a>
+          <a href="#">价格</a>
+        </div>
+        <div class="fn-actions">
+          <button class="fn-btn fn-btn-login">登录</button>
+          <button class="fn-btn fn-btn-signup">注册</button>
+        </div>
+      </div>
+    </div>
+    <span class="tag">左对齐导航</span>
+    <div class="demo-row" style="padding: 0 20px 10px">
+      <div class="fn-nav fn-nav-2" style="width: 100%">
+        <div class="fn-logo">Logo</div>
+        <div class="fn-menu">
+          <a href="#">首页</a>
+          <a href="#">关于</a>
+          <a href="#">联系</a>
+        </div>
+      </div>
+    </div>
+    <span class="tag">居中导航</span>
+    <div class="demo-row" style="padding: 0 20px 20px">
+      <div class="fn-nav fn-nav-3" style="width: 100%">
+        <div class="fn-menu">
+          <a href="#" class="active">首页</a>
+          <a href="#">产品</a>
+          <a href="#">服务</a>
+          <a href="#">关于</a>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <code>justify-content: space-between</code>
+      实现三段式布局。子菜单容器自身也使用 flex 对齐菜单项。Flexbox
+      是导航栏布局的最佳选择。
+    </div>
+  </body>
+</html>

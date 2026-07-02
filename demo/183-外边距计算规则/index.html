@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>外边距计算规则</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .mc-demo .box {
+        background: #3498db;
+        color: #fff;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 6px;
+      }
+      .mc-demo .m-pos {
+        margin: 20px;
+      }
+      .mc-demo .m-neg {
+        margin-left: -20px;
+        background: #e74c3c;
+      }
+      .mc-demo .m-auto {
+        width: 200px;
+        margin: 0 auto;
+        background: #27ae60;
+      }
+      .mc-demo .m-mix {
+        margin: 10px 20px 30px 40px;
+        background: #9b59b6;
+      }
+      .mc-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>外边距计算规则</h1>
+    <div class="desc">
+      margin 可设置正负值。正值推开元素，负值拉近甚至重叠。auto 值实现水平居中。
+    </div>
+    <div class="demo-row mc-demo" style="display: block">
+      <div class="box m-pos">margin: 20px — 四周外边距</div>
+      <div class="box m-neg">margin-left: -20px — 负值向左偏移</div>
+      <div class="box m-auto">margin: 0 auto — 水平居中（需设 width）</div>
+      <div class="box m-mix">margin: 10px 20px 30px 40px — 上右下左</div>
+    </div>
+    <div class="note">
+      margin
+      简写：1值=四周；2值=上下/左右；3值=上/左右/下；4值=上右下左（顺时针）。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>浮动元素与margin重叠问题</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .fm-container {
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .fm-box {
+        width: 100px;
+        height: 70px;
+        float: left;
+        margin: 10px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 13px;
+      }
+      .fm-1 {
+        background: #3498db;
+      }
+      .fm-2 {
+        background: #e74c3c;
+      }
+      .fm-normal {
+        background: #27ae60;
+        color: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+      }
+      .fm-adjacent {
+        background: #f39c12;
+        color: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>浮动元素与margin重叠问题</h1>
+    <div class="desc">
+      浮动元素之间的 margin
+      不会发生合并（与普通块级元素不同），但需要注意相邻浮动和垂直方向 margin
+      的特殊行为。
+    </div>
+    <span class="tag">浮动元素 margin 不合并</span>
+    <div class="fm-container">
+      <div class="fm-box fm-1">Box 1<br />margin:10px</div>
+      <div class="fm-box fm-2">Box 2<br />margin:10px</div>
+      <div style="clear: both"></div>
+      <p style="font-size: 13px; margin: 10px 0">
+        两个浮动元素间距 = 10 + 10 = 20px（margin不合并）
+      </p>
+    </div>
+    <span class="tag">普通块级元素 margin 合并</span>
+    <div class="fm-container" style="margin-top: 15px">
+      <div class="fm-normal">
+        块元素1<br />margin-top:50px margin-bottom:50px
+      </div>
+      <div class="fm-adjacent">块元素2<br />margin-top:30px</div>
+      <p style="font-size: 13px; margin-top: 10px">
+        两个块元素间距 = max(50, 30) = 50px（margin合并）
+      </p>
+    </div>
+    <div class="note">
+      普通块级元素垂直方向的 margin 会合并（取较大值），但浮动元素的 margin
+      不会合并。这是BFC的规则之一。
+    </div>
+  </body>
+</html>

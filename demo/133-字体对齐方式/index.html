@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>text-align 文本对齐方式</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .ta-demo .box {
+        padding: 12px;
+        background: #fff;
+        border-radius: 6px;
+        margin-bottom: 6px;
+        font-size: 14px;
+        line-height: 1.6;
+        border-left: 4px solid #3498db;
+      }
+      .ta-demo .left {
+        text-align: left;
+      }
+      .ta-demo .right {
+        text-align: right;
+      }
+      .ta-demo .center {
+        text-align: center;
+      }
+      .ta-demo .justify {
+        text-align: justify;
+      }
+      .ta-demo .start {
+        text-align: start;
+      }
+      .ta-demo .end {
+        text-align: end;
+      }
+      .ta-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>text-align 文本对齐方式</h1>
+    <div class="desc">
+      <code>text-align</code> 设置文本水平对齐：left、right、center、justify。
+    </div>
+    <div class="demo-row ta-demo" style="display: block">
+      <div class="box left">
+        text-align: left — 左对齐（默认）。这是最常见的文本对齐方式。<span
+          class="label"
+        ></span>
+      </div>
+      <div class="box right">
+        text-align: right — 右对齐。常用于数字、日期等。<span
+          class="label"
+        ></span>
+      </div>
+      <div class="box center">
+        text-align: center — 居中对齐。常用于标题和按钮。<span
+          class="label"
+        ></span>
+      </div>
+      <div class="box justify">
+        text-align: justify —
+        两端对齐。每行文字撑满容器宽度，除最后一行外。这是书籍排版常用的对齐方式，可以让文本看起来更整齐。<span
+          class="label"
+        ></span>
+      </div>
+    </div>
+    <div class="note">
+      start/end 根据书写方向自动判断左/右对齐，适合多语言网站。
+    </div>
+  </body>
+</html>

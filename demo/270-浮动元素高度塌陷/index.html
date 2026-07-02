@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>浮动元素与父容器高度</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .h-demo {
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .h-parent {
+        border: 3px solid #34495e;
+      }
+      .h-child {
+        width: 80px;
+        height: 60px;
+        float: left;
+        margin: 5px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 12px;
+      }
+      .h-c1 {
+        background: #3498db;
+      }
+      .h-c2 {
+        background: #e74c3c;
+      }
+      .h-c3 {
+        background: #27ae60;
+      }
+      .fix-overflow {
+        overflow: hidden;
+      }
+      .fix-flowroot {
+        display: flow-root;
+      }
+      .fix-pseudo::after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+      .fix-clearfix::after {
+        content: '';
+        display: table;
+        clear: both;
+      }
+      .h-label {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>浮动元素与父容器高度</h1>
+    <div class="desc">
+      深入理解浮动元素不参与父容器高度计算的问题，以及各种修复方案对比。
+    </div>
+    <span class="tag">未修复（高度塌陷）</span>
+    <div class="h-demo">
+      <p class="h-label">父容器边框紧贴顶部</p>
+      <div class="h-parent">
+        <div class="h-child h-c1">1</div>
+        <div class="h-child h-c2">2</div>
+        <div class="h-child h-c3">3</div>
+      </div>
+    </div>
+    <span class="tag">修复方案1: overflow: hidden</span>
+    <div class="h-demo">
+      <div class="h-parent fix-overflow">
+        <div class="h-child h-c1">1</div>
+        <div class="h-child h-c2">2</div>
+        <div class="h-child h-c3">3</div>
+      </div>
+    </div>
+    <span class="tag">修复方案2: display: flow-root（推荐）</span>
+    <div class="h-demo">
+      <div class="h-parent fix-flowroot">
+        <div class="h-child h-c1">1</div>
+        <div class="h-child h-c2">2</div>
+        <div class="h-child h-c3">3</div>
+      </div>
+    </div>
+    <span class="tag">修复方案3: ::after 伪元素</span>
+    <div class="h-demo">
+      <div class="h-parent fix-pseudo">
+        <div class="h-child h-c1">1</div>
+        <div class="h-child h-c2">2</div>
+        <div class="h-child h-c3">3</div>
+      </div>
+    </div>
+    <div class="note">
+      <code>display: flow-root</code>
+      是现代CSS清除浮动的推荐方式，专门为创建BFC而设计，无副作用。兼容性良好（IE除外）。
+    </div>
+  </body>
+</html>

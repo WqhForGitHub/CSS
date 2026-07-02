@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>过渡实现展开收起</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .accordion-item {
+        margin-bottom: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .accordion-header {
+        padding: 14px 20px;
+        background: #3498db;
+        color: #fff;
+        cursor: pointer;
+        font-size: 15px;
+        transition: background 0.3s ease;
+      }
+      .accordion-header:hover {
+        background: #2980b9;
+      }
+      .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+        background: #fff;
+      }
+      .accordion-item:hover .accordion-content {
+        max-height: 200px;
+      }
+      .accordion-content p {
+        padding: 14px 20px;
+        color: #555;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .acc2 .accordion-header {
+        background: #27ae60;
+      }
+      .acc2 .accordion-header:hover {
+        background: #229954;
+      }
+      .acc3 .accordion-header {
+        background: #e74c3c;
+      }
+      .acc3 .accordion-header:hover {
+        background: #cb4335;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>过渡实现展开收起</h1>
+    <div class="desc">
+      利用 <code>max-height</code> 过渡实现内容的展开/收起动画效果。
+    </div>
+
+    <h2>悬停展开的手风琴</h2>
+    <p>鼠标悬停在标题上展开内容：</p>
+    <div class="demo-row" style="flex-direction: column">
+      <div class="accordion-item">
+        <div class="accordion-header">▶ HTML 结构</div>
+        <div class="accordion-content">
+          <p>
+            HTML（HyperText Markup
+            Language）是构建网页的标准标记语言，描述了网页的结构和内容。
+          </p>
+        </div>
+      </div>
+      <div class="accordion-item acc2">
+        <div class="accordion-header">▶ CSS 样式</div>
+        <div class="accordion-content">
+          <p>
+            CSS（Cascading Style
+            Sheets）用于控制网页的视觉表现，包括布局、颜色、字体、动画等各个方面。
+          </p>
+        </div>
+      </div>
+      <div class="accordion-item acc3">
+        <div class="accordion-header">▶ JavaScript 交互</div>
+        <div class="accordion-content">
+          <p>
+            JavaScript 是一种脚本语言，为网页添加动态交互功能，包括事件处理、DOM
+            操作、数据请求等。
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      max-height 过渡是 CSS 纯实现展开/收起的经典技巧。需要设置一个足够大的
+      max-height 值，但不宜过大以免影响动画速度。
+    </div>
+  </body>
+</html>

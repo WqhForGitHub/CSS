@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>stacking-context 触发实验</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .sc-demo .container {
+        position: relative;
+        height: 180px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        padding: 12px;
+      }
+      .sc-demo .parent {
+        width: 130px;
+        height: 130px;
+        background: rgba(52, 152, 219, 0.5);
+        border: 2px solid #3498db;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 12px;
+        padding: 6px;
+        position: relative;
+      }
+      .sc-demo .opacity-trigger {
+        opacity: 0.99;
+      }
+      .sc-demo .transform-trigger {
+        transform: translate(0, 0);
+      }
+      .sc-demo .filter-trigger {
+        filter: drop-shadow(0 0 0 transparent);
+      }
+      .sc-demo .child {
+        position: absolute;
+        bottom: -15px;
+        right: -15px;
+        width: 70px;
+        height: 70px;
+        background: #e74c3c;
+        color: #fff;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        z-index: 10;
+      }
+      .sc-demo .sibling {
+        position: absolute;
+        top: 20px;
+        left: 90px;
+        width: 90px;
+        height: 90px;
+        background: #27ae60;
+        color: #fff;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        z-index: 1;
+      }
+      .sc-demo .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 12px;
+      }
+      .sc-demo .case {
+        background: #fff;
+        border-radius: 6px;
+        padding: 10px;
+      }
+      .sc-demo .case-title {
+        font-size: 12px;
+        color: #555;
+        margin-bottom: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>stacking-context 触发实验</h1>
+    <div class="desc">
+      除 z-index 外，<code>opacity&lt;1</code>、<code>transform</code>、<code
+        >filter</code
+      >
+      等也会创建新的层叠上下文。
+    </div>
+    <div class="demo-row sc-demo" style="display: block">
+      <div class="row">
+        <div class="case">
+          <div class="case-title">opacity:0.99 触发</div>
+          <div class="container">
+            <div class="parent opacity-trigger">
+              parent<br />opacity:.99
+              <div class="child">z:10</div>
+            </div>
+            <div class="sibling">sibling z:1</div>
+          </div>
+        </div>
+        <div class="case">
+          <div class="case-title">transform 触发</div>
+          <div class="container">
+            <div class="parent transform-trigger">
+              parent<br />transform
+              <div class="child">z:10</div>
+            </div>
+            <div class="sibling">sibling z:1</div>
+          </div>
+        </div>
+        <div class="case">
+          <div class="case-title">filter 触发</div>
+          <div class="container">
+            <div class="parent filter-trigger">
+              parent<br />filter
+              <div class="child">z:10</div>
+            </div>
+            <div class="sibling">sibling z:1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      opacity&lt;1、transform、filter、will-change
+      等都会隐式创建层叠上下文，子元素 z-index 不再与外部元素直接比较。
+    </div>
+  </body>
+</html>

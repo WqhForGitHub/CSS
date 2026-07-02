@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>层叠规则解析</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .cascade-demo .box {
+        padding: 14px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        color: #fff;
+      }
+      .cascade-demo .step {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        margin: 4px 0;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      .cascade-demo .s1 {
+        background: #ecf0f1;
+      }
+      .cascade-demo .s2 {
+        background: #ebf5fb;
+      }
+      .cascade-demo .s3 {
+        background: #eafaf1;
+      }
+      .cascade-demo .s4 {
+        background: #fef9e7;
+      }
+      .cascade-demo .num {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #2c3e50;
+        color: #fff;
+        text-align: center;
+        line-height: 22px;
+        font-size: 12px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>层叠规则解析</h1>
+    <div class="desc">
+      层叠算法按四个步骤确定最终样式：1.重要性 2.来源 3.权重 4.源码顺序。
+    </div>
+    <div class="demo-row cascade-demo" style="display: block">
+      <div class="step s1">
+        <span class="num">1</span>重要性：!important &gt; 普通
+      </div>
+      <div class="step s2">
+        <span class="num">2</span>来源：浏览器默认 &lt; 用户 &lt; 开发者
+      </div>
+      <div class="step s3">
+        <span class="num">3</span>权重（特指度）：(a,b,c) 逐位比较
+      </div>
+      <div class="step s4">
+        <span class="num">4</span>源码顺序：后面定义的覆盖前面的
+      </div>
+    </div>
+    <div class="note">四步依次判断，前一步能分出胜负就不再看后续步骤。</div>
+  </body>
+</html>

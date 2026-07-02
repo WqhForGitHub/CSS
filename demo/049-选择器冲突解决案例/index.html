@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>选择器冲突解决案例</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .conflict-demo .box {
+        padding: 16px;
+        border-radius: 6px;
+        margin: 8px 0;
+        color: #fff;
+        text-align: center;
+      }
+      .conflict-demo .box {
+        background: #3498db;
+      }
+      .conflict-demo .box.highlight {
+        background: #e74c3c;
+      }
+      .conflict-demo #special {
+        background: #2ecc71;
+      }
+      .conflict-demo .box.highlight {
+        background: #f39c12;
+      }
+      .conflict-demo .label-tag {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 3px;
+        font-size: 12px;
+        background: rgba(0, 0, 0, 0.2);
+        margin-left: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>选择器冲突解决案例</h1>
+    <div class="desc">
+      当多个选择器匹配同一元素且设置相同属性时，按权重排序；权重相同时，后定义的覆盖先定义的。
+    </div>
+    <div class="demo-row conflict-demo" style="display: block">
+      <div class="box">.box — 蓝色 (0,1,0)</div>
+      <div class="box highlight">.box.highlight — 橙色 (0,2,0) 覆盖蓝色</div>
+      <div class="box highlight" id="special">
+        #special — 绿色 (1,0,0) 覆盖橙色
+      </div>
+    </div>
+    <div class="note">
+      解决冲突：1.提高权重 2.调整顺序 3.使用 !important（最后手段）
+    </div>
+  </body>
+</html>

@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexbox 响应式工具栏</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .tb-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #fff;
+        padding: 10px 16px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+      }
+      .tb-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .tb-btn {
+        padding: 6px 14px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        background: #fff;
+        font-size: 13px;
+        cursor: pointer;
+        color: #333;
+      }
+      .tb-btn:hover {
+        background: #f0f0f0;
+      }
+      .tb-btn.primary {
+        background: #3498db;
+        color: #fff;
+        border-color: #3498db;
+      }
+      .tb-btn.danger {
+        background: #e74c3c;
+        color: #fff;
+        border-color: #e74c3c;
+      }
+      .tb-divider {
+        width: 1px;
+        height: 24px;
+        background: #ddd;
+      }
+      .tb-input {
+        padding: 6px 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 13px;
+        flex: 1;
+        min-width: 100px;
+      }
+      .tb-spacer {
+        flex: 1;
+      }
+      .tb-text {
+        font-size: 13px;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Flexbox 响应式工具栏</h1>
+    <div class="desc">
+      使用 Flexbox 创建工具栏，灵活组合各种对齐方式和间距，适应不同内容。
+    </div>
+    <span class="tag">工具栏：搜索 + 操作按钮</span>
+    <div class="demo-row" style="padding: 20px; flex-direction: column">
+      <div class="tb-bar" style="width: 100%">
+        <input class="tb-input" placeholder="搜索..." />
+        <div class="tb-divider"></div>
+        <button class="tb-btn">筛选</button>
+        <button class="tb-btn">排序</button>
+        <button class="tb-btn primary">搜索</button>
+      </div>
+      <div class="tb-bar" style="width: 100%">
+        <div class="tb-group">
+          <button class="tb-btn">←</button>
+          <button class="tb-btn">→</button>
+        </div>
+        <div class="tb-divider"></div>
+        <span class="tb-text">第 1 页 / 共 10 页</span>
+        <div class="tb-spacer"></div>
+        <button class="tb-btn danger">删除</button>
+        <button class="tb-btn primary">保存</button>
+      </div>
+      <div class="tb-bar" style="width: 100%">
+        <span class="tb-text">📊 数据列表</span>
+        <div class="tb-spacer"></div>
+        <div class="tb-group">
+          <button class="tb-btn">列表</button>
+          <button class="tb-btn">网格</button>
+          <button class="tb-btn">详情</button>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <code>flex: 1</code> 的 spacer 推开两侧元素实现空间分配。<code>gap</code>
+      属性统一管理间距。Flexbox 非常适合工具栏这种水平排列、灵活对齐的场景。
+    </div>
+  </body>
+</html>

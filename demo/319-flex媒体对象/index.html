@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexbox 媒体对象布局</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .mo-item {
+        display: flex;
+        gap: 16px;
+        background: #fff;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+        align-items: flex-start;
+      }
+      .mo-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 24px;
+      }
+      .mo-avatar.a1 {
+        background: #3498db;
+      }
+      .mo-avatar.a2 {
+        background: #e74c3c;
+      }
+      .mo-avatar.a3 {
+        background: #27ae60;
+      }
+      .mo-body {
+        flex: 1;
+      }
+      .mo-body h4 {
+        font-size: 15px;
+        margin-bottom: 4px;
+        color: #2c3e50;
+      }
+      .mo-body .mo-meta {
+        font-size: 12px;
+        color: #95a5a6;
+        margin-bottom: 6px;
+      }
+      .mo-body p {
+        font-size: 13px;
+        color: #555;
+        line-height: 1.6;
+      }
+      .mo-reverse {
+        flex-direction: row-reverse;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Flexbox 媒体对象布局</h1>
+    <div class="desc">
+      使用 Flexbox
+      实现经典媒体对象（图片+文字），文字自动填充剩余空间，支持反转排列。
+    </div>
+    <span class="tag">媒体对象（头像+内容）</span>
+    <div class="demo-row" style="padding: 20px; flex-direction: column">
+      <div class="mo-item" style="width: 100%">
+        <div class="mo-avatar a1">A</div>
+        <div class="mo-body">
+          <h4>用户A</h4>
+          <div class="mo-meta">2小时前</div>
+          <p>
+            这是用户A发布的内容。Flexbox
+            使头像固定在左侧，文字内容自动填充剩余空间。这是社交媒体中最常见的布局模式。
+          </p>
+        </div>
+      </div>
+      <div class="mo-item" style="width: 100%">
+        <div class="mo-avatar a2">B</div>
+        <div class="mo-body">
+          <h4>用户B</h4>
+          <div class="mo-meta">5小时前</div>
+          <p>用户B的内容。即使内容较少，头像也保持在左侧固定位置。</p>
+        </div>
+      </div>
+      <div class="mo-item mo-reverse" style="width: 100%">
+        <div class="mo-avatar a3">C</div>
+        <div class="mo-body">
+          <h4>用户C（反转排列）</h4>
+          <div class="mo-meta">1天前</div>
+          <p>
+            flex-direction: row-reverse 使头像在右侧。常用于回复评论的展示。
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      媒体对象核心：<code>flex-shrink: 0</code> 防止头像被压缩，<code
+        >flex: 1</code
+      >
+      使文字区域占满剩余空间。<code>row-reverse</code> 轻松实现反转。
+    </div>
+  </body>
+</html>

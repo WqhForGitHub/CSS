@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>font-size 响应式字体大小</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .fsize-demo .box {
+        padding: 12px;
+        background: #fff;
+        border-radius: 6px;
+        margin-bottom: 6px;
+        border-left: 4px solid #3498db;
+      }
+      .fs-px {
+        font-size: 20px;
+      }
+      .fs-em {
+        font-size: 1.5em;
+      }
+      .fs-rem {
+        font-size: 1.5rem;
+      }
+      .fs-vw {
+        font-size: 3vw;
+      }
+      .fs-clamp {
+        font-size: clamp(14px, 2.5vw, 28px);
+      }
+      .fsize-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+        font-family: Consolas, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>font-size 响应式字体大小</h1>
+    <div class="desc">
+      <code>font-size</code> 可用 px、em、rem、vw、clamp()
+      等设置。响应式排版推荐 clamp()。
+    </div>
+    <div class="demo-row fsize-demo" style="display: block">
+      <div class="box fs-px">
+        font-size: 20px <span class="label">固定像素</span>
+      </div>
+      <div class="box fs-em">
+        font-size: 1.5em <span class="label">相对父元素</span>
+      </div>
+      <div class="box fs-rem">
+        font-size: 1.5rem <span class="label">相对根元素</span>
+      </div>
+      <div class="box fs-vw">
+        font-size: 3vw <span class="label">相对视口宽度</span>
+      </div>
+      <div class="box fs-clamp">
+        font-size: clamp(14px, 2.5vw, 28px) <span class="label">响应式</span>
+      </div>
+    </div>
+    <div class="note">
+      clamp() 是最佳响应式字体方案：无需媒体查询，自动在范围内缩放。
+    </div>
+  </body>
+</html>

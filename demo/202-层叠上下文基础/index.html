@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>层叠上下文基础</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .stack-demo .container {
+        position: relative;
+        height: 200px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        padding: 12px;
+      }
+      .stack-demo .parent-a {
+        position: relative;
+        z-index: 2;
+        width: 140px;
+        height: 140px;
+        background: rgba(52, 152, 219, 0.6);
+        border: 2px solid #3498db;
+        border-radius: 6px;
+        padding: 8px;
+        color: #fff;
+        font-size: 12px;
+      }
+      .stack-demo .parent-b {
+        position: relative;
+        z-index: 1;
+        width: 140px;
+        height: 140px;
+        background: rgba(231, 76, 60, 0.6);
+        border: 2px solid #e74c3c;
+        border-radius: 6px;
+        padding: 8px;
+        color: #fff;
+        font-size: 12px;
+        margin-top: -60px;
+        margin-left: 60px;
+      }
+      .stack-demo .child {
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+        width: 60px;
+        height: 60px;
+        background: #27ae60;
+        color: #fff;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        z-index: 999;
+      }
+      .stack-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>层叠上下文基础</h1>
+    <div class="desc">
+      <code>z-index</code> 只在同一层叠上下文中生效。父元素的 z-index
+      会限制子元素的层叠范围。
+    </div>
+    <div class="demo-row stack-demo" style="display: block">
+      <div class="container">
+        <div class="parent-a">
+          parent-a z-index:2
+          <div class="child">child<br />z:999</div>
+        </div>
+        <div class="parent-b">parent-b z-index:1</div>
+      </div>
+      <p class="label" style="margin-top: 8px">
+        parent-a 的 z-index:2 大于 parent-b 的 z-index:1，所以 parent-a 内的
+        child（即使 z-index:999）也被限制在 parent-a 的层叠范围内，仍被 parent-b
+        覆盖。
+      </p>
+    </div>
+    <div class="note">
+      子元素的 z-index
+      不能突破父元素层叠上下文的限制。这是层叠上下文的核心规则。
+    </div>
+  </body>
+</html>

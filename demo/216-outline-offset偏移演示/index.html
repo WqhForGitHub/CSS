@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>outline-offset 偏移演示</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .oo-demo .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .oo-demo .case {
+        text-align: center;
+      }
+      .oo-demo .box {
+        width: 100px;
+        height: 100px;
+        background: #3498db;
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        border: 2px solid #2980b9;
+        outline: 3px solid #e74c3c;
+        margin: 30px 0;
+      }
+      .oo-demo .pos-10 {
+        outline-offset: 10px;
+      }
+      .oo-demo .zero {
+        outline-offset: 0;
+      }
+      .oo-demo .neg-10 {
+        outline-offset: -10px;
+      }
+      .oo-demo .pos-20 {
+        outline-offset: 20px;
+      }
+      .oo-demo .neg-20 {
+        outline-offset: -20px;
+      }
+      .oo-demo .hover-demo {
+        outline-offset: 0;
+        transition: outline-offset 0.3s;
+        cursor: pointer;
+      }
+      .oo-demo .hover-demo:hover {
+        outline-offset: 8px;
+        outline-color: #27ae60;
+      }
+      .oo-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>outline-offset 偏移演示</h1>
+    <div class="desc">
+      <code>outline-offset</code> 控制 outline 与 border
+      之间的距离。正值向外偏移，负值向内偏移。
+    </div>
+    <div class="demo-row oo-demo">
+      <div class="grid">
+        <div class="case">
+          <div class="box pos-10">+10px</div>
+          <div class="label">向外偏移 10px</div>
+        </div>
+        <div class="case">
+          <div class="box zero">0</div>
+          <div class="label">默认紧贴 border</div>
+        </div>
+        <div class="case">
+          <div class="box neg-10">-10px</div>
+          <div class="label">向内偏移 10px</div>
+        </div>
+        <div class="case">
+          <div class="box pos-20">+20px</div>
+          <div class="label">向外偏移 20px</div>
+        </div>
+        <div class="case">
+          <div class="box neg-20">-20px</div>
+          <div class="label">向内偏移 20px</div>
+        </div>
+        <div class="case">
+          <div class="box hover-demo">hover</div>
+          <div class="label">悬停查看动画</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      outline-offset 负值可让轮廓覆盖在元素之上，常用于"高亮选中"效果。配合
+      transition 可做平滑动画。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>flex-direction 主轴方向</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .fd-container {
+        display: flex;
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .fd-item {
+        background: #3498db;
+        color: #fff;
+        padding: 15px 25px;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      .fd-item:nth-child(even) {
+        background: #e74c3c;
+      }
+      .fd-item:nth-child(3n) {
+        background: #27ae60;
+      }
+      .fd-row {
+        flex-direction: row;
+      }
+      .fd-row-reverse {
+        flex-direction: row-reverse;
+      }
+      .fd-column {
+        flex-direction: column;
+      }
+      .fd-column-reverse {
+        flex-direction: column-reverse;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>flex-direction 主轴方向</h1>
+    <div class="desc">
+      <code>flex-direction</code>
+      设置主轴方向：<code>row</code>（默认水平）、<code>row-reverse</code>、<code>column</code>（垂直）、<code>column-reverse</code>。
+    </div>
+    <span class="tag">flex-direction: row（默认）</span>
+    <div class="fd-container fd-row">
+      <div class="fd-item">1</div>
+      <div class="fd-item">2</div>
+      <div class="fd-item">3</div>
+    </div>
+    <span class="tag">flex-direction: row-reverse</span>
+    <div class="fd-container fd-row-reverse">
+      <div class="fd-item">1</div>
+      <div class="fd-item">2</div>
+      <div class="fd-item">3</div>
+    </div>
+    <span class="tag">flex-direction: column</span>
+    <div class="fd-container fd-column">
+      <div class="fd-item">1</div>
+      <div class="fd-item">2</div>
+      <div class="fd-item">3</div>
+    </div>
+    <span class="tag">flex-direction: column-reverse</span>
+    <div class="fd-container fd-column-reverse">
+      <div class="fd-item">1</div>
+      <div class="fd-item">2</div>
+      <div class="fd-item">3</div>
+    </div>
+    <div class="note">
+      <code>row</code>: 主轴水平从左到右；<code>row-reverse</code>:
+      水平从右到左；<code>column</code>:
+      垂直从上到下；<code>column-reverse</code>: 垂直从下到上。
+    </div>
+  </body>
+</html>

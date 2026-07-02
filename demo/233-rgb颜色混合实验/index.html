@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>rgb颜色混合实验</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .rgb-box {
+        width: 80px;
+        height: 80px;
+        border-radius: 6px;
+      }
+      .rgb-1 {
+        background: rgb(255, 0, 0);
+      }
+      .rgb-2 {
+        background: rgb(0, 255, 0);
+      }
+      .rgb-3 {
+        background: rgb(0, 0, 255);
+      }
+      .rgb-4 {
+        background: rgb(255, 255, 0);
+      }
+      .rgb-5 {
+        background: rgb(255, 0, 255);
+      }
+      .rgb-6 {
+        background: rgb(0, 255, 255);
+      }
+      .rgb-7 {
+        background: rgb(255, 255, 255);
+        border: 1px solid #ccc;
+      }
+      .rgb-8 {
+        background: rgb(0, 0, 0);
+      }
+      .rgb-pct-1 {
+        background: rgb(100%, 50%, 0%);
+      }
+      .rgb-pct-2 {
+        background: rgb(50%, 50%, 50%);
+      }
+      .rgb-pct-3 {
+        background: rgb(20%, 80%, 60%);
+      }
+      .rgb-pct-4 {
+        background: rgb(100%, 100%, 100%);
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>rgb颜色混合实验</h1>
+    <div class="desc">
+      <code>rgb(r, g, b)</code>
+      函数使用十进制（0-255）或百分比（0%-100%）指定红绿蓝三个通道的值。
+    </div>
+    <span class="tag">rgb() 十进制 (0-255)</span>
+    <div class="demo-row">
+      <div class="demo-item">
+        <div class="rgb-box rgb-1"></div>
+        <span class="label">rgb(255,0,0)</span>
+      </div>
+      <div class="demo-item">
+        <div class="rgb-box rgb-2"></div>
+        <span class="label">rgb(0,255,0)</span>
+      </div>
+      <div class="demo-item">
+        <div class="rgb-box rgb-3"></div>
+        <span class="label">rgb(0,0,255)</span>
+      </div>
+      <div class="demo-item">
+        <div class="rgb-box rgb-4"></div>
+        <span class="label">rgb(255,255,0)</span>
+      </div>
+      <div class="demo-item">
+        <div class="rgb-box rgb-5"></div>
+        <span class="label">rgb(255,0,255)</span>
+      </div>
+      <div class="demo-item">
+        <div class="rgb-box rgb-6"></div>
+        <span class="label">rgb(0,255,255)</span>
+      </div>
+      <div class="demo-item">
+        <div class="rgb-box rgb-7"></div>
+        <span class="label">rgb(255,255,255)</span>
+      </div>
+      <div class="demo-item">
+        <div class="rgb-box rgb-8"></div>
+        <span class="label">rgb(0,0,0)</span>
+      </div>
+    </div>
+    <span class="tag">rgb() 百分比 (0%-100%)</span>
+    <div class="demo-row">
+      <div class="demo-item">
+        <div class="rgb-box rgb-pct-1"></div>
+        <span class="label">100%,50%,0%</span>
+      </div>
+      <div class="demo-item">
+        <div class="rgb-box rgb-pct-2"></div>
+        <span class="label">50%,50%,50%</span>
+      </div>
+      <div class="demo-item">
+        <div class="rgb-box rgb-pct-3"></div>
+        <span class="label">20%,80%,60%</span>
+      </div>
+      <div class="demo-item">
+        <div class="rgb-box rgb-pct-4"></div>
+        <span class="label">100%,100%,100%</span>
+      </div>
+    </div>
+    <div class="note">
+      <code>rgb(255,0,0)</code> 等价于
+      <code>rgb(100%,0%,0%)</code>。超出范围的值会被裁剪：<code
+        >rgb(300,0,0)</code
+      >
+      会被视为 <code>rgb(255,0,0)</code>。
+    </div>
+  </body>
+</html>

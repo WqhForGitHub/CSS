@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>text-align: justify 两端对齐</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .justify-demo .box {
+        padding: 16px;
+        background: #fff;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        font-size: 14px;
+        line-height: 1.8;
+      }
+      .justify-demo .left {
+        text-align: left;
+      }
+      .justify-demo .justify {
+        text-align: justify;
+      }
+      .justify-demo .justify-cn {
+        text-align: justify;
+        text-justify: inter-ideograph;
+      }
+      .justify-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+        display: block;
+        margin-bottom: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>text-align: justify 两端对齐</h1>
+    <div class="desc">
+      justify 让每行文本（除最后一行）撑满容器宽度，创造整齐的左右边缘。
+    </div>
+    <div class="demo-row justify-demo" style="display: block">
+      <div class="box left">
+        <span class="label">text-align: left</span
+        >CSS（层叠样式表）是一种用来表现 HTML 或 XML 等文件样式的计算机语言。CSS
+        不仅可以静态地修饰网页，还可以配合各种脚本语言动态地对网页各元素进行格式化。
+      </div>
+      <div class="box justify">
+        <span class="label">text-align: justify</span
+        >CSS（层叠样式表）是一种用来表现 HTML 或 XML 等文件样式的计算机语言。CSS
+        不仅可以静态地修饰网页，还可以配合各种脚本语言动态地对网页各元素进行格式化。
+      </div>
+    </div>
+    <div class="note">
+      两端对齐在中文排版中可能不够均匀，可配合 text-justify: inter-ideograph
+      改善。
+    </div>
+  </body>
+</html>

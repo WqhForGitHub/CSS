@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>非置换元素布局差异</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .block-demo {
+        background: #ebf5fb;
+        border: 2px solid #3498db;
+        padding: 10px;
+        margin-bottom: 8px;
+      }
+      .inline-demo {
+        background: #fef5e7;
+        border: 2px solid #e67e22;
+        padding: 4px 8px;
+        margin-right: 8px;
+        display: inline;
+      }
+      .inline-block-demo {
+        background: #eafaf1;
+        border: 2px solid #2ecc71;
+        padding: 6px 12px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>非置换元素布局差异</h1>
+    <div class="desc">
+      非置换元素（如
+      <code>div</code>、<code>p</code>、<code>span</code>）的内容由 HTML
+      标签内的文本/子元素决定。块级非置换元素默认宽度为
+      100%，行内非置换元素宽度由内容决定。
+    </div>
+    <h2>块级非置换元素</h2>
+    <div class="demo-row" style="display: block">
+      <div class="block-demo">div — 块级，宽度自动撑满父容器</div>
+      <div class="block-demo">div — 每个块级元素独占一行</div>
+    </div>
+    <h2>行内非置换元素</h2>
+    <div class="demo-row" style="display: block">
+      <span class="inline-demo">span 行内</span
+      ><span class="inline-demo">span 行内</span
+      ><span class="inline-demo">span 行内</span>
+      <p style="margin-top: 8px">
+        行内元素不会换行，宽高由内容决定，设置 width/height 无效。
+      </p>
+    </div>
+    <h2>inline-block 非置换元素</h2>
+    <div class="demo-row" style="display: block">
+      <span class="inline-block-demo">inline-block</span
+      ><span class="inline-block-demo">可设宽高</span
+      ><span class="inline-block-demo">不换行</span>
+    </div>
+  </body>
+</html>

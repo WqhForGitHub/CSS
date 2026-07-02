@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>transition 简写属性</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .box {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        margin: 10px;
+        cursor: pointer;
+        border-radius: 8px;
+      }
+      .single {
+        background: #3498db;
+        transition: background 0.4s ease;
+      }
+      .single:hover {
+        background: #e74c3c;
+      }
+      .multi {
+        background: #27ae60;
+        transition:
+          background 0.3s ease,
+          transform 0.5s ease-in-out,
+          border-radius 0.4s ease 0.1s;
+      }
+      .multi:hover {
+        background: #f39c12;
+        transform: scale(1.2) rotate(10deg);
+        border-radius: 50%;
+      }
+      .all {
+        background: #9b59b6;
+        transition: all 0.4s ease;
+      }
+      .all:hover {
+        background: #1abc9c;
+        transform: scale(1.15);
+        border-radius: 50%;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+      .flex-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .item {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>transition 简写属性</h1>
+    <div class="desc">
+      <code>transition</code>
+      简写属性可以在一行中设置所有过渡参数，多个属性用逗号分隔。
+    </div>
+
+    <h2>transition 简写用法</h2>
+    <div class="demo-row">
+      <div class="flex-wrap">
+        <div class="item">
+          <div class="box single">单属性</div>
+          <div class="label">transition: bg 0.4s</div>
+        </div>
+        <div class="item">
+          <div class="box multi">多属性</div>
+          <div class="label">transition: bg, transform, radius</div>
+        </div>
+        <div class="item">
+          <div class="box all">all</div>
+          <div class="label">transition: all 0.4s</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      简写格式：transition: property duration timing-function delay;
+      多组用逗号分隔。顺序为 property→duration→timing-function→delay。
+    </div>
+  </body>
+</html>

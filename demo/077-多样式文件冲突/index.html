@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>多样式文件冲突</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .multi-demo .box {
+        padding: 14px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        color: #fff;
+        text-align: center;
+      }
+      .multi-demo .file-tag {
+        font-family: Consolas, monospace;
+        font-size: 12px;
+        padding: 2px 8px;
+        border-radius: 3px;
+        background: #2c3e50;
+        color: #fff;
+      }
+      .multi-demo .from-a {
+        background: #3498db;
+      }
+      .multi-demo .from-b {
+        background: #e74c3c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>多样式文件冲突</h1>
+    <div class="desc">
+      当多个 CSS 文件通过 link 引入时，后引入的文件中同权重规则会覆盖先引入的。
+    </div>
+    <div class="demo-row multi-demo" style="display: block">
+      <p>
+        <span class="file-tag">base.css</span>
+        <code>.box { background: #3498db; }</code>
+      </p>
+      <p>
+        <span class="file-tag">theme.css</span>
+        <code>.box { background: #e74c3c; }</code> （后引入）
+      </p>
+      <div class="box from-b">
+        最终红色 — theme.css 后引入，同权重覆盖 base.css
+      </div>
+      <p style="font-size: 13px; color: #7f8c8d">
+        HTML 中的引入顺序：<code>&lt;link href="base.css"&gt;</code> →
+        <code>&lt;link href="theme.css"&gt;</code>
+      </p>
+    </div>
+    <div class="note">CSS 文件引入顺序很重要。基础样式在前，覆盖样式在后。</div>
+  </body>
+</html>

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>style 标签内联样式演示</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .style-tag-demo {
+        padding: 20px;
+        background: #fff;
+        border-radius: 6px;
+        border-left: 4px solid #e67e22;
+      }
+      .inline-style-result {
+        color: #e67e22;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 10px;
+        background: #fef5e7;
+        border-radius: 4px;
+      }
+      .code-block {
+        font-family: Consolas, monospace;
+        font-size: 13px;
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 12px;
+        border-radius: 4px;
+        margin: 10px 0;
+        white-space: pre;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>style 标签内联样式演示</h1>
+    <div class="desc">
+      在 HTML 的 <code>&lt;head&gt;</code> 中使用
+      <code>&lt;style&gt;</code> 标签嵌入 CSS
+      规则。适合单个页面的样式定义，但无法跨页面复用。
+    </div>
+    <div class="style-tag-demo">
+      <div class="code-block">
+        &lt;style&gt; .inline-style-result { color: #e67e22; font-size: 18px;
+        font-weight: bold; } &lt;/style&gt;
+      </div>
+      <div class="inline-style-result">
+        这段文字的样式来自 style 标签内的 CSS 规则
+      </div>
+    </div>
+    <div class="note">
+      style 标签适合原型开发和单页应用，但生产环境建议拆分为外部文件。
+    </div>
+  </body>
+</html>

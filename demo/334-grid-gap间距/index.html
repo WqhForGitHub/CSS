@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>grid gap 间距属性</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .gg-demo {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+      .gg-item {
+        background: #3498db;
+        color: #fff;
+        padding: 20px;
+        border-radius: 6px;
+        text-align: center;
+        font-size: 13px;
+      }
+      .gg-item:nth-child(even) {
+        background: #e74c3c;
+      }
+      .gg-0 {
+        gap: 0;
+      }
+      .gg-5 {
+        gap: 5px;
+      }
+      .gg-15 {
+        gap: 15px;
+      }
+      .gg-diff {
+        row-gap: 20px;
+        column-gap: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>grid gap 间距属性</h1>
+    <div class="desc">
+      <code>gap</code>（原 grid-gap）设置网格行列间距，可分别用
+      <code>row-gap</code> 和 <code>column-gap</code>。
+    </div>
+    <span class="tag">gap: 0（无间距）</span>
+    <div class="gg-demo gg-0">
+      <div class="gg-item">1</div>
+      <div class="gg-item">2</div>
+      <div class="gg-item">3</div>
+      <div class="gg-item">4</div>
+      <div class="gg-item">5</div>
+      <div class="gg-item">6</div>
+    </div>
+    <span class="tag">gap: 5px</span>
+    <div class="gg-demo gg-5">
+      <div class="gg-item">1</div>
+      <div class="gg-item">2</div>
+      <div class="gg-item">3</div>
+      <div class="gg-item">4</div>
+      <div class="gg-item">5</div>
+      <div class="gg-item">6</div>
+    </div>
+    <span class="tag">gap: 15px</span>
+    <div class="gg-demo gg-15">
+      <div class="gg-item">1</div>
+      <div class="gg-item">2</div>
+      <div class="gg-item">3</div>
+      <div class="gg-item">4</div>
+      <div class="gg-item">5</div>
+      <div class="gg-item">6</div>
+    </div>
+    <span class="tag">row-gap: 20px; column-gap: 5px</span>
+    <div class="gg-demo gg-diff">
+      <div class="gg-item">1</div>
+      <div class="gg-item">2</div>
+      <div class="gg-item">3</div>
+      <div class="gg-item">4</div>
+      <div class="gg-item">5</div>
+      <div class="gg-item">6</div>
+    </div>
+    <div class="note">
+      <code>gap</code> 是 <code>row-gap column-gap</code> 的简写。Grid 的 gap 与
+      Flexbox 的 gap 语法相同。间距只应用于网格项目之间，不应用于容器边缘。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>骨架屏动画</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .skeleton-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        width: 280px;
+        margin: 10px;
+      }
+      .skeleton {
+        background: linear-gradient(
+          90deg,
+          #f0f0f0 25%,
+          #e0e0e0 50%,
+          #f0f0f0 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.5s ease-in-out infinite;
+        border-radius: 4px;
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+      .sk-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-bottom: 12px;
+      }
+      .sk-line {
+        height: 12px;
+        margin-bottom: 8px;
+      }
+      .sk-line-short {
+        width: 60%;
+      }
+      .sk-line-medium {
+        width: 80%;
+      }
+      .sk-img {
+        width: 100%;
+        height: 120px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+      }
+      .flex-row {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>骨架屏动画</h1>
+    <div class="desc">
+      骨架屏（Skeleton Screen）是页面加载时显示的占位块，使用 shimmer
+      动画提示内容正在加载。
+    </div>
+
+    <h2>骨架屏加载效果</h2>
+    <p>模拟内容加载中的骨架屏占位动画：</p>
+    <div class="demo-row">
+      <div class="flex-row">
+        <div class="skeleton-card">
+          <div class="skeleton sk-avatar"></div>
+          <div class="skeleton sk-line sk-line-medium"></div>
+          <div class="skeleton sk-line sk-line-short"></div>
+        </div>
+        <div class="skeleton-card">
+          <div class="skeleton sk-img"></div>
+          <div class="skeleton sk-line"></div>
+          <div class="skeleton sk-line sk-line-short"></div>
+        </div>
+        <div class="skeleton-card">
+          <div class="skeleton sk-img"></div>
+          <div class="skeleton sk-line"></div>
+          <div class="skeleton sk-line sk-line-medium"></div>
+          <div class="skeleton sk-line sk-line-short"></div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      骨架屏的核心是 shimmer 动画：渐变背景配合 background-position
+      移动，创造出光晕扫过的效果。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>复杂选择器组合训练</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .complex-demo .card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      }
+      .complex-demo .card > .title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #2c3e50;
+        border-bottom: 2px solid #1abc9c;
+        padding-bottom: 6px;
+      }
+      .complex-demo .card[data-type='premium'] > .title {
+        color: #9b59b6;
+        border-color: #9b59b6;
+      }
+      .complex-demo .card .body p:first-child {
+        color: #e74c3c;
+      }
+      .complex-demo .card .body p:last-child {
+        font-style: italic;
+        color: #7f8c8d;
+      }
+      .complex-demo .card + .card {
+        margin-top: 0;
+      }
+      .complex-demo .card:hover .title {
+        color: #e67e22;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>复杂选择器组合训练</h1>
+    <div class="desc">
+      组合使用多种选择器：后代、子元素、群组、属性、伪类等，构建精确的元素匹配规则。
+    </div>
+    <div class="demo-row complex-demo" style="display: block">
+      <div class="card">
+        <div class="title">普通卡片标题</div>
+        <div class="body">
+          <p>第一段：红色</p>
+          <p>中间段落</p>
+          <p>最后一段：斜体灰</p>
+        </div>
+      </div>
+      <div class="card" data-type="premium">
+        <div class="title">Premium 卡片标题（紫色）</div>
+        <div class="body">
+          <p>第一段：红色</p>
+          <p>中间段落</p>
+          <p>最后一段：斜体灰</p>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      复杂选择器组合：.card[data-type="premium"] &gt; .title 权重 (0,0,2,2)。
+    </div>
+  </body>
+</html>

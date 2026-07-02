@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>侧边栏滑出过渡</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .layout {
+        position: relative;
+        height: 350px;
+        overflow: hidden;
+        border-radius: 8px;
+      }
+      .sidebar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 220px;
+        height: 100%;
+        background: #2c3e50;
+        padding: 20px;
+        transform: translateX(-100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 10;
+      }
+      .layout:hover .sidebar {
+        transform: translateX(0);
+      }
+      .sidebar h3 {
+        color: #fff;
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+      .sidebar a {
+        display: block;
+        padding: 10px 0;
+        color: #bdc3c7;
+        text-decoration: none;
+        font-size: 14px;
+        transition:
+          color 0.3s ease,
+          padding-left 0.3s ease;
+      }
+      .sidebar a:hover {
+        color: #3498db;
+        padding-left: 10px;
+      }
+      .content {
+        padding: 30px;
+        transition: padding-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .layout:hover .content {
+        padding-left: 260px;
+      }
+      .content h2 {
+        color: #2c3e50;
+        border: none;
+        padding: 0;
+      }
+      .content p {
+        color: #7f8c8d;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+      .toggle-hint {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #3498db;
+        color: #fff;
+        padding: 6px 14px;
+        border-radius: 4px;
+        font-size: 13px;
+        z-index: 5;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>侧边栏滑出过渡</h1>
+    <div class="desc">
+      使用 transition + transform 实现侧边栏从屏幕边缘滑入和滑出的动画效果。
+    </div>
+
+    <h2>侧边栏滑出效果</h2>
+    <p>鼠标悬停在区域上展开侧边栏：</p>
+    <div class="demo-row">
+      <div class="layout">
+        <div class="sidebar">
+          <h3>导航菜单</h3>
+          <a href="#">首页</a>
+          <a href="#">产品中心</a>
+          <a href="#">解决方案</a>
+          <a href="#">关于我们</a>
+          <a href="#">联系方式</a>
+        </div>
+        <div class="content">
+          <h2>主内容区域</h2>
+          <p>
+            悬停在此区域上可展开侧边栏导航菜单。内容区域会自适应调整
+            padding，为侧边栏腾出空间。
+          </p>
+          <p>
+            使用 transform: translateX 实现侧边栏滑动，配合内容区域的 padding
+            过渡，实现平滑的布局动画。
+          </p>
+        </div>
+        <div class="toggle-hint">← 悬停展开</div>
+      </div>
+    </div>
+    <div class="note">
+      transform: translateX(-100%) 将侧边栏移出视口，hover 时 translateX(0)
+      移回。内容区 padding-left 同步过渡。
+    </div>
+  </body>
+</html>

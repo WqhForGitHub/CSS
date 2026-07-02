@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>社交图标列表</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .si-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        gap: 12px;
+      }
+      .si-item a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: #ecf0f1;
+        text-decoration: none;
+        font-size: 22px;
+        transition: all 0.3s;
+      }
+      .si-item a:hover {
+        transform: translateY(-4px) scale(1.1);
+      }
+      .si-circle a {
+        border-radius: 50%;
+      }
+      .si-item:nth-child(1) a:hover {
+        background: #3498db;
+        color: #fff;
+      }
+      .si-item:nth-child(2) a:hover {
+        background: #e74c3c;
+        color: #fff;
+      }
+      .si-item:nth-child(3) a:hover {
+        background: #1abc9c;
+        color: #fff;
+      }
+      .si-item:nth-child(4) a:hover {
+        background: #9b59b6;
+        color: #fff;
+      }
+      .si-item:nth-child(5) a:hover {
+        background: #f39c12;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>社交图标列表</h1>
+    <div class="desc">使用列表创建社交媒体图标栏，悬停时有动画效果。</div>
+    <span class="tag">社交图标栏（圆角方形）</span>
+    <div class="demo-row" style="padding: 30px 20px; justify-content: center">
+      <ul class="si-list">
+        <li class="si-item"><a href="#">f</a></li>
+        <li class="si-item"><a href="#">t</a></li>
+        <li class="si-item"><a href="#">in</a></li>
+        <li class="si-item"><a href="#">gh</a></li>
+        <li class="si-item"><a href="#">@</a></li>
+      </ul>
+    </div>
+    <span class="tag">社交图标栏（圆形）</span>
+    <div class="demo-row" style="padding: 0 20px 30px; justify-content: center">
+      <ul class="si-list si-circle">
+        <li class="si-item"><a href="#">★</a></li>
+        <li class="si-item"><a href="#">♥</a></li>
+        <li class="si-item"><a href="#">●</a></li>
+        <li class="si-item"><a href="#">▲</a></li>
+        <li class="si-item"><a href="#">◆</a></li>
+      </ul>
+    </div>
+    <div class="note">
+      悬停时 <code>translateY(-4px) scale(1.1)</code> 使图标上浮放大。不同
+      <code>:nth-child</code> 设置悬停颜色。
+    </div>
+  </body>
+</html>

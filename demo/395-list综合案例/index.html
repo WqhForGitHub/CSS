@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>列表综合案例：设置面板</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .sp-panel {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .sp-header {
+        padding: 20px;
+        border-bottom: 1px solid #ecf0f1;
+      }
+      .sp-header h3 {
+        font-size: 18px;
+        color: #2c3e50;
+        margin-bottom: 4px;
+      }
+      .sp-header p {
+        font-size: 13px;
+        color: #7f8c8d;
+      }
+      .sp-tabs {
+        list-style: none;
+        padding: 0 20px;
+        margin: 0;
+        display: flex;
+        gap: 4px;
+        border-bottom: 2px solid #ecf0f1;
+      }
+      .sp-tabs a {
+        display: block;
+        padding: 12px 16px;
+        text-decoration: none;
+        font-size: 14px;
+        color: #7f8c8d;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+      }
+      .sp-tabs .active a {
+        color: #3498db;
+        border-bottom-color: #3498db;
+        font-weight: bold;
+      }
+      .sp-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .sp-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        border-bottom: 1px solid #ecf0f1;
+      }
+      .sp-item:last-child {
+        border-bottom: none;
+      }
+      .sp-info h4 {
+        font-size: 14px;
+        color: #2c3e50;
+        margin-bottom: 2px;
+      }
+      .sp-info p {
+        font-size: 12px;
+        color: #95a5a6;
+      }
+      .sp-toggle {
+        width: 44px;
+        height: 24px;
+        background: #bdc3c7;
+        border-radius: 12px;
+        position: relative;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .sp-toggle::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 50%;
+        transition: transform 0.2s;
+      }
+      .sp-toggle.on {
+        background: #27ae60;
+      }
+      .sp-toggle.on::after {
+        transform: translateX(20px);
+      }
+      .sp-select {
+        padding: 6px 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 13px;
+        color: #555;
+        background: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>列表综合案例：设置面板</h1>
+    <div class="desc">综合运用列表的各种样式，构建一个完整的设置面板界面。</div>
+    <span class="tag">列表综合案例：设置面板</span>
+    <div class="demo-row" style="padding: 20px">
+      <div class="sp-panel" style="width: 100%">
+        <div class="sp-header">
+          <h3>⚙️ 账户设置</h3>
+          <p>管理您的账户偏好和隐私选项</p>
+        </div>
+        <ul class="sp-tabs">
+          <li class="active"><a href="#">通用</a></li>
+          <li><a href="#">隐私</a></li>
+          <li><a href="#">通知</a></li>
+          <li><a href="#">安全</a></li>
+        </ul>
+        <ul class="sp-list">
+          <li class="sp-item">
+            <div class="sp-info">
+              <h4>深色模式</h4>
+              <p>使用深色主题降低眼部疲劳</p>
+            </div>
+            <div class="sp-toggle on"></div>
+          </li>
+          <li class="sp-item">
+            <div class="sp-info">
+              <h4>邮件通知</h4>
+              <p>接收产品更新和重要通知</p>
+            </div>
+            <div class="sp-toggle"></div>
+          </li>
+          <li class="sp-item">
+            <div class="sp-info">
+              <h4>两步验证</h4>
+              <p>登录时需要额外的安全验证</p>
+            </div>
+            <div class="sp-toggle on"></div>
+          </li>
+          <li class="sp-item">
+            <div class="sp-info">
+              <h4>语言</h4>
+              <p>选择界面显示语言</p>
+            </div>
+            <select class="sp-select">
+              <option>简体中文</option>
+              <option>English</option>
+            </select>
+          </li>
+          <li class="sp-item">
+            <div class="sp-info">
+              <h4>数据收集</h4>
+              <p>允许收集匿名使用数据以改进产品</p>
+            </div>
+            <div class="sp-toggle"></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">
+      综合运用：标签页（下划线样式）、设置项列表（flex 布局）、开关按钮（CSS
+      toggle）、下拉选择框。列表是设置面板最语义化的结构。
+    </div>
+  </body>
+</html>

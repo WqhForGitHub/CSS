@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>列表下拉菜单</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .dm-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        background: #2c3e50;
+        border-radius: 8px;
+      }
+      .dm-list > li {
+        position: relative;
+      }
+      .dm-list > li > a {
+        display: block;
+        padding: 12px 20px;
+        color: #ecf0f1;
+        text-decoration: none;
+        font-size: 14px;
+      }
+      .dm-list > li:hover > a {
+        background: #3498db;
+      }
+      .dm-submenu {
+        list-style: none;
+        padding: 5px 0;
+        margin: 0;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 180px;
+        background: #fff;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s;
+        z-index: 100;
+      }
+      .dm-list > li:hover > .dm-submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .dm-submenu li a {
+        display: block;
+        padding: 8px 16px;
+        color: #555;
+        text-decoration: none;
+        font-size: 13px;
+        transition: background 0.2s;
+      }
+      .dm-submenu li a:hover {
+        background: #ecf0f1;
+        color: #3498db;
+      }
+      .dm-submenu .divider {
+        height: 1px;
+        background: #ecf0f1;
+        margin: 4px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>列表下拉菜单</h1>
+    <div class="desc">
+      使用嵌套列表+CSS <code>:hover</code> 实现多级下拉菜单。
+    </div>
+    <span class="tag">多级下拉菜单（悬停展开）</span>
+    <div class="demo-row" style="padding: 30px 20px">
+      <ul class="dm-list" style="width: 100%">
+        <li>
+          <a href="#">文件</a>
+          <ul class="dm-submenu">
+            <li><a href="#">新建文件</a></li>
+            <li><a href="#">打开文件</a></li>
+            <li><a href="#">保存</a></li>
+            <li class="divider"></li>
+            <li><a href="#">导出 PDF</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">编辑</a>
+          <ul class="dm-submenu">
+            <li><a href="#">撤销</a></li>
+            <li><a href="#">重做</a></li>
+            <li class="divider"></li>
+            <li><a href="#">复制</a></li>
+            <li><a href="#">粘贴</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">视图</a>
+          <ul class="dm-submenu">
+            <li><a href="#">放大</a></li>
+            <li><a href="#">缩小</a></li>
+            <li><a href="#">全屏</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="note">
+      一级菜单 Flexbox 水平排列，子菜单
+      <code>position: absolute</code> 定位。<code>:hover</code> 触发展开，<code
+        >opacity + transform</code
+      >
+      实现动画。
+    </div>
+  </body>
+</html>

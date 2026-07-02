@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>盒模型综合案例：产品卡片</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .product-demo .product {
+        max-width: 280px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        margin: 0 auto;
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
+      }
+      .product-demo .product:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      }
+      .product-demo .product-image {
+        height: 160px;
+        background: linear-gradient(135deg, #3498db, #9b59b6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 48px;
+        position: relative;
+      }
+      .product-demo .product-image .badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        padding: 4px 10px;
+        background: #e74c3c;
+        color: #fff;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: bold;
+      }
+      .product-demo .product-info {
+        padding: 16px;
+      }
+      .product-demo .product-info .category {
+        font-size: 11px;
+        color: #95a5a6;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 4px;
+      }
+      .product-demo .product-info h3 {
+        font-size: 16px;
+        color: #2c3e50;
+        margin-bottom: 8px;
+      }
+      .product-demo .product-info .desc {
+        font-size: 13px;
+        color: #7f8c8d;
+        line-height: 1.5;
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #ecf0f1;
+      }
+      .product-demo .product-info .rating {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 12px;
+        font-size: 12px;
+        color: #f39c12;
+      }
+      .product-demo .product-info .rating .stars {
+        letter-spacing: 2px;
+      }
+      .product-demo .product-info .rating .count {
+        color: #95a5a6;
+      }
+      .product-demo .product-footer {
+        padding: 0 16px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .product-demo .price {
+        font-size: 20px;
+        color: #e74c3c;
+        font-weight: bold;
+      }
+      .product-demo .price .old {
+        font-size: 13px;
+        color: #bdc3c7;
+        text-decoration: line-through;
+        margin-left: 6px;
+        font-weight: normal;
+      }
+      .product-demo .btn {
+        padding: 8px 16px;
+        background: #27ae60;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      .product-demo .btn:hover {
+        background: #2ecc71;
+      }
+      .product-demo .label {
+        font-size: 12px;
+        color: #7f8c8d;
+        text-align: center;
+        margin-top: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>盒模型综合案例：产品卡片</h1>
+    <div class="desc">
+      综合应用 padding、border、margin、box-shadow、border-radius
+      构建完整的产品卡片组件。
+    </div>
+    <div class="demo-row product-demo" style="display: block">
+      <div class="product">
+        <div class="product-image">
+          <span class="badge">热卖</span>
+          CSS
+        </div>
+        <div class="product-info">
+          <div class="category">CSS 教程</div>
+          <h3>CSS 权威指南第4版</h3>
+          <div class="desc">
+            全面讲解 CSS 盒模型、内边距、边框、外边距及现代布局技术。
+          </div>
+          <div class="rating">
+            <span class="stars">★★★★★</span>
+            <span class="count">(128 评价)</span>
+          </div>
+        </div>
+        <div class="product-footer">
+          <div class="price">¥99<span class="old">¥159</span></div>
+          <button class="btn">加入购物车</button>
+        </div>
+      </div>
+      <div class="label">
+        综合应用：padding（内容间距）+ border-radius（圆角）+
+        box-shadow（阴影）+ margin（卡片间距）+ border（分隔线）
+      </div>
+    </div>
+    <div class="note">
+      产品卡片是盒模型综合应用的典型：padding 控制内边距、border-bottom
+      做分隔、border-radius 圆角美化、box-shadow 提升层次、margin 控制组件间距。
+    </div>
+  </body>
+</html>

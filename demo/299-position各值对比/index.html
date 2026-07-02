@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>position 各值对比总结</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .pv-demo {
+        background: #ecf0f1;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+        position: relative;
+        min-height: 100px;
+      }
+      .pv-box {
+        width: 90px;
+        height: 60px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 11px;
+        margin: 5px;
+      }
+      .pv-static {
+        background: #95a5a6;
+        position: static;
+        top: 20px;
+        left: 20px;
+      }
+      .pv-relative {
+        background: #3498db;
+        position: relative;
+        top: 15px;
+        left: 15px;
+      }
+      .pv-absolute {
+        background: #e74c3c;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+      .pv-sticky {
+        background: #27ae60;
+        position: sticky;
+        top: 0;
+      }
+      .pv-compare-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .pv-compare-table th,
+      .pv-compare-table td {
+        padding: 10px;
+        border: 1px solid #ecf0f1;
+        font-size: 13px;
+        text-align: left;
+      }
+      .pv-compare-table th {
+        background: #2c3e50;
+        color: #fff;
+      }
+      .pv-compare-table tr:nth-child(even) {
+        background: #f8f9fa;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>position 各值对比总结</h1>
+    <div class="desc">
+      对比
+      <code>static</code
+      >、<code>relative</code>、<code>absolute</code>、<code>fixed</code>、<code
+        >sticky</code
+      >
+      五种定位方式的行为差异。
+    </div>
+    <span class="tag">各定位值效果对比</span>
+    <div class="pv-demo">
+      <div class="pv-box pv-static">static<br />top/left无效</div>
+      <div class="pv-box pv-relative">relative<br />top:15 left:15</div>
+      <div class="pv-box pv-absolute">absolute<br />top:10 right:10</div>
+      <div class="pv-box pv-sticky">sticky top:0</div>
+    </div>
+    <span class="tag">属性对比表</span>
+    <table class="pv-compare-table">
+      <tr>
+        <th>属性</th>
+        <th>脱离文档流</th>
+        <th>参考对象</th>
+        <th>原位置保留</th>
+        <th>top/left生效</th>
+      </tr>
+      <tr>
+        <td>static</td>
+        <td>否</td>
+        <td>—</td>
+        <td>—</td>
+        <td>否</td>
+      </tr>
+      <tr>
+        <td>relative</td>
+        <td>否</td>
+        <td>自身原位置</td>
+        <td>是</td>
+        <td>是</td>
+      </tr>
+      <tr>
+        <td>absolute</td>
+        <td>是</td>
+        <td>最近非static祖先</td>
+        <td>否</td>
+        <td>是</td>
+      </tr>
+      <tr>
+        <td>fixed</td>
+        <td>是</td>
+        <td>视口</td>
+        <td>否</td>
+        <td>是</td>
+      </tr>
+      <tr>
+        <td>sticky</td>
+        <td>否*</td>
+        <td>自身/视口</td>
+        <td>是*</td>
+        <td>是</td>
+      </tr>
+    </table>
+    <div class="note">
+      sticky 在未到达阈值时表现为 relative（保留位置），到达阈值后表现为
+      fixed（固定位置）。*号表示条件性行为。fixed 在祖先有 transform/filter
+      时会改为相对该祖先定位。
+    </div>
+  </body>
+</html>

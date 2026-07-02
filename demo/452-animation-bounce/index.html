@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>弹跳动画</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .ball {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 12px;
+      }
+      .b1 {
+        background: #3498db;
+        animation: bounce1 1.5s cubic-bezier(0.5, 0.05, 1, 0.5) infinite;
+      }
+      @keyframes bounce1 {
+        0%,
+        100% {
+          transform: translateY(-150px);
+          animation-timing-function: cubic-bezier(0.5, 0.05, 1, 0.5);
+        }
+        50% {
+          transform: translateY(0);
+          animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+        }
+      }
+      .b2 {
+        background: #e74c3c;
+        animation: bounce2 1.5s ease infinite;
+      }
+      @keyframes bounce2 {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-60px);
+        }
+        60% {
+          transform: translateY(-30px);
+        }
+        80% {
+          transform: translateY(-15px);
+        }
+      }
+      .b3 {
+        background: #27ae60;
+        animation: bounce3 2s ease infinite;
+      }
+      @keyframes bounce3 {
+        0% {
+          transform: translateY(0);
+        }
+        30% {
+          transform: translateY(-80px) scaleY(1.1);
+        }
+        50% {
+          transform: translateY(0) scaleY(0.8);
+        }
+        55% {
+          transform: translateY(-30px) scaleY(1.05);
+        }
+        70% {
+          transform: translateY(0) scaleY(1);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+      .ground {
+        width: 200px;
+        height: 3px;
+        background: #bdc3c7;
+        margin-top: 0;
+      }
+      .ball-area {
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+      }
+      .flex-wrap {
+        display: flex;
+        gap: 40px;
+      }
+      .item {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>弹跳动画</h1>
+    <div class="desc">
+      使用 @keyframes 模拟物理弹跳效果，通过精心调整 timing-function
+      实现逼真的弹性动画。
+    </div>
+
+    <h2>弹跳动画效果</h2>
+    <div class="demo-row">
+      <div class="flex-wrap">
+        <div class="item">
+          <div class="ball-area">
+            <div class="ball b1">弹跳</div>
+            <div class="ground"></div>
+          </div>
+          <div class="label">cubic-bezier 弹跳</div>
+        </div>
+        <div class="item">
+          <div class="ball-area">
+            <div class="ball b2">弹跳</div>
+            <div class="ground"></div>
+          </div>
+          <div class="label">多关键帧弹跳</div>
+        </div>
+        <div class="item">
+          <div class="ball-area">
+            <div class="ball b3">弹跳</div>
+            <div class="ground"></div>
+          </div>
+          <div class="label">含形变弹跳</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      逼真的弹跳需要：1) 使用非线性缓动模拟重力 2) 多次递减的弹跳高度 3)
+      落地时的形变（scaleY 压缩）。
+    </div>
+  </body>
+</html>

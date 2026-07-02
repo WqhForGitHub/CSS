@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>置换元素行为演示</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .replaced-box {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .replaced-item {
+        text-align: center;
+      }
+      .replaced-item img {
+        width: 120px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 4px;
+        display: block;
+      }
+      .replaced-item input {
+        width: 120px;
+        padding: 6px;
+        border: 2px solid #3498db;
+        border-radius: 4px;
+        margin-top: 8px;
+      }
+      .replaced-item video {
+        width: 120px;
+        height: 80px;
+        background: #2c3e50;
+        border-radius: 4px;
+        display: block;
+      }
+      .replaced-item textarea {
+        width: 120px;
+        height: 60px;
+        border: 2px solid #e67e22;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>置换元素行为演示</h1>
+    <div class="desc">
+      置换元素（replaced element）的内容不由 HTML 标签决定，而由外部资源替换，如
+      <code>&lt;img&gt;</code
+      >、<code>&lt;input&gt;</code>、<code>&lt;video&gt;</code>。它们有内置尺寸。
+    </div>
+    <h2>常见置换元素</h2>
+    <div class="demo-row">
+      <div class="replaced-box">
+        <div class="replaced-item">
+          <img
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='80'%3E%3Crect fill='%233498db' width='120' height='80'/%3E%3Ctext x='60' y='45' text-anchor='middle' fill='white' font-size='14'%3Eimg%3C/text%3E%3C/svg%3E"
+            alt="img"
+          />
+          <span class="label">&lt;img&gt; 图片</span>
+        </div>
+        <div class="replaced-item">
+          <input type="text" placeholder="input" />
+          <span class="label">&lt;input&gt; 输入框</span>
+        </div>
+        <div class="replaced-item">
+          <textarea placeholder="textarea"></textarea>
+          <span class="label">&lt;textarea&gt;</span>
+        </div>
+        <div class="replaced-item">
+          <video></video>
+          <span class="label">&lt;video&gt; 视频</span>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      置换元素有内在尺寸，可设置 width/height；非置换元素（如
+      div、p）的内容由标签内文本决定。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>list-style-position 标记位置</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .lp-demo {
+        background: #fff;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+      }
+      .lp-demo h4 {
+        font-size: 13px;
+        margin-bottom: 8px;
+        color: #2c3e50;
+      }
+      .lp-outside {
+        list-style-position: outside;
+        padding-left: 20px;
+      }
+      .lp-inside {
+        list-style-position: inside;
+        padding-left: 0;
+      }
+      .lp-demo li {
+        font-size: 13px;
+        color: #555;
+        padding: 4px 0;
+        border-bottom: 1px dashed #ecf0f1;
+      }
+      .lp-demo li:last-child {
+        border-bottom: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>list-style-position 标记位置</h1>
+    <div class="desc">
+      <code>list-style-position: inside</code>
+      使标记位于文本内，<code>outside</code>（默认）使标记位于文本外。
+    </div>
+    <span class="tag">list-style-position: outside（默认）</span>
+    <div class="demo-row" style="padding: 20px; flex-direction: column">
+      <div class="lp-demo">
+        <h4>outside: 标记在文本外部</h4>
+        <ul class="lp-outside">
+          <li>列表项1 — 标记在文本框外</li>
+          <li>列表项2 — 多行内容时标记保持在第一行左侧</li>
+          <li>列表项3 — 这是 outside 效果</li>
+        </ul>
+      </div>
+    </div>
+    <span class="tag">list-style-position: inside</span>
+    <div class="demo-row" style="padding: 0 20px 20px; flex-direction: column">
+      <div class="lp-demo">
+        <h4>inside: 标记在文本内部</h4>
+        <ul class="lp-inside">
+          <li>列表项1 — 标记在文本框内</li>
+          <li>列表项2 — 多行内容时标记作为文本的一部分</li>
+          <li>列表项3 — 这是 inside 效果</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">
+      <code>outside</code>: 标记在内容区域之外。<code>inside</code>:
+      标记在内容区域内部。通常 outside 更美观。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>transform rotate 旋转</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .rt-box {
+        width: 70px;
+        height: 70px;
+        background: #3498db;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        border-radius: 6px;
+        margin: 25px;
+      }
+      .rt-15 {
+        transform: rotate(15deg);
+      }
+      .rt-30 {
+        transform: rotate(30deg);
+        background: #e74c3c;
+      }
+      .rt-45 {
+        transform: rotate(45deg);
+        background: #27ae60;
+      }
+      .rt-90 {
+        transform: rotate(90deg);
+        background: #f39c12;
+      }
+      .rt-180 {
+        transform: rotate(180deg);
+        background: #9b59b6;
+      }
+      .rt-neg {
+        transform: rotate(-30deg);
+        background: #1abc9c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>transform rotate 旋转</h1>
+    <div class="desc">
+      <code>rotate(angle)</code> 围绕原点旋转元素。正值为顺时针，负值为逆时针。
+    </div>
+    <span class="tag">rotate 不同角度</span>
+    <div
+      class="demo-row"
+      style="
+        padding: 30px 20px;
+        flex-wrap: wrap;
+        min-height: 140px;
+        align-items: center;
+      "
+    >
+      <div class="demo-item"><div class="rt-box">0°</div></div>
+      <div class="demo-item"><div class="rt-box rt-15">15°</div></div>
+      <div class="demo-item"><div class="rt-box rt-30">30°</div></div>
+      <div class="demo-item"><div class="rt-box rt-45">45°</div></div>
+      <div class="demo-item"><div class="rt-box rt-90">90°</div></div>
+      <div class="demo-item"><div class="rt-box rt-180">180°</div></div>
+      <div class="demo-item"><div class="rt-box rt-neg">-30°</div></div>
+    </div>
+    <div class="note">
+      正值顺时针旋转，负值逆时针旋转。旋转不改变元素占据的布局空间。常配合
+      <code>transition</code> 做悬停动画。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>字体排版系统综合设计</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .typesys-demo {
+        --h1-size: 32px;
+        --h2-size: 24px;
+        --h3-size: 20px;
+        --body-size: 16px;
+        --small-size: 13px;
+        --line-height: 1.6;
+        --heading-font: Georgia, serif;
+        --body-font: -apple-system, 'Microsoft YaHei', sans-serif;
+      }
+      .typesys-demo .article {
+        max-width: 600px;
+        padding: 24px;
+        background: #fff;
+        border-radius: 8px;
+      }
+      .typesys-demo h1 {
+        font-family: var(--heading-font);
+        font-size: var(--h1-size);
+        line-height: 1.3;
+        color: #2c3e50;
+        margin-bottom: 8px;
+      }
+      .typesys-demo h2 {
+        font-family: var(--heading-font);
+        font-size: var(--h2-size);
+        line-height: 1.4;
+        color: #34495e;
+        margin: 20px 0 8px;
+      }
+      .typesys-demo h3 {
+        font-family: var(--body-font);
+        font-size: var(--h3-size);
+        font-weight: 700;
+        color: #34495e;
+        margin: 16px 0 6px;
+      }
+      .typesys-demo p {
+        font-family: var(--body-font);
+        font-size: var(--body-size);
+        line-height: var(--line-height);
+        color: #555;
+        margin-bottom: 12px;
+      }
+      .typesys-demo .meta {
+        font-family: var(--body-font);
+        font-size: var(--small-size);
+        color: #95a5a6;
+        letter-spacing: 0.5px;
+      }
+      .typesys-demo blockquote {
+        font-family: var(--heading-font);
+        font-size: 18px;
+        font-style: italic;
+        color: #7f8c8d;
+        border-left: 4px solid #1abc9c;
+        padding-left: 16px;
+        margin: 16px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>字体排版系统综合设计</h1>
+    <div class="desc">
+      综合运用字体族、字重、字号、行高、字间距构建完整的排版系统。
+    </div>
+    <div class="demo-row typesys-demo" style="display: block">
+      <div class="article">
+        <div class="meta">2024.01.15 · CSS 权威指南</div>
+        <h1>CSS 排版系统的设计原则</h1>
+        <p>
+          好的排版系统需要统一字号、字重、行高和字间距。使用 CSS
+          变量管理这些值，确保全站一致性。
+        </p>
+        <h2>1. 字号层级</h2>
+        <p>
+          标题从 h1 到 h3 逐级递减，正文使用 16px
+          基础字号。每级之间保持明显的视觉差异。
+        </p>
+        <blockquote>"排版是设计的骨架，内容是设计的血肉。"</blockquote>
+        <h2>2. 行高与字间距</h2>
+        <p>
+          正文行高推荐 1.5-1.8，标题行高 1.2-1.4。适当增加标题字间距提升品质感。
+        </p>
+        <h3>小结</h3>
+        <p>通过 CSS 变量统一管理排版参数，可以在需要时快速调整全局样式。</p>
+      </div>
+    </div>
+    <div class="note">
+      使用 CSS 变量（自定义属性）构建排版系统，便于全局调整和主题切换。
+    </div>
+  </body>
+</html>

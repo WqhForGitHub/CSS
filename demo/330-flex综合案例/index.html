@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexbox 综合案例：个人主页</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .cp-page {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        background: #f0f2f5;
+        padding: 20px;
+        border-radius: 12px;
+      }
+      .cp-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #fff;
+        padding: 16px 24px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+      }
+      .cp-header-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .cp-logo {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #3498db, #9b59b6);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 20px;
+      }
+      .cp-name {
+        font-size: 18px;
+        font-weight: bold;
+        color: #2c3e50;
+      }
+      .cp-nav {
+        display: flex;
+        gap: 8px;
+      }
+      .cp-nav a {
+        padding: 6px 14px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 13px;
+        color: #666;
+        transition: all 0.2s;
+      }
+      .cp-nav a:hover {
+        background: #ecf0f1;
+      }
+      .cp-nav a.active {
+        background: #3498db;
+        color: #fff;
+      }
+      .cp-profile {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        background: #fff;
+        padding: 24px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+      }
+      .cp-avatar {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #e74c3c, #f39c12);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 32px;
+        flex-shrink: 0;
+      }
+      .cp-info {
+        flex: 1;
+      }
+      .cp-info h2 {
+        font-size: 20px;
+        color: #2c3e50;
+        margin-bottom: 4px;
+      }
+      .cp-info p {
+        font-size: 13px;
+        color: #7f8c8d;
+      }
+      .cp-stats {
+        display: flex;
+        gap: 24px;
+      }
+      .cp-stat {
+        text-align: center;
+      }
+      .cp-stat-num {
+        font-size: 20px;
+        font-weight: bold;
+        color: #3498db;
+      }
+      .cp-stat-label {
+        font-size: 12px;
+        color: #95a5a6;
+      }
+      .cp-content {
+        display: flex;
+        gap: 16px;
+      }
+      .cp-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .cp-post {
+        display: flex;
+        gap: 12px;
+        background: #fff;
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+      }
+      .cp-post-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 16px;
+      }
+      .cp-post-body {
+        flex: 1;
+      }
+      .cp-post-body h4 {
+        font-size: 14px;
+        color: #2c3e50;
+        margin-bottom: 4px;
+      }
+      .cp-post-body p {
+        font-size: 13px;
+        color: #555;
+        line-height: 1.6;
+      }
+      .cp-sidebar {
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .cp-widget {
+        background: #fff;
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+      }
+      .cp-widget h4 {
+        font-size: 14px;
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+      .cp-friend {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 0;
+        font-size: 13px;
+        color: #555;
+      }
+      .cp-friend-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .cp-online {
+        background: #27ae60;
+      }
+      .cp-offline {
+        background: #95a5a6;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Flexbox 综合案例：个人主页</h1>
+    <div class="desc">
+      综合运用 Flexbox 的各种属性，构建一个完整的个人主页布局。
+    </div>
+    <span class="tag">Flexbox 综合案例：个人主页</span>
+    <div class="demo-row" style="padding: 20px">
+      <div class="cp-page" style="width: 100%">
+        <div class="cp-header">
+          <div class="cp-header-left">
+            <div class="cp-logo">M</div>
+            <span class="cp-name">MySpace</span>
+          </div>
+          <div class="cp-nav">
+            <a href="#" class="active">主页</a>
+            <a href="#">文章</a>
+            <a href="#">相册</a>
+            <a href="#">好友</a>
+          </div>
+        </div>
+        <div class="cp-profile">
+          <div class="cp-avatar">U</div>
+          <div class="cp-info">
+            <h2>用户名</h2>
+            <p>前端开发者 / 设计爱好者</p>
+          </div>
+          <div class="cp-stats">
+            <div class="cp-stat">
+              <div class="cp-stat-num">128</div>
+              <div class="cp-stat-label">文章</div>
+            </div>
+            <div class="cp-stat">
+              <div class="cp-stat-num">2.4k</div>
+              <div class="cp-stat-label">粉丝</div>
+            </div>
+            <div class="cp-stat">
+              <div class="cp-stat-num">892</div>
+              <div class="cp-stat-label">关注</div>
+            </div>
+          </div>
+        </div>
+        <div class="cp-content">
+          <div class="cp-main">
+            <div class="cp-post">
+              <div class="cp-post-avatar" style="background: #3498db">A</div>
+              <div class="cp-post-body">
+                <h4>用户A · 2小时前</h4>
+                <p>
+                  今天学习了 Flexbox 布局，太强大了！一行代码实现居中，告别
+                  margin: auto 的痛苦。
+                </p>
+              </div>
+            </div>
+            <div class="cp-post">
+              <div class="cp-post-avatar" style="background: #e74c3c">B</div>
+              <div class="cp-post-body">
+                <h4>用户B · 5小时前</h4>
+                <p>
+                  分享一个好用的 CSS 技巧：使用 gap 属性替代
+                  margin，代码更简洁优雅。
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="cp-sidebar">
+            <div class="cp-widget">
+              <h4>在线好友</h4>
+              <div class="cp-friend">
+                <span class="cp-friend-dot cp-online"></span> 张三
+              </div>
+              <div class="cp-friend">
+                <span class="cp-friend-dot cp-online"></span> 李四
+              </div>
+              <div class="cp-friend">
+                <span class="cp-friend-dot cp-offline"></span> 王五
+              </div>
+              <div class="cp-friend">
+                <span class="cp-friend-dot cp-online"></span> 赵六
+              </div>
+            </div>
+            <div class="cp-widget">
+              <h4>热门标签</h4>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px">
+                <span
+                  style="
+                    padding: 3px 10px;
+                    background: #ecf0f1;
+                    border-radius: 12px;
+                    font-size: 12px;
+                    color: #666;
+                  "
+                  >CSS</span
+                >
+                <span
+                  style="
+                    padding: 3px 10px;
+                    background: #ecf0f1;
+                    border-radius: 12px;
+                    font-size: 12px;
+                    color: #666;
+                  "
+                  >JS</span
+                >
+                <span
+                  style="
+                    padding: 3px 10px;
+                    background: #ecf0f1;
+                    border-radius: 12px;
+                    font-size: 12px;
+                    color: #666;
+                  "
+                  >React</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      综合运用：flex-direction（垂直布局）、justify-content（对齐）、align-items（交叉轴）、flex:1（自适应）、flex-wrap（换行）、gap（间距）、flex-shrink:0（固定宽度）、嵌套flex。
+    </div>
+  </body>
+</html>

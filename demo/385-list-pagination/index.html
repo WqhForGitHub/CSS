@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>列表分页导航</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .pg-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        gap: 4px;
+        justify-content: center;
+      }
+      .pg-list a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 36px;
+        height: 36px;
+        padding: 0 8px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 14px;
+        color: #3498db;
+        transition: all 0.2s;
+      }
+      .pg-list a:hover {
+        background: #ecf0f1;
+      }
+      .pg-list .active a {
+        background: #3498db;
+        color: #fff;
+        border-color: #3498db;
+      }
+      .pg-list .disabled a {
+        color: #bdc3c7;
+        cursor: not-allowed;
+      }
+      .pg-list .disabled a:hover {
+        background: transparent;
+      }
+      .pg-rounded a {
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>列表分页导航</h1>
+    <div class="desc">使用列表实现分页导航样式。</div>
+    <span class="tag">标准分页</span>
+    <div class="demo-row" style="padding: 30px 20px">
+      <ul class="pg-list" style="width: 100%">
+        <li class="disabled"><a href="#">‹</a></li>
+        <li class="active"><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">›</a></li>
+      </ul>
+    </div>
+    <span class="tag">圆形分页</span>
+    <div class="demo-row" style="padding: 0 20px 30px">
+      <ul class="pg-list pg-rounded" style="width: 100%">
+        <li><a href="#">‹</a></li>
+        <li><a href="#">1</a></li>
+        <li class="active"><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">›</a></li>
+      </ul>
+    </div>
+    <div class="note">
+      <code>active</code> 类标记当前页，<code>disabled</code>
+      类禁用按钮。不同圆角风格通过 <code>border-radius</code> 实现。
+    </div>
+  </body>
+</html>

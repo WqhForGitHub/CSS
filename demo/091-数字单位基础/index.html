@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数字单位基础</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .num-demo .row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin: 6px 0;
+      }
+      .num-demo .label {
+        min-width: 100px;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+        color: #2c3e50;
+      }
+      .num-demo .bar {
+        height: 24px;
+        border-radius: 4px;
+        background: #3498db;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+      .num-demo .unitless {
+        line-height: 1.5;
+      }
+      .num-demo .zero {
+        width: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>数字单位基础</h1>
+    <div class="desc">
+      CSS
+      数字可带单位或不带单位。整数和小数都支持。常见单位：px、em、rem、%、vw、vh
+      等。
+    </div>
+    <div class="demo-row num-demo" style="display: block">
+      <div class="row">
+        <span class="label">50px</span>
+        <div class="bar" style="width: 50px">50px</div>
+      </div>
+      <div class="row">
+        <span class="label">100px</span>
+        <div class="bar" style="width: 100px">100px</div>
+      </div>
+      <div class="row">
+        <span class="label">200px</span>
+        <div class="bar" style="width: 200px">200px</div>
+      </div>
+      <div class="row">
+        <span class="label">50%</span>
+        <div class="bar" style="width: 50%">50%（父容器一半）</div>
+      </div>
+      <div class="row">
+        <span class="label">10em</span>
+        <div class="bar" style="width: 10em">10em（相对字体）</div>
+      </div>
+      <div class="row">
+        <span class="label">0</span>
+        <div class="bar" style="width: 0; min-width: 40px">0（可不带单位）</div>
+      </div>
+    </div>
+    <div class="note">
+      line-height 的无单位值（如 1.5）会被子元素继承并重新计算，推荐使用。
+    </div>
+  </body>
+</html>

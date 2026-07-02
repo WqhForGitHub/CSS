@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>grid align-items 垂直对齐</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .ai-demo {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        background: #ecf0f1;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+      .ai-cell {
+        background: #fff;
+        border: 1px dashed #bdc3c7;
+        border-radius: 6px;
+        padding: 15px;
+        min-height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ai-box {
+        background: #3498db;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-size: 13px;
+      }
+      .ai-start {
+        align-items: start;
+      }
+      .ai-center {
+        align-items: center;
+      }
+      .ai-end {
+        align-items: end;
+      }
+      .ai-stretch {
+        align-items: stretch;
+      }
+      .ai-stretch .ai-box {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>grid align-items 垂直对齐</h1>
+    <div class="desc">
+      <code>align-items</code> 设置网格项目在单元格内的垂直对齐方式。
+    </div>
+    <span class="tag">align-items: start</span>
+    <div class="ai-demo ai-start">
+      <div class="ai-cell"><div class="ai-box">box</div></div>
+      <div class="ai-cell"><div class="ai-box">box</div></div>
+      <div class="ai-cell"><div class="ai-box">box</div></div>
+    </div>
+    <span class="tag">align-items: center</span>
+    <div class="ai-demo ai-center">
+      <div class="ai-cell"><div class="ai-box">box</div></div>
+      <div class="ai-cell"><div class="ai-box">box</div></div>
+      <div class="ai-cell"><div class="ai-box">box</div></div>
+    </div>
+    <span class="tag">align-items: end</span>
+    <div class="ai-demo ai-end">
+      <div class="ai-cell"><div class="ai-box">box</div></div>
+      <div class="ai-cell"><div class="ai-box">box</div></div>
+      <div class="ai-cell"><div class="ai-box">box</div></div>
+    </div>
+    <span class="tag">align-items: stretch（默认）</span>
+    <div class="ai-demo ai-stretch">
+      <div class="ai-cell"><div class="ai-box">box</div></div>
+      <div class="ai-cell"><div class="ai-box">box</div></div>
+      <div class="ai-cell"><div class="ai-box">box</div></div>
+    </div>
+    <div class="note">
+      <code>align-items</code> 控制项目在单元格内的垂直对齐。<code
+        >align-self</code
+      >
+      可单独控制某个项目。<code>place-items: center center</code> 是 align-items
+      + justify-items 的简写。
+    </div>
+  </body>
+</html>

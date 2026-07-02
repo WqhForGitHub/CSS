@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>:required 必填验证样式</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+      .req-demo .field {
+        margin-bottom: 12px;
+      }
+      .req-demo label {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 4px;
+        color: #555;
+      }
+      .req-demo input {
+        width: 100%;
+        padding: 8px 12px;
+        border: 2px solid #bdc3c7;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      .req-demo input:required {
+        border-color: #e74c3c;
+        border-left-width: 4px;
+      }
+      .req-demo input:required + .hint::before {
+        content: '* 必填';
+        color: #e74c3c;
+        font-size: 12px;
+      }
+      .req-demo input:optional {
+        border-left-width: 4px;
+        border-left-color: #95a5a6;
+      }
+      .req-demo input:optional + .hint::before {
+        content: '选填';
+        color: #95a5a6;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>:required 必填验证样式</h1>
+    <div class="desc">
+      <code>:required</code> 匹配必填字段，<code>:optional</code>
+      匹配选填字段。可据此为用户提供视觉提示。
+    </div>
+    <div class="demo-row req-demo" style="display: block; max-width: 360px">
+      <div class="field">
+        <label>用户名</label><input type="text" required /><span
+          class="hint"
+        ></span>
+      </div>
+      <div class="field">
+        <label>邮箱</label><input type="email" required /><span
+          class="hint"
+        ></span>
+      </div>
+      <div class="field">
+        <label>昵称</label><input type="text" /><span class="hint"></span>
+      </div>
+    </div>
+    <div class="note">:required 和 :optional 互斥，一个表单元素必为其一。</div>
+  </body>
+</html>

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>滤镜与遮罩综合案例：创意卡片</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 25px 0 12px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+        font-size: 18px;
+      }
+      .desc {
+        margin-bottom: 20px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .desc code,
+      code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 25px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .label {
+        font-size: 13px;
+        color: #666;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .note {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #7d6608;
+      }
+
+      /* ====== 自定义样式 ====== */
+
+      .creative-area {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 25px;
+        justify-content: center;
+      }
+      .creative-card {
+        width: 200px;
+        height: 280px;
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.4s ease;
+      }
+      .creative-card:hover {
+        transform: translateY(-10px);
+      }
+      .cc-bg {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 60px;
+        transition:
+          filter 0.4s ease,
+          transform 0.4s ease;
+      }
+      .cc1 .cc-bg {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+      }
+      .cc1:hover .cc-bg {
+        filter: brightness(1.2) saturate(1.5);
+        transform: scale(1.1);
+      }
+      .cc1 {
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+      }
+      .cc2 .cc-bg {
+        background: linear-gradient(135deg, #f093fb, #f5576c);
+        filter: grayscale(100%);
+      }
+      .cc2:hover .cc-bg {
+        filter: grayscale(0);
+      }
+      .cc2 {
+        clip-path: polygon(
+          20% 0,
+          80% 0,
+          100% 20%,
+          100% 80%,
+          80% 100%,
+          20% 100%,
+          0 80%,
+          0 20%
+        );
+        border-radius: 0;
+      }
+      .cc3 .cc-bg {
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        filter: blur(2px);
+      }
+      .cc3:hover .cc-bg {
+        filter: blur(0);
+      }
+      .cc3 {
+        clip-path: circle(50% at 50% 50%);
+      }
+      .cc-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        color: #fff;
+        transform: translateY(100%);
+        transition: transform 0.4s ease;
+      }
+      .creative-card:hover .cc-content {
+        transform: translateY(0);
+      }
+      .cc-content h3 {
+        font-size: 16px;
+        margin-bottom: 5px;
+      }
+      .cc-content p {
+        font-size: 12px;
+        opacity: 0.85;
+      }
+      .item {
+        text-align: center;
+      }
+      .label {
+        margin-top: 5px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>滤镜与遮罩综合案例：创意卡片</h1>
+    <div class="desc">
+      综合运用 filter、backdrop-filter、clip-path 和 mask
+      创建富有创意的交互式卡片展示。
+    </div>
+
+    <h2>创意卡片展示</h2>
+    <p>鼠标悬停查看综合效果：</p>
+    <div class="demo-row">
+      <div class="creative-area">
+        <div class="item">
+          <div class="creative-card cc1">
+            <div class="cc-bg">🎨</div>
+            <div class="cc-content">
+              <h3>艺术创作</h3>
+              <p>clip-path + filter</p>
+            </div>
+          </div>
+          <div class="label">底部斜切 + 滤镜增强</div>
+        </div>
+        <div class="item">
+          <div class="creative-card cc2">
+            <div class="cc-bg">📸</div>
+            <div class="cc-content">
+              <h3>摄影作品</h3>
+              <p>灰→彩 + 八边形</p>
+            </div>
+          </div>
+          <div class="label">八边形裁剪 + 灰度hover</div>
+        </div>
+        <div class="item">
+          <div class="creative-card cc3">
+            <div class="cc-bg">🚀</div>
+            <div class="cc-content">
+              <h3>科技创新</h3>
+              <p>圆形 + 模糊→清</p>
+            </div>
+          </div>
+          <div class="label">圆形裁剪 + 模糊hover</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      综合运用了 clip-path 裁剪形状、filter 滤镜变换、backdrop-filter
+      毛玻璃、transition 过渡动画等多种技术。
+    </div>
+  </body>
+</html>
