@@ -1,240 +1,251 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>水平垂直居中 - Centering</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: "Microsoft YaHei", sans-serif;
-            padding: 30px;
-            background: #f5f5f5;
-        }
+      body {
+        font-family: "Microsoft YaHei", sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+      }
 
-        h1 {
-            margin-bottom: 30px;
-            color: #2c3e50;
-        }
+      h1 {
+        margin-bottom: 30px;
+        color: #2c3e50;
+      }
 
-        h2 {
-            margin: 30px 0 15px;
-            padding-left: 12px;
-            border-left: 4px solid #1abc9c;
-            color: #2c3e50;
-        }
+      h2 {
+        margin: 30px 0 15px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+      }
 
-        .desc {
-            margin-bottom: 15px;
-            padding: 12px 16px;
-            background: #fff;
-            border-radius: 6px;
-            color: #555;
-            line-height: 1.7;
-            font-size: 14px;
-        }
+      .desc {
+        margin-bottom: 15px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+      }
 
-        .desc code {
-            padding: 2px 6px;
-            background: #ecf0f1;
-            border-radius: 3px;
-            color: #e74c3c;
-            font-family: Consolas, monospace;
-        }
+      .desc code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+      }
 
-        .method {
-            margin-bottom: 10px;
-            display: inline-block;
-            padding: 3px 10px;
-            background: #34495e;
-            color: #fff;
-            border-radius: 3px;
-            font-size: 13px;
-        }
+      .method {
+        margin-bottom: 10px;
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+      }
 
-        /* 所有容器统一样式 */
-        .container {
-            position: relative; /* 部分 demo 需要 */
-            width: 100%;
-            height: 180px;
-            background: #ecf0f1;
-            border-radius: 6px;
-            overflow: hidden;
-        }
+      /* 所有容器统一样式 */
+      .container {
+        position: relative; /* 部分 demo 需要 */
+        width: 100%;
+        height: 180px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        overflow: hidden;
+      }
 
-        .box {
-            width: 140px;
-            height: 80px;
-            background: #1abc9c;
-            color: #fff;
-            text-align: center;
-            line-height: 80px;
-            border-radius: 4px;
-        }
+      .box {
+        width: 140px;
+        height: 80px;
+        background: #1abc9c;
+        color: #fff;
+        text-align: center;
+        line-height: 80px;
+        border-radius: 4px;
+      }
 
-        /* 文本类容器 */
-        .text-container {
-            height: 100px;
-            background: #ecf0f1;
-            border-radius: 6px;
-            color: #2c3e50;
-        }
+      /* 文本类容器 */
+      .text-container {
+        height: 100px;
+        background: #ecf0f1;
+        border-radius: 6px;
+        color: #2c3e50;
+      }
 
-        /* ========== 方式一：flex ========== */
-        .demo-flex .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+      /* ========== 方式一：flex ========== */
+      .demo-flex .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-        /* ========== 方式二：grid ========== */
-        .demo-grid .container {
-            display: grid;
-            place-items: center;
-        }
+      /* ========== 方式二：grid ========== */
+      .demo-grid .container {
+        display: grid;
+        place-items: center;
+      }
 
-        /* ========== 方式三：absolute + transform（未知宽高） ========== */
-        .demo-transform .box {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
+      /* ========== 方式三：absolute + transform（未知宽高） ========== */
+      .demo-transform .box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
 
-        /* ========== 方式四：absolute + margin auto（已知宽高） ========== */
-        .demo-margin-auto .box {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            margin: auto;
-        }
+      /* ========== 方式四：absolute + margin auto（已知宽高） ========== */
+      .demo-margin-auto .box {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+      }
 
-        /* ========== 方式五：absolute + 负 margin（已知宽高） ========== */
-        .demo-negative-margin .box {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            margin-top: -40px;  /* 高度的一半 */
-            margin-left: -70px; /* 宽度的一半 */
-        }
+      /* ========== 方式五：absolute + 负 margin（已知宽高） ========== */
+      .demo-negative-margin .box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -40px; /* 高度的一半 */
+        margin-left: -70px; /* 宽度的一半 */
+      }
 
-        /* ========== 方式六：table-cell + vertical-align + text-align（已知/未知均可） ========== */
-        .demo-table-cell .container {
-            display: table-cell;
-            text-align: center;
-            vertical-align: middle;
-        }
+      /* ========== 方式六：table-cell + vertical-align + text-align（已知/未知均可） ========== */
+      .demo-table-cell .container {
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+      }
 
-        .demo-table-cell .box {
-            display: inline-block;
-        }
+      .demo-table-cell .box {
+        display: inline-block;
+      }
 
-        /* ========== 方式七：line-height（单行文本） ========== */
-        .demo-line-height .text-container {
-            text-align: center;
-            line-height: 100px; /* 等于容器高度 */
-        }
+      /* ========== 方式七：line-height（单行文本） ========== */
+      .demo-line-height .text-container {
+        text-align: center;
+        line-height: 100px; /* 等于容器高度 */
+      }
 
-        /* ========== 方式八：inline-block + 伪元素占位 ========== */
-        .demo-inline-block .container {
-            text-align: center;
-        }
+      /* ========== 方式八：inline-block + 伪元素占位 ========== */
+      .demo-inline-block .container {
+        text-align: center;
+      }
 
-        .demo-inline-block .container::before {
-            content: "";
-            display: inline-block;
-            height: 100%;
-            vertical-align: middle;
-        }
+      .demo-inline-block .container::before {
+        content: "";
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+      }
 
-        .demo-inline-block .box {
-            display: inline-block;
-            vertical-align: middle;
-        }
+      .demo-inline-block .box {
+        display: inline-block;
+        vertical-align: middle;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>水平垂直居中 - 常用方案汇总</h1>
     <div class="desc">
-        居中是 CSS 高频场景。根据元素是否已知宽高、是块级还是文本，方案不同。现代开发中
-        <code>flex</code> / <code>grid</code> 是首选；老项目兼容时常用 <code>absolute + transform</code>。
+      居中是 CSS
+      高频场景。根据元素是否已知宽高、是块级还是文本，方案不同。现代开发中
+      <code>flex</code> / <code>grid</code> 是首选；老项目兼容时常用
+      <code>absolute + transform</code>。
     </div>
 
     <!-- 方式一 -->
     <h2>方式一：flex 弹性布局（推荐）</h2>
-    <span class="method">display: flex; justify-content: center; align-items: center;</span>
+    <span class="method"
+      >display: flex; justify-content: center; align-items: center;</span
+    >
     <div class="demo-flex">
-        <div class="container">
-            <div class="box">flex 居中</div>
-        </div>
+      <div class="container">
+        <div class="box">flex 居中</div>
+      </div>
     </div>
 
     <!-- 方式二 -->
     <h2>方式二：grid 网格布局（最简洁）</h2>
     <span class="method">display: grid; place-items: center;</span>
     <div class="demo-grid">
-        <div class="container">
-            <div class="box">grid 居中</div>
-        </div>
+      <div class="container">
+        <div class="box">grid 居中</div>
+      </div>
     </div>
 
     <!-- 方式三 -->
     <h2>方式三：absolute + transform（未知宽高）</h2>
-    <span class="method">position: absolute; top/left: 50%; transform: translate(-50%, -50%);</span>
+    <span class="method"
+      >position: absolute; top/left: 50%; transform: translate(-50%,
+      -50%);</span
+    >
     <div class="demo-transform">
-        <div class="container">
-            <div class="box">transform 居中</div>
-        </div>
+      <div class="container">
+        <div class="box">transform 居中</div>
+      </div>
     </div>
 
     <!-- 方式四 -->
     <h2>方式四：absolute + margin: auto（需已知宽高）</h2>
     <span class="method">top/right/bottom/left: 0; margin: auto;</span>
     <div class="demo-margin-auto">
-        <div class="container">
-            <div class="box">margin auto 居中</div>
-        </div>
+      <div class="container">
+        <div class="box">margin auto 居中</div>
+      </div>
     </div>
 
     <!-- 方式五 -->
     <h2>方式五：absolute + 负 margin（需已知宽高）</h2>
     <span class="method">top/left: 50%; margin-top/-left 为宽高一半</span>
     <div class="demo-negative-margin">
-        <div class="container">
-            <div class="box">负 margin 居中</div>
-        </div>
+      <div class="container">
+        <div class="box">负 margin 居中</div>
+      </div>
     </div>
 
     <!-- 方式六 -->
     <h2>方式六：table-cell + vertical-align</h2>
-    <span class="method">display: table-cell; vertical-align: middle; text-align: center;</span>
+    <span class="method"
+      >display: table-cell; vertical-align: middle; text-align: center;</span
+    >
     <div class="demo-table-cell">
-        <div class="container">
-            <div class="box">table-cell 居中</div>
-        </div>
+      <div class="container">
+        <div class="box">table-cell 居中</div>
+      </div>
     </div>
 
     <!-- 方式七 -->
     <h2>方式七：line-height（单行文本）</h2>
     <span class="method">line-height = 容器高度；text-align: center;</span>
     <div class="demo-line-height">
-        <div class="text-container">单行文本水平垂直居中</div>
+      <div class="text-container">单行文本水平垂直居中</div>
     </div>
 
     <!-- 方式八 -->
     <h2>方式八：inline-block + 伪元素占位（兼容性好）</h2>
-    <span class="method">父 ::before inline-block 撑高 + vertical-align: middle</span>
+    <span class="method"
+      >父 ::before inline-block 撑高 + vertical-align: middle</span
+    >
     <div class="demo-inline-block">
-        <div class="container">
-            <div class="box">inline-block 居中</div>
-        </div>
+      <div class="container">
+        <div class="box">inline-block 居中</div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

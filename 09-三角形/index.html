@@ -1,289 +1,293 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>三角形 - CSS Triangle</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: "Microsoft YaHei", sans-serif;
-            padding: 30px;
-            background: #f5f5f5;
-        }
+      body {
+        font-family: "Microsoft YaHei", sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+      }
 
-        h1 {
-            margin-bottom: 30px;
-            color: #2c3e50;
-        }
+      h1 {
+        margin-bottom: 30px;
+        color: #2c3e50;
+      }
 
-        h2 {
-            margin: 30px 0 15px;
-            padding-left: 12px;
-            border-left: 4px solid #1abc9c;
-            color: #2c3e50;
-        }
+      h2 {
+        margin: 30px 0 15px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+      }
 
-        .desc {
-            margin-bottom: 15px;
-            padding: 12px 16px;
-            background: #fff;
-            border-radius: 6px;
-            color: #555;
-            line-height: 1.7;
-            font-size: 14px;
-        }
+      .desc {
+        margin-bottom: 15px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+      }
 
-        .desc code {
-            padding: 2px 6px;
-            background: #ecf0f1;
-            border-radius: 3px;
-            color: #e74c3c;
-            font-family: Consolas, monospace;
-        }
+      .desc code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+      }
 
-        .method {
-            margin-bottom: 10px;
-            display: inline-block;
-            padding: 3px 10px;
-            background: #34495e;
-            color: #fff;
-            border-radius: 3px;
-            font-size: 13px;
-        }
+      .method {
+        margin-bottom: 10px;
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+      }
 
-        .demo-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            align-items: center;
-            padding: 30px 20px;
-            background: #ecf0f1;
-            border-radius: 6px;
-        }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        align-items: center;
+        padding: 30px 20px;
+        background: #ecf0f1;
+        border-radius: 6px;
+      }
 
-        .demo-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
 
-        .demo-item .label {
-            font-size: 13px;
-            color: #555;
-        }
+      .demo-item .label {
+        font-size: 13px;
+        color: #555;
+      }
 
-        /* ========== 原理：border 相邻边交接处是斜的 ========== */
-        .border-demo {
-            width: 0;
-            height: 0;
-            border-top: 40px solid #e74c3c;
-            border-right: 40px solid #e67e22;
-            border-bottom: 40px solid #f1c40f;
-            border-left: 40px solid #1abc9c;
-        }
+      /* ========== 原理：border 相邻边交接处是斜的 ========== */
+      .border-demo {
+        width: 0;
+        height: 0;
+        border-top: 40px solid #e74c3c;
+        border-right: 40px solid #e67e22;
+        border-bottom: 40px solid #f1c40f;
+        border-left: 40px solid #1abc9c;
+      }
 
-        /* ========== 一、四个方向的等腰三角形 ========== */
-        /* 把其他三边的颜色设为 transparent 即可 */
-        .tri-up {
-            width: 0;
-            height: 0;
-            border-left: 40px solid transparent;
-            border-right: 40px solid transparent;
-            border-bottom: 60px solid #1abc9c;
-        }
+      /* ========== 一、四个方向的等腰三角形 ========== */
+      /* 把其他三边的颜色设为 transparent 即可 */
+      .tri-up {
+        width: 0;
+        height: 0;
+        border-left: 40px solid transparent;
+        border-right: 40px solid transparent;
+        border-bottom: 60px solid #1abc9c;
+      }
 
-        .tri-down {
-            width: 0;
-            height: 0;
-            border-left: 40px solid transparent;
-            border-right: 40px solid transparent;
-            border-top: 60px solid #e67e22;
-        }
+      .tri-down {
+        width: 0;
+        height: 0;
+        border-left: 40px solid transparent;
+        border-right: 40px solid transparent;
+        border-top: 60px solid #e67e22;
+      }
 
-        .tri-left {
-            width: 0;
-            height: 0;
-            border-top: 40px solid transparent;
-            border-bottom: 40px solid transparent;
-            border-right: 60px solid #9b59b6;
-        }
+      .tri-left {
+        width: 0;
+        height: 0;
+        border-top: 40px solid transparent;
+        border-bottom: 40px solid transparent;
+        border-right: 60px solid #9b59b6;
+      }
 
-        .tri-right {
-            width: 0;
-            height: 0;
-            border-top: 40px solid transparent;
-            border-bottom: 40px solid transparent;
-            border-left: 60px solid #3498db;
-        }
+      .tri-right {
+        width: 0;
+        height: 0;
+        border-top: 40px solid transparent;
+        border-bottom: 40px solid transparent;
+        border-left: 60px solid #3498db;
+      }
 
-        /* ========== 二、直角三角形（保留两条相邻边） ========== */
-        .tri-right-angle-tl {
-            /* 左上直角 */
-            width: 0;
-            height: 0;
-            border-top: 60px solid #e74c3c;
-            border-right: 60px solid transparent;
-        }
+      /* ========== 二、直角三角形（保留两条相邻边） ========== */
+      .tri-right-angle-tl {
+        /* 左上直角 */
+        width: 0;
+        height: 0;
+        border-top: 60px solid #e74c3c;
+        border-right: 60px solid transparent;
+      }
 
-        .tri-right-angle-br {
-            /* 右下直角 */
-            width: 0;
-            height: 0;
-            border-bottom: 60px solid #16a085;
-            border-left: 60px solid transparent;
-        }
+      .tri-right-angle-br {
+        /* 右下直角 */
+        width: 0;
+        height: 0;
+        border-bottom: 60px solid #16a085;
+        border-left: 60px solid transparent;
+      }
 
-        /* ========== 三、等边三角形（近似，调整底/高比） ========== */
-        .tri-equilateral {
-            width: 0;
-            height: 0;
-            border-left: 52px solid transparent;  /* 底边一半 ≈ 60/2 */
-            border-right: 52px solid transparent;
-            border-bottom: 90px solid #34495e;    /* 高 ≈ 底边 × √3/2 */
-        }
+      /* ========== 三、等边三角形（近似，调整底/高比） ========== */
+      .tri-equilateral {
+        width: 0;
+        height: 0;
+        border-left: 52px solid transparent; /* 底边一半 ≈ 60/2 */
+        border-right: 52px solid transparent;
+        border-bottom: 90px solid #34495e; /* 高 ≈ 底边 × √3/2 */
+      }
 
-        /* ========== 四、带边框的三角形（对话气泡箭头） ========== */
-        .bubble {
-            position: relative;
-            width: 200px;
-            padding: 15px;
-            background: #fff;
-            border: 2px solid #1abc9c;
-            border-radius: 6px;
-            color: #2c3e50;
-        }
+      /* ========== 四、带边框的三角形（对话气泡箭头） ========== */
+      .bubble {
+        position: relative;
+        width: 200px;
+        padding: 15px;
+        background: #fff;
+        border: 2px solid #1abc9c;
+        border-radius: 6px;
+        color: #2c3e50;
+      }
 
-        /* 外层三角（边框色） */
-        .bubble::before {
-            content: "";
-            position: absolute;
-            left: 30px;
-            bottom: -12px;
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: 12px solid #1abc9c;
-        }
+      /* 外层三角（边框色） */
+      .bubble::before {
+        content: "";
+        position: absolute;
+        left: 30px;
+        bottom: -12px;
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 12px solid #1abc9c;
+      }
 
-        /* 内层三角（背景色，盖在上面形成边框效果） */
-        .bubble::after {
-            content: "";
-            position: absolute;
-            left: 31px; /* 向内偏移 1px */
-            bottom: -9px; /* 向上偏移边框宽度 */
-            width: 0;
-            height: 0;
-            border-left: 9px solid transparent;
-            border-right: 9px solid transparent;
-            border-top: 10px solid #fff;
-        }
+      /* 内层三角（背景色，盖在上面形成边框效果） */
+      .bubble::after {
+        content: "";
+        position: absolute;
+        left: 31px; /* 向内偏移 1px */
+        bottom: -9px; /* 向上偏移边框宽度 */
+        width: 0;
+        height: 0;
+        border-left: 9px solid transparent;
+        border-right: 9px solid transparent;
+        border-top: 10px solid #fff;
+      }
 
-        /* ========== 五、clip-path（现代方案） ========== */
-        .tri-clip {
-            width: 100px;
-            height: 90px;
-            background: linear-gradient(135deg, #1abc9c, #3498db);
-            clip-path: polygon(50% 0, 100% 100%, 0 100%);
-        }
+      /* ========== 五、clip-path（现代方案） ========== */
+      .tri-clip {
+        width: 100px;
+        height: 90px;
+        background: linear-gradient(135deg, #1abc9c, #3498db);
+        clip-path: polygon(50% 0, 100% 100%, 0 100%);
+      }
 
-        .tri-clip-right {
-            width: 100px;
-            height: 90px;
-            background: linear-gradient(135deg, #e74c3c, #f1c40f);
-            clip-path: polygon(0 0, 100% 50%, 0 100%);
-        }
+      .tri-clip-right {
+        width: 100px;
+        height: 90px;
+        background: linear-gradient(135deg, #e74c3c, #f1c40f);
+        clip-path: polygon(0 0, 100% 50%, 0 100%);
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>用纯 CSS 绘制三角形</h1>
     <div class="desc">
-        经典方案利用 <code>border</code> 的特性：当元素 <code>width/height</code> 为 0 时，相邻两条 border 的交界处会形成 45° 斜边。
-        现代方案可用 <code>clip-path</code> 或 <code>transform: rotate</code> 实现。
+      经典方案利用 <code>border</code> 的特性：当元素
+      <code>width/height</code> 为 0 时，相邻两条 border 的交界处会形成 45°
+      斜边。 现代方案可用 <code>clip-path</code> 或
+      <code>transform: rotate</code> 实现。
     </div>
 
     <!-- 原理 -->
     <h2>原理：四条 border 在 width/height 为 0 时拼接成四个三角形</h2>
     <span class="method">width:0; height:0; border 四方向各一色</span>
     <div class="demo-row">
-        <div class="demo-item">
-            <div class="border-demo"></div>
-            <span class="label">四色拼接，可见斜边</span>
-        </div>
+      <div class="demo-item">
+        <div class="border-demo"></div>
+        <span class="label">四色拼接，可见斜边</span>
+      </div>
     </div>
 
     <!-- 一 -->
     <h2>一、四个方向的等腰三角形</h2>
     <span class="method">三边 transparent + 一边有色</span>
     <div class="demo-row">
-        <div class="demo-item">
-            <div class="tri-up"></div>
-            <span class="label">向上 ▲</span>
-        </div>
-        <div class="demo-item">
-            <div class="tri-down"></div>
-            <span class="label">向下 ▽</span>
-        </div>
-        <div class="demo-item">
-            <div class="tri-left"></div>
-            <span class="label">向左 ◁</span>
-        </div>
-        <div class="demo-item">
-            <div class="tri-right"></div>
-            <span class="label">向右 ▷</span>
-        </div>
+      <div class="demo-item">
+        <div class="tri-up"></div>
+        <span class="label">向上 ▲</span>
+      </div>
+      <div class="demo-item">
+        <div class="tri-down"></div>
+        <span class="label">向下 ▽</span>
+      </div>
+      <div class="demo-item">
+        <div class="tri-left"></div>
+        <span class="label">向左 ◁</span>
+      </div>
+      <div class="demo-item">
+        <div class="tri-right"></div>
+        <span class="label">向右 ▷</span>
+      </div>
     </div>
 
     <!-- 二 -->
     <h2>二、直角三角形</h2>
     <span class="method">保留两条相邻边，另两条 transparent</span>
     <div class="demo-row">
-        <div class="demo-item">
-            <div class="tri-right-angle-tl"></div>
-            <span class="label">左上直角</span>
-        </div>
-        <div class="demo-item">
-            <div class="tri-right-angle-br"></div>
-            <span class="label">右下直角</span>
-        </div>
+      <div class="demo-item">
+        <div class="tri-right-angle-tl"></div>
+        <span class="label">左上直角</span>
+      </div>
+      <div class="demo-item">
+        <div class="tri-right-angle-br"></div>
+        <span class="label">右下直角</span>
+      </div>
     </div>
 
     <!-- 三 -->
     <h2>三、等边三角形（近似）</h2>
     <span class="method">高 ≈ 底边 × √3/2</span>
     <div class="demo-row">
-        <div class="demo-item">
-            <div class="tri-equilateral"></div>
-            <span class="label">等边三角形</span>
-        </div>
+      <div class="demo-item">
+        <div class="tri-equilateral"></div>
+        <span class="label">等边三角形</span>
+      </div>
     </div>
 
     <!-- 四 -->
     <h2>四、带边框的三角形（对话气泡箭头）</h2>
     <span class="method">::before 外层三角 + ::after 内层三角叠加出边框</span>
     <div class="demo-row">
-        <div class="bubble">这是一个带箭头的气泡提示框，箭头通过双层三角形叠加实现边框效果。</div>
+      <div class="bubble">
+        这是一个带箭头的气泡提示框，箭头通过双层三角形叠加实现边框效果。
+      </div>
     </div>
 
     <!-- 五 -->
     <h2>五、clip-path 现代方案（支持渐变背景）</h2>
     <span class="method">clip-path: polygon(...)</span>
     <div class="demo-row">
-        <div class="demo-item">
-            <div class="tri-clip"></div>
-            <span class="label">向下，可渐变</span>
-        </div>
-        <div class="demo-item">
-            <div class="tri-clip-right"></div>
-            <span class="label">向右，可渐变</span>
-        </div>
+      <div class="demo-item">
+        <div class="tri-clip"></div>
+        <span class="label">向下，可渐变</span>
+      </div>
+      <div class="demo-item">
+        <div class="tri-clip-right"></div>
+        <span class="label">向右，可渐变</span>
+      </div>
     </div>
-</body>
+  </body>
 </html>

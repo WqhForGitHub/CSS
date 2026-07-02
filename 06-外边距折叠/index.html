@@ -1,252 +1,289 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>外边距折叠 - Margin Collapsing</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: "Microsoft YaHei", sans-serif;
-            padding: 30px;
-            background: #f5f5f5;
-        }
+      body {
+        font-family: "Microsoft YaHei", sans-serif;
+        padding: 30px;
+        background: #f5f5f5;
+      }
 
-        h1 {
-            margin-bottom: 30px;
-            color: #2c3e50;
-        }
+      h1 {
+        margin-bottom: 30px;
+        color: #2c3e50;
+      }
 
-        h2 {
-            margin: 30px 0 15px;
-            padding-left: 12px;
-            border-left: 4px solid #1abc9c;
-            color: #2c3e50;
-        }
+      h2 {
+        margin: 30px 0 15px;
+        padding-left: 12px;
+        border-left: 4px solid #1abc9c;
+        color: #2c3e50;
+      }
 
-        .desc {
-            margin-bottom: 15px;
-            padding: 12px 16px;
-            background: #fff;
-            border-radius: 6px;
-            color: #555;
-            line-height: 1.7;
-            font-size: 14px;
-        }
+      .desc {
+        margin-bottom: 15px;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 6px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 14px;
+      }
 
-        .desc code {
-            padding: 2px 6px;
-            background: #ecf0f1;
-            border-radius: 3px;
-            color: #e74c3c;
-            font-family: Consolas, monospace;
-        }
+      .desc code {
+        padding: 2px 6px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        color: #e74c3c;
+        font-family: Consolas, monospace;
+      }
 
-        .method {
-            margin-bottom: 10px;
-            display: inline-block;
-            padding: 3px 10px;
-            background: #34495e;
-            color: #fff;
-            border-radius: 3px;
-            font-size: 13px;
-        }
+      .method {
+        margin-bottom: 10px;
+        display: inline-block;
+        padding: 3px 10px;
+        background: #34495e;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 13px;
+      }
 
-        .box {
-            background: #1abc9c;
-            color: #fff;
-            padding: 20px;
-            border-radius: 4px;
-        }
+      .box {
+        background: #1abc9c;
+        color: #fff;
+        padding: 20px;
+        border-radius: 4px;
+      }
 
-        .box-alt {
-            background: #e67e22;
-        }
+      .box-alt {
+        background: #e67e22;
+      }
 
-        .ruler {
-            position: relative;
-            height: 0;
-            border-top: 2px dashed #e74c3c;
-        }
+      .ruler {
+        position: relative;
+        height: 0;
+        border-top: 2px dashed #e74c3c;
+      }
 
-        .ruler::after {
-            content: "↑ 折叠后的外边距 ↑";
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 2px 10px;
-            background: #e74c3c;
-            color: #fff;
-            font-size: 12px;
-            border-radius: 3px;
-            white-space: nowrap;
-        }
+      .ruler::after {
+        content: "↑ 折叠后的外边距 ↑";
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 2px 10px;
+        background: #e74c3c;
+        color: #fff;
+        font-size: 12px;
+        border-radius: 3px;
+        white-space: nowrap;
+      }
 
-        /* ========== 一、相邻兄弟元素外边距折叠 ========== */
-        .demo-sibling .box {
-            margin-bottom: 40px;
-        }
+      /* ========== 一、相邻兄弟元素外边距折叠 ========== */
+      .demo-sibling .box {
+        margin-bottom: 40px;
+      }
 
-        .demo-sibling .box-alt {
-            margin-top: 30px;
-        }
+      .demo-sibling .box-alt {
+        margin-top: 30px;
+      }
 
-        /* ========== 二、父子元素外边距折叠 ========== */
-        .demo-parent-child .parent {
-            background: #9b59b6;
-            color: #fff;
-            /* 父元素没有 border / padding / BFC，子元素的 margin-top 会"穿透"到父元素外 */
-            margin-top: 30px;
-        }
+      /* ========== 二、父子元素外边距折叠 ========== */
+      .demo-parent-child .parent {
+        background: #9b59b6;
+        color: #fff;
+        /* 父元素没有 border / padding / BFC，子元素的 margin-top 会"穿透"到父元素外 */
+        margin-top: 30px;
+      }
 
-        .demo-parent-child .child {
-            background: #1abc9c;
-            color: #fff;
-            padding: 15px;
-            margin-top: 40px;
-        }
+      .demo-parent-child .child {
+        background: #1abc9c;
+        color: #fff;
+        padding: 15px;
+        margin-top: 40px;
+      }
 
-        /* ========== 三、空元素自身折叠 ========== */
-        .demo-empty .empty {
-            background: #3498db;
-            color: #fff;
-            padding: 10px;
-            margin-bottom: 30px;
-            margin-top: 30px;
-        }
+      /* ========== 三、空元素自身折叠 ========== */
+      .demo-empty .empty {
+        background: #3498db;
+        color: #fff;
+        padding: 10px;
+        margin-bottom: 30px;
+        margin-top: 30px;
+      }
 
-        /* ========== 四、避免外边距折叠 ========== */
-        /* 1. 父元素触发 BFC（overflow: hidden） */
-        .fix-bfc .parent {
-            background: #9b59b6;
-            color: #fff;
-            overflow: hidden; /* 触发 BFC */
-        }
+      /* ========== 四、避免外边距折叠 ========== */
+      /* 1. 父元素触发 BFC（overflow: hidden） */
+      .fix-bfc .parent {
+        background: #9b59b6;
+        color: #fff;
+        overflow: hidden; /* 触发 BFC */
+      }
 
-        .fix-bfc .child {
-            background: #1abc9c;
-            color: #fff;
-            padding: 15px;
-            margin-top: 40px;
-        }
+      .fix-bfc .child {
+        background: #1abc9c;
+        color: #fff;
+        padding: 15px;
+        margin-top: 40px;
+      }
 
-        /* 2. 父元素加 border */
-        .fix-border .parent {
-            background: #9b59b6;
-            color: #fff;
-            border-top: 1px solid #8e44ad;
-        }
+      /* 2. 父元素加 border */
+      .fix-border .parent {
+        background: #9b59b6;
+        color: #fff;
+        border-top: 1px solid #8e44ad;
+      }
 
-        .fix-border .child {
-            background: #1abc9c;
-            color: #fff;
-            padding: 15px;
-            margin-top: 40px;
-        }
+      .fix-border .child {
+        background: #1abc9c;
+        color: #fff;
+        padding: 15px;
+        margin-top: 40px;
+      }
 
-        /* 3. 父元素加 padding */
-        .fix-padding .parent {
-            background: #9b59b6;
-            color: #fff;
-            padding-top: 1px;
-        }
+      /* 3. 父元素加 padding */
+      .fix-padding .parent {
+        background: #9b59b6;
+        color: #fff;
+        padding-top: 1px;
+      }
 
-        .fix-padding .child {
-            background: #1abc9c;
-            color: #fff;
-            padding: 15px;
-            margin-top: 40px;
-        }
+      .fix-padding .child {
+        background: #1abc9c;
+        color: #fff;
+        padding: 15px;
+        margin-top: 40px;
+      }
 
-        /* 4. 相邻元素之间加 border / inline-block / float 隔离 */
-        .fix-isolate .box {
-            margin-bottom: 40px;
-        }
+      /* 4. 相邻元素之间加 border / inline-block / float 隔离 */
+      .fix-isolate .box {
+        margin-bottom: 40px;
+      }
 
-        .fix-isolate .box-alt {
-            margin-top: 30px;
-            display: inline-block;
-            width: 100%;
-        }
+      .fix-isolate .box-alt {
+        margin-top: 30px;
+        display: inline-block;
+        width: 100%;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>外边距折叠 - Margin Collapsing</h1>
     <div class="desc">
-        在常规流中，垂直方向相邻的两个外边距会发生合并（取较大者），称为<strong>外边距折叠</strong>。触发场景：
-        <code>相邻兄弟</code>、<code>父子（无 border/padding/BFC 隔离）</code>、<code>空块级元素自身</code>。
-        注意：只有<strong>垂直方向</strong>的 <code>margin</code> 会折叠，水平方向不折叠；<code>flex</code> / <code>grid</code> 容器内部也不会折叠。
+      在常规流中，垂直方向相邻的两个外边距会发生合并（取较大者），称为<strong>外边距折叠</strong>。触发场景：
+      <code>相邻兄弟</code>、<code>父子（无 border/padding/BFC 隔离）</code
+      >、<code>空块级元素自身</code>。 注意：只有<strong>垂直方向</strong>的
+      <code>margin</code> 会折叠，水平方向不折叠；<code>flex</code> /
+      <code>grid</code> 容器内部也不会折叠。
     </div>
 
     <!-- 一 -->
     <h2>一、相邻兄弟元素外边距折叠</h2>
-    <span class="method">box margin-bottom: 40px + box-alt margin-top: 30px → 折叠为 40px</span>
+    <span class="method"
+      >box margin-bottom: 40px + box-alt margin-top: 30px → 折叠为 40px</span
+    >
     <div class="demo-sibling">
-        <div class="box">Box A：margin-bottom: 40px</div>
-        <div class="ruler"></div>
-        <div class="box box-alt">Box B：margin-top: 30px（两个间距并未变成 70px，而是取较大值 40px）</div>
+      <div class="box">Box A：margin-bottom: 40px</div>
+      <div class="ruler"></div>
+      <div class="box box-alt">
+        Box B：margin-top: 30px（两个间距并未变成 70px，而是取较大值 40px）
+      </div>
     </div>
 
     <!-- 二 -->
     <h2>二、父子元素外边距折叠</h2>
-    <span class="method">父无 border/padding/BFC → 子的 margin-top 穿透到父外</span>
+    <span class="method"
+      >父无 border/padding/BFC → 子的 margin-top 穿透到父外</span
+    >
     <div class="demo-parent-child">
-        <div class="parent">
-            <div class="ruler"></div>
-            <div class="child">Child：margin-top: 40px。父元素没有上边框/内边距，子元素的上外边距会"跑到"父元素外面。</div>
+      <div class="parent">
+        <div class="ruler"></div>
+        <div class="child">
+          Child：margin-top:
+          40px。父元素没有上边框/内边距，子元素的上外边距会"跑到"父元素外面。
         </div>
+      </div>
     </div>
 
     <!-- 三 -->
     <h2>三、空元素自身折叠</h2>
     <span class="method">空元素 margin-top 与 margin-bottom 合并</span>
     <div class="demo-empty">
-        <div class="box">上方 Box</div>
-        <div class="ruler"></div>
-        <div class="empty">空元素自身有 margin-top: 30px 和 margin-bottom: 30px，但没有内容/边框，自身上下外边距也会折叠为 30px。</div>
-        <div class="ruler"></div>
-        <div class="box box-alt">下方 Box</div>
+      <div class="box">上方 Box</div>
+      <div class="ruler"></div>
+      <div class="empty">
+        空元素自身有 margin-top: 30px 和 margin-bottom:
+        30px，但没有内容/边框，自身上下外边距也会折叠为 30px。
+      </div>
+      <div class="ruler"></div>
+      <div class="box box-alt">下方 Box</div>
     </div>
 
     <!-- 四 -->
     <h2>四、避免外边距折叠的方式</h2>
-    <p style="color:#555;font-size:14px;margin-bottom:10px;">针对父子折叠，核心思路是让父元素成为独立的 BFC 或在边界处添加 border / padding。</p>
+    <p style="color: #555; font-size: 14px; margin-bottom: 10px">
+      针对父子折叠，核心思路是让父元素成为独立的 BFC 或在边界处添加 border /
+      padding。
+    </p>
 
-    <h2 style="border-left-color:#e67e22;">方式一：父元素 <code>overflow: hidden</code> 触发 BFC</h2>
+    <h2 style="border-left-color: #e67e22">
+      方式一：父元素 <code>overflow: hidden</code> 触发 BFC
+    </h2>
     <span class="method">parent: overflow: hidden</span>
     <div class="fix-bfc">
-        <div class="parent">
-            <div class="child">Child：margin-top: 40px。父元素 BFC 化后，子元素的 margin 被包含在父元素内部。</div>
+      <div class="parent">
+        <div class="child">
+          Child：margin-top: 40px。父元素 BFC 化后，子元素的 margin
+          被包含在父元素内部。
         </div>
+      </div>
     </div>
 
-    <h2 style="border-left-color:#e67e22;">方式二：父元素加 <code>border-top</code></h2>
+    <h2 style="border-left-color: #e67e22">
+      方式二：父元素加 <code>border-top</code>
+    </h2>
     <span class="method">parent: border-top: 1px solid</span>
     <div class="fix-border">
-        <div class="parent">
-            <div class="child">Child：margin-top: 40px。父元素上边框隔断了外边距，margin 不再穿透。</div>
+      <div class="parent">
+        <div class="child">
+          Child：margin-top: 40px。父元素上边框隔断了外边距，margin 不再穿透。
         </div>
+      </div>
     </div>
 
-    <h2 style="border-left-color:#e67e22;">方式三：父元素加 <code>padding-top</code></h2>
+    <h2 style="border-left-color: #e67e22">
+      方式三：父元素加 <code>padding-top</code>
+    </h2>
     <span class="method">parent: padding-top: 1px</span>
     <div class="fix-padding">
-        <div class="parent">
-            <div class="child">Child：margin-top: 40px。父元素内边距同样可以阻止折叠。</div>
+      <div class="parent">
+        <div class="child">
+          Child：margin-top: 40px。父元素内边距同样可以阻止折叠。
         </div>
+      </div>
     </div>
 
-    <h2 style="border-left-color:#e67e22;">方式四：相邻元素改为 <code>inline-block</code></h2>
-    <span class="method">box-alt: display: inline-block（不再与 box 折叠）</span>
+    <h2 style="border-left-color: #e67e22">
+      方式四：相邻元素改为 <code>inline-block</code>
+    </h2>
+    <span class="method"
+      >box-alt: display: inline-block（不再与 box 折叠）</span
+    >
     <div class="fix-isolate">
-        <div class="box">Box A：margin-bottom: 40px</div>
-        <div class="box box-alt">Box B：margin-top: 30px（改为 inline-block 后不参与折叠，间距 = 40 + 30 = 70px）</div>
+      <div class="box">Box A：margin-bottom: 40px</div>
+      <div class="box box-alt">
+        Box B：margin-top: 30px（改为 inline-block 后不参与折叠，间距 = 40 + 30
+        = 70px）
+      </div>
     </div>
-</body>
+  </body>
 </html>

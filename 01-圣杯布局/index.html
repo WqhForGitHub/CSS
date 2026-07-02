@@ -1,34 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>圣杯布局 - Holy Grail Layout</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            min-width: 600px;
-            font-family: "Microsoft YaHei", sans-serif;
-            color: #fff;
-        }
+      body {
+        min-width: 600px;
+        font-family: "Microsoft YaHei", sans-serif;
+        color: #fff;
+      }
 
-        /* 头部与尾部：通栏 */
-        header,
-        footer {
-            width: 100%;
-            height: 80px;
-            background: #34495e;
-            text-align: center;
-            line-height: 80px;
-            font-size: 20px;
-        }
+      /* 头部与尾部：通栏 */
+      header,
+      footer {
+        width: 100%;
+        height: 80px;
+        background: #34495e;
+        text-align: center;
+        line-height: 80px;
+        font-size: 20px;
+      }
 
-        /*
+      /*
          * 圣杯布局核心：
          * 1. container 通过左右 padding 预留出左右两栏的空间
          * 2. middle、left、right 全部浮动
@@ -36,81 +36,81 @@
          * 4. left 通过 margin-left: -100% 移到最左，再用相对定位平移自身宽度
          * 5. right 通过 margin-left: -自身宽度 移到最右
          */
-        .container {
-            padding-left: 200px;   /* 左栏宽度 */
-            padding-right: 220px;  /* 右栏宽度 */
-            overflow: hidden;      /* 清除浮动 */
-        }
+      .container {
+        padding-left: 200px; /* 左栏宽度 */
+        padding-right: 220px; /* 右栏宽度 */
+        overflow: hidden; /* 清除浮动 */
+      }
 
-        .middle {
-            float: left;
-            width: 100%;
-            min-height: 300px;
-            background: #1abc9c;
-        }
+      .middle {
+        float: left;
+        width: 100%;
+        min-height: 300px;
+        background: #1abc9c;
+      }
 
-        .left {
-            position: relative;
-            left: -200px;          /* 向左平移自身宽度，落入预留区域 */
-            float: left;
-            width: 200px;
-            min-height: 300px;
-            margin-left: -100%;    /* 移到 middle 的最左侧 */
-            background: #e67e22;
-        }
+      .left {
+        position: relative;
+        left: -200px; /* 向左平移自身宽度，落入预留区域 */
+        float: left;
+        width: 200px;
+        min-height: 300px;
+        margin-left: -100%; /* 移到 middle 的最左侧 */
+        background: #e67e22;
+      }
 
-        .right {
-            position: relative;
-            right: -220px;         /* 向右平移自身宽度，落入预留区域 */
-            float: left;
-            width: 220px;
-            min-height: 300px;
-            margin-left: -220px;   /* 移到 middle 的最右侧 */
-            background: #9b59b6;
-        }
+      .right {
+        position: relative;
+        right: -220px; /* 向右平移自身宽度，落入预留区域 */
+        float: left;
+        width: 220px;
+        min-height: 300px;
+        margin-left: -220px; /* 移到 middle 的最右侧 */
+        background: #9b59b6;
+      }
 
-        .middle p,
-        .left p,
-        .right p {
-            padding: 20px;
-            font-size: 18px;
-        }
+      .middle p,
+      .left p,
+      .right p {
+        padding: 20px;
+        font-size: 18px;
+      }
 
-        .tag {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 4px 12px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            font-size: 13px;
-        }
+      .tag {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 4px 12px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        font-size: 13px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>Header 通栏头部</header>
 
     <div class="container">
-        <!-- middle 必须写在最前，保证主体内容优先加载 -->
-        <div class="middle">
-            <p>
-                Middle 主体内容（自适应宽度）
-                <span class="tag">float: left; width: 100%</span>
-            </p>
-        </div>
-        <div class="left">
-            <p>
-                Left 左栏（固定 200px）
-                <span class="tag">margin-left: -100%</span>
-            </p>
-        </div>
-        <div class="right">
-            <p>
-                Right 右栏（固定 220px）
-                <span class="tag">margin-left: -220px</span>
-            </p>
-        </div>
+      <!-- middle 必须写在最前，保证主体内容优先加载 -->
+      <div class="middle">
+        <p>
+          Middle 主体内容（自适应宽度）
+          <span class="tag">float: left; width: 100%</span>
+        </p>
+      </div>
+      <div class="left">
+        <p>
+          Left 左栏（固定 200px）
+          <span class="tag">margin-left: -100%</span>
+        </p>
+      </div>
+      <div class="right">
+        <p>
+          Right 右栏（固定 220px）
+          <span class="tag">margin-left: -220px</span>
+        </p>
+      </div>
     </div>
 
     <footer>Footer 通栏尾部</footer>
-</body>
+  </body>
 </html>
