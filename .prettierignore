@@ -1,0 +1,6 @@
+node_modules/
+.obsidian/
+__pycache__/
+_gen/
+*.pyc
+package-lock.json

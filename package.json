@@ -1,0 +1,21 @@
+{
+  "name": "css-demo-formatting",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "ESLint + Prettier formatting for CSS demo HTML files",
+  "scripts": {
+    "format": "prettier --write \"demo/**/*.html\"",
+    "lint": "eslint \"demo/**/*.html\" --fix",
+    "format:check": "prettier --check \"demo/**/*.html\""
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-html": "^8.1.1",
+    "eslint-plugin-prettier": "^5.2.1",
+    "jiti": "^2.7.0",
+    "prettier": "^3.3.3",
+    "typescript": "^6.0.3"
+  }
+}
