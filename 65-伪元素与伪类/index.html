@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>65 - 伪元素与伪类</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+
+  /* 伪类：选中处于某种"状态"的真实元素 */
+  a:hover { color: #f5222d; }
+  li:nth-child(odd) { background: #e6f7ff; }
+  input:focus { border-color: #1890ff; outline: none; }
+  input:checked + label { color: #52c41a; font-weight: bold; }
+  .not-last li:not(:last-child) { border-bottom: 1px solid #ccc; }
+
+  /* 伪元素：创建"不存在于 DOM"的虚拟元素 */
+  .quote::before { content: '「'; color: #1890ff; font-size: 20px; }
+  .quote::after { content: '」'; color: #1890ff; font-size: 20px; }
+  .clearfix::after { content: ''; display: block; clear: both; }
+  .icon-star::before { content: '★'; color: #faad14; margin-right: 4px; }
+  .first-letter::first-letter { font-size: 28px; color: #f5222d; float: left; }
+  .selection ::selection { background: #1890ff; color: #fff; }
+
+  .box { background: #fff; border: 1px solid #ccc; padding: 12px; margin: 10px 0; }
+  .table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  .table th, .table td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: top; }
+</style>
+</head>
+<body>
+  <h1>65. CSS 伪元素与伪类的作用和区别</h1>
+  <div class="desc">
+    <strong>伪类（pseudo-class）</strong>：单冒号 <code>:</code>，选中处于某种<strong>状态</strong>的<strong>真实元素</strong>，不创建新元素。<br>
+    <strong>伪元素（pseudo-element）</strong>：双冒号 <code>::</code>，创建文档树中<strong>不存在</strong>的虚拟元素。<br>
+    CSS3 规范用单/双冒号区分，但单冒号写伪元素（如 <code>:before</code>）仍向后兼容。
+  </div>
+
+  <h3>伪类示例（描述元素状态）</h3>
+  <div class="box">
+    <p>hover 链接：<a href="#">把鼠标放上来变红</a></p>
+    <p>nth-child(odd)：</p>
+    <ul style="list-style:none;padding:0">
+      <li>第1项（奇）</li>
+      <li>第2项</li>
+      <li>第3项（奇）</li>
+      <li>第4项</li>
+    </ul>
+    <p>focus：<input type="text" placeholder="点我聚焦变蓝边框"></p>
+    <p>checked：<input type="checkbox" id="c"><label for="c">勾选我变绿加粗</label></p>
+    <p>not(:last-child)：</p>
+    <ul class="not-last" style="list-style:none;padding:0">
+      <li>项1（有下边框）</li>
+      <li>项2（有下边框）</li>
+      <li>项3（最后一项无下边框）</li>
+    </ul>
+  </div>
+
+  <h3>伪元素示例（创建虚拟元素）</h3>
+  <div class="box">
+    <p class="quote">这是被伪元素加上引号的文字</p>
+    <p class="icon-star">前面有星星图标</p>
+    <p class="first-letter">首字母放大效果：Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <p class="selection">选中这段文字看 ::selection 效果</p>
+  </div>
+
+  <h3>对比表</h3>
+  <table class="table">
+    <tr><th>对比项</th><th>伪类</th><th>伪元素</th></tr>
+    <tr><td>冒号</td><td>单冒号 <code>:</code></td><td>双冒号 <code>::</code></td></tr>
+    <tr><td>本质</td><td>状态选择器</td><td>创建虚拟元素</td></tr>
+    <tr><td>DOM</td><td>选中已有元素</td><td>创建不存在元素</td></tr>
+    <tr><td>数量</td><td>可叠加多个</td><td>每元素仅一个（::before+::after 共两个）</td></tr>
+    <tr><td>是否需 content</td><td>否</td><td>是（::before/::after 必须有 content）</td></tr>
+    <tr><td>典型</td><td>:hover/:focus/:nth-child/:not/:checked/:first-child</td><td>::before/::after/::first-letter/::first-line/::selection/::placeholder</td></tr>
+  </table>
+
+  <h3>常见伪类清单</h3>
+  <ul style="line-height:1.9">
+    <li>交互：<code>:hover</code> <code>:active</code> <code>:focus</code> <code>:focus-within</code> <code>:visited</code></li>
+    <li>结构：<code>:first-child</code> <code>:last-child</code> <code>:nth-child(n)</code> <code>:only-child</code> <code>:nth-of-type</code></li>
+    <li>表单：<code>:checked</code> <code>:disabled</code> <code>:enabled</code> <code>:valid</code> <code>:required</code></li>
+    <li>否定：<code>:not()</code></li>
+    <li>CSS4：<code>:has()</code> <code>:is()</code> <code>:where()</code></li>
+  </ul>
+
+  <h3>常见伪元素清单</h3>
+  <ul style="line-height:1.9">
+    <li><code>::before</code> / <code>::after</code>：在元素内容前后插入</li>
+    <li><code>::first-letter</code>：首字母</li>
+    <li><code>::first-line</code>：首行</li>
+    <li><code>::selection</code>：被选中文字</li>
+    <li><code>::placeholder</code>：输入框占位符</li>
+    <li><code>::marker</code>：列表项标记</li>
+  </ul>
+
+  <h3>双冒号与单冒号的兼容</h3>
+  <p>CSS2 时伪元素也用单冒号（<code>:before</code>），CSS3 为区分改为双冒号（<code>::before</code>）。</p>
+  <p>现代浏览器对 <code>:before</code> 仍兼容，但<strong>推荐用双冒号</strong>写伪元素以符合规范。</p>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>58 - line-height 100% vs 1</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+
+  .demo { background: #fff; border: 1px solid #ccc; margin: 10px 0; padding: 8px; }
+  .parent { background: #e6f7ff; }
+  .child { background: #fff1f0; border-left: 3px solid #f5222d; padding-left: 6px; }
+
+  /* 演示：父 font-size:20px */
+  .p1 { font-size: 20px; line-height: 100%; }
+  .p2 { font-size: 20px; line-height: 1; }
+  .p3 { font-size: 20px; line-height: 1.5; }
+  .p4 { font-size: 20px; line-height: 24px; }
+
+  /* 子元素改变字号时不同赋值的差异 */
+  .p1 .child, .p2 .child, .p3 .child, .p4 .child { font-size: 30px; }
+
+  /* 用 background 模拟行高区域便于观察 */
+  .lh-demo { font-size: 20px; background: #91d5ff; }
+  .lh-100 { line-height: 100%; }
+  .lh-1   { line-height: 1; }
+  .lh-15  { line-height: 1.5; }
+</style>
+</head>
+<body>
+  <h1>58. line-height: 100% 与 line-height: 1 的区别</h1>
+  <div class="desc">
+    两者在<strong>当前元素</strong>上效果相同（行高 = 自身 font-size），但<strong>继承给子元素时差异显著</strong>。<br>
+    <strong>百分比 / 长度</strong>：继承的是<strong>计算后的绝对值</strong>。<br>
+    <strong>纯数字（无单位）</strong>：继承的是<strong>比例因子</strong>，子元素根据自身字号重算。
+  </div>
+
+  <h3>基础对比（父 20px）</h3>
+  <div class="demo parent p1">
+    父 line-height:100% → 20px
+    <div class="child">子 font-size:30px → 继承到的行高仍是 <strong>20px</strong>（绝对值，文字溢出）</div>
+  </div>
+  <div class="demo parent p2">
+    父 line-height:1 → 20px
+    <div class="child">子 font-size:30px → 行高 = 30×1 = <strong>30px</strong>（按比例重算，正常）</div>
+  </div>
+
+  <h3>更多赋值对比</h3>
+  <div class="demo parent p3">
+    line-height:1.5 → 30px（无单位比例，子30px→45px）
+    <div class="child">子 30px → 行高 45px</div>
+  </div>
+  <div class="demo parent p4">
+    line-height:24px（绝对长度，子也是 24px）
+    <div class="child">子 30px → 行高仍是 24px</div>
+  </div>
+
+  <h3>可视化行高区域（背景显示行盒）</h3>
+  <div class="lh-demo lh-100">line-height:100%（行盒=20px，紧贴文字）</div>
+  <div class="lh-demo lh-1">line-height:1（行盒=20px）</div>
+  <div class="lh-demo lh-15">line-height:1.5（行盒=30px，文字上下留白）</div>
+
+  <h3>赋值方式总结</h3>
+  <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;margin-top:8px">
+    <tr><th>写法</th><th>当前元素</th><th>继承给子元素</th></tr>
+    <tr><td><code>line-height: 100%</code></td><td>= font-size</td><td>继承计算后的<strong>绝对值</strong></td></tr>
+    <tr><td><code>line-height: 1</code>（无单位）</td><td>= font-size</td><td>继承<strong>比例因子</strong>，子按自身字号重算</td></tr>
+    <tr><td><code>line-height: 1.5em</code></td><td>= 1.5×font-size</td><td>继承绝对值</td></tr>
+    <tr><td><code>line-height: 24px</code></td><td>固定值</td><td>继承固定值</td></tr>
+    <tr><td><code>line-height: normal</code></td><td>浏览器默认≈1.2</td><td>继承 normal（子按自身算）</td></tr>
+  </table>
+  <p style="margin-top:10px"><strong>结论：</strong>全局设置推荐 <code>line-height: 1.5</code> 等无单位数字，子元素按自身字号自适应。</p>
+</body>
+</html>

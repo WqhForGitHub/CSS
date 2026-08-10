@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>31 - display:none vs visibility:hidden</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+
+  .row { background: #fff; border: 1px solid #ccc; padding: 8px; margin: 8px 0; }
+  .box { background: #1890ff; color: #fff; padding: 12px; display: inline-block; width: 80px; text-align: center; margin: 4px; }
+  .hide-none { display: none; }
+  .hide-vis { visibility: hidden; }
+  .hidden-vis > .child { visibility: hidden; }
+
+  .table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  .table th, .table td { border: 1px solid #ccc; padding: 6px; text-align: left; }
+  code { background: #f0f0f0; padding: 2px 4px; }
+  .highlight { color: #f5222d; font-weight: bold; }
+</style>
+</head>
+<body>
+  <h1>31. display:none 与 visibility:hidden 的区别</h1>
+  <div class="desc">
+    <code>display:none</code>：元素 <strong>完全消失</strong>，不占空间，不响应事件，会触发 reflow。<br>
+    <code>visibility:hidden</code>：元素 <strong>不可见但保留空间</strong>（占位），仅触发 repaint，子元素可覆盖为 visible。
+  </div>
+
+  <div class="row">
+    <div class="box">A</div>
+    <div class="box hide-none">B隐藏</div>
+    <div class="box">C</div>
+    <span style="color:#999">B 用 display:none：B 完全不占位，C 紧贴 A</span>
+  </div>
+
+  <div class="row">
+    <div class="box">A</div>
+    <div class="box hide-vis">B隐藏</div>
+    <div class="box">C</div>
+    <span style="color:#999">B 用 visibility:hidden：B 仍占位（缺一格），C 不移动</span>
+  </div>
+
+  <div class="row hidden-vis">
+    父 visibility:hidden：
+    <div class="box" style="visibility:visible">子 visible</div>
+    <span style="color:#999">子元素设 visible 可显示出来（display:none 不可这样恢复）</span>
+  </div>
+
+  <table class="table">
+    <tr><th>对比项</th><th>display:none</th><th>visibility:hidden</th></tr>
+    <tr><td>是否占位</td><td class="highlight">不占位</td><td>占位</td></tr>
+    <tr><td>子元素能否显示</td><td>不能</td><td class="highlight">能（设 visible）</td></tr>
+    <tr><td>触发</td><td>reflow（回流）</td><td>repaint（重绘）</td></tr>
+    <tr><td>事件响应</td><td>不能</td><td>不能</td></tr>
+    <tr><td>继承</td><td>非继承</td><td>继承（子可覆盖）</td></tr>
+  </table>
+</body>
+</html>

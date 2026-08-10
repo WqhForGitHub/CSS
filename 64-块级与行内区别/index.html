@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>64 - block inline inline-block区别</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+  p.label { font-size: 13px; color: #666; margin: 4px 0; }
+
+  .stage { background: #fff; border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+
+  /* block */
+  .blk { display: block; background: #1890ff; color: #fff; padding: 10px; width: 150px; height: 60px; }
+
+  /* inline */
+  .inl { display: inline; background: #52c41a; color: #fff; padding: 10px; width: 150px; height: 60px; }
+
+  /* inline-block */
+  .inbl { display: inline-block; background: #faad14; color: #fff; padding: 10px; width: 150px; height: 60px; vertical-align: top; }
+
+  .table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  .table th, .table td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  .yes { color: #52c41a; font-weight: bold; }
+  .no  { color: #f5222d; font-weight: bold; }
+</style>
+</head>
+<body>
+  <h1>64. display: block / inline / inline-block 区别</h1>
+  <div class="desc">
+    三者是最基础的盒模型类型，决定元素的排版方式。
+  </div>
+
+  <h3>block（块级）</h3>
+  <p class="label">独占一行，可设宽高，默认宽度撑满父容器</p>
+  <div class="stage">
+    <div class="blk">block 150×60</div>
+    <span>↓ 我换行了</span>
+    <div class="blk">第二个 block</div>
+  </div>
+  <p style="color:#999">↑ block 元素自动换行，宽高生效</p>
+
+  <h3>inline（行内）</h3>
+  <p class="label">不换行，宽高由内容决定，设置 width/height 无效，padding/margin 上下不影响布局</p>
+  <div class="stage">
+    前文 <span class="inl">inline 写了 width:150 height:60 但无效</span> 后文紧挨
+  </div>
+  <p style="color:#999">↑ inline 不换行，宽高被忽略，水平 padding/margin 生效但垂直不影响其他行</p>
+
+  <h3>inline-block（行内块）</h3>
+  <p class="label">不换行（行内特性），但可设宽高（块特性）</p>
+  <div class="stage">
+    前文 <span class="inbl">inline-block 150×60 生效</span><span class="inbl">第二个</span> 后文
+  </div>
+  <p style="color:#999">↑ inline-block 不换行且宽高生效，是前两者的结合</p>
+
+  <h3>对比表</h3>
+  <table class="table">
+    <tr><th>特性</th><th>block</th><th>inline</th><th>inline-block</th></tr>
+    <tr><td>独占一行</td><td class="yes">是</td><td class="no">否</td><td class="no">否</td></tr>
+    <tr><td>可设 width/height</td><td class="yes">是</td><td class="no">否</td><td class="yes">是</td></tr>
+    <tr><td>默认宽度</td><td>撑满父容器</td><td>内容宽度</td><td>内容宽度</td></tr>
+    <tr><td>水平 margin/padding</td><td class="yes">生效</td><td class="yes">生效</td><td class="yes">生效</td></tr>
+    <tr><td>垂直 margin</td><td class="yes">生效</td><td class="no">不生效</td><td class="yes">生效</td></tr>
+    <tr><td>垂直 padding</td><td class="yes">生效</td><td>视觉生效但不影响布局</td><td class="yes">生效</td></tr>
+    <tr><td>典型元素</td><td>div/p/h1/ul</td><td>span/a/strong</td><td>img/input（替换）</td></tr>
+  </table>
+
+  <h3>使用场景</h3>
+  <ul style="line-height:1.9">
+    <li><strong>block</strong>：区块容器、段落、卡片</li>
+    <li><strong>inline</strong>：文本内的样式片段（a、strong、em）</li>
+    <li><strong>inline-block</strong>：行内排列的按钮、图标块（注意空白间隙问题，见 demo 37/59）</li>
+    <li>现代更推荐用 <strong>flex/grid</strong> 替代 inline-block 布局</li>
+  </ul>
+</body>
+</html>

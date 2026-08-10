@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>16 - 网页元素的层叠顺序</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; margin-bottom: 16px; line-height: 1.7; }
+  .stage { position: relative; height: 320px; border: 1px solid #ccc; background: #fff; }
+
+  /* 1. 负 z-index: 层叠于普通元素之下 */
+  .layer-neg { position: absolute; z-index: -1; background: #bbb; width: 140px; height: 80px; top: 20px; left: 20px; }
+  /* 2. 普通块级元素 */
+  .layer-normal { background: #91d5ff; width: 160px; height: 80px; position: absolute; top: 40px; left: 60px; }
+  /* 3. 浮动元素 */
+  .layer-float { float: left; background: #b7eb8f; width: 140px; height: 80px; margin-top: 70px; }
+  /* 4. inline/inline-block 元素 */
+  .layer-inline { display: inline-block; background: #ffccc7; width: 120px; height: 80px; position: absolute; top: 90px; left: 120px; }
+  /* 5. z-index:0/auto 定位元素 */
+  .layer-zero { position: absolute; z-index: 0; background: #d3adf7; width: 140px; height: 80px; top: 110px; left: 180px; }
+  /* 6. 正 z-index 定位元素 */
+  .layer-pos { position: absolute; z-index: 2; background: #ffa39e; width: 140px; height: 80px; top: 150px; left: 220px; }
+
+  .label { font-size: 12px; color: #333; }
+
+  .stack-list { background: #fff; padding: 16px; border: 1px solid #eee; margin-top: 16px; }
+  .stack-list li { margin: 6px 0; }
+  .code { font-family: monospace; background: #f0f0f0; padding: 2px 6px; border-radius: 3px; }
+</style>
+</head>
+<body>
+  <h1>16. 网页元素的层叠顺序（Stacking Order）</h1>
+  <div class="desc">
+    层叠顺序（从底到顶）：<br>
+    1. 负 z-index 的定位元素<br>
+    2. 普通块级元素（非定位、非浮动）<br>
+    3. 浮动元素<br>
+    4. inline / inline-block 元素<br>
+    5. z-index:auto/0 的定位元素<br>
+    6. 正 z-index 的定位元素
+  </div>
+
+  <div class="stage">
+    <div class="layer-neg label">1. z-index:-1 (最底)</div>
+    <div class="layer-normal label">2. 普通块级</div>
+    <div class="layer-float label">3. 浮动</div>
+    <div class="layer-inline label">4. inline-block</div>
+    <div class="layer-zero label">5. z-index:0</div>
+    <div class="layer-pos label">6. z-index:2 (最顶)</div>
+  </div>
+
+  <ul class="stack-list">
+    <li><span class="code">z-index:-1</span> 定位元素 → 最底层</li>
+    <li>普通块级元素（<span class="code">position:static</span>）</li>
+    <li>浮动元素（<span class="code">float</span>）</li>
+    <li><span class="code">inline</span> / <span class="code">inline-block</span> 元素</li>
+    <li><span class="code">z-index: 0/auto</span> 的定位元素</li>
+    <li><span class="code">z-index: &gt; 0</span> 的定位元素 → 最顶层</li>
+  </ul>
+</body>
+</html>

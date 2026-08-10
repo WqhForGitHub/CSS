@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>44 - 三栏布局</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; margin-bottom: 0; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; margin: 12px 0; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { margin-top: 18px; }
+  .demo-box { background: #fff; border: 1px solid #ccc; margin: 10px 0; }
+  p.label { font-size: 13px; color: #666; margin: 4px 0; }
+
+  /* ① flex */
+  .f-flex { display: flex; }
+  .f-flex .left, .f-flex .right { width: 150px; background: #1890ff; color: #fff; padding: 14px; }
+  .f-flex .center { flex: 1; background: #52c41a; color: #fff; padding: 14px; }
+
+  /* ② 圣杯布局：左中右都浮动 + 父 padding + margin 负值 */
+  .holy { padding: 0 160px; }
+  .holy .col { float: left; min-height: 100px; padding: 14px; box-sizing: border-box; }
+  .holy .center { width: 100%; background: #52c41a; color: #fff; }
+  .holy .left { width: 150px; margin-left: -100%; position: relative; left: -160px; background: #1890ff; color: #fff; }
+  .holy .right { width: 150px; margin-left: -150px; position: relative; right: -160px; background: #f5222d; color: #fff; }
+
+  /* ③ 双飞翼布局：center 内嵌 inner 用 margin */
+  .fly .col { float: left; min-height: 100px; padding: 14px; box-sizing: border-box; }
+  .fly .wrap { width: 100%; background: #52c41a; color: #fff; }
+  .fly .inner { margin: 0 170px; }
+  .fly .left { width: 150px; margin-left: -100%; background: #1890ff; color: #fff; }
+  .fly .right { width: 150px; margin-left: -150px; background: #f5222d; color: #fff; }
+  .clear::after { content: ''; display: table; clear: both; }
+
+  /* ④ 绝对定位 */
+  .abs { position: relative; }
+  .abs .left, .abs .right { position: absolute; top: 0; width: 150px; padding: 14px; color: #fff; box-sizing: border-box; }
+  .abs .left { left: 0; background: #1890ff; }
+  .abs .right { right: 0; background: #f5222d; }
+  .abs .center { margin: 0 170px; background: #faad14; color: #fff; padding: 14px; }
+
+  /* ⑤ grid */
+  .grid { display: grid; grid-template-columns: 150px 1fr 150px; }
+  .grid > * { padding: 14px; color: #fff; }
+  .grid .left { background: #1890ff; }
+  .grid .center { background: #52c41a; }
+  .grid .right { background: #f5222d; }
+</style>
+</head>
+<body>
+  <h1>44. 三栏布局（左中右）</h1>
+  <div class="desc">
+    左右固定，中间自适应；要求中栏在 HTML 中先渲染优先显示。经典方案：	flex、圣杯、双飞翼、绝对定位、grid。
+  </div>
+
+  <h3>① Flex（推荐）</h3>
+  <p class="label">左右定宽，中间 flex:1</p>
+  <div class="demo-box f-flex">
+    <div class="left">左 150</div>
+    <div class="center">中 flex:1</div>
+    <div class="right">右 150</div>
+  </div>
+
+  <h3>② 圣杯布局</h3>
+  <p class="label">float + padding + 负 margin + relative 偏移</p>
+  <div class="demo-box clear">
+    <div class="holy">
+      <div class="col center">中 width:100%</div>
+      <div class="col left">左 -100%</div>
+      <div class="col right">右 -150</div>
+    </div>
+  </div>
+
+  <h3>③ 双飞翼布局</h3>
+  <p class="label">center 内包一层 inner 用 margin 让位</p>
+  <div class="demo-box clear">
+    <div class="fly">
+      <div class="col wrap"><div class="inner">中 width:100%，inner margin 让位</div></div>
+      <div class="col left">左 -100%</div>
+      <div class="col right">右 -150</div>
+    </div>
+  </div>
+
+  <h3>④ 绝对定位</h3>
+  <p class="label">左右 absolute，中间 margin</p>
+  <div class="demo-box abs">
+    <div class="center">中间 margin</div>
+    <div class="left">左</div>
+    <div class="right">右</div>
+  </div>
+
+  <h3>⑤ Grid（最简洁）</h3>
+  <p class="label">grid-template-columns: 150px 1fr 150px</p>
+  <div class="demo-box grid">
+    <div class="left">左</div>
+    <div class="center">中 1fr</div>
+    <div class="right">右</div>
+  </div>
+</body>
+</html>

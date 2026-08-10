@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>42 - px em rem</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+
+  .box { border: 1px solid #ccc; background: #fff; padding: 12px; margin: 10px 0; }
+
+  .px { font-size: 16px; }
+  .px .big { font-size: 32px; }
+
+  /* em 相对父元素字号 */
+  .em-parent { font-size: 20px; }
+  .em-parent .child { font-size: 1em; /* = 20px */ margin: 0.5em; /* = 10px */ }
+  .em-parent .child .grand { font-size: 1.5em; /* = 30px */ }
+
+  /* rem 相对根 html 字号 */
+  html { font-size: 16px; }
+  .rem { font-size: 1.5rem; /* = 24px, 不受父级影响 */ }
+
+  /* rpx (小程序用，演示类比) */
+  .table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  .table th, .table td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+</style>
+</head>
+<body>
+  <h1>42. px / em / rem 区别及使用场景</h1>
+  <div class="desc">
+    <strong>px</strong>：绝对单位（实际仍受缩放影响），最直观。<br>
+    <strong>em</strong>：相对<strong>父元素 font-size</strong>，逐级嵌套会叠加，难控制。<br>
+    <strong>rem</strong>：相对<strong>根元素 html 的 font-size</strong>，全局统一。
+  </div>
+
+  <div class="box px">
+    <h3>px 单位</h3>
+    <p>当前 16px</p>
+    <p class="big">这是 32px</p>
+    改缩放或浏览器设置最小字号会影响显示，但代码里 1px 永远写死。
+  </div>
+
+  <div class="box em-parent">
+    <h3>em 单位</h3>
+    <p>父字号 20px</p>
+    <div class="child">child: font-size:1em → 20px，margin:0.5em → 10px
+      <div class="grand">grand: font-size:1.5em → 相对child 20px×1.5=30px</div>
+    </div>
+    <p style="color:#999">↑ em 逐级累积，深层嵌套难以预测，慎用</p>
+  </div>
+
+  <div class="box rem">
+    <h3>rem 单位</h3>
+    font-size:1.5rem → 永远相对 html 的 16px = 24px，不受父级影响。
+  </div>
+
+  <table class="table">
+    <tr><th>单位</th><th>相对基准</th><th>典型场景</th></tr>
+    <tr><td><code>px</code></td><td>绝对（屏幕像素）</td><td>需要精确像素的边框/小间距</td></tr>
+    <tr><td><code>em</code></td><td>父元素字号</td><td>组件内自适应（如按钮字号）</td></tr>
+    <tr><td><code>rem</code></td><td>根 html 字号</td><td>移动端 rem 自适应、整体缩放</td></tr>
+    <tr><td><code>vw/vh</code></td><td>视口宽/高1%</td><td>响应式全屏布局</td></tr>
+    <tr><td><code>%</code></td><td>父元素对应尺寸</td><td>弹性宽度/高度</td></tr>
+  </table>
+
+  <p><strong>移动端 rem 方案：</strong>JS 根据屏幕宽度动态设置 <code>html{font-size}</code>，配合 <code>rem</code> 实现等比缩放。</p>
+  <code>document.documentElement.style.fontSize = window.innerWidth / 10 + 'px';</code>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>39 - Sass Less</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  pre { background: #2d2d2d; color: #f8f8f2; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+  .cols { display: flex; gap: 20px; flex-wrap: wrap; }
+  .col { flex: 1; min-width: 320px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; }
+  .table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  .table th, .table td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+</style>
+</head>
+<body>
+  <h1>39. Sass / Less 是什么？为什么要使用？</h1>
+  <div class="desc">
+    Sass 和 Less 都是 CSS <strong>预处理器</strong>，扩展 CSS 语法的脚本语言，最终编译为原生 CSS。
+  </div>
+
+  <div class="cols">
+    <div class="col">
+      <h3>Sass（.scss / .sass）</h3>
+      <pre>// 变量用 $
+$primary: #1890ff;
+
+// mixin
+@mixin center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// 嵌套 + 父引用
+.btn {
+  @include center;
+  color: $primary;
+  &:hover { color: darken($primary, 10%); }
+}
+
+// 继承
+.btn-primary { @extend .btn; background: $primary; }</pre>
+    </div>
+    <div class="col">
+      <h3>Less（.less）</h3>
+      <pre>// 变量用 @
+@primary: #1890ff;
+
+// mixin（直接类名复用）
+.center() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn {
+  .center();
+  color: @primary;
+  &:hover { color: darken(@primary, 10%); }
+}
+
+.btn-primary {
+  &:extend(.btn);
+  background: @primary;
+}</pre>
+    </div>
+  </div>
+
+  <h3>Sass vs Less</h3>
+  <table class="table">
+    <tr><th>对比</th><th>Sass</th><th>Less</th></tr>
+    <tr><td>变量符号</td><td><code>$var</code></td><td><code>@var</code></td></tr>
+    <tr><td>语法</td><td>SCSS（类似CSS）/ 缩进式 .sass</td><td>类似 CSS</td></tr>
+    <tr><td>环境</td><td>Ruby/Node（dart-sass）</td><td>JavaScript（Node/浏览器）</td></tr>
+    <tr><td>函数</td><td>更丰富的内置函数</td><td>相对少</td></tr>
+    <tr><td>循环/条件</td><td>支持 @if/@for/@each</td><td>支持（守卫 when）</td></tr>
+    <tr><td>热度</td><td>更主流</td><td>较老</td></tr>
+  </table>
+
+  <h3>为什么要用？</h3>
+  <ul style="line-height:2">
+    <li>变量化主题色，一处改全局生效</li>
+    <li>嵌套使结构更清晰，作用域明确</li>
+    <li>mixin / 继承复用样式，消除重复</li>
+    <li>函数运算：颜色明暗、单位换算</li>
+    <li>模块化拆分文件，提升可维护性</li>
+  </ul>
+</body>
+</html>

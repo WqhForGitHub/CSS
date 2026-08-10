@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>49 - BFC块级格式化上下文</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+  p.label { font-size: 13px; color: #666; margin: 4px 0; }
+
+  /* ① 清除浮动：BFC 计算高度包含浮动子 */
+  .no-bfc { border: 2px solid #f5222d; }
+  .no-bfc .f { float: left; width: 80px; height: 80px; background: #1890ff; color: #fff; margin: 4px; }
+  .is-bfc { overflow: hidden; border: 2px solid #52c41a; }
+  .is-bfc .f { float: left; width: 80px; height: 80px; background: #1890ff; color: #fff; margin: 4px; }
+
+  /* ② 避免 margin 重叠：BFC 内部子元素的 margin 不会与外部重叠 */
+  .margin-box { background: #e6f7ff; padding: 10px; }
+  .margin-box .a, .margin-box .b { background: #fff; padding: 10px; margin: 16px 0; border: 1px solid #ccc; }
+  .margin-box .bfc-wrap { overflow: hidden; }
+  .margin-box .bfc-wrap .b { margin: 16px 0; }
+
+  /* ③ 阻止文字环绕 / 不被浮动覆盖 */
+  .layout .left { float: left; width: 100px; height: 100px; background: #1890ff; color: #fff; }
+  .layout .right { overflow: hidden; background: #52c41a; color: #fff; padding: 10px; min-height: 100px; }
+
+  .box { margin: 10px 0; }
+  .table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  .table th, .table td { border: 1px solid #ccc; padding: 6px; text-align: left; }
+</style>
+</head>
+<body>
+  <h1>49. BFC（块级格式化上下文）</h1>
+  <div class="desc">
+    <strong>BFC（Block Formatting Context）</strong>：块级格式化上下文，是一个独立的渲染区域，内部元素的布局不影响外部，外部也不影响内部。<br>
+    <strong>核心特性：</strong>① 内部 Box 垂直排列；② 计算 BFC 高度时包含浮动子；③ BFC 区域不会与浮动 box 重叠；④ 内外 margin 不重叠。
+  </div>
+
+  <h3>① 清除浮动（包含浮动子）</h3>
+  <p class="label">未触发 BFC：父高度塌陷</p>
+  <div class="box no-bfc">
+    <div class="f">浮动1</div>
+    <div class="f">浮动2</div>
+  </div>
+  <p class="label">触发 BFC（overflow:hidden）：高度包含浮动</p>
+  <div class="box is-bfc">
+    <div class="f">浮动1</div>
+    <div class="f">浮动2</div>
+  </div>
+
+  <h3>② 避免 margin 重叠</h3>
+  <p class="label">两块默认 margin 重叠（16+16≠32，取最大16）</p>
+  <div class="margin-box">
+    <div class="a">块A margin:16px</div>
+    <div class="b">块B margin:16px（与A重叠）</div>
+  </div>
+  <p class="label">把 B 包进 BFC 容器：margin 不再重叠</p>
+  <div class="margin-box">
+    <div class="a">块A</div>
+    <div class="bfc-wrap"><div class="b">块B（在 BFC 内，margin 不与 A 重叠）</div></div>
+  </div>
+
+  <h3>③ 阻止浮动覆盖（两栏布局）</h3>
+  <p class="label">左浮动，右触发 BFC（overflow:hidden）不被覆盖</p>
+  <div class="box layout">
+    <div class="left">左浮动 100×100</div>
+    <div class="right">右侧 BFC，自动让开浮动空间，形成自适应两栏</div>
+  </div>
+
+  <h3>如何创建 BFC</h3>
+  <table class="table">
+    <tr><th>方式</th><th>说明</th></tr>
+    <tr><td><code>float</code> ≠ none</td><td>浮动元素</td></tr>
+    <tr><td><code>position</code>: absolute / fixed</td><td>绝对/固定定位</td></tr>
+    <tr><td><code>display</code>: inline-block / flex / grid / table-cell / flow-root</td><td>特定 display 值</td></tr>
+    <tr><td><code>overflow</code> ≠ visible（hidden/auto/scroll）</td><td>最常用</td></tr>
+    <tr><td><code>contain</code>: layout/content/paint</td><td>现代方案</td></tr>
+  </table>
+  <p>推荐用 <code>display: flow-root</code>（专为创建 BFC 设计，无副作用）。</p>
+</body>
+</html>

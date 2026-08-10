@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>63 - 浏览器可视区域最大正方形</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; margin: 0; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+  pre { background: #2d2d2d; color: #f8f8f2; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+
+  /* 关键：取 vw 和 vh 的较小值，保证正方形不溢出 */
+  .max-square-vw {
+    width: min(100vw, 100vh);
+    height: min(100vw, 100vh);
+    background: linear-gradient(135deg, #1890ff, #52c41a);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 24px;
+    margin: 10px 0;
+  }
+
+  /* 方案2：JS 计算 */
+  .max-square-js {
+    background: linear-gradient(135deg, #faad14, #f5222d);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 24px;
+    margin: 10px 0;
+  }
+
+  /* 方案3：aspect-ratio + 限制 */
+  .max-square-ratio {
+    width: 100vmin;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, #722ed1, #eb2f96);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 24px;
+    margin: 10px 0;
+  }
+
+  /* 方案4：100vmin（最简洁） */
+  .max-square-vmin {
+    width: 100vmin; height: 100vmin;
+    background: linear-gradient(135deg, #13c2c2, #1890ff);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 24px;
+    margin: 10px 0;
+  }
+</style>
+</head>
+<body>
+  <h1>63. 浏览器可视区域画最大正方形</h1>
+  <div class="desc">
+    最大正方形边长 = min(视口宽, 视口高)。CSS 提供了多种简洁方案。
+  </div>
+
+  <h3>方案1：100vmin（最简洁推荐）</h3>
+  <p><code>1vmin = min(1vw, 1vh)</code>，即视口宽高较小者的 1%。</p>
+  <div class="max-square-vmin">100vmin × 100vmin</div>
+  <pre>
+.max-square {
+  width: 100vmin;
+  height: 100vmin;
+}</pre>
+
+  <h3>方案2：min() 函数</h3>
+  <div class="max-square-vw">min(100vw, 100vh)</div>
+  <pre>
+.max-square {
+  width: min(100vw, 100vh);
+  height: min(100vw, 100vh);
+}</pre>
+
+  <h3>方案3：aspect-ratio + 100vmin</h3>
+  <div class="max-square-ratio">aspect-ratio:1/1 + 100vmin</div>
+  <pre>
+.max-square {
+  width: 100vmin;
+  aspect-ratio: 1 / 1;
+}</pre>
+
+  <h3>方案4：JS 动态计算</h3>
+  <div class="max-square-js" id="js-square">JS 计算</div>
+  <pre>
+const side = Math.min(window.innerWidth, window.innerHeight);
+square.style.width = side + 'px';
+square.style.height = side + 'px';
+window.addEventListener('resize', update);</pre>
+
+  <p style="color:#999;margin-top:16px">缩放浏览器窗口观察：正方形始终不超出可视区域，并保持正方形比例。</p>
+
+  <h3>单位对比</h3>
+  <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;margin-top:8px">
+    <tr><th>单位</th><th>含义</th></tr>
+    <tr><td><code>vw</code></td><td>视口宽 1%</td></tr>
+    <tr><td><code>vh</code></td><td>视口高 1%</td></tr>
+    <tr><td><code>vmin</code></td><td>min(vw, vh) 较小者</td></tr>
+    <tr><td><code>vmax</code></td><td>max(vw, vh) 较大者</td></tr>
+  </table>
+
+  <script>
+    function update() {
+      var side = Math.min(window.innerWidth, window.innerHeight);
+      var el = document.getElementById('js-square');
+      el.style.width = side + 'px';
+      el.style.height = side + 'px';
+    }
+    update();
+    window.addEventListener('resize', update);
+  </script>
+</body>
+</html>

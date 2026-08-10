@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>29 - display属性值</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+
+  .demo { border: 1px solid #ccc; background: #fff; padding: 8px; margin: 8px 0; }
+  .tag { display: inline-block; padding: 4px 8px; background: #1890ff; color: #fff; margin: 2px; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  .box { background: #91d5ff; padding: 10px; margin: 4px 0; }
+
+  /* block - 独占一行 */
+  .d-block { display: block; background: #b7eb8f; }
+  /* inline - 不换行，宽高由内容决定，设置宽高无效 */
+  .d-inline { display: inline; background: #ffccc7; width: 200px; height: 100px; }
+  /* inline-block - inline排列但可设宽高 */
+  .d-ib { display: inline-block; width: 100px; height: 60px; background: #d3adf7; vertical-align: top; }
+  /* none - 隐藏不占位 */
+  .d-none { display: none; }
+  /* flex */
+  .d-flex { display: flex; gap: 10px; }
+  .d-flex > * { background: #ffa39e; padding: 10px; }
+  /* inline-flex */
+  .d-ib-flex { display: inline-flex; gap: 10px; border: 1px dashed #faad14; }
+  .d-ib-flex > * { background: #ffe7ba; padding: 10px; }
+  /* grid */
+  .d-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .d-grid > * { background: #87e8de; padding: 10px; }
+  /* table */
+  .d-table { display: table; border-collapse: collapse; }
+  .d-table .r { display: table-row; }
+  .d-table .c { display: table-cell; border: 1px solid #333; padding: 8px; }
+  /* contents */
+  .d-contents { display: contents; border: 2px solid red; }
+  .d-contents > * { background: #fff1f0; padding: 8px; }
+  /* list-item */
+  .d-list { display: list-item; list-style: disc inside; margin-left: 20px; }
+</style>
+</head>
+<body>
+  <h1>29. display 属性值及作用</h1>
+  <div class="desc">
+    display 决定元素的渲染盒类型。
+  </div>
+
+  <div class="demo"><code>block</code> - 独占一行，可设宽高
+    <div class="d-block">我是 block，独占一行</div>
+  </div>
+
+  <div class="demo"><code>inline</code> - 行内，宽高由内容决定（设置宽高无效）
+    <span class="d-inline">inline 宽高200x100无效</span><span>下一个</span>
+  </div>
+
+  <div class="demo"><code>inline-block</code> - 行内排列且可设宽高
+    <span class="d-ib">100x60</span><span class="d-ib">100x60</span>
+  </div>
+
+  <div class="demo"><code>none</code> - 隐藏，不占位
+    <span>下面有一个 none 元素：</span><span class="d-none">看不到我</span><span>（已消失）</span>
+  </div>
+
+  <div class="demo"><code>flex</code> - 弹性布局
+    <div class="d-flex"><div>A</div><div>B</div><div>C</div></div>
+  </div>
+
+  <div class="demo"><code>inline-flex</code> - 行内弹性
+    <div class="d-ib-flex"><div>X</div><div>Y</div></div>
+  </div>
+
+  <div class="demo"><code>grid</code> - 网格布局
+    <div class="d-grid"><div>1</div><div>2</div><div>3</div><div>4</div></div>
+  </div>
+
+  <div class="demo"><code>table</code> 系列 - 表格布局
+    <div class="d-table">
+      <div class="r"><div class="c">A1</div><div class="c">A2</div></div>
+      <div class="r"><div class="c">B1</div><div class="c">B2</div></div>
+    </div>
+  </div>
+
+  <div class="demo"><code>list-item</code> - 列表项
+    <div class="d-list">列表项1</div>
+    <div class="d-list">列表项2</div>
+  </div>
+
+  <div class="demo"><code>contents</code> - 自身不生成盒子，子元素提升到父层级
+    <div class="d-contents"><div>子1</div><div>子2</div></div>
+    <span style="color:#999">（父的红色边框消失了）</span>
+  </div>
+</body>
+</html>

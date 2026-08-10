@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>20 - 0.5px 线</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  .item { margin: 20px 0; }
+  .label { font-size: 14px; margin-bottom: 6px; color: #555; }
+
+  /* 方案1：直接 0.5px（仅部分浏览器支持） */
+  .line1 { height: 0.5px; background: #000; }
+
+  /* 方案2：transform scale 缩放（最常用） */
+  .line2-wrap { height: 1px; background: #000; transform: scaleY(0.5); transform-origin: 50% 100%; }
+
+  /* 方案3：border 0.5px */
+  .line3 { border-top: 0.5px solid #000; }
+
+  /* 方案4：meta viewport 缩放（移动端） */
+  .line4 { height: 1px; background: #000; transform: scaleY(0.5); }
+
+  /* 放大背景便于观察 */
+  .zoom { transform: scale(2); transform-origin: left top; padding: 10px; }
+</style>
+</head>
+<body>
+  <h1>20. 画一条 0.5px 的线</h1>
+  <div class="desc">
+    浏览器一般最小渲染 1px。常用方案：<br>
+    1. 直接 <code>height:0.5px</code>（部分浏览器不支持/被四舍五入）<br>
+    2. <code>transform: scaleY(0.5)</code> 缩放 1px 元素（最常用，移动端 1px 问题的主流解法）<br>
+    3. <code>border-top: 0.5px</code>（兼容性有限）<br>
+    4. 移动端可配合 viewport 缩放
+  </div>
+
+  <div class="zoom">
+    <div class="item">
+      <div class="label">方案1：height:0.5px</div>
+      <div class="line1"></div>
+    </div>
+    <div class="item">
+      <div class="label">方案2：transform scaleY(0.5)</div>
+      <div class="line2-wrap"></div>
+    </div>
+    <div class="item">
+      <div class="label">方案3：border-top:0.5px</div>
+      <div class="line3"></div>
+    </div>
+  </div>
+  <p style="color:#999">上方已放大2倍便于观察，实际宽度为0.5px</p>
+</body>
+</html>

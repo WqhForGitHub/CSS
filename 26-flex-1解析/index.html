@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>26 - flex:1 含义</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+
+  .container { display: flex; border: 1px solid #333; margin: 12px 0; }
+  .item { padding: 14px; color: #fff; }
+
+  /* flex:1 等价 flex: 1 1 0% → grow1 shrink1 basis0% */
+  .a { flex: 1; background: #1890ff; }
+  .b { flex: 1; background: #52c41a; }
+  .c { flex: 1; background: #faad14; }
+
+  /* 对比 flex:1 1 auto */
+  .a2 { flex: 1 1 auto; background: #1890ff; }
+  .b2 { flex: 1 1 auto; background: #52c41a; }
+
+  /* 固定宽度 + flex:1 */
+  .fixed { width: 150px; flex: none; background: #f5222d; }
+  .auto { flex: 1; background: #722ed1; }
+
+  .table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  .table th, .table td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  .table code { background: #f0f0f0; padding: 2px 5px; }
+</style>
+</head>
+<body>
+  <h1>26. CSS 中 flex: 1 的含义</h1>
+  <div class="desc">
+    <code>flex: 1</code> 是 <code>flex-grow flex-shrink flex-basis</code> 三个属性的简写。<br>
+    <code>flex: 1</code> 等价于 <code>flex: 1 1 0%</code>：放大1、缩小1、基准尺寸0%。<br>
+    意味着元素会等分容器剩余空间，三个 flex:1 的元素宽度完全相等。
+  </div>
+
+  <p>三个 flex:1 → 完全等分</p>
+  <div class="container">
+    <div class="item a">flex:1</div>
+    <div class="item b">flex:1</div>
+    <div class="item c">flex:1</div>
+  </div>
+
+  <p>flex:1 1 auto：先取内容宽度再分配剩余（不等分）</p>
+  <div class="container">
+    <div class="item a2">很短</div>
+    <div class="item b2">稍微长一点的内容占位</div>
+  </div>
+
+  <p>固定宽度 + flex:1 自适应剩余</p>
+  <div class="container">
+    <div class="item fixed">固定150px</div>
+    <div class="item auto">flex:1 自适应</div>
+  </div>
+
+  <table class="table">
+    <tr><th>写法</th><th>等价展开</th><th>含义</th></tr>
+    <tr><td><code>flex: 1</code></td><td><code>1 1 0%</code></td><td>等分剩余空间（最常用）</td></tr>
+    <tr><td><code>flex: auto</code></td><td><code>1 1 auto</code></td><td>按内容基准分配</td></tr>
+    <tr><td><code>flex: none</code></td><td><code>0 0 auto</code></td><td>不放大不缩小，保持自身</td></tr>
+    <tr><td><code>flex: 0%</code></td><td><code>1 1 0%</code></td><td>最小化</td></tr>
+  </table>
+</body>
+</html>

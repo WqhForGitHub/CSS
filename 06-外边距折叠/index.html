@@ -179,18 +179,28 @@
   <body>
     <h1>外边距折叠 - Margin Collapsing</h1>
     <div class="desc">
-      在常规流中，垂直方向相邻的两个外边距会发生合并（取较大者），称为<strong>外边距折叠</strong>。触发场景：
-      <code>相邻兄弟</code>、<code>父子（无 border/padding/BFC 隔离）</code
-      >、<code>空块级元素自身</code>。 注意：只有<strong>垂直方向</strong>的
-      <code>margin</code> 会折叠，水平方向不折叠；<code>flex</code> /
-      <code>grid</code> 容器内部也不会折叠。
+      在常规流中，垂直方向相邻的两个外边距会发生合并（取较大者），称为
+      <strong>外边距折叠</strong>
+      。触发场景：
+      <code>相邻兄弟</code>
+      、
+      <code>父子（无 border/padding/BFC 隔离）</code>
+      、
+      <code>空块级元素自身</code>
+      。 注意：只有
+      <strong>垂直方向</strong>
+      的
+      <code>margin</code>
+      会折叠，水平方向不折叠；
+      <code>flex</code>
+      /
+      <code>grid</code>
+      容器内部也不会折叠。
     </div>
 
     <!-- 一 -->
     <h2>一、相邻兄弟元素外边距折叠</h2>
-    <span class="method"
-      >box margin-bottom: 40px + box-alt margin-top: 30px → 折叠为 40px</span
-    >
+    <span class="method">box margin-bottom: 40px + box-alt margin-top: 30px → 折叠为 40px</span>
     <div class="demo-sibling">
       <div class="box">Box A：margin-bottom: 40px</div>
       <div class="ruler"></div>
@@ -201,15 +211,12 @@
 
     <!-- 二 -->
     <h2>二、父子元素外边距折叠</h2>
-    <span class="method"
-      >父无 border/padding/BFC → 子的 margin-top 穿透到父外</span
-    >
+    <span class="method">父无 border/padding/BFC → 子的 margin-top 穿透到父外</span>
     <div class="demo-parent-child">
       <div class="parent">
         <div class="ruler"></div>
         <div class="child">
-          Child：margin-top:
-          40px。父元素没有上边框/内边距，子元素的上外边距会"跑到"父元素外面。
+          Child：margin-top: 40px。父元素没有上边框/内边距，子元素的上外边距会"跑到"父元素外面。
         </div>
       </div>
     </div>
@@ -231,25 +238,26 @@
     <!-- 四 -->
     <h2>四、避免外边距折叠的方式</h2>
     <p style="color: #555; font-size: 14px; margin-bottom: 10px">
-      针对父子折叠，核心思路是让父元素成为独立的 BFC 或在边界处添加 border /
-      padding。
+      针对父子折叠，核心思路是让父元素成为独立的 BFC 或在边界处添加 border / padding。
     </p>
 
     <h2 style="border-left-color: #e67e22">
-      方式一：父元素 <code>overflow: hidden</code> 触发 BFC
+      方式一：父元素
+      <code>overflow: hidden</code>
+      触发 BFC
     </h2>
     <span class="method">parent: overflow: hidden</span>
     <div class="fix-bfc">
       <div class="parent">
         <div class="child">
-          Child：margin-top: 40px。父元素 BFC 化后，子元素的 margin
-          被包含在父元素内部。
+          Child：margin-top: 40px。父元素 BFC 化后，子元素的 margin 被包含在父元素内部。
         </div>
       </div>
     </div>
 
     <h2 style="border-left-color: #e67e22">
-      方式二：父元素加 <code>border-top</code>
+      方式二：父元素加
+      <code>border-top</code>
     </h2>
     <span class="method">parent: border-top: 1px solid</span>
     <div class="fix-border">
@@ -261,28 +269,25 @@
     </div>
 
     <h2 style="border-left-color: #e67e22">
-      方式三：父元素加 <code>padding-top</code>
+      方式三：父元素加
+      <code>padding-top</code>
     </h2>
     <span class="method">parent: padding-top: 1px</span>
     <div class="fix-padding">
       <div class="parent">
-        <div class="child">
-          Child：margin-top: 40px。父元素内边距同样可以阻止折叠。
-        </div>
+        <div class="child">Child：margin-top: 40px。父元素内边距同样可以阻止折叠。</div>
       </div>
     </div>
 
     <h2 style="border-left-color: #e67e22">
-      方式四：相邻元素改为 <code>inline-block</code>
+      方式四：相邻元素改为
+      <code>inline-block</code>
     </h2>
-    <span class="method"
-      >box-alt: display: inline-block（不再与 box 折叠）</span
-    >
+    <span class="method">box-alt: display: inline-block（不再与 box 折叠）</span>
     <div class="fix-isolate">
       <div class="box">Box A：margin-bottom: 40px</div>
       <div class="box box-alt">
-        Box B：margin-top: 30px（改为 inline-block 后不参与折叠，间距 = 40 + 30
-        = 70px）
+        Box B：margin-top: 30px（改为 inline-block 后不参与折叠，间距 = 40 + 30 = 70px）
       </div>
     </div>
   </body>

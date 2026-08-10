@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>28 - 可继承与不可继承属性</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+
+  /* 在父元素设置可继承属性 */
+  .parent {
+    color: #1890ff;            /* 可继承 */
+    font-size: 16px;           /* 可继承 */
+    font-family: sans-serif;   /* 可继承 */
+    line-height: 1.5;           /* 可继承 */
+    text-align: left;          /* 可继承 */
+    border: 1px solid #ccc;    /* 不可继承 */
+    padding: 20px;             /* 不可继承 */
+    background: #fff;
+  }
+  .child { border-bottom: 1px dashed #faad14; padding: 6px; }
+  .child::after { content: " ← 继承了父元素的 color/font 等"; font-size: 12px; color: #999; }
+
+  /* 不可继承演示 */
+  .non-inherit { border: 2px solid #52c41a; padding: 10px; margin-top: 12px; }
+  .non-inherit .inner { /* 没有继承 border/padding/margin */ }
+
+  .table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  .table th, .table td { border: 1px solid #ccc; padding: 6px; text-align: left; vertical-align: top; }
+  code { background: #f0f0f0; padding: 2px 4px; }
+</style>
+</head>
+<body>
+  <h1>28. CSS 可继承与不可继承属性</h1>
+  <div class="desc">
+    <strong>可继承</strong>：父元素样式被子元素自动继承，多与文本相关。<br>
+    <strong>不可继承</strong>：与盒子模型、布局相关，子元素默认不继承。
+  </div>
+
+  <div class="parent">
+    <div>父元素（设置了 color、font-size 等）</div>
+    <div class="child">我是子元素</div>
+    <div class="child">我也是子元素</div>
+  </div>
+
+  <table class="table">
+    <tr><th>可继承属性</th><th>不可继承属性</th></tr>
+    <tr>
+      <td>
+        <code>color</code><br>
+        <code>font</code> 系列（font-family/size/weight）<br>
+        <code>line-height</code><br>
+        <code>text-align</code> / <code>text-indent</code><br>
+        <code>letter-spacing</code> / <code>word-spacing</code><br>
+        <code>list-style</code><br>
+        <code>visibility</code><br>
+        <code>cursor</code><br>
+        <code>direction</code>
+      </td>
+      <td>
+        <code>border</code><br>
+        <code>padding</code><br>
+        <code>margin</code><br>
+        <code>width</code> / <code>height</code><br>
+        <code>background</code><br>
+        <code>position</code><br>
+        <code>float</code> / <code>clear</code><br>
+        <code>overflow</code><br>
+        <code>z-index</code>
+      </td>
+    </tr>
+  </table>
+  <p>可通过 <code>inherit</code> 关键字强制继承：<code>border: inherit;</code>，或 <code>unset</code> 清除。</p>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>38 - 单行多行文本溢出</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+
+  .box { width: 320px; background: #fff; border: 1px solid #ccc; padding: 12px; margin: 12px 0; line-height: 1.6; }
+
+  /* 单行省略 */
+  .single {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* 多行省略：-webkit-line-clamp */
+  .multi {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  pre { background: #2d2d2d; color: #f8f8f2; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+  h3 { margin-top: 18px; }
+</style>
+</head>
+<body>
+  <h1>38. 单行/多行文本溢出隐藏</h1>
+  <div class="desc">
+    使用 <code>overflow:hidden + text-overflow:ellipsis</code> 实现省略号。
+  </div>
+
+  <h3>单行溢出</h3>
+  <div class="box single">这是非常非常长的一段文字会超出容器宽度需要用省略号截断，超出部分通过 text-overflow:ellipsis 显示为三个点。</div>
+  <pre>
+.single {
+  white-space: nowrap;     /* 不换行 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}</pre>
+
+  <h3>多行溢出（限定行数）</h3>
+  <div class="box multi">这是一段用于演示多行省略的文本，会自动在第3行末尾加省略号截断。这是一段较长的文字内容用于展示 webkit 的 line-clamp 特性，需要配合 display -webkit-box 实现弹性盒子布局以及 box-orient vertical 设置纵向排列，再通过 line-clamp 限制行数 итд再多写一些凑行数确保被截断展示省略。</div>
+  <pre>
+.multi {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;   /* 限制3行 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}</pre>
+  <p style="color:#999">注：<code>-webkit-line-clamp</code> 现已被主流浏览器支持；旧浏览器可用 JS 测量高度截断。</p>
+</body>
+</html>

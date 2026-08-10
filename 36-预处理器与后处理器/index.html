@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>36 - CSS预处理器/后处理器</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  pre { background: #2d2d2d; color: #f8f8f2; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+  .cols { display: flex; gap: 20px; flex-wrap: wrap; }
+  .col { flex: 1; min-width: 300px; }
+  .table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  .table th, .table td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: top; }
+</style>
+</head>
+<body>
+  <h1>36. CSS 预处理器 / 后处理器</h1>
+  <div class="desc">
+    <strong>预处理器</strong>：用增强语法（变量/嵌套/mixin）写 CSS，<u>编译</u>成原生 CSS。<br>
+    <strong>后处理器</strong>：处理<u>已经写好的标准 CSS</u>，加前缀、压缩、降级等改造。<br>
+    典型流程：源码 → 预处理器 → 标准 CSS → PostCSS → 生产 CSS。
+  </div>
+
+  <div class="cols">
+    <div class="col">
+      <h3>预处理器（如 SCSS / Less）</h3>
+      <pre>$primary: #1890ff;
+@mixin center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn {
+  @include center;
+  color: $primary;
+  &:hover { color: darken($primary, 10%); }
+}</pre>
+      <p>提供变量、嵌套、mixin、继承、函数等抽象能力，提升可维护性。</p>
+    </div>
+    <div class="col">
+      <h3>后处理器（如 PostCSS）</h3>
+      <pre>/* 源 CSS */
+.box {
+  display: flex;
+  user-select: none;
+}
+
+/* PostCSS 处理后 */
+.box {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}</pre>
+      <p>自动加前缀（autoprefixer）、CSS 变量降级、压缩、未来语法 polyfill。</p>
+    </div>
+  </div>
+
+  <h3>为什么要使用？</h3>
+  <ul style="line-height:1.9">
+    <li>变量 / 模块化 → 消除重复，便于主题</li>
+    <li>嵌套 → 层级清晰，作用域明确</li>
+    <li>自动前缀 → 不用手写 <code>-webkit-</code> 等厂商前缀</li>
+    <li>未来语法 <code>postcss-preset-env</code> → 提前用 CSS Next</li>
+    <li>搭配工程化 → 统一封装、压缩、按需加载</li>
+  </ul>
+
+  <table class="table">
+    <tr><th></th><th>预处理器</th><th>后处理器</th></tr>
+    <tr><td>处理对象</td><td>源语法</td><td>标准 CSS</td></tr>
+    <tr><td>代表工具</td><td>Sass/Less/Stylus</td><td>PostCSS</td></tr>
+    <tr><td>核心能力</td><td>语法扩展</td><td>兼容性 / 优化</td></tr>
+    <tr><td>是否依赖语法</td><td>是（自定义）</td><td>否（标准 CSS）</td></tr>
+  </table>
+</body>
+</html>

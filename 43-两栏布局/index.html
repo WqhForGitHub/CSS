@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>43 - 两栏布局</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; margin-bottom: 0; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; margin: 12px 0; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { margin-top: 18px; }
+
+  .demo { display: flex; }
+  .demo .left { width: 200px; background: #1890ff; color: #fff; padding: 12px; }
+  .demo .right { flex: 1; background: #52c41a; color: #fff; padding: 12px; }
+
+  /* 方案1 float + margin */
+  .f1 .left { float: left; width: 200px; background: #1890ff; color: #fff; padding: 10px; }
+  .f1 .right { margin-left: 220px; background: #52c41a; color: #fff; padding: 10px; }
+  .f1::after { content: ''; display: table; clear: both; }
+
+  /* 方案2 float + overflow 触发BFC */
+  .f2 .left { float: left; width: 200px; background: #f5222d; color: #fff; padding: 10px; }
+  .f2 .right { overflow: hidden; background: #faad14; color: #fff; padding: 10px; }
+
+  /* 方案3 绝对定位 */
+  .f3 { position: relative; }
+  .f3 .left { position: absolute; width: 200px; background: #722ed1; color: #fff; padding: 10px; }
+  .f3 .right { margin-left: 220px; background: #eb2f96; color: #fff; padding: 10px; }
+
+  .demo-box { background: #fff; border: 1px solid #ccc; margin: 10px 0; height: 120px; }
+  p.label { font-size: 13px; color: #666; margin: 4px 0; }
+</style>
+</head>
+<body>
+  <h1>43. 两栏布局</h1>
+  <div class="desc">
+    左固定 + 右自适应（或反之）。常见方案：flex、float+margin、float+BFC、绝对定位。
+  </div>
+
+  <h3>① Flex（推荐）</h3>
+  <p class="label">左固定 200px，右 flex:1 自适应</p>
+  <div class="demo-box demo">
+    <div class="left">左 200px</div>
+    <div class="right">右 flex:1 自适应</div>
+  </div>
+
+  <h3>② float + margin-left</h3>
+  <p class="label">左浮动，右 margin 留出宽度</p>
+  <div class="demo-box f1">
+    <div class="left">左 float:left 200px</div>
+    <div class="right">右 margin-left:220px</div>
+  </div>
+
+  <h3>③ float + overflow（右触发 BFC 不延伸到浮动下方）</h3>
+  <p class="label">左浮动，右 overflow:hidden 触发 BFC</p>
+  <div class="demo-box f2">
+    <div class="left">左 float:left</div>
+    <div class="right">右 overflow:hidden (BFC)</div>
+  </div>
+
+  <h3>④ 绝对定位</h3>
+  <p class="label">左 absolute，右 margin</p>
+  <div class="demo-box f3">
+    <div class="left">左 position:absolute</div>
+    <div class="right">右 margin-left:220px</div>
+  </div>
+
+  <h3>⑤ Grid</h3>
+  <p class="label">grid-template-columns: 200px 1fr</p>
+  <div class="demo-box" style="display:grid;grid-template-columns:200px 1fr">
+    <div style="background:#13c2c2;color:#fff;padding:12px">左</div>
+    <div style="background:#52c41a;color:#fff;padding:12px">右 1fr</div>
+  </div>
+</body>
+</html>

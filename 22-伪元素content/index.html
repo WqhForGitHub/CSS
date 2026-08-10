@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>22 - 伪元素不写content</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+
+  .box { border: 1px solid #ccc; padding: 20px; margin: 12px 0; background: #fff; }
+
+  /* 不写 content：伪元素不会被渲染 */
+  .no-content::before {
+    display: block;
+    width: 60px; height: 60px;
+    background: #1890ff;
+    /* 没有 content */
+  }
+  .no-content::after {
+    /* 完全没有 content 也不渲染 */
+  }
+
+  /* 写了 content:"" 才会渲染 */
+  .has-content::before {
+    content: "";
+    display: block;
+    width: 60px; height: 60px;
+    background: #52c41a;
+  }
+
+  /* 普通 content 文本 */
+  .text-content::before { content: "★ "; color: #f5222d; }
+  .text-content::after { content: attr(data-suffix); color: #1890ff; }
+</style>
+</head>
+<body>
+  <h1>22. 伪元素不写 content 会发生什么</h1>
+  <div class="desc">
+    <strong>结论：</strong>未设置 <code>content</code> 的伪元素 <strong>完全不会生成 / 渲染</strong>。<br>
+    因为 <code>::before</code> / <code>::after</code> 是通过 <code>content</code> 属性创建的，<code>content</code> 是控制生成的"主开关"。<br>
+    即使写了 width/height/background，没有 content 也不会显示。所以最常写 <code>content: ""</code> 来生成空伪元素。
+  </div>
+
+  <div class="box">
+    <strong>伪元素没写 content - 看不到蓝色方块</strong>
+    <div class="no-content">（上方应无显示）</div>
+  </div>
+
+  <div class="box">
+    <strong>写了 content:"" 才渲染 - 绿色方块</strong>
+    <div class="has-content"></div>
+  </div>
+
+  <div class="box">
+    <strong>content 文本内容</strong>
+    <p class="text-content" data-suffix=" ← attr(data-suffix) 取值">这是正文</p>
+  </div>
+</body>
+</html>

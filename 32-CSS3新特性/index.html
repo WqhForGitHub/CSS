@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>32 - CSS3新特性</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  .row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .card { background: #fff; padding: 16px; border: 1px solid #eee; border-radius: 8px; width: 180px; text-align: center; }
+  h3 { margin-top: 24px; border-left: 4px solid #1890ff; padding-left: 8px; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+
+  /* 圆角 */
+  .r { border-radius: 50%; width: 60px; height: 60px; background: #1890ff; margin: 0 auto; }
+  /* 阴影 */
+  .s { box-shadow: 2px 4px 12px rgba(0,0,0,0.3); }
+  /* 渐变 */
+  .g { background: linear-gradient(135deg, #1890ff, #52c41a); height: 60px; border-radius: 6px; }
+  /* transform */
+  .t { transform: rotate(15deg) scale(0.8); width: 60px; height: 60px; background: #faad14; margin: 0 auto; }
+  /* transition */
+  .tr { width: 60px; height: 60px; background: #f5222d; margin: 0 auto; transition: width .4s; }
+  .tr:hover { width: 100px; }
+  /* animation */
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .a { animation: spin 2s linear infinite; width: 40px; height: 40px; border: 4px solid #1890ff; border-top-color: transparent; border-radius: 50%; margin: 10px auto; }
+  /* flex */
+  .f { display: flex; gap: 4px; }
+  .f > * { flex: 1; background: #722ed1; color: #fff; padding: 8px; }
+  /* 媒体查询 */
+  .m { background: #1890ff; color: #fff; padding: 8px; }
+  @media (max-width: 500px) { .m { background: #f5222d; } }
+  /* filter */
+  .fi { filter: blur(2px) grayscale(50%); width: 60px; height: 60px; background: #52c41a; margin: 0 auto; }
+  /* border-image */
+  .bi { border: 8px solid; border-image: linear-gradient(#1890ff,#f5222d) 1; height: 40px; }
+</style>
+</head>
+<body>
+  <h1>32. CSS3 新特性</h1>
+  <div class="desc">
+    CSS3 新增了大量能力：选择器、圆角边框、阴影、渐变、变换、过渡、动画、弹性布局、媒体查询、滤镜等。
+  </div>
+
+  <h3>圆角 border-radius</h3>
+  <div class="row"><div class="card"><div class="r"></div>圆形</div></div>
+
+  <h3>阴影 box-shadow</h3>
+  <div class="row"><div class="card s">box-shadow</div></div>
+
+  <h3>渐变 gradient</h3>
+  <div class="row"><div class="card" style="width:240px"><div class="g"></div></div></div>
+
+  <h3>transform 变换</h3>
+  <div class="row"><div class="card"><div class="t"></div>rotate+scale</div></div>
+
+  <h3>transition 过渡</h3>
+  <div class="row"><div class="card"><div class="tr"></div>hover 变宽</div></div>
+
+  <h3>animation 动画</h3>
+  <div class="row"><div class="card"><div class="a"></div>旋转</div></div>
+
+  <h3>flex 布局</h3>
+  <div class="row"><div class="card" style="width:240px"><div class="f"><div>1</div><div>2</div><div>3</div></div></div></div>
+
+  <h3>filter 滤镜</h3>
+  <div class="row"><div class="card"><div class="fi"></div>blur+grayscale</div></div>
+
+  <h3>border-image 边框渐变</h3>
+  <div class="row"><div class="card" style="width:240px"><div class="bi"></div></div></div>
+
+  <h3>媒体查询</h3>
+  <div class="row"><div class="card m">缩窄窗口颜色变化</div></div>
+
+  <h3>其他：新增选择器 <code>:nth-child</code>/<code>::before</code>、<code>background-size</code>、<code>rgba</code>、自定义属性 <code>--var</code>、grid 网格、多列布局 <code>columns</code> 等</h3>
+</body>
+</html>

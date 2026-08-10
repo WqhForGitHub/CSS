@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>19 - 宽高自适应正方形</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  .row { display: flex; gap: 40px; flex-wrap: wrap; margin-top: 20px; align-items: flex-start; }
+
+  /* 方案1：vw 单位 - 1vw = 视口宽度的1% */
+  .square-vw {
+    width: 20vw;
+    height: 20vw;
+    background: #1890ff;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+  }
+
+  /* 方案2：padding 撑高（百分比 padding 相对父宽度） */
+  .square-padding {
+    width: 200px;
+    height: 0;
+    padding-bottom: 200px;
+    background: #52c41a;
+    position: relative;
+  }
+  .square-padding .inner {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+  }
+
+  /* 方案3：aspect-ratio（现代方案） */
+  .square-ratio {
+    width: 18%;
+    aspect-ratio: 1 / 1;
+    background: #faad14;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+  <h1>19. 宽高自适应的正方形</h1>
+  <div class="desc">
+    1. <code>vw</code> 单位：宽高都用 <code>20vw</code>，随视口宽度变化。<br>
+    2. <code>padding-bottom: 100%</code>：百分比 padding 相对父元素宽度，再用子元素绝对定位填充内容。<br>
+    3. <code>aspect-ratio: 1/1</code>：现代浏览器原生宽高比方案。
+  </div>
+  <div class="row">
+    <div class="square-vw">vw 方案</div>
+    <div class="square-padding"><div class="inner">padding 方案</div></div>
+    <div class="square-ratio">aspect-ratio 方案</div>
+  </div>
+</body>
+</html>

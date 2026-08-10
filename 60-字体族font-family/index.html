@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>60 - font-family解读</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+
+  /* 这个完整的字体栈 */
+  .system-font {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #fff; padding: 20px; border: 1px solid #ccc; margin: 10px 0;
+  }
+
+  .table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+  .table th, .table td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  .table th { background: #e6f7ff; }
+  .platform { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; color: #fff; }
+  .ios { background: #1890ff; }
+  .android { background: #52c41a; }
+  .win { background: #722ed1; }
+  .cross { background: #faad14; }
+</style>
+</head>
+<body>
+  <h1>60. 解读 system-ui 字体栈</h1>
+  <div class="desc">
+    完整声明：<code>font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;</code><br>
+    作用：让网页在各平台使用<strong>系统原生 UI 字体</strong>，体验一致、加载快、零字体请求。
+  </div>
+
+  <div class="system-font">
+    这是使用了完整 system 字体栈的文字，<br>
+    在 iOS 上显示 San Francisco，Android 上 Roboto，Windows 上 Segoe UI。
+  </div>
+
+  <h3>逐项解读</h3>
+  <table class="table">
+    <tr><th>字体名</th><th>对应系统/字体</th><th>说明</th></tr>
+    <tr>
+      <td><code>system-ui</code></td>
+      <td><span class="platform cross">通用</span></td>
+      <td>CSS 标准<关键字>，直接使用系统默认 UI 字体（现代浏览器首选）</td>
+    </tr>
+    <tr>
+      <td><code>-apple-system</code></td>
+      <td><span class="platform ios">iOS/macOS</span></td>
+      <td>Apple 私有关键字 → San Francisco（旧称 .SF NS Text）；<code>system-ui</code> 未支持时的兼容</td>
+    </tr>
+    <tr>
+      <td><code>BlinkMacSystemFont</code></td>
+      <td><span class="platform ios">macOS Chrome</span></td>
+      <td>Chrome on macOS 私有关键字，使用 SF</td>
+    </tr>
+    <tr>
+      <td><code>"Segoe UI"</code></td>
+      <td><span class="platform win">Windows</span></td>
+      <td>Windows Vista 起的默认 UI 字体</td>
+    </tr>
+    <tr>
+      <td><code>Roboto</code></td>
+      <td><span class="platform android">Android</span></td>
+      <td>Android 默认 UI 字体</td>
+    </tr>
+    <tr>
+      <td><code>Helvetica</code></td>
+      <td><span class="platform ios">旧 macOS/iOS</span></td>
+      <td>经典无衬线字体，iOS 9 之前默认</td>
+    </tr>
+    <tr>
+      <td><code>Arial</code></td>
+      <td><span class="platform win">Windows 旧</span></td>
+      <td>Windows 上 Helvetica 替代品</td>
+    </tr>
+    <tr>
+      <td><code>sans-serif</code></td>
+      <td><span class="platform cross">通用兜底</span></td>
+      <td>通用族兜底，浏览器选一个无衬线字体</td>
+    </tr>
+  </table>
+
+  <h3>设计思路</h3>
+  <ul style="line-height:1.9">
+    <li><strong>按平台从新到旧排列</strong>：先标准 system-ui，再各平台私有前缀</li>
+    <li><strong>字体回退链</strong>：浏览器逐个尝试，找到第一个可用字体即停止</li>
+    <li><strong>兜底 sans-serif</strong>：确保总有字体可用</li>
+    <li><strong>原生 UI 字体优势</strong>：与系统应用视觉统一、无网络请求、渲染最快</li>
+  </ul>
+
+  <h3>注意事项</h3>
+  <ul style="line-height:1.9">
+    <li>带空格的字体名需加引号：<code>"Segoe UI"</code></li>
+    <li>中文环境通常追加中文优先：<code>..., "PingFang SC", "Microsoft YaHei", sans-serif;</code></li>
+    <li>调试时可在 DevTools → Computed 查看 font-family 最终生效值</li>
+  </ul>
+</body>
+</html>

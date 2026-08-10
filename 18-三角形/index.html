@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>18 - CSS三角形</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  .row { display: flex; gap: 30px; flex-wrap: wrap; margin-top: 20px; }
+  .box { text-align: center; }
+  .box b { display: block; margin-top: 8px; }
+
+  /* 原理：宽高为0，用 border 撑出三角形 */
+  .up {
+    width: 0; height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 80px solid #1890ff;
+  }
+  .down {
+    width: 0; height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 80px solid #52c41a;
+  }
+  .left {
+    width: 0; height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-right: 80px solid #faad14;
+  }
+  .right {
+    width: 0; height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 80px solid #f5222d;
+  }
+  /* 直角三角形 */
+  .right-angle {
+    width: 0; height: 0;
+    border-top: 80px solid #722ed1;
+    border-right: 80px solid transparent;
+  }
+</style>
+</head>
+<body>
+  <h1>18. 用 CSS 实现三角形</h1>
+  <div class="desc">
+    原理：把元素宽高设为 0，利用 <code>border</code> 相互挤压形成的三角形。<br>
+    设置某一边为实色，其它三边为 <code>transparent</code> 即可得到对应方向的三角形。
+  </div>
+  <div class="row">
+    <div class="box"><div class="up"></div><b>上</b></div>
+    <div class="box"><div class="down"></div><b>下</b></div>
+    <div class="box"><div class="left"></div><b>左</b></div>
+    <div class="box"><div class="right"></div><b>右</b></div>
+    <div class="box"><div class="right-angle"></div><b>直角</b></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>62 - flex布局好处</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+
+  .box { background: #fff; border: 1px solid #ccc; padding: 12px; margin: 10px 0; }
+
+  /* 1. 一行代码居中 */
+  .center { display: flex; justify-content: center; align-items: center; height: 100px; background: #e6f7ff; }
+  .center .item { background: #1890ff; color: #fff; padding: 10px; }
+
+  /* 2. 等高布局 */
+  .equal-height { display: flex; }
+  .equal-height .col { flex: 1; padding: 12px; color: #fff; }
+  .equal-height .c1 { background: #1890ff; }
+  .equal-height .c2 { background: #52c41a; }
+  .equal-height .c3 { background: #faad14; }
+
+  /* 3. 灵活分配 */
+  .distribute { display: flex; }
+  .distribute .a { flex: 1; background: #1890ff; color: #fff; padding: 10px; }
+  .distribute .b { flex: 2; background: #52c41a; color: #fff; padding: 10px; }
+  .distribute .c { flex: 1; background: #faad14; color: #fff; padding: 10px; }
+
+  /* 4. 底部固定 */
+  .sticky-footer { display: flex; flex-direction: column; min-height: 150px; }
+  .sticky-footer .main { flex: 1; background: #e6f7ff; padding: 10px; }
+  .sticky-footer .footer { background: #1890ff; color: #fff; padding: 10px; }
+
+  /* 5. 方向切换 */
+  .direction { display: flex; flex-direction: row-reverse; }
+  .direction > * { background: #722ed1; color: #fff; padding: 8px; margin: 2px; }
+
+  /* 6. 自动换行 */
+  .wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+  .wrap > * { background: #f5222d; color: #fff; padding: 8px; width: 30%; }
+
+  .table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  .table th, .table td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+</style>
+</head>
+<body>
+  <h1>62. CSS flex 布局的好处</h1>
+  <div class="desc">
+    Flex 是一维弹性布局，专为现代响应式设计而生，解决 float/inline-block 时代的诸多痛点。
+  </div>
+
+  <h3>① 一行代码实现居中</h3>
+  <div class="box center"><div class="item">水平+垂直居中</div></div>
+  <p style="color:#999">传统方案需绝对定位+transform 或 table-cell，flex 只需三行</p>
+
+  <h3>② 等高布局（无需 hack）</h3>
+  <div class="box equal-height">
+    <div class="c1">列1<br>内容少</div>
+    <div class="c2">列2<br>内容多一些<br>多一行</div>
+    <div class="c3">列3<br>内容最多<br>再多一行<br>又一行</div>
+  </div>
+  <p style="color:#999">三列自动等高，无需 padding+负 margin 等老 hack</p>
+
+  <h3>③ 灵活分配空间（按比例）</h3>
+  <div class="box distribute">
+    <div class="a">flex:1</div>
+    <div class="b">flex:2</div>
+    <div class="c">flex:1</div>
+  </div>
+
+  <h3>④ 底部固定（sticky footer）</h3>
+  <div class="box sticky-footer">
+    <div class="main">主内容（撑开剩余空间）</div>
+    <div class="footer">footer（内容少时也贴底）</div>
+  </div>
+
+  <h3>⑤ 方向自由切换</h3>
+  <div class="box direction"><div>1</div><div>2</div><div>3</div></div>
+
+  <h3>⑥ 自动换行 + 间距</h3>
+  <div class="box wrap"><div>1</div><div>2</div><div>3</div><div>4</div></div>
+
+  <h3>flex vs 传统布局</h3>
+  <table class="table">
+    <tr><th>对比项</th><th>float/inline-block</th><th>flex</th></tr>
+    <tr><td>居中</td><td>hack 多</td><td>三行搞定</td></tr>
+    <tr><td>等高</td><td>需 padding+负margin</td><td>天然等高</td></tr>
+    <tr><td>空间分配</td><td>需计算百分比</td><td>flex 比例自动</td></tr>
+    <tr><td>顺序</td><td>依赖 DOM 顺序</td><td>order 自由调整</td></tr>
+    <tr><td>方向</td><td>固定水平</td><td>row/column 自由切换</td></tr>
+    <tr><td>响应式</td><td>需大量媒体查询</td><td>flex-wrap 自动换行</td></tr>
+    <tr><td>间隙</td><td>inline-block 有空白问题</td><td>gap 无副作用</td></tr>
+  </table>
+
+  <h3>总结</h3>
+  <ul style="line-height:1.9">
+    <li>语法简洁，意图清晰，减少 hack</li>
+    <li>一维布局最优，适配响应式</li>
+    <li>浏览器支持广泛（IE11 部分支持，现代全支持）</li>
+    <li>二维复杂布局可配合 grid</li>
+  </ul>
+</body>
+</html>

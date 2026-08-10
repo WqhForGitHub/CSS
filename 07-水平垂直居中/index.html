@@ -163,17 +163,18 @@
   <body>
     <h1>水平垂直居中 - 常用方案汇总</h1>
     <div class="desc">
-      居中是 CSS
-      高频场景。根据元素是否已知宽高、是块级还是文本，方案不同。现代开发中
-      <code>flex</code> / <code>grid</code> 是首选；老项目兼容时常用
-      <code>absolute + transform</code>。
+      居中是 CSS 高频场景。根据元素是否已知宽高、是块级还是文本，方案不同。现代开发中
+      <code>flex</code>
+      /
+      <code>grid</code>
+      是首选；老项目兼容时常用
+      <code>absolute + transform</code>
+      。
     </div>
 
     <!-- 方式一 -->
     <h2>方式一：flex 弹性布局（推荐）</h2>
-    <span class="method"
-      >display: flex; justify-content: center; align-items: center;</span
-    >
+    <span class="method">display: flex; justify-content: center; align-items: center;</span>
     <div class="demo-flex">
       <div class="container">
         <div class="box">flex 居中</div>
@@ -191,10 +192,7 @@
 
     <!-- 方式三 -->
     <h2>方式三：absolute + transform（未知宽高）</h2>
-    <span class="method"
-      >position: absolute; top/left: 50%; transform: translate(-50%,
-      -50%);</span
-    >
+    <span class="method">position: absolute; top/left: 50%; transform: translate(-50%, -50%);</span>
     <div class="demo-transform">
       <div class="container">
         <div class="box">transform 居中</div>
@@ -221,9 +219,7 @@
 
     <!-- 方式六 -->
     <h2>方式六：table-cell + vertical-align</h2>
-    <span class="method"
-      >display: table-cell; vertical-align: middle; text-align: center;</span
-    >
+    <span class="method">display: table-cell; vertical-align: middle; text-align: center;</span>
     <div class="demo-table-cell">
       <div class="container">
         <div class="box">table-cell 居中</div>
@@ -239,9 +235,7 @@
 
     <!-- 方式八 -->
     <h2>方式八：inline-block + 伪元素占位（兼容性好）</h2>
-    <span class="method"
-      >父 ::before inline-block 撑高 + vertical-align: middle</span
-    >
+    <span class="method">父 ::before inline-block 撑高 + vertical-align: middle</span>
     <div class="demo-inline-block">
       <div class="container">
         <div class="box">inline-block 居中</div>

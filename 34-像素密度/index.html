@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>34 - 物理像素 逻辑像素 像素密度</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+
+  .card { background: #fff; padding: 16px; border: 1px solid #eee; margin: 12px 0; border-radius: 6px; line-height: 1.8; }
+
+  /* 模拟 1x 2x 3x 图：用 background-size 缩放同一张图 */
+  .imgs { display: flex; gap: 30px; flex-wrap: wrap; align-items: flex-end; }
+  .demo { text-align: center; }
+  .demo div {
+    background: linear-gradient(45deg, #1890ff 25%, #52c41a 25% 50%, #faad14 50% 75%, #f5222d 75%);
+    background-size: 8px 8px;
+    width: 64px; height: 64px;
+  }
+  /* 2x: 同样的用源放大像素 */
+  .x2 div { width: 32px; height: 32px; background-size: 4px 4px; }
+  /* 3x */
+  .x3 div { width: 21px; height: 21px; background-size: 2.67px 2.67px; }
+
+  code { background: #f0f0f0; padding: 2px 5px; }
+  .formula { background: #f0f8ff; padding: 8px; border-radius: 4px; }
+</style>
+</head>
+<body>
+  <h1>34. 物理像素 / 逻辑像素 / 像素密度</h1>
+  <div class="desc">
+    <strong>物理像素（设备像素）</strong>：屏幕实际发光点个数，硬件固定。<br>
+    <strong>逻辑像素（CSS 像素）</strong>：CSS 中使用的 px，是抽象单位；浏览器按 DPR 映射到物理像素。<br>
+    <strong>设备像素比 DPR</strong> = 物理像素 / 逻辑像素（iPhone 常见 DPR=2 或 3）。<br>
+    <strong>像素密度 PPI</strong> = 每英寸的物理像素数。
+  </div>
+
+  <div class="card">
+    <strong>关系：</strong><br>
+    <span class="formula">物理像素 = 逻辑像素(CSS px) × 设备像素比(DPR)</span><br>
+    例：iPhone DPR=2，CSS <code>1px</code> 实际占 <code>2×2=4</code> 个物理像素。
+  </div>
+
+  <div class="card">
+    <strong>为什么需要 @2x @3x 图？</strong><br>
+    高 DPR 屏上一个 CSS 像素对应多个物理像素，若仍用 @1x 图则被拉伸变模糊。<br>
+    提供 @2x/@3x 高清图，让每个物理像素都有真实色彩信息，所以图片更清晰。
+    通过 media query 或 srcset 选择匹配 DPR 的图：
+    <pre style="background:#2d2d2d;color:#f8f8f2;padding:10px;border-radius:6px;overflow:auto">
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+  .logo { background-image: url(logo@2x.png); }
+}</pre>
+  </div>
+
+  <div class="imgs">
+    <div class="demo"><div></div>@1x 64px</div>
+    <div class="demo"><div></div>对应 2x 像素密度更高</div>
+    <div class="demo x2"><div></div>模拟缩小显示</div>
+    <div class="demo x3"><div></div>模拟 3x 缩小</div>
+  </div>
+
+  <p>你的设备 DPR：<strong id="dpr"></strong></p>
+  <script>document.getElementById('dpr').textContent = window.devicePixelRatio + '（' + screen.width + '×' + screen.height + ' 逻辑，物理约 ' + (screen.width*window.devicePixelRatio) + '×' + (screen.height*window.devicePixelRatio) + '）');</script>
+</body>
+</html>

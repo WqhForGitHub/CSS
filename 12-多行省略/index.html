@@ -164,18 +164,23 @@
     <h1>多行文字省略 - Multi-line Ellipsis</h1>
     <div class="desc">
       多行省略指限定显示若干行，超出部分用省略号表示。现代方案使用
-      <code>-webkit-line-clamp</code>（虽带 -webkit-
-      前缀，但已被各大浏览器广泛支持）； 兼容老浏览器可用
-      <code>line-height + height + 伪元素遮罩</code> 方案。单行省略见
-      <a href="../11-文字溢出省略/index.html">11-文字溢出省略</a>。
+      <code>-webkit-line-clamp</code>
+      （虽带 -webkit- 前缀，但已被各大浏览器广泛支持）； 兼容老浏览器可用
+      <code>line-height + height + 伪元素遮罩</code>
+      方案。单行省略见
+      <a href="../11-文字溢出省略/index.html">11-文字溢出省略</a>
+      。
     </div>
 
     <!-- 方式一 -->
-    <h2>方式一：<code>-webkit-line-clamp</code>（推荐）</h2>
-    <span class="method"
-      >display: -webkit-box + -webkit-box-orient: vertical + -webkit-line-clamp:
-      n + overflow: hidden</span
-    >
+    <h2>
+      方式一：
+      <code>-webkit-line-clamp</code>
+      （推荐）
+    </h2>
+    <span class="method">
+      display: -webkit-box + -webkit-box-orient: vertical + -webkit-line-clamp: n + overflow: hidden
+    </span>
     <div class="demo-row">
       <div class="demo-item">
         <span class="label">显示 2 行</span>
@@ -204,10 +209,12 @@
     </div>
 
     <!-- 方式二 -->
-    <h2>方式二：兼容方案（<code>line-height + height + 伪元素</code>）</h2>
-    <span class="method"
-      >固定行高与高度 → overflow: hidden → ::after 渐变 + "..."</span
-    >
+    <h2>
+      方式二：兼容方案（
+      <code>line-height + height + 伪元素</code>
+      ）
+    </h2>
+    <span class="method">固定行高与高度 → overflow: hidden → ::after 渐变 + "..."</span>
     <div class="clamp-fallback">
       多行文字省略示例：CSS
       是前端开发中非常重要的技能之一，掌握它可以让你的页面布局更加灵活、美观，并且能够实现各种复杂的交互效果。本示例展示如何用纯
@@ -217,13 +224,17 @@
     </div>
 
     <!-- 方式三 -->
-    <h2>方式三：<code>line-clamp + max-height</code> 兜底</h2>
+    <h2>
+      方式三：
+      <code>line-clamp + max-height</code>
+      兜底
+    </h2>
     <span class="method">-webkit-line-clamp + max-height: 行高 × 行数</span>
     <div class="clamp-max-height">
       多行文字省略示例：CSS
       是前端开发中非常重要的技能之一，掌握它可以让你的页面布局更加灵活、美观，并且能够实现各种复杂的交互效果。本示例展示如何用纯
-      CSS 实现多行文本的省略号效果。max-height 作为兜底，防止某些环境下
-      line-clamp 失效导致溢出过多。
+      CSS 实现多行文本的省略号效果。max-height 作为兜底，防止某些环境下 line-clamp
+      失效导致溢出过多。
     </div>
   </body>
 </html>

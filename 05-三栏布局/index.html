@@ -197,8 +197,8 @@
   <body>
     <h1>三栏布局 - 左右固定，中间自适应</h1>
     <div class="desc">
-      常见场景：左侧导航 + 中间内容 +
-      右侧边栏。要求中间内容优先加载并自适应宽度。下面展示 5 种实现方式。
+      常见场景：左侧导航 + 中间内容 + 右侧边栏。要求中间内容优先加载并自适应宽度。下面展示 5
+      种实现方式。
     </div>
 
     <!-- 方式一 -->
@@ -220,22 +220,17 @@
     <div class="demo-absolute">
       <div class="left">Left 固定 200px</div>
       <div class="center">
-        Center 自适应。左右栏绝对定位，中间栏用 margin
-        让出空间。优点是中间栏可优先加载。
+        Center 自适应。左右栏绝对定位，中间栏用 margin 让出空间。优点是中间栏可优先加载。
       </div>
       <div class="right">Right 固定 220px</div>
     </div>
 
     <!-- 方式三 -->
     <h2>方式三：flex 弹性布局</h2>
-    <span class="method"
-      >container: flex | left/right: flex 固定 | center: flex: 1</span
-    >
+    <span class="method">container: flex | left/right: flex 固定 | center: flex: 1</span>
     <div class="demo-flex">
       <div class="left">Left 固定 200px</div>
-      <div class="center">
-        Center 自适应。现代布局首选方案，配合 order 可调整加载顺序。
-      </div>
+      <div class="center">Center 自适应。现代布局首选方案，配合 order 可调整加载顺序。</div>
       <div class="right">Right 固定 220px</div>
     </div>
 
@@ -253,9 +248,7 @@
     <span class="method">display: table / table-cell</span>
     <div class="demo-table">
       <div class="left">Left 固定 200px</div>
-      <div class="center">
-        Center 自适应。等高布局天然支持，但无法设置间距，灵活性较差。
-      </div>
+      <div class="center">Center 自适应。等高布局天然支持，但无法设置间距，灵活性较差。</div>
       <div class="right">Right 固定 220px</div>
     </div>
   </body>

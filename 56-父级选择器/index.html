@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>56 - CSS父选择器</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  pre { background: #2d2d2d; color: #f8f8f2; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+
+  /* 历史：CSS3 起曾设计 :has() 但被浏览器放弃多年，2023 起主流浏览器已支持 */
+  /* :has() 父选择器：根据子元素状态选中父 */
+  div:has(> .active) { background: #fff1f0; border: 2px solid #f5222d; padding: 10px; }
+  div:has(> input:checked) { background: #f6ffed; border: 2px solid #52c41a; padding: 10px; }
+
+  /* 间接：通过 :focus-within 选中包含聚焦子元素的父 */
+  form:focus-within { background: #e6f7ff; padding: 12px; }
+
+  .box { margin: 10px 0; padding: 8px; border: 1px solid #ccc; background: #fff; }
+  .active { background: #1890ff; color: #fff; padding: 4px 8px; }
+</style>
+</head>
+<body>
+  <h1>56. CSS 是否存在父选择器？</h1>
+  <div class="desc">
+    <strong>历史：</strong>长期没有真正的父选择器，CSS 选择器只能"从父到子"向下选，不能"从子反查父"。<br>
+    <strong>原因：</strong>浏览器匹配规则是<strong>从右向左</strong>，且文档流可能动态变化，子元素修改可能引发父级大量重算，性能开销大。<br>
+    <strong>现状：</strong>CSS4 <code>:has()</code> 已被主流浏览器（Safari 15.4+/Chrome 105+/Firefox 121+）支持，可视为父选择器。
+  </div>
+
+  <h3>:has() —— 终于到来的父选择器</h3>
+  <pre>
+/* 选中含有 .active 子元素的 div */
+div:has(> .active) { background: #ffe; }
+
+/* 选中含有被勾选 input 的容器 */
+label:has(input:checked) { ... }</pre>
+
+  <div class="box">
+    <p>下面 div 包含 .active 元素，被 :has(> .active) 选中（红框）：</p>
+    <div>
+      <span>普通</span>
+      <span class="active">active</span>
+    </div>
+  </div>
+
+  <h3>:has() + input:checked 联动</h3>
+  <div class="box">
+    <div>
+      <label><input type="checkbox"> 勾选我让父容器变绿</label>
+    </div>
+  </div>
+
+  <h3>:focus-within —— 包含聚焦元素的父</h3>
+  <form>
+    <p>点击下面输入框，form 会高亮（:focus-within）</p>
+    <input type="text" placeholder="点我聚焦">
+  </form>
+
+  <h3>没有 :has() 时的替代方案</h3>
+  <ul style="line-height:1.9">
+    <li>JS 动态加父类名：<code>parent.classList.add('has-active')</code></li>
+    <li>把状态上提到父元素：<code>.checked label</code></li>
+    <li>用 <code>:focus-within</code> / <code>:checked + 兄弟</code> 等半父选择器</li>
+  </ul>
+
+  <h3>为什么历史上没有父选择器？</h3>
+  <ul style="line-height:1.9">
+    <li><strong>匹配方向</strong>：CSS 引擎从右向左匹配，父选择需反向遍历，复杂度高</li>
+    <li><strong>动态文档</strong>：DOM 可随时增改，子→父影响范围大，重算成本高</li>
+    <li><strong>循环依赖</strong>：父状态可能影响子，子又反影响父，易死循环</li>
+    <li><code>:has()</code> 实现也经过多年优化才落地</li>
+  </ul>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>47 - Flex布局</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+
+  .container { display: flex; border: 1px solid #333; margin: 8px 0; background: #fff; }
+  .item { background: #1890ff; color: #fff; padding: 14px; margin: 2px; }
+
+  /* 主轴方向 */
+  .dir-row { flex-direction: row; }
+  .dir-row-rev { flex-direction: row-reverse; }
+  .dir-col { flex-direction: column; }
+
+  /* 主轴对齐 */
+  .jc-start { justify-content: flex-start; }
+  .jc-center { justify-content: center; }
+  .jc-end { justify-content: flex-end; }
+  .jc-between { justify-content: space-between; }
+  .jc-around { justify-content: space-around; }
+
+  /* 交叉轴对齐 */
+  .ai-center { align-items: center; height: 100px; }
+  .ai-start { align-items: flex-start; height: 100px; }
+  .ai-end { align-items: flex-end; height: 100px; }
+  .ai-stretch { align-items: stretch; height: 100px; }
+
+  /* 换行 */
+  .wrap { flex-wrap: wrap; }
+  .wrap .item { width: 30%; }
+
+  .label { font-size: 13px; color: #666; margin: 4px 0; }
+  .table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  .table th, .table td { border: 1px solid #ccc; padding: 6px; text-align: left; }
+</style>
+</head>
+<body>
+  <h1>47. Flex 布局</h1>
+  <div class="desc">
+    Flex（弹性盒）一维布局模型：容器为<strong>主轴</strong>，子项沿主轴排列。适合行/列内对齐、分布、伸缩。
+  </div>
+
+  <h3>主轴方向 flex-direction</h3>
+  <p class="label">row（默认）/ row-reverse / column / column-reverse</p>
+  <div class="container dir-row"><div class="item">1</div><div class="item">2</div><div class="item">3</div></div>
+  <div class="container dir-row-rev"><div class="item">1</div><div class="item">2</div><div class="item">3</div></div>
+  <div class="container dir-col"><div class="item">1</div><div class="item">2</div><div class="item">3</div></div>
+
+  <h3>主轴对齐 justify-content</h3>
+  <div class="container jc-start"><div class="item">start</div><div class="item">2</div><div class="item">3</div></div>
+  <div class="container jc-center"><div class="item">center</div><div class="item">2</div><div class="item">3</div></div>
+  <div class="container jc-end"><div class="item">end</div><div class="item">2</div><div class="item">3</div></div>
+  <div class="container jc-between"><div class="item">between</div><div class="item">2</div><div class="item">3</div></div>
+  <div class="container jc-around"><div class="item">around</div><div class="item">2</div><div class="item">3</div></div>
+
+  <h3>交叉轴对齐 align-items</h3>
+  <div class="container ai-center"><div class="item">center</div><div class="item">2</div><div class="item">3</div></div>
+  <div class="container ai-start"><div class="item">start</div><div class="item">2</div><div class="item">3</div></div>
+  <div class="container ai-end"><div class="item">end</div><div class="item">2</div><div class="item">3</div></div>
+
+  <h3>换行 flex-wrap</h3>
+  <div class="container wrap"><div class="item">1</div><div class="item">2</div><div class="item">3</div><div class="item">4</div></div>
+
+  <h3>子项属性</h3>
+  <table class="table">
+    <tr><th>属性</th><th>作用</th></tr>
+    <tr><td><code>order</code></td><td>排序（默认 0）</td></tr>
+    <tr><td><code>flex-grow</code></td><td>放大比例（默认 0）</td></tr>
+    <tr><td><code>flex-shrink</code></td><td>缩小比例（默认 1）</td></tr>
+    <tr><td><code>flex-basis</code></td><td>基础尺寸（默认 auto）</td></tr>
+    <tr><td><code>flex: 1</code></td><td>= grow1 shrink1 basis0%</td></tr>
+    <tr><td><code>align-self</code></td><td>单项目交叉轴对齐</td></tr>
+  </table>
+
+  <h3>使用场景</h3>
+  <ul style="line-height:1.9">
+    <li>导航栏左右分布、按钮组</li>
+    <li>水平/垂直居中（demo 45）</li>
+    <li>两栏/三栏自适应布局（demo 43/44）</li>
+    <li>卡片等高排列、底部固定布局</li>
+  </ul>
+</body>
+</html>

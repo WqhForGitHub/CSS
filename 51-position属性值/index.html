@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>51 - position属性值</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+
+  .stage { position: relative; height: 140px; border: 2px dashed #999; margin: 10px 0; padding: 10px; }
+  .box { background: #1890ff; color: #fff; padding: 10px; margin: 6px 0; }
+
+  /* static：默认，无定位，top/left 无效 */
+  .pos-static { position: static; top: 20px; left: 20px; background: #91d5ff; }
+
+  /* relative：相对自身原位置偏移，仍占原空间 */
+  .pos-relative { position: relative; top: 15px; left: 30px; background: #52c41a; }
+
+  /* absolute：相对最近定位祖先，脱离文档流 */
+  .pos-absolute { position: absolute; top: 10px; right: 10px; background: #faad14; }
+
+  /* fixed：相对视口，滚动不变 */
+  .pos-fixed { position: fixed; bottom: 20px; right: 20px; background: #f5222d; padding: 10px; z-index: 100; }
+
+  /* sticky：阈值前 relative，达到后 fixed */
+  .pos-sticky { position: sticky; top: 0; background: #722ed1; color: #fff; padding: 10px; }
+
+  .table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  .table th, .table td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+</style>
+</head>
+<body>
+  <h1>51. position 属性值及区别</h1>
+  <div class="desc">
+    position 决定元素的定位方式。<strong>定位元素</strong>才能用 top/right/bottom/left/z-index。
+  </div>
+
+  <h3>static（默认）</h3>
+  <p>无定位，遵循正常文档流，<code>top/left/z-index</code> 无效。</p>
+  <div class="stage">
+    <div class="box pos-static">static：top:20 left:20 写了也无效，仍在原位</div>
+  </div>
+
+  <h3>relative（相对定位）</h3>
+  <p>相对<strong>自身原位置</strong>偏移，<strong>仍占据原空间</strong>（不影响布局）。</p>
+  <div class="stage">
+    <div class="box">普通块</div>
+    <div class="box pos-relative">relative：相对原位置 top:15 left:30，原位置保留</div>
+    <div class="box">普通块（紧接原位置）</div>
+  </div>
+
+  <h3>absolute（绝对定位）</h3>
+  <p>相对<strong>最近的定位祖先</strong>（非 static），脱离文档流，不占空间。</p>
+  <div class="stage">
+    <div class="box pos-absolute">absolute：相对父 stage，top:10 right:10</div>
+    <div class="box">普通块（absolute 元素已脱离）</div>
+  </div>
+
+  <h3>fixed（固定定位）</h3>
+  <p>相对<strong>浏览器视口</strong>，滚动页面位置不变（除非祖先有 transform/filter 创建新包含块）。</p>
+  <p style="color:#999">→ 见右下角红色方块（滚动页面观察）</p>
+  <div class="pos-fixed">fixed：固定在视口右下</div>
+
+  <h3>sticky（粘性定位）</h3>
+  <p>阈值前 relative，达到阈值后 fixed（参考 demo 17）。</p>
+  <div class="stage" style="height:300px;overflow:auto">
+    <div class="pos-sticky">sticky top:0（向下滚动看效果）</div>
+    <div style="height:400px;padding:20px">滚动内容...</div>
+  </div>
+
+  <table class="table">
+    <tr><th>值</th><th>定位参考</th><th>是否脱流</th><th>是否占原位</th></tr>
+    <tr><td><code>static</code></td><td>—</td><td>否</td><td>是</td></tr>
+    <tr><td><code>relative</code></td><td>自身原位置</td><td>否</td><td>是</td></tr>
+    <tr><td><code>absolute</code></td><td>最近定位祖先</td><td>是</td><td>否</td></tr>
+    <tr><td><code>fixed</code></td><td>视口</td><td>是</td><td>否</td></tr>
+    <tr><td><code>sticky</code></td><td>滚动祖先+阈值</td><td>否（达到阈值时fixed）</td><td>是</td></tr>
+  </table>
+</body>
+</html>

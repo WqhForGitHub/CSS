@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>59 - 消除inline-block间隙</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+  p.label { font-size: 13px; color: #666; margin: 4px 0; }
+
+  .box { background: #fff; border: 1px solid #ccc; padding: 8px; margin: 10px 0; }
+  span { display: inline-block; width: 80px; height: 50px; background: #1890ff; color: #fff; text-align: center; line-height: 50px; }
+
+  /* 方案1：父 font-size:0 */
+  .s1 { font-size: 0; }
+  .s1 span { font-size: 16px; }
+
+  /* 方案2：letter-spacing 负值 */
+  .s2 { letter-spacing: -8px; }
+  .s2 span { letter-spacing: normal; }
+
+  /* 方案3：word-spacing 负值 */
+  .s3 { word-spacing: -1em; }
+  .s3 span { word-spacing: normal; }
+
+  /* 方案4：HTML 注释消除空白 */
+  .s4 span { }
+
+  /* 方案5：标签紧挨 */
+  .s5 span { }
+
+  /* 方案6：float */
+  .s6 { overflow: hidden; }
+  .s6 span { float: left; }
+
+  /* 方案7：flex（推荐） */
+  .s7 { display: flex; }
+
+  /* 方案8：margin 负值（不精确） */
+  .s8 span { margin-right: -4px; }
+
+  /* 原始对照组 */
+  .s0 span { }
+</style>
+</head>
+<body>
+  <h1>59. 消除 inline-block 元素间隙</h1>
+  <div class="desc">
+    间隙来源：HTML 源码中标签之间的<strong>空白字符（空格/换行/Tab）</strong>被当作一个空格渲染，宽度约 4px（受 font-size 影响）。
+  </div>
+
+  <h3>原始：有间隙</h3>
+  <p class="label">三个 span 之间有间隙</p>
+  <div class="box s0">
+    <span>A</span>
+    <span>B</span>
+    <span>C</span>
+  </div>
+
+  <h3>方案1：父 font-size:0（子重置字号）</h3>
+  <div class="box s1">
+    <span>A</span>
+    <span>B</span>
+    <span>C</span>
+  </div>
+
+  <h3>方案2：letter-spacing 负值（子重置）</h3>
+  <div class="box s2">
+    <span>A</span>
+    <span>B</span>
+    <span>C</span>
+  </div>
+
+  <h3>方案3：word-spacing 负值</h3>
+  <div class="box s3">
+    <span>A</span>
+    <span>B</span>
+    <span>C</span>
+  </div>
+
+  <h3>方案4：HTML 注释消除空白字符</h3>
+  <div class="box s4">
+    <span>A</span><!--
+    --><span>B</span><!--
+    --><span>C</span>
+  </div>
+
+  <h3>方案5：标签紧挨不换行</h3>
+  <div class="box s5">
+    <span>A</span><span>B</span><span>C</span>
+  </div>
+
+  <h3>方案6：float（脱离行内格式）</h3>
+  <div class="box s6">
+    <span>A</span><span>B</span><span>C</span>
+  </div>
+
+  <h3>方案7：flex 布局（推荐，无副作用）</h3>
+  <div class="box s7">
+    <span>A</span><span>B</span><span>C</span>
+  </div>
+
+  <h3>方案8：margin 负值（不精确）</h3>
+  <div class="box s8">
+    <span>A</span>
+    <span>B</span>
+    <span>C</span>
+  </div>
+
+  <h3>对比</h3>
+  <ul style="line-height:1.9">
+    <li><strong>flex</strong>：最推荐，现代且无副作用</li>
+    <li><strong>font-size:0</strong>：兼容老浏览器，注意子元素重置</li>
+    <li><strong>HTML 注释/紧挨</strong>：简单但破坏可读性</li>
+    <li><strong>letter/word-spacing</strong>：需精确计算负值</li>
+    <li><strong>float</strong>：会引入新布局问题，不推荐</li>
+  </ul>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>52 - display float position 关系</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  pre { background: #2d2d2d; color: #f8f8f2; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+
+  .stage { border: 2px dashed #999; margin: 10px 0; padding: 10px; }
+
+  /* ① float 与 absolute/fixed：定位优先级高 */
+  .case1 .f { float: left; width: 100px; height: 60px; background: #1890ff; color: #fff; }
+  .case1 .a { position: absolute; top: 10px; left: 10px; width: 100px; height: 60px; background: #f5222d; color: #fff; float: left; /* float被覆盖 */ }
+
+  /* ② display:none 优先级最高，无论 position/float */
+  .case2 .none { display: none; position: absolute; float: left; background: #000; color: #fff; }
+
+  /* ③ float 使元素 display 计算值变为 block（即使原本是 inline） */
+  .case3 span { float: left; width: 100px; height: 60px; background: #52c41a; color: #fff; text-align: center; line-height: 60px; margin: 2px; }
+
+  /* ④ absolute/fixed 也会让 display 变 block */
+  .case4 span { position: absolute; width: 100px; height: 50px; background: #faad14; color: #fff; text-align: center; line-height: 50px; }
+  .case4 { position: relative; height: 80px; }
+
+  .table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  .table th, .table td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+</style>
+</head>
+<body>
+  <h1>52. display / float / position 的关系</h1>
+  <div class="desc">
+    三者共同决定元素的布局表现，存在<strong>优先级与覆盖规则</strong>。
+  </div>
+
+  <h3>① 优先级（CSS 规范）</h3>
+  <pre>
+1. display: none       → 优先级最高，元素不渲染，float/position 无效
+2. position: absolute/fixed → 覆盖 float（float 失效，相当于 none）
+3. float: left/right   → 让 display 计算值变为 block（部分）
+4. display             → 决定基本盒模型</pre>
+
+  <h3>② position: absolute/fixed 使 float 失效</h3>
+  <div class="stage case1">
+    <div class="f">float:left 元素</div>
+    <div class="a">同时设 position:absolute + float:left，float 被忽略，按 absolute 定位</div>
+  </div>
+
+  <h3>③ float 使 inline 元素变成 block（可设宽高）</h3>
+  <div class="stage case3">
+    <span>inline span 浮动后</span>
+    <span>可设宽高 100×60</span>
+    <p style="clear:both;color:#999">span 原本 display:inline 不能设宽高，float 后计算值变 block。</p>
+  </div>
+
+  <h3>④ absolute/fixed 同样让 display 变 block</h3>
+  <div class="stage case4">
+    <span>span position:absolute</span>
+    <p style="color:#999">inline span 绝对定位后可设宽高</p>
+  </div>
+
+  <h3>⑤ display:none 一票否决</h3>
+  <div class="stage case2">
+    <div class="none">display:none + absolute + float → 完全不显示</div>
+    <span>（上方元素看不见）</span>
+  </div>
+
+  <table class="table">
+    <tr><th>组合</th><th>结果</th></tr>
+    <tr><td><code>display:none</code></td><td>不渲染，其余全失效</td></tr>
+    <tr><td><code>position:absolute/fixed</code> + float</td><td>float 失效，按定位处理</td></tr>
+    <tr><td>float + inline 元素</td><td>display 计算值变 block</td></tr>
+    <tr><td>float + display:inline-block</td><td>保持 inline-block 行为</td></tr>
+    <tr><td>无 float/position</td><td>按 display 原始值</td></tr>
+  </table>
+</body>
+</html>

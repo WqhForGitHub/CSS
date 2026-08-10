@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>21 - 小于12px字体</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+
+  /* Chrome 默认最小字体为 12px，10px 会被强制提升 */
+  .font-10 { font-size: 10px; background: #ffd; padding: 4px; }
+  .font-8 { font-size: 8px; background: #fdd; padding: 4px; }
+
+  /* 方案：transform scale 缩放 */
+  .font-scale {
+    display: inline-block;
+    font-size: 12px;
+    transform: scale(0.667); /* 12 * 0.667 ≈ 8px */
+    transform-origin: left top;
+    background: #dfd; padding: 4px;
+  }
+
+  /* 方案：-webkit-text-size-adjust */
+  .font-adjust {
+    font-size: 10px;
+    -webkit-text-size-adjust: none;
+    background: #ddf; padding: 4px;
+  }
+
+  /* 方案：使用 svg */
+  .svg-font { background: #f0f0f0; padding: 4px; }
+</style>
+</head>
+<body>
+  <h1>21. 设置小于 12px 的字体</h1>
+  <div class="desc">
+    Chrome 中文版默认最小字体 12px，直接设置 <code>font-size:10px</code> 会被强制提升到 12px。<br>
+    解决方案：<br>
+    1. <code>transform: scale(0.667)</code> 缩放（常用，注意占位空间）<br>
+    2. <code>-webkit-text-size-adjust:none</code>（旧版有效，新版失效）<br>
+    3. 使用 SVG 文本（矢量不丢失）
+  </div>
+
+  <p>直接 font-size:10px（被提升为12px）</p>
+  <div class="font-10">这是10px字体 ABCD 1234</div>
+
+  <p>直接 font-size:8px（被提升为12px）</p>
+  <div class="font-8">这是8px字体 ABCD 1234</div>
+
+  <p>transform scale 缩放（实际约8px）</p>
+  <div class="font-scale">这是scale缩放的8px字体 ABCD 1234</div>
+
+  <p>-webkit-text-size-adjust:none</p>
+  <div class="font-adjust">这是10px字体 ABCD 1234</div>
+
+  <p>SVG 文本方案</p>
+  <div class="svg-font">
+    <svg width="300" height="30"><text x="0" y="14" font-size="8" fill="#333">这是SVG中的8px字体 ABCD 1234</text></svg>
+  </div>
+</body>
+</html>

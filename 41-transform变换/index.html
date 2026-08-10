@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>41 - transform属性</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+
+  .row { display: flex; gap: 24px; flex-wrap: wrap; }
+  .box {
+    width: 90px; height: 90px; background: #1890ff; color: #fff;
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    margin: 20px 0;
+    transition: transform .4s;
+  }
+  .box small { font-size: 10px; }
+  .box:hover { transform: none; }
+
+  /* translate */
+  .t-translate { transform: translate(20px, 10px); }
+  /* translateX/Y */
+  .t-translateX { transform: translateX(20px); }
+  /* translate3d */
+  .t-translate3d { transform: translate3d(20px, 10px, 30px); }
+  /* scale */
+  .t-scale { transform: scale(1.5); }
+  .t-scaleX { transform: scaleX(1.8); }
+  /* rotate */
+  .t-rotate { transform: rotate(45deg); }
+  /* skew */
+  .t-skew { transform: skew(20deg, 10deg); }
+  /* matrix */
+  .t-matrix { transform: matrix(1,0,0,1,20,10); }
+  /* rotate3d / 3D 变换 */
+  .t-rotate3d { transform: rotate3d(1,1,1,45deg); }
+  .parent3d { perspective: 400px; }
+  .t-rotateY { transform: rotateY(60deg); }
+  .t-rotateX { transform: rotateX(60deg); }
+
+  .table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+  .table th, .table td { border: 1px solid #ccc; padding: 6px; text-align: left; }
+</style>
+</head>
+<body>
+  <h1>41. CSS3 transform 属性</h1>
+  <div class="desc">
+    transform 对元素进行 2D / 3D 变换，不脱离文档流（相对定位），不触发 reflow 仅合成层合成，性能好。
+  </div>
+
+  <div class="row">
+    <div class="box t-translate"><small>translate(20,10)</small></div>
+    <div class="box t-translateX"><small>translateX(20)</small></div>
+    <div class="box t-scale"><small>scale(1.5)</small></div>
+    <div class="box t-scaleX"><small>scaleX(1.8)</small></div>
+    <div class="box t-rotate"><small>rotate(45)</small></div>
+    <div class="box t-skew"><small>skew(20,10)</small></div>
+    <div class="box t-matrix"><small>matrix()</small></div>
+  </div>
+  <p style="color:#999">↑ 2D 变换示例（蓝块原始位置在左上）</p>
+
+  <h3>3D 变换（配合 perspective）</h3>
+  <div class="row parent3d">
+    <div class="box t-rotate3d"><small>rotate3d(1,1,1,45)</small></div>
+    <div class="box t-rotateY"><small>rotateY(60)</small></div>
+    <div class="box t-rotateX"><small>rotateX(60)</small></div>
+  </div>
+
+  <table class="table">
+    <tr><th>属性</th><th>作用</th></tr>
+    <tr><td><code>translate(x,y)</code></td><td>平移</td></tr>
+    <tr><td><code>translateX/Y/Z</code></td><td>单轴平移</td></tr>
+    <tr><td><code>scale(x,y)</code></td><td>缩放</td></tr>
+    <tr><td><code>scaleX/Y/Z</code></td><td>单轴缩放</td></tr>
+    <tr><td><code>rotate(deg)</code></td><td>2D 旋转</td></tr>
+    <tr><td><code>rotateX/Y/Z</code> / <code>rotate3d</code></td><td>3D 旋转</td></tr>
+    <tr><td><code>skew(x,y)</code></td><td>倾斜</td></tr>
+    <tr><td><code>matrix</code> / <code>matrix3d</code></td><td>矩阵（万能）</td></tr>
+    <tr><td><code>perspective</code></td><td>透视（3D 景深）</td></tr>
+  </table>
+</body>
+</html>

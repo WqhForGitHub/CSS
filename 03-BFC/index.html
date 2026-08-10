@@ -157,11 +157,16 @@
     <h1>BFC - Block Formatting Context 块级格式化上下文</h1>
 
     <div class="desc">
-      BFC 是一个独立的渲染区域，内部元素的布局不会影响到外部。<br />
-      触发方式：<code>float</code>、<code>position: absolute/fixed</code>、
-      <code>display: inline-block/flex/grid/flow-root</code>、<code
-        >overflow: hidden/auto/scroll</code
-      >
+      BFC 是一个独立的渲染区域，内部元素的布局不会影响到外部。
+      <br />
+      触发方式：
+      <code>float</code>
+      、
+      <code>position: absolute/fixed</code>
+      、
+      <code>display: inline-block/flex/grid/flow-root</code>
+      、
+      <code>overflow: hidden/auto/scroll</code>
       等。
     </div>
 
@@ -176,9 +181,7 @@
         </div>
       </div>
       <div>
-        <span class="label label-good"
-          >触发 BFC：overflow: hidden 包裹浮动</span
-        >
+        <span class="label label-good">触发 BFC：overflow: hidden 包裹浮动</span>
         <div class="float-parent bfc">
           <div class="float-child">浮动</div>
           <div class="float-child">浮动</div>
@@ -219,14 +222,11 @@
         </div>
       </div>
       <div>
-        <span class="label label-good"
-          >触发 BFC：overflow: hidden 独立成块</span
-        >
+        <span class="label label-good">触发 BFC：overflow: hidden 独立成块</span>
         <div>
           <div class="float-sidebar">浮动栏</div>
           <div class="text-content bfc">
-            触发 BFC
-            后，该元素不再与浮动元素重叠，而是占据浮动元素右侧的剩余空间，
+            触发 BFC 后，该元素不再与浮动元素重叠，而是占据浮动元素右侧的剩余空间，
             自动形成两栏自适应布局。这是 BFC 的经典应用场景。
           </div>
         </div>

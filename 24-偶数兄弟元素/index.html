@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>24 - 选取偶数序号元素</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+
+  /* :nth-child(even) - 选取偶数序号元素 */
+  ul.even li:nth-child(even) { background: #1890ff; color: #fff; }
+
+  /* :nth-child(2n) 等价于 even */
+  ul.two-n li:nth-child(2n) { background: #52c41a; color: #fff; }
+
+  /* :nth-of-type(even) - 同类型中的偶数 */
+  p.out:nth-of-type(even) { background: #faad14; color: #fff; }
+
+  ul { background: #fff; padding: 8px; border: 1px solid #ccc; }
+  li { padding: 8px; list-style: none; border-bottom: 1px solid #eee; }
+  .label { font-weight: bold; margin: 12px 0 4px; }
+</style>
+</head>
+<body>
+  <h1>24. 选取同组兄弟元素的偶数序号</h1>
+  <div class="desc">
+    <code>:nth-child(even)</code> 或 <code>:nth-child(2n)</code> 都能选取父元素下偶数序号的子元素。<br>
+    若需在同类型元素中选偶数，用 <code>:nth-of-type(even)</code>。
+  </div>
+
+  <p class="label">:nth-child(even)</p>
+  <ul class="even">
+    <li>第1项（奇）</li>
+    <li>第2项（偶，高亮）</li>
+    <li>第3项（奇）</li>
+    <li>第4项（偶，高亮）</li>
+    <li>第5项（奇）</li>
+  </ul>
+
+  <p class="label">:nth-child(2n) 等价写法</p>
+  <ul class="two-n">
+    <li>第1项</li>
+    <li>第2项（高亮）</li>
+    <li>第3项</li>
+    <li>第4项（高亮）</li>
+  </ul>
+
+  <p class="label">:nth-of-type(even) （仅 p 标签中偶数）</p>
+  <div>
+    <p class="out">p 1 奇</p>
+    <span>span 不参与计数</span>
+    <p class="out">p 2 偶（高亮）</p>
+    <span>span 不参与计数</span>
+    <p class="out">p 3 奇</p>
+    <p class="out">p 4 偶（高亮）</p>
+  </div>
+</body>
+</html>

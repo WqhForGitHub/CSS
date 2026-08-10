@@ -246,11 +246,12 @@
   <body>
     <h1>flex 布局 - Flexbox Layout</h1>
     <div class="desc">
-      Flexbox（弹性盒布局）是一维布局方案，擅长处理一行或一列中元素的排列与分配。
-      通过 <code>display: flex</code> 开启，再配合主轴 /
-      交叉轴属性可灵活控制对齐、 方向、换行与空间分配。是现代 CSS
+      Flexbox（弹性盒布局）是一维布局方案，擅长处理一行或一列中元素的排列与分配。 通过
+      <code>display: flex</code>
+      开启，再配合主轴 / 交叉轴属性可灵活控制对齐、 方向、换行与空间分配。是现代 CSS
       布局首选方案之一，另一个是
-      <a href="../14-grid布局/index.html">14-grid布局</a>。
+      <a href="../14-grid布局/index.html">14-grid布局</a>
+      。
     </div>
 
     <!-- 方式一 -->
@@ -281,10 +282,9 @@
 
     <!-- 方式二 -->
     <h2>方式二：justify-content 主轴对齐</h2>
-    <span class="method"
-      >justify-content: flex-start | center | flex-end | space-between |
-      space-around | space-evenly</span
-    >
+    <span class="method">
+      justify-content: flex-start | center | flex-end | space-between | space-around | space-evenly
+    </span>
 
     <div class="demo-justify-start" style="margin-bottom: 10px">
       <div class="container">
@@ -331,9 +331,7 @@
 
     <!-- 方式三 -->
     <h2>方式三：align-items 交叉轴对齐</h2>
-    <span class="method"
-      >align-items: center | stretch | flex-start | flex-end</span
-    >
+    <span class="method">align-items: center | stretch | flex-start | flex-end</span>
 
     <div class="demo-align" style="margin-bottom: 10px">
       <div class="container">
@@ -368,9 +366,7 @@
 
     <!-- 方式五 -->
     <h2>方式五：flex: 1 自适应分配剩余空间</h2>
-    <span class="method"
-      >flex: 0 0 200px（固定）；flex: 1（占满剩余）；flex: 2（按比例）</span
-    >
+    <span class="method">flex: 0 0 200px（固定）；flex: 1（占满剩余）；flex: 2（按比例）</span>
     <div class="demo-flex-grow">
       <div class="container">
         <div class="item fixed">fixed 200px</div>
@@ -381,25 +377,30 @@
 
     <!-- 方式六 -->
     <h2>方式六：flex 实现三栏布局（圣杯）</h2>
-    <span class="method"
-      >外层 flex-direction: column；中间层 flex: 1 再嵌套 flex 行</span
-    >
+    <span class="method">外层 flex-direction: column；中间层 flex: 1 再嵌套 flex 行</span>
     <div class="demo-holy-grail">
       <div class="container">
         <header>Header 通栏头部</header>
         <div class="main">
-          <div class="left">Left<br />固定 180px</div>
+          <div class="left">
+            Left
+            <br />
+            固定 180px
+          </div>
           <div class="center">
-            Center<br />
+            Center
+            <br />
             flex: 1 自适应主体内容。相比
-            <a
-              href="../01-圣杯布局/index.html"
-              style="color: #fff; text-decoration: underline"
-              >01-圣杯布局</a
-            >
+            <a href="../01-圣杯布局/index.html" style="color: #fff; text-decoration: underline">
+              01-圣杯布局
+            </a>
             的 float 方案，flex 不需要负 margin，结构更直观。
           </div>
-          <div class="right">Right<br />固定 200px</div>
+          <div class="right">
+            Right
+            <br />
+            固定 200px
+          </div>
         </div>
         <footer>Footer 通栏尾部</footer>
       </div>
@@ -418,9 +419,7 @@
 
     <!-- 方式八 -->
     <h2>方式八：align-self 单独对齐</h2>
-    <span class="method"
-      >align-self: flex-start | stretch | flex-end（覆盖父级 align-items）</span
-    >
+    <span class="method">align-self: flex-start | stretch | flex-end（覆盖父级 align-items）</span>
     <div class="demo-align-self">
       <div class="container">
         <div class="item item-1">flex-start</div>

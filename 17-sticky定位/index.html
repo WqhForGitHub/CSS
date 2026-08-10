@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>17 - sticky 定位</title>
+<style>
+  body { font-family: sans-serif; margin: 0; background: #f0f2f5; }
+  h1 { font-size: 22px; padding: 20px; margin: 0; }
+  .desc { background: #fffbe6; padding: 12px 20px; border-left: 4px solid #faad14; line-height: 1.7; }
+
+  /* sticky: 在达到指定阈值前为 relative，达到后变为 fixed */
+  .sticky-nav {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background: #1890ff;
+    color: #fff;
+    padding: 16px 20px;
+    font-weight: bold;
+    z-index: 10;
+  }
+
+  .content { padding: 20px; }
+  .block {
+    height: 400px;
+    background: #fff;
+    margin-bottom: 16px;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .note {
+    background: #e6f7ff;
+    padding: 12px;
+    border-radius: 4px;
+    margin-top: 16px;
+    line-height: 1.7;
+  }
+</style>
+</head>
+<body>
+  <h1>17. sticky 定位（粘性定位）</h1>
+  <div class="desc">
+    <strong>sticky</strong> = relative + fixed 的结合体。<br>
+    元素在滚动到指定阈值（如 top:0）前表现为 relative，达到阈值后表现为 fixed（相对最近的滚动祖先）。<br>
+    <strong>注意：</strong>父元素不能有 overflow:hidden/auto，否则 sticky 可能失效。
+  </div>
+
+  <div class="sticky-nav">向下滚动，我会固定在顶部 ↓</div>
+
+  <div class="content">
+    <div class="block">区块 1 —— 向下滚动观察导航栏</div>
+    <div class="block">区块 2 —— 导航栏现在应该固定在顶部了</div>
+    <div class="block">区块 3 —— 继续滚动</div>
+    <div class="block">区块 4 —— 到底部时 sticky 会随父元素滚出</div>
+    <div class="note">
+      <strong>适用场景：</strong>表头固定、侧边栏导航、分类标题吸顶。<br>
+      <strong>vs fixed：</strong>fixed 相对视口；sticky 相对最近可滚动祖先，且在阈值范围内才固定。
+    </div>
+  </div>
+</body>
+</html>

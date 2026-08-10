@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>54 - 扇形</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  .row { display: flex; gap: 40px; flex-wrap: wrap; align-items: center; margin-top: 20px; }
+  .box { text-align: center; }
+  .box b { display: block; margin-top: 8px; }
+
+  /* 方案1：border-radius 实现 1/4 圆（90度扇形） */
+  .sector-90 {
+    width: 100px; height: 100px;
+    background: #1890ff;
+    border-radius: 100px 0 0 0; /* 左上角圆角=边长 → 1/4圆 */
+  }
+
+  /* 方案2：conic-gradient 任意角度扇形 */
+  .sector-60 {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: conic-gradient(#52c41a 0 60deg, transparent 60deg 360deg);
+  }
+  .sector-120 {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: conic-gradient(#faad14 0 120deg, transparent 120deg 360deg);
+  }
+  .sector-45 {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: conic-gradient(#f5222d 0 45deg, transparent 45deg 360deg);
+  }
+
+  /* 方案3：clip-path 多边形（用 path 描出扇形） */
+  .sector-clip {
+    width: 100px; height: 100px;
+    background: #722ed1;
+    clip-path: polygon(50% 50%, 100% 50%, 80% 90%);
+  }
+
+  /* 方案4：transform rotate + overflow:hidden 裁切 */
+  .sector-mask { width: 100px; height: 100px; overflow: hidden; position: relative; border-radius: 50%; }
+  .sector-mask .inner {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: #13c2c2;
+    clip-path: polygon(50% 50%, 100% 0, 100% 100%);
+  }
+
+  pre { background: #2d2d2d; color: #f8f8f2; padding: 10px; border-radius: 6px; overflow-x: auto; font-size: 13px; margin-top: 16px; }
+</style>
+</head>
+<body>
+  <h1>54. 用 CSS 实现扇形</h1>
+  <div class="desc">
+    扇形 = 圆的一部分。常用方案：<br>
+    ① <code>border-radius</code> 实现 1/4 圆（90°扇形）<br>
+    ② <code>conic-gradient</code> 锥形渐变实现任意角度<br>
+    ③ <code>clip-path</code> 裁切<br>
+    ④ <code>overflow:hidden</code> + 旋转裁切
+  </div>
+
+  <div class="row">
+    <div class="box">
+      <div class="sector-90"></div>
+      <b>90° border-radius</b>
+    </div>
+    <div class="box">
+      <div class="sector-60"></div>
+      <b>60° conic-gradient</b>
+    </div>
+    <div class="box">
+      <div class="sector-120"></div>
+      <b>120° conic-gradient</b>
+    </div>
+    <div class="box">
+      <div class="sector-45"></div>
+      <b>45° conic-gradient</b>
+    </div>
+    <div class="box">
+      <div class="sector-clip"></div>
+      <b>clip-path 三角</b>
+    </div>
+    <div class="box">
+      <div class="sector-mask"><div class="inner"></div></div>
+      <b>clip-path 扇形</b>
+    </div>
+  </div>
+
+  <h3>关键代码</h3>
+  <pre>
+/* 90° 扇形（1/4 圆） */
+.sector-90 {
+  width: 100px; height: 100px;
+  background: #1890ff;
+  border-radius: 100px 0 0 0;  /* 只设一个角的圆角=边长 */
+}
+
+/* 任意角度扇形 */
+.sector-N {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  background: conic-gradient(#52c41a 0 60deg, transparent 60deg);
+}</pre>
+
+  <p style="color:#999;margin-top:12px">conic-gradient 是最灵活的方案，可任意指定起始角和度数；老浏览器兼容可用 SVG 或 canvas 替代。</p>
+</body>
+</html>

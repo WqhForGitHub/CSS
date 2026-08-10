@@ -314,8 +314,11 @@
       三者都属 CSS 定位，但行为差异显著：
       <code>sticky</code>
       在滚动到达阈值前是普通流，到达后"粘住"（相对滚动容器）；
-      <code>fixed</code> 始终相对视口固定，完全脱离文档流；
-      <code>absolute</code> 相对最近的 <code>position ≠ static</code>
+      <code>fixed</code>
+      始终相对视口固定，完全脱离文档流；
+      <code>absolute</code>
+      相对最近的
+      <code>position ≠ static</code>
       祖先定位，同样脱离文档流。选择时关注"相对谁定位"与"是否需要占位"。
     </div>
 
@@ -356,7 +359,9 @@
     <span class="method">position: sticky; top: 0;</span>
     <div class="desc">
       在下方滚动区域内上下滚动，观察绿色/橙色/紫色标题在到达顶部时"粘住"的效果。
-      <code>sticky</code> 必须设置 <code>top/right/bottom/left</code>
+      <code>sticky</code>
+      必须设置
+      <code>top/right/bottom/left</code>
       之一才会生效。
     </div>
     <div class="scroll-area">
@@ -364,17 +369,16 @@
         <div class="sticky-header">章节一 标题（sticky 吸顶）</div>
         <div class="scroll-content">
           向下滚动，标题会停在容器顶部。 sticky
-          元素本身仍在文档流中占位，当其父容器滚出视口时，sticky 也会随之离开。
-          常见坑：若祖先设置了
-          <code>overflow: hidden</code>，sticky
-          会以该祖先为参考而非最近的滚动容器，可能失效。
+          元素本身仍在文档流中占位，当其父容器滚出视口时，sticky 也会随之离开。 常见坑：若祖先设置了
+          <code>overflow: hidden</code>
+          ，sticky 会以该祖先为参考而非最近的滚动容器，可能失效。
         </div>
       </div>
       <div class="scroll-section">
         <div class="sticky-header">章节二 标题（sticky 吸顶）</div>
         <div class="scroll-content">
-          当章节二标题到达顶部时，会顶替章节一标题的位置（章节一已被滚出）。
-          这是 sticky 与 fixed 的关键区别：sticky 在父容器范围内才"粘"。
+          当章节二标题到达顶部时，会顶替章节一标题的位置（章节一已被滚出）。 这是 sticky 与 fixed
+          的关键区别：sticky 在父容器范围内才"粘"。
         </div>
       </div>
       <div class="scroll-section">
@@ -390,30 +394,43 @@
     <h2>方式二：fixed 固定定位</h2>
     <span class="method">position: fixed; right: 30px; bottom: 30px;</span>
     <div class="desc">
-      <code>fixed</code> 始终相对视口定位，无论页面如何滚动都固定在同一位置。
-      页面右下角的两个圆形按钮即为 fixed 定位（回到顶部 / 菜单）。注意：
-      <code>fixed</code> 完全脱离文档流，需预留遮挡空间或保证不影响其他内容。
+      <code>fixed</code>
+      始终相对视口定位，无论页面如何滚动都固定在同一位置。 页面右下角的两个圆形按钮即为 fixed
+      定位（回到顶部 / 菜单）。注意：
+      <code>fixed</code>
+      完全脱离文档流，需预留遮挡空间或保证不影响其他内容。
     </div>
 
     <h2 style="margin-top: 15px">fixed 的包含块陷阱</h2>
     <div class="desc">
-      若某祖先设置了 <code>transform</code>、<code>filter</code>、
-      <code>perspective</code>、<code>will-change</code> 等属性，<code
-        >fixed</code
-      >
-      的包含块会变成该祖先而非视口，导致
-      fixed"失效"。下方演示在受限容器内的固定行为（实际为 sticky 模拟）。
+      若某祖先设置了
+      <code>transform</code>
+      、
+      <code>filter</code>
+      、
+      <code>perspective</code>
+      、
+      <code>will-change</code>
+      等属性，
+      <code>fixed</code>
+      的包含块会变成该祖先而非视口，导致 fixed"失效"。下方演示在受限容器内的固定行为（实际为 sticky
+      模拟）。
     </div>
     <div class="fixed-banner-demo">
       <div class="mock-viewport">
         <div class="banner">横幅：position: sticky; top: 0</div>
         <div class="tall-content">
-          这是一段较高的内容，用于演示在受限容器内的"固定"效果。 当容器设置了
-          transform 等属性时，内部 fixed 元素会以该容器为包含块，
-          表现类似"容器内的固定"。 <br /><br />
-          继续滚动，观察横幅是否吸在容器顶部。 <br /><br />
-          实际开发中，若发现 fixed 不生效，优先排查祖先是否有 transform / filter
-          / will-change 等属性。 <br /><br />
+          这是一段较高的内容，用于演示在受限容器内的"固定"效果。 当容器设置了 transform
+          等属性时，内部 fixed 元素会以该容器为包含块， 表现类似"容器内的固定"。
+          <br />
+          <br />
+          继续滚动，观察横幅是否吸在容器顶部。
+          <br />
+          <br />
+          实际开发中，若发现 fixed 不生效，优先排查祖先是否有 transform / filter / will-change
+          等属性。
+          <br />
+          <br />
           结束。
         </div>
       </div>
@@ -427,14 +444,16 @@
 
     <!-- 方式三 -->
     <h2>方式三：absolute 绝对定位</h2>
-    <span class="method"
-      >父 position: relative; 子 position: absolute; top/right/...</span
-    >
+    <span class="method">父 position: relative; 子 position: absolute; top/right/...</span>
     <div class="desc">
-      <code>absolute</code> 相对最近的
-      <code>position ≠ static</code> 祖先定位。因此典型用法是父级
-      <code>position: relative</code>，子级
-      <code>position: absolute</code> 精确定位到父级内部某处。
+      <code>absolute</code>
+      相对最近的
+      <code>position ≠ static</code>
+      祖先定位。因此典型用法是父级
+      <code>position: relative</code>
+      ，子级
+      <code>position: absolute</code>
+      精确定位到父级内部某处。
     </div>
 
     <div class="absolute-demo">

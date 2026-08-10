@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>40 - CSS工程化</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  pre { background: #2d2d2d; color: #f8f8f2; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+  .card { background: #fff; padding: 14px; border: 1px solid #eee; border-radius: 6px; margin: 12px 0; line-height: 1.8; }
+</style>
+</head>
+<body>
+  <h1>40. CSS 工程化</h1>
+  <div class="desc">
+    CSS 工程化：用工程手段解决 CSS 在大型项目中的 <strong>组织、复用、维护、冲突、按需加载</strong> 问题。
+  </div>
+
+  <h3>核心问题</h3>
+  <div class="card">
+    <strong>类名冲突</strong>（全局污染）→ 命名重复覆盖<br>
+    <strong>样式复用</strong> → 复制粘贴难以维护<br>
+    <strong>文件拆分</strong> → 模块化、按需加载<br>
+    <strong>代码冗余</strong> → Tree-shaking 移除未用样式<br>
+    <strong>浏览器兼容</strong> → 自动前缀/降级
+  </div>
+
+  <h3>① 模块化方案（解决命名冲突）</h3>
+  <div class="card">
+    <strong>BEM 命名规范</strong>：<code>block__element--modifier</code>
+    <pre>.card__title--active { }
+.card__body { }</pre>
+    <strong>CSS Modules</strong>（编译期生成唯一类名）
+    <pre>/* card.module.css */
+.title { color: red; }
+/* 编译后：.card_module__title__3fK */
+
+import styles from './card.module.css';
+&lt;div className={styles.title} /&gt;</pre>
+    <strong>CSS-in-JS</strong>：styled-components / emotion，运行时生成唯一哈希类名
+    <pre>const Box = styled.div\`color: red;\`;
+&lt;Box /&gt;</pre>
+  </div>
+
+  <h3>② 预处理后处理器</h3>
+  <div class="card">Sass/Less 写增强语法；PostCSS + autoprefixer 处理兼容/优化。</div>
+
+  <h3>③ 工具链 / 框架</h3>
+  <div class="card">Tailwind（原子化 CSS，按需生成）、CSS Houdini（浏览器 API 扩展 CSS）、Critical CSS（首屏内联）。</div>
+
+  <h3>④ 按需加载与 Tree-shaking</h3>
+  <div class="card">Webpack mini-css-extract-plugin 抽离 CSS、purgecss 移除未用 class，配合路由懒加载实现按页面拆包。</div>
+
+  <h3>典型工程化链路</h3>
+  <pre>SCSS 源码 → Sass 编译 → PostCSS (autoprefixer+压缩) → Critical CSS 内联 → 整包打包拆分 → 上线 CDN</pre>
+</body>
+</html>

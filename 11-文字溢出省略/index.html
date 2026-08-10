@@ -171,10 +171,14 @@
     <h1>文字溢出省略（单行）- Text Overflow Ellipsis</h1>
     <div class="desc">
       单行文本溢出显示省略号需要三个属性配合：
-      <code>white-space: nowrap</code>（不换行）+
-      <code>overflow: hidden</code>（隐藏溢出）+
-      <code>text-overflow: ellipsis</code>（用省略号代替截断）。 多行省略见
-      <a href="../12-多行省略/index.html">12-多行省略</a>。
+      <code>white-space: nowrap</code>
+      （不换行）+
+      <code>overflow: hidden</code>
+      （隐藏溢出）+
+      <code>text-overflow: ellipsis</code>
+      （用省略号代替截断）。 多行省略见
+      <a href="../12-多行省略/index.html">12-多行省略</a>
+      。
     </div>
 
     <!-- 问题展示 -->
@@ -186,9 +190,7 @@
 
     <!-- 核心实现 -->
     <h2>核心实现：三步走</h2>
-    <span class="method"
-      >white-space: nowrap + overflow: hidden + text-overflow: ellipsis</span
-    >
+    <span class="method">white-space: nowrap + overflow: hidden + text-overflow: ellipsis</span>
     <div
       class="ellipsis-1"
       title="这是一段很长的文字内容，用于演示当容器宽度有限时，文字默认会自动换行，从而把容器撑得很高，影响布局美观。"
@@ -242,9 +244,7 @@
           </tr>
           <tr>
             <td>2</td>
-            <td class="ellipsis">
-              另一个同样很长很长很长很长很长很长的标题内容
-            </td>
+            <td class="ellipsis">另一个同样很长很长很长很长很长很长的标题内容</td>
             <td>李四</td>
           </tr>
         </tbody>
@@ -252,12 +252,13 @@
     </div>
 
     <!-- 提示 -->
-    <h2>小技巧：配合 <code>title</code> 属性</h2>
+    <h2>
+      小技巧：配合
+      <code>title</code>
+      属性
+    </h2>
     <span class="method">鼠标悬停显示完整内容</span>
-    <div
-      class="ellipsis-title"
-      title="鼠标悬停时通过浏览器原生 title 提示显示完整文本，无需 JS。"
-    >
+    <div class="ellipsis-title" title="鼠标悬停时通过浏览器原生 title 提示显示完整文本，无需 JS。">
       鼠标悬停时通过浏览器原生 title 提示显示完整文本，无需 JS。
     </div>
   </body>

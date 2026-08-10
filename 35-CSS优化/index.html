@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>35 - CSS优化提高性能</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  ul { line-height: 2; }
+  h3 { margin-top: 22px; border-left: 4px solid #1890ff; padding-left: 8px; }
+  .bad { color: #f5222d; }
+  .good { color: #52c41a; }
+  pre { background: #2d2d2d; color: #f8f8f2; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+</style>
+</head>
+<body>
+  <h1>35. CSS 优化与提高性能的方法</h1>
+  <div class="desc">
+    从 <strong>加载、选择器、渲染、值</strong> 四个层面优化 CSS。
+  </div>
+
+  <h3>① 加载层面</h3>
+  <ul>
+    <li><span class="bad">✗</span> 避免 <code>@import</code>（同步、阻塞、串行）</li>
+    <li><span class="good">✓</span> 用 <code>link</code> 放 <code>&lt;head&gt;</code>，并行加载</li>
+    <li><span class="good">✓</span> 压缩（minify）去除空白注释</li>
+    <li><span class="good">✓</span> 关键 CSS 内联（首屏），其余按需异步加载</li>
+    <li><span class="good">✓</span> 利用 CDN / HTTP 缓存强缓存</li>
+    <li><span class="good">✓</span> 提取公共样式，避免重复下载</li>
+  </ul>
+
+  <h3>② 选择器层面（匹配从右向左）</h3>
+  <pre>
+/* 避免通配 / 深层嵌套 */
+* { box-sizing: border-box; }                  /* ✗ 全匹配 */
+#nav .list li a { }                            /* ✗ 过深 */
+header ul li .item .txt .link a { }            /* ✗ */
+
+/* 推荐 */
+.btn { }              /* 直接类 */
+.btn-primary { }      /* 语义化 */
+.nav-link { }         /* 扁平 */
+  </pre>
+
+  <h3>③ 渲染层面（减少 reflow/repaint）</h3>
+  <ul>
+    <li>尽量用 <code>transform</code>/<code>opacity</code>（合成层）替代 <code>left/top/width</code></li>
+    <li>动画元素 <code>position:absolute/fixed</code> 脱离文档流减少影响</li>
+    <li>用 <code>will-change</code> 提示提前提升为合成层（适量）</li>
+    <li>批量操作 DOM / class 切换，避免读写交替触发重排</li>
+    <li><code>visibility:hidden</code> 比 <code>display:none</code> 仅重绘</li>
+    <li>避免 <code>table-layout</code>（重排成本高）</li>
+  </ul>
+
+  <h3>④ 属性值层面</h3>
+  <ul>
+    <li>用 <code>box-sizing:border-box</code> 简化盒模型计算</li>
+    <li>小数值尽量取整（<code>0.33em</code> 不如 <code>0.3em</code>）</li>
+    <li>简写合并：<code>margin: 0 auto</code> 替代四个分开</li>
+    <li>用 CSS 变量 <code>--var</code> 便于主题切换与维护</li>
+    <li>淘汰 <code>expression</code>、<code>filter</code> 等 IE 性能杀手</li>
+  </ul>
+</body>
+</html>

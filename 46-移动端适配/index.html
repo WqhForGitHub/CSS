@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>46 - 移动端适配</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  pre { background: #2d2d2d; color: #f8f8f2; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+
+  .card { background: #fff; padding: 14px; border: 1px solid #eee; border-radius: 6px; margin: 12px 0; line-height: 1.8; }
+
+  /* rem 适配演示：根据视口动态调整 html 字号 */
+  #demo-rem { font-size: 1rem; background: #e6f7ff; padding: 12px; border: 1px solid #91d5ff; }
+  #demo-rem .big { font-size: 1.5rem; }
+  #demo-rem .small { font-size: 0.75rem; }
+
+  /* vw 方案 */
+  #demo-vw { font-size: 4vw; background: #f6ffed; padding: 12px; border: 1px solid #b7eb8f; }
+
+  /* 响应式断点演示 */
+  .resp { background: #1890ff; color: #fff; padding: 16px; text-align: center; }
+  @media (max-width: 768px) { .resp { background: #52c41a; } .resp::after { content: " ← 手机端"; } }
+  @media (min-width: 769px) and (max-width: 1024px) { .resp { background: #faad14; } .resp::after { content: " ← 平板端"; } }
+  @media (min-width: 1025px) { .resp { background: #f5222d; } .resp::after { content: " ← PC端"; } }
+</style>
+</head>
+<body>
+  <h1>46. 根据设计稿进行移动端适配</h1>
+  <div class="desc">
+    常见设计稿宽度 750px（基于 iPhone6/7/8 @2x）。适配核心：让页面在不同屏幕等比缩放。
+  </div>
+
+  <h3>① viewport meta（基础）</h3>
+  <pre>&lt;meta name="viewport"
+  content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"&gt;</pre>
+  <p>设置视口宽度等于设备宽度，禁止用户缩放。</p>
+
+  <h3>② rem 方案（推荐）</h3>
+  <div class="card">
+    原理：JS 根据 <code>deviceWidth</code> 动态设置 <code>html</code> 字号，所有尺寸用 <code>rem</code>。
+    <pre>// 设计稿 750px 宽，分成 10 份 → 1rem = 75px
+document.documentElement.style.fontSize =
+  window.innerWidth / 10 + 'px';
+
+// 设计稿中 100px → 写 100/75 ≈ 1.33rem</pre>
+    <div id="demo-rem">
+      <span class="big">1.5rem 大字</span> / <span>1rem</span> / <span class="small">0.75rem 小字</span>
+    </div>
+    <p style="color:#999">缩放浏览器窗口，rem 单位会随根字号变化等比缩放。</p>
+  </div>
+
+  <h3>③ vw / vh 方案（纯 CSS）</h3>
+  <div class="card">
+    <code>1vw = 视口宽度的 1%</code>，无需 JS。<br>
+    设计稿 750px 中 100px → <code>100/750×100 = 13.33vw</code>。
+    <div id="demo-vw">字号 4vw，随窗口变化</div>
+  </div>
+
+  <h3>④ lib-flexible + postcss-pxtorem（阿里方案）</h3>
+  <div class="card">
+    <pre>/* postcss.config.js */
+plugins: [
+  require('postcss-pxtorem')({
+    rootValue: 75,   // 1rem = 75px
+    propList: ['*']
+  })
+]
+// 直接按设计稿写 px，工具自动转 rem</pre>
+  </div>
+
+  <h3>⑤ 响应式断点（媒体查询）</h3>
+  <div class="resp">改变窗口宽度看我变色</div>
+
+  <h3>⑥ 注意事项</h3>
+  <ul style="line-height:1.9">
+    <li>高清图准备 @2x/@3x（参考 demo 34）</li>
+    <li>1px 边框问题（参考 demo 55）</li>
+    <li>安全区域 <code>env(safe-area-inset-bottom)</code></li>
+    <li>禁止 iOS 文字大小调整：<code>-webkit-text-size-adjust:100%</code></li>
+    <li>触摸目标 ≥ 44px，避免点击穿透用 <code>touch-action</code></li>
+  </ul>
+
+  <script>
+    // 简单 rem 演示
+    document.documentElement.style.fontSize = (window.innerWidth / 10) + 'px';
+    window.addEventListener('resize', function() {
+      document.documentElement.style.fontSize = (window.innerWidth / 10) + 'px';
+    });
+  </script>
+</body>
+</html>

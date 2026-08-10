@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>53 - absolute vs fixed</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+
+  /* 共同点：脱离文档流、相对定位、可设宽高、默认变 block */
+  .common { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+
+  /* 区别：参考对象不同 */
+  .stage { position: relative; height: 200px; overflow: auto; border: 2px dashed #999; padding: 10px; }
+  .abs { position: absolute; bottom: 10px; right: 10px; background: #1890ff; color: #fff; padding: 10px; }
+  .fix { position: fixed; bottom: 20px; right: 20px; background: #f5222d; color: #fff; padding: 10px; z-index: 99; }
+
+  /* fixed 的祖先包含块：transform/filter/perspective 会改变 fixed 参考系 */
+  .new-containing-block { transform: translate(0,0); border: 2px solid #722ed1; height: 200px; margin: 10px 0; position: relative; overflow: auto; }
+  .new-containing-block .fix2 { position: fixed; top: 10px; left: 10px; background: #52c41a; color: #fff; padding: 10px; }
+
+  .table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  .table th, .table td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+</style>
+</head>
+<body>
+  <h1>53. absolute 与 fixed 的共同点和区别</h1>
+  <div class="desc">
+    两者都是<strong>定位元素</strong>，行为相似但<strong>参考对象</strong>不同。
+  </div>
+
+  <h3>共同点</h3>
+  <div class="common">
+    <ul style="line-height:1.9">
+      <li>都脱离文档流，不占原空间</li>
+      <li>都可用 top/right/bottom/left 定位</li>
+      <li>都可用 z-index 控制层叠</li>
+      <li>都使 inline 元素 display 计算值变 block（可设宽高）</li>
+      <li>默认宽度由内容决定（不再撑满父容器）</li>
+      <li>都会让 float 失效</li>
+    </ul>
+  </div>
+
+  <h3>区别1：定位参考不同</h3>
+  <p><strong>absolute</strong>：相对最近的<strong>非 static 定位祖先</strong>，无则相对初始包含块（body）。</p>
+  <p><strong>fixed</strong>：相对<strong>浏览器视口</strong>（一般情况）。</p>
+
+  <div class="stage">
+    <p>滚动此区域：</p>
+    <div style="height:400px">占位内容...</div>
+    <div class="abs">absolute bottom:10 right:10（随滚动移动）</div>
+  </div>
+  <p style="color:#999">↑ absolute 元素在容器滚动时随之移动</p>
+  <div class="fix">fixed bottom:20 right:20（视口固定，不随滚动）</div>
+  <p style="color:#999">↑ fixed 元素固定在视口右下，滚动整页也不动</p>
+
+  <h3>区别2：fixed 的"例外"——祖先含 transform/filter 创建新包含块</h3>
+  <p>若祖先元素设置了 <code>transform/filter/perspective/will-change</code> 等，fixed 会改为相对该祖先而非视口。</p>
+  <div class="new-containing-block">
+    <p>滚动此区域（祖先有 transform）：</p>
+    <div style="height:400px">占位...</div>
+    <div class="fix2">fixed（但相对紫色容器，非视口）</div>
+  </div>
+
+  <table class="table">
+    <tr><th>对比</th><th>absolute</th><th>fixed</th></tr>
+    <tr><td>定位参考</td><td>最近定位祖先</td><td>视口（默认）</td></tr>
+    <tr><td>滚动表现</td><td>随页面/祖先滚动</td><td>固定不动</td></tr>
+    <tr><td>包含块可变</td><td>由 position 祖先决定</td><td>transform/filter 等可改变</td></tr>
+    <tr><td>典型场景</td><td>提示框、菜单、徽标</td><td>导航栏、回到顶部、悬浮按钮</td></tr>
+    <tr><td>移动端</td><td>稳定</td><td>iOS 软键盘/滚动有 bug 需注意</td></tr>
+  </table>
+</body>
+</html>

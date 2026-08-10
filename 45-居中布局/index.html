@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>45 - 水平垂直居中</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; margin-bottom: 0; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; margin: 12px 0; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { margin-top: 18px; }
+  p.label { font-size: 13px; color: #666; margin: 4px 0; }
+
+  .parent { width: 100%; height: 120px; background: #e6f7ff; border: 1px solid #91d5ff; margin: 8px 0; position: relative; }
+  .child { background: #1890ff; color: #fff; padding: 12px; }
+
+  /* ① flex */
+  .c-flex .parent { display: flex; justify-content: center; align-items: center; }
+
+  /* ② grid */
+  .c-grid .parent { display: grid; place-items: center; }
+
+  /* ③ 绝对定位 + transform */
+  .c-abs-t .child { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+  /* ④ 绝对定位 + margin auto (需固定宽高) */
+  .c-abs-m .child { position: absolute; top: 0; right: 0; bottom: 0; left: 0; margin: auto; width: 80px; height: 40px; line-height: 40px; text-align: center; }
+
+  /* ⑤ 绝对定位 + 负 margin (固定宽高) */
+  .c-abs-neg .child { position: absolute; top: 50%; left: 50%; width: 80px; height: 40px; line-height: 40px; text-align: center; margin: -20px 0 0 -40px; }
+
+  /* ⑥ table-cell */
+  .c-table .parent { display: table-cell; vertical-align: middle; text-align: center; width: 100vw; }
+  .c-table .child { display: inline-block; }
+
+  /* ⑦ line-height (单行) */
+  .c-line .parent { line-height: 120px; text-align: center; }
+  .c-line .child { display: inline-block; line-height: 1; }
+</style>
+</head>
+<body>
+  <h1>45. 元素水平垂直居中</h1>
+  <div class="desc">
+    居中方案众多，分<strong>定宽高</strong>与<strong>不定宽高</strong>两类。
+  </div>
+
+  <h3>① Flex（最常用，不定宽高）</h3>
+  <p class="label">display:flex; justify-content:center; align-items:center</p>
+  <div class="c-flex"><div class="parent"><div class="child">Flex 居中</div></div></div>
+
+  <h3>② Grid（最简洁，不定宽高）</h3>
+  <p class="label">display:grid; place-items:center</p>
+  <div class="c-grid"><div class="parent"><div class="child">Grid 居中</div></div></div>
+
+  <h3>③ 绝对定位 + transform（不定宽高）</h3>
+  <p class="label">top/left:50% + translate(-50%,-50%)</p>
+  <div class="c-abs-t"><div class="parent"><div class="child">transform 居中</div></div></div>
+
+  <h3>④ 绝对定位 + margin:auto（需定宽高）</h3>
+  <p class="label">top/right/bottom/left:0 + margin:auto</p>
+  <div class="c-abs-m"><div class="parent"><div class="child">80×40</div></div></div>
+
+  <h3>⑤ 绝对定位 + 负 margin（需定宽高）</h3>
+  <p class="label">top/left:50% + margin 负宽高一半</p>
+  <div class="c-abs-neg"><div class="parent"><div class="child">80×40</div></div></div>
+
+  <h3>⑥ table-cell（兼容老浏览器）</h3>
+  <p class="label">display:table-cell + vertical-align:middle + text-align:center</p>
+  <div class="c-table"><div class="parent"><div class="child">table 居中</div></div></div>
+
+  <h3>⑦ line-height（仅单行文本）</h3>
+  <p class="label">line-height = 容器高度</p>
+  <div class="c-line"><div class="parent"><span class="child">单行文本居中</span></div></div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>48 - clear清除浮动原理</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+  p.label { font-size: 13px; color: #666; margin: 4px 0; }
+
+  /* 问题演示：父高度塌陷 */
+  .no-clear { border: 2px solid #f5222d; }
+  .no-clear .float-item { float: left; width: 80px; height: 80px; background: #1890ff; color: #fff; margin: 4px; }
+
+  /* 方案1：clear:both 的额外元素 */
+  .with-clear-extra { border: 2px solid #52c41a; }
+  .with-clear-extra .float-item { float: left; width: 80px; height: 80px; background: #1890ff; color: #fff; margin: 4px; }
+  .with-clear-extra .clear { clear: both; }
+
+  /* 方案2：::after 伪元素（最常用） */
+  .clearfix::after { content: ''; display: block; clear: both; }
+  .clearfix { border: 2px solid #722ed1; }
+  .clearfix .float-item { float: left; width: 80px; height: 80px; background: #1890ff; color: #fff; margin: 4px; }
+
+  /* 方案3：触发 BFC（overflow:hidden） */
+  .bfc { overflow: hidden; border: 2px solid #faad14; }
+  .bfc .float-item { float: left; width: 80px; height: 80px; background: #1890ff; color: #fff; margin: 4px; }
+
+  .box { margin: 10px 0; }
+</style>
+</head>
+<body>
+  <h1>48. clear 属性清除浮动的原理</h1>
+  <div class="desc">
+    <strong>clear 原理：</strong>设置 <code>clear: both/left/right</code> 的元素，浏览器会自动为其添加足够的 <strong>上外边距（margin-top）</strong>，使它落到浮动元素的下方，从而"撑开"父容器高度。<br>
+    注意：clear 只对<strong>块级元素</strong>生效，且作用在元素自身而非浮动元素上。
+  </div>
+
+  <h3>问题：父高度塌陷</h3>
+  <p class="label">子元素浮动后脱离文档流，父元素高度为 0（红框只包住边线）</p>
+  <div class="box no-clear">
+    <div class="float-item">浮动1</div>
+    <div class="float-item">浮动2</div>
+  </div>
+  <p style="color:#f5222d">↑ 父元素边框塌陷，下面的内容会顶上来</p>
+
+  <h3>方案1：额外元素 clear:both</h3>
+  <p class="label">在最后加一个空 div 设置 clear:both</p>
+  <div class="box with-clear-extra">
+    <div class="float-item">浮动1</div>
+    <div class="float-item">浮动2</div>
+    <div class="clear"></div>
+  </div>
+
+  <h3>方案2：::after 伪元素（推荐）</h3>
+  <p class="label">用 ::after 生成块级元素并 clear，无需额外 DOM</p>
+  <div class="box clearfix">
+    <div class="float-item">浮动1</div>
+    <div class="float-item">浮动2</div>
+  </div>
+  <pre style="background:#2d2d2d;color:#f8f8f2;padding:10px;border-radius:6px;overflow:auto;font-size:13px">
+.clearfix::after {
+  content: '';
+  display: block;   /* 必须块级 */
+  clear: both;
+}</pre>
+
+  <h3>方案3：触发 BFC（overflow:hidden）</h3>
+  <p class="label">父元素 overflow:hidden 触发 BFC，计算高度时包含浮动子（demo 49）</p>
+  <div class="box bfc">
+    <div class="float-item">浮动1</div>
+    <div class="float-item">浮动2</div>
+  </div>
+
+  <h3>clear 取值</h3>
+  <ul style="line-height:1.9">
+    <li><code>clear: left</code> —— 不允许左侧有浮动</li>
+    <li><code>clear: right</code> —— 不允许右侧有浮动</li>
+    <li><code>clear: both</code> —— 两侧都不允许（最常用）</li>
+    <li><code>clear: none</code> —— 默认，允许</li>
+  </ul>
+  <p>现代更推荐用 <strong>flex/grid</strong> 替代浮动布局，从根本避免塌陷。</p>
+</body>
+</html>

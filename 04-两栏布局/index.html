@@ -165,8 +165,9 @@
     <div class="demo-float">
       <div class="left">Left 固定 200px</div>
       <div class="right">
-        Right 自适应。利用 <code>overflow: hidden</code> 触发
-        BFC，右栏自动占据剩余空间。
+        Right 自适应。利用
+        <code>overflow: hidden</code>
+        触发 BFC，右栏自动占据剩余空间。
       </div>
     </div>
 
@@ -176,7 +177,9 @@
     <div class="demo-margin">
       <div class="left">Left 固定 200px</div>
       <div class="right">
-        Right 自适应。右栏通过 <code>margin-left</code> 让出左栏宽度。
+        Right 自适应。右栏通过
+        <code>margin-left</code>
+        让出左栏宽度。
       </div>
     </div>
 
@@ -185,16 +188,12 @@
     <span class="method">left: absolute | right: margin-left</span>
     <div class="demo-absolute">
       <div class="left">Left 固定 200px</div>
-      <div class="right">
-        Right 自适应。左栏绝对定位脱离文档流，右栏用 margin 让出空间。
-      </div>
+      <div class="right">Right 自适应。左栏绝对定位脱离文档流，右栏用 margin 让出空间。</div>
     </div>
 
     <!-- 方式四 -->
     <h2>方式四：flex 弹性布局</h2>
-    <span class="method"
-      >container: display: flex | left: flex: 0 0 200px | right: flex: 1</span
-    >
+    <span class="method">container: display: flex | left: flex: 0 0 200px | right: flex: 1</span>
     <div class="demo-flex">
       <div class="left">Left 固定 200px</div>
       <div class="right">Right 自适应。最推荐的现代布局方案，简洁灵活。</div>
@@ -202,9 +201,7 @@
 
     <!-- 方式五 -->
     <h2>方式五：grid 网格布局</h2>
-    <span class="method"
-      >container: display: grid | grid-template-columns: 200px 1fr</span
-    >
+    <span class="method">container: display: grid | grid-template-columns: 200px 1fr</span>
     <div class="demo-grid">
       <div class="left">Left 固定 200px</div>
       <div class="right">Right 自适应。二维布局神器，代码最简洁。</div>

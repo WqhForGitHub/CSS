@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>61 - 检测CSS动画FPS</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  pre { background: #2d2d2d; color: #f8f8f2; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+
+  .anim {
+    width: 80px; height: 80px; background: #1890ff; border-radius: 50%;
+    animation: move 2s linear infinite;
+    margin: 20px 0;
+  }
+  @keyframes move {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(300px); }
+    100% { transform: translateX(0); }
+  }
+
+  #fps-display {
+    position: fixed; top: 10px; right: 10px;
+    background: rgba(0,0,0,0.7); color: #0f0;
+    padding: 8px 14px; font-family: monospace; font-size: 14px;
+    border-radius: 4px; z-index: 999;
+  }
+  #fps-bar { width: 200px; height: 20px; background: #eee; margin-top: 6px; border-radius: 4px; overflow: hidden; }
+  #fps-bar-inner { height: 100%; background: linear-gradient(90deg,#f5222d,#faad14,#52c41a); transition: width .3s; }
+
+  .box { background: #fff; padding: 14px; border: 1px solid #eee; margin: 10px 0; border-radius: 6px; }
+</style>
+</head>
+<body>
+  <div id="fps-display">
+    FPS: <span id="fps">--</span>
+    <div id="fps-bar"><div id="fps-bar-inner" style="width:0"></div></div>
+  </div>
+
+  <h1>61. 检测 CSS 动画的 FPS</h1>
+  <div class="desc">
+    FPS = 每秒帧数，衡量动画流畅度。60 FPS 为理想，低于 30 会明显卡顿。<br>
+    检测方法：① DevTools Performance/Frames 面板；② requestAnimationFrame 计算；③ PerformanceObserver。
+  </div>
+
+  <h3>动画演示</h3>
+  <div class="anim"></div>
+  <p>右上角实时显示当前 FPS（页面动画驱动）</p>
+
+  <h3>方案1：requestAnimationFrame 手动统计</h3>
+  <div class="box">
+  <pre>let lastTime = performance.now();
+let frames = 0;
+function tick(now) {
+  frames++;
+  if (now - lastTime >= 1000) {
+    const fps = Math.round(frames * 1000 / (now - lastTime));
+    console.log('FPS:', fps);
+    frames = 0;
+    lastTime = now;
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);</pre>
+  </div>
+
+  <h3>方案2：PerformanceObserver（更精准）</h3>
+  <div class="box">
+  <pre>const observer = new PerformanceObserver((list) => {
+  list.getEntries().forEach(entry => {
+    // entry.duration 即单帧耗时
+    const fps = 1000 / entry.duration;
+    console.log('单帧 FPS:', fps);
+  });
+});
+observer.observe({ type: 'frame', buffered: true });</pre>
+  </div>
+
+  <h3>方案3：Chrome DevTools</h3>
+  <ul style="line-height:1.9">
+    <li>F12 → Performance → Record → 录制后查看 Frames 时间轴</li>
+    <li>每帧绿色块下显示时长，红色表示掉帧</li>
+    <li>Rendering 面板可勾选 "FPS meter" 实时显示</li>
+  </ul>
+
+  <h3>提升 FPS 的方法</h3>
+  <ul style="line-height:1.9">
+    <li>优先用 transform/opacity（合成层，不触发 reflow/repaint）</li>
+    <li>避免动画 width/top/left/margin 等触发重排的属性</li>
+    <li>will-change 提前提升合成层</li>
+    <li>对复杂动画降低帧率：每 2 帧渲染一次</li>
+    <li>减少同时运行的动画数量</li>
+  </ul>
+
+  <script>
+    (function() {
+      var lastTime = performance.now();
+      var frames = 0;
+      var fpsEl = document.getElementById('fps');
+      var barEl = document.getElementById('fps-bar-inner');
+      function tick(now) {
+        frames++;
+        if (now - lastTime >= 1000) {
+          var fps = Math.round(frames * 1000 / (now - lastTime));
+          fpsEl.textContent = fps;
+          barEl.style.width = Math.min(100, fps / 60 * 100) + '%';
+          frames = 0;
+          lastTime = now;
+        }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>55 - 1px问题</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { font-size: 22px; }
+  .desc { background: #fffbe6; padding: 12px; border-left: 4px solid #faad14; line-height: 1.7; }
+  code { background: #f0f0f0; padding: 2px 5px; }
+  h3 { border-left: 4px solid #1890ff; padding-left: 8px; margin-top: 20px; }
+  p.label { font-size: 13px; color: #666; margin: 4px 0; }
+
+  .box { background: #fff; padding: 12px; margin: 10px 0; }
+
+  /* 问题：1px 在高 DPR 屏显示偏粗 */
+  .border-1px { border: 1px solid #1890ff; height: 40px; }
+
+  /* 方案1：transform scaleY 伪元素（最常用） */
+  .scale-1px { position: relative; height: 40px; }
+  .scale-1px::after {
+    content: '';
+    position: absolute; left: 0; bottom: 0;
+    width: 100%; height: 1px;
+    background: #1890ff;
+    transform: scaleY(0.5);
+    transform-origin: 0 0;
+  }
+
+  /* 方案2：viewport 缩放（移动端） */
+  .meta-zoom { border: 1px solid #52c41a; height: 40px; }
+
+  /* 方案3：border-image 渐变模拟 */
+  .img-1px {
+    border: 1px solid;
+    border-image: linear-gradient(#1890ff, #1890ff) 1;
+    height: 40px;
+  }
+
+  /* 方案4：box-shadow 模拟 0.5px */
+  .shadow-1px { box-shadow: 0 0.5px 0 #1890ff; height: 40px; }
+
+  /* 方案5：直接 0.5px（仅部分浏览器） */
+  .half-px { border: 0.5px solid #1890ff; height: 40px; }
+
+  pre { background: #2d2d2d; color: #f8f8f2; padding: 10px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+</style>
+</head>
+<body>
+  <h1>55. 1px 问题及解决方案</h1>
+  <div class="desc">
+    <strong>问题：</strong>移动端高 DPR 屏（如 DPR=2/3）上，CSS <code>1px</code> 会对应 2~3 个物理像素，导致边框视觉上偏粗。<br>
+    <strong>本质：</strong>设计稿按物理像素绘制 1px，但 CSS 用逻辑像素，需用逻辑 0.5px/0.33px 来对应 1 物理像素。
+  </div>
+
+  <h3>问题演示</h3>
+  <p class="label">border:1px 在 DPR=2 屏上显示为 2 物理像素（偏粗）</p>
+  <div class="box border-1px">普通 1px 边框</div>
+
+  <h3>方案1：transform scaleY 伪元素（推荐）</h3>
+  <p class="label">用 1px 伪元素 + transform:scaleY(0.5) 缩放</p>
+  <div class="box scale-1px">底部 0.5px 线（伪元素 scaleY）</div>
+  <pre>
+.scale-1px::after {
+  content: '';
+  position: absolute; left: 0; bottom: 0;
+  width: 100%; height: 1px;
+  background: #1890ff;
+  transform: scaleY(0.5);
+  transform-origin: 0 0;
+}</pre>
+
+  <h3>方案2：viewport 缩放（移动端全局）</h3>
+  <p class="label">JS 设置 meta scale=1/dpr，然后按 1px 写、视觉为物理 1px</p>
+  <pre>
+const dpr = window.devicePixelRatio;
+const scale = 1 / dpr;
+document.querySelector('meta[name=viewport]').setAttribute(
+  'content',
+  `width=device-width, initial-scale=${scale}, maximum-scale=${scale}`
+);
+// 同时把 html 字号放大 dpr 倍以补偿</pre>
+  <div class="box meta-zoom">配合 viewport 缩放的 1px</div>
+
+  <h3>方案3：border-image / 渐变</h3>
+  <div class="box img-1px">border-image 渐变模拟</div>
+
+  <h3>方案4：box-shadow 0.5px</h3>
+  <div class="box shadow-1px">box-shadow: 0 0.5px 0</div>
+
+  <h3>方案5：直接 0.5px（仅部分浏览器）</h3>
+  <div class="box half-px">border: 0.5px（iOS 支持，部分 Android 失效）</div>
+
+  <h3>对比</h3>
+  <ul style="line-height:1.9">
+    <li><strong>transform scaleY</strong>：兼容性好，推荐</li>
+    <li><strong>viewport 缩放</strong>：全局解决，但影响所有尺寸（需配合 rem 补偿）</li>
+    <li><strong>0.5px 直接写</strong>：最简单但兼容性差</li>
+    <li><strong>border-image</strong>：圆角难处理</li>
+  </ul>
+  <p>你的 DPR：<strong id="dpr"></strong></p>
+  <script>document.getElementById('dpr').textContent = window.devicePixelRatio;</script>
+</body>
+</html>
